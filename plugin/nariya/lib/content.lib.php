@@ -413,7 +413,10 @@ function na_emoticon($str){
         $width = min($width, 500);
         $icon = '<img src="'.NA_URL.'/skin/emo/'.$emo.'" width="'.$width.'" alt="" />';
     } else {
-        $icon = '(삭제된 이모지)';
+        // https://damoang.net/plugin/nariya/skin/emo/damoang-emo-010.gif
+        $width = 50;
+        $emo = "damoang-emo-010.gif";
+        $icon = '(삭제된 이모지 by sdk) <img src="'.NA_URL.'/skin/emo/'.$emo.'" width="'.$width.'" alt="" />';
     }
 
     return $icon;
@@ -424,7 +427,7 @@ function na_syntaxhighlighter($m) {
 
 	$str = isset($m[3]) ? $m[3] : '';
 
-	if(!$str) 
+	if(!$str)
 		return;
 
 	$str = stripslashes($str);
