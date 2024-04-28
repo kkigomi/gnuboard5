@@ -410,7 +410,7 @@ function na_emoticon($str){
 
     if($emo && is_file(NA_PATH.'/skin/emo/'.$emo)) {
         $width = ($width > 0) ? $width : 50;
-        $width = min($width, 500);
+        $width = min($width, 300);
         $icon = '<img src="'.NA_URL.'/skin/emo/'.$emo.'" width="'.$width.'" alt="" />';
     } else {
         // https://damoang.net/plugin/nariya/skin/emo/damoang-emo-010.gif
