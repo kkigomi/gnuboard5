@@ -416,7 +416,7 @@ function na_emoticon($str){
         // https://damoang.net/plugin/nariya/skin/emo/damoang-emo-010.gif
         $width = 50;
         $emo = "damoang-emo-010.gif";
-        $icon = '(삭제된 이모지 by sdk) <img src="'.NA_URL.'/skin/emo/'.$emo.'" width="'.$width.'" alt="" />';
+        $icon = '(삭제된 이모지) <img src="'.NA_URL.'/skin/emo/'.$emo.'" width="'.$width.'" alt="" />';
     }
 
     return $icon;
