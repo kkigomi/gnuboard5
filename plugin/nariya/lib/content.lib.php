@@ -401,21 +401,22 @@ function na_icon($str){
 // Emoticon
 function na_emoticon($str){
 
-	if(!$str) 
-		return;
+    if(!$str)
+        return;
 
-	$arr = explode(":", $str);
-	$emo = isset($arr[0]) ? $arr[0] : '';
-	$width = isset($arr[1]) ? (int)$arr[1] : 0;
+    $arr = explode(":", $str);
+    $emo = isset($arr[0]) ? $arr[0] : '';
+    $width = isset($arr[1]) ? (int)$arr[1] : 0;
 
-	if($emo && is_file(NA_PATH.'/skin/emo/'.$emo)) {
-		$width = ($width > 0) ? $width : 50;
-		$icon = '<img src="'.NA_URL.'/skin/emo/'.$emo.'" width="'.$width.'" alt="" />';
-	} else {
-		$icon = '';
-	}
+    if($emo && is_file(NA_PATH.'/skin/emo/'.$emo)) {
+        $width = ($width > 0) ? $width : 50;
+        $width = min($width, 500);
+        $icon = '<img src="'.NA_URL.'/skin/emo/'.$emo.'" width="'.$width.'" alt="" />';
+    } else {
+        $icon = '(삭제된 이모지)';
+    }
 
-	return $icon;
+    return $icon;
 }
 
 //Syntaxhighlighter
