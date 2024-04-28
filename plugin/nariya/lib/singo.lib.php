@@ -7,6 +7,17 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 // sg_flag = 2 : 상품후기
 
 // 신고 타입
+//$singo_type = array();
+//$singo_type[1] = '스팸홍보/도배글';
+//$singo_type[2] = '영리목적/홍보성';
+//$singo_type[3] = '불법정보/불법촬영물';
+//$singo_type[4] = '음란성/선정성';
+//$singo_type[5] = '욕설/혐오/인신공격';
+//$singo_type[6] = '명예훼손/저작권침해';
+//$singo_type[7] = '개인정보노출';
+//$singo_type[9] = '기타';
+
+// 신고 타입
 $singo_type = array();
 $singo_type[1] = '스팸홍보/도배글';
 $singo_type[2] = '영리목적/홍보성';
@@ -15,7 +26,17 @@ $singo_type[4] = '음란성/선정성';
 $singo_type[5] = '욕설/혐오/인신공격';
 $singo_type[6] = '명예훼손/저작권침해';
 $singo_type[7] = '개인정보노출';
-$singo_type[9] = '기타';
+$singo_type[8] = '반말/욕설/비아냥';
+$singo_type[9] = '갈등조장/회원분란/회원기만';
+$singo_type[10] = '게시글반복/도배';
+$singo_type[11] = '스팸/바이럴';
+$singo_type[12] = '자유게시판내 질문글';
+$singo_type[13] = '구걸/금전거래/중고거래';
+$singo_type[14] = '차별 - 인종/성/남녀';
+$singo_type[15] = '정치게시판 분리요청';
+$singo_type[16] = '커뮤니티 비방';
+$singo_type[17] = '범죄모의기도/실정법위반';
+$singo_type[100] = '기타';
 
 // 신고 내역
 function na_singo_array($singo, $sg_table=''){
