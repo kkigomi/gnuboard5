@@ -34,7 +34,7 @@ if ((isset($wr_id) && $wr_id) || (isset($wr_seo_title) && $wr_seo_title)) {
         }
 
         // 그룹관리자 이상이라면 통과
-        if ($is_admin == "super" || $is_admin == "group") {
+        if ($is_admin == "super") {
             ;
         } else {
             // 그룹접근
@@ -181,7 +181,7 @@ else
 // IP보이기 사용 여부
 $ip = "";
 $is_ip_view = $board['bo_use_ip_view'];
-if ($is_admin) {
+if ($is_admin == 'super') {
     $is_ip_view = true;
     if ($write && array_key_exists('wr_ip', $write)) {
         $ip = $write['wr_ip'];
