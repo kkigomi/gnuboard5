@@ -520,3 +520,42 @@ function na_member($member) {
 
 	return $member;
 }
+
+
+/**
+ * boset 에서 글쓰기 권한을 체크하는 게시판인지 확인후, 사용자가 권한이 있는지 체크합니다.
+ * @param $bo_table
+ * @param $mb_id
+ */
+function na_board_write_permit_check($bo_table, $mb_id) {
+    global $g5, $nariya, $member, $is_admin, $is_guest, $boset, $write;
+
+    //check_write_permit : 글쓰기 제한 여부, 제한(1) 상태면, 사용자별 허용개수 체크
+    //bo_write_allow_one : 글쓰기 1개 허용 회원아이디(콤마로 구분)
+    //bo_write_allow_three : 글쓰기 3개 허용 회원아이디(콤마로 구분)
+
+    if($is_admin) return;
+
+    if($boset['check_write_permit'] == '1') {
+        $permitted_members1 = explode(',', trim($boset['bo_write_allow_one']));
+        $permitted_members3 =explode(',', trim($boset['bo_write_allow_three']));
+
+        //금일 작성한 글 개수 조회
+        $sql = " select count(*) as cnt from {$g5['board_new_table']} where  mb_id = '{$mb_id}' and bo_table='{$bo_table}' and wr_is_comment = 0 and bn_datetime like '".G5_TIME_YMD."%' ";
+        $row = sql_fetch($sql);
+
+        //하루 3개 글쓰기가 허용된 경우 개수 체크
+        if(in_array($mb_id, $permitted_members3)) {
+            if($row['cnt'] >= 3) {
+                alert('하루에 3개까지 글을 작성할 수 있습니다.');
+            }
+        } else if(in_array($mb_id, $permitted_members1)) {
+            if($row['cnt'] >= 1) {
+                alert('하루에 1개까지 글을 작성할 수 있습니다.');
+            }
+        } else {
+            alert('글쓰기 허용된 회원만 글 작성이 가능합니다.');
+        }
+
+    }
+}
