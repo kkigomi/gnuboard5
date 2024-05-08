@@ -348,7 +348,7 @@ function na_ext_type($file) {
 	$video = array("mp4", "m4v", "f4v", "mov", "flv", "webm");
 	$caption = array("vtt", "srt", "ttml", "dfxp");
 	$audio = array("acc", "m4a", "f4a", "mp3", "ogg", "oga");
-	$image = array("jpg", "jpeg", "gif", "png");
+	$image = array("jpg", "jpeg", "gif", "png", "webp");
 	$pdf = array("pdf");
 	$torrent = array("torrent");
 
@@ -410,7 +410,7 @@ function na_emoticon($str){
 
     if($emo && is_file(NA_PATH.'/skin/emo/'.$emo)) {
         $width = ($width > 0) ? $width : 50;
-        $width = min($width, 300);
+        $width = min($width, 200);
         $icon = '<img src="'.NA_URL.'/skin/emo/'.$emo.'" width="'.$width.'" alt="" />';
     } else {
         // https://damoang.net/plugin/nariya/skin/emo/damoang-emo-010.gif
