@@ -170,7 +170,7 @@ function na_paging($write_pages, $cur_page, $total_page, $url, $add='') {
 			if ($cur_page != $k) {
 				$str .= '<li class="page-item"><a class="page-link" href="'.$url.$k.$add.'">'.$k.'</a></li>'.PHP_EOL;
 			} else {
-				$str .= '<li class="page-item active" aria-current="page"><a class="page-link">'.$k.'<span class="visually-hidden">페이지 현재</span>
+				$str .= '<li class="page-item active" aria-current="page"><a class="page-link" href="'.$url.$k.$add.'">'.$k.'<span class="visually-hidden">페이지 현재</span>
 </a></li>'.PHP_EOL;
 			}
 		}
