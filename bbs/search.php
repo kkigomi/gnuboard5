@@ -2,6 +2,11 @@
 include_once('./_common.php');
 
 $g5['title'] = '전체검색 결과';
+
+if (isset($wr_is_comment) && trim($sfl) === 'mb_id') {
+    $g5['title'] = '내가 작성한 ' . ($wr_is_comment ? '댓글' : '글');
+}
+
 include_once('./_head.php');
 
 $search_table = Array();
@@ -67,6 +72,10 @@ if ($stx) {
     $text_stx = get_text(stripslashes($stx));
     
     $search_query = 'sfl='.urlencode($sfl).'&amp;stx='.urlencode($stx).'&amp;sop='.$sop;
+    // 글/댓글 필터
+    if (isset($wr_is_comment)) {
+        $search_query .= '&amp;wr_is_comment=' . ($wr_is_comment ? '1' : '0');
+    }
 
     // 검색필드를 구분자로 나눈다. 여기서는 +
     $field = explode('||', trim($sfl));
@@ -110,6 +119,11 @@ if ($stx) {
         $op1 = " {$sop} ";
     }
     $str .= ")";
+
+    // 글/댓글 필터
+    if (isset($wr_is_comment)) {
+        $str = 'wr_is_comment = ' . ($wr_is_comment ? '1' : '0') . ' AND ' . $str;
+    }
 
     $sql_search = $str;
 
