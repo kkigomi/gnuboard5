@@ -50,10 +50,6 @@ if ($error) {
 if (!$url) {
     $url = 'javascript: history.back();';
 }
-
-if (!$member['mb_id']) {
-    $url = \G5_URL;
-}
 ?>
 
 <div class="modal modal-dialog modal-dialog-centered" id="alert-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -80,10 +76,5 @@ if (!$member['mb_id']) {
     alertModal.show();
 </script>
 
-<style>
-    .modal-backdrop {
-        --bs-backdrop-opacity: 0.8 !important;
-    }
-</style>
 <?php
 include_once (G5_PATH . '/tail.sub.php');
