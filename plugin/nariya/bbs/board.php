@@ -253,12 +253,12 @@ if (isset($wr_id) && $wr_id) {
 //if ($board['bo_use_list_view'] || empty($wr_id))
 if ($member['mb_level'] >= $board['bo_list_level'] && $board['bo_use_list_view'] || empty($wr_id)) {
 	// 차단회원글 제외
-	if ($chadan_count)
-		$na_sql_where .= na_sql_find('mb_id', trim($member['as_chadan']), 1);
+	// if ($chadan_count)
+	// 	$na_sql_where .= na_sql_find('mb_id', trim($member['as_chadan']), 1);
 
 	// 신고글 제외
-	if ($singo_count)
-		$na_sql_where .= na_sql_find('wr_id', implode(',', $singo_write), 1);
+	// if ($singo_count)
+	// 	$na_sql_where .= na_sql_find('wr_id', implode(',', $singo_write), 1);
 
 	include_once (NA_PATH.'/bbs/list.php');
 }
