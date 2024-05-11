@@ -1,6 +1,9 @@
 [submodule "theme/damoang"]
 	path = theme/damoang
-	url = git@github.com:damoang/theme.git
+    url = https://github.com/damoang/theme.git
 [submodule "plugin/da_member_memo"]
 	path = plugin/da_member_memo
-	url = git@github.com:kkigomi/da_member_memo.git
+	url = https://github.com/kkigomi/da_member_memo.git
+[submodule "plugin/editor/suneditor_damoang"]
+	path = plugin/editor/suneditor_damoang
+	url = https://github.com/damoang/suneditor_damoang.git
