@@ -32,7 +32,8 @@ if (!$board['bo_use_list_view']) {
     // 위의 쿼리문으로 값을 얻지 못했다면
     if (! (isset($prev['wr_id']) && $prev['wr_id'])) {
         $sql = " select wr_id, wr_subject, wr_datetime from {$write_table} where wr_is_comment = 0 and wr_num < '{$write['wr_num']}' {$sql_search} order by wr_num desc, wr_reply desc limit 1 ";
-        $prev = sql_fetch($sql);
+        //개선 injection By jsmoon03 게시글 답글 사용하지 않을 시 불필요한 쿼리
+        //$prev = sql_fetch($sql);
     }
 
     // 아래글을 얻음
@@ -41,7 +42,8 @@ if (!$board['bo_use_list_view']) {
     // 위의 쿼리문으로 값을 얻지 못했다면
     if (! (isset($next['wr_id']) && $next['wr_id'])) {
         $sql = " select wr_id, wr_subject, wr_datetime from {$write_table} where wr_is_comment = 0 and wr_num > '{$write['wr_num']}' {$sql_search} order by wr_num, wr_reply limit 1 ";
-        $next = sql_fetch($sql);
+        //개선 injection By jsmoon03 게시글 답글 사용하지 않을 시 불필요한 쿼리
+        //$next = sql_fetch($sql);
     }
 }
 
@@ -142,6 +144,8 @@ if ($board['bo_use_signature'] && $view['mb_id']) {
     $signature = conv_content($signature, 1);
 }
 
+//맨션기능 추가 2023-04-10
+$view = run_replace('board_view', $view);
 include_once($board_skin_path.'/view.skin.php');
 
 @include_once($board_skin_path.'/view.tail.skin.php');
