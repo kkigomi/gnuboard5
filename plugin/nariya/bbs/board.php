@@ -121,7 +121,8 @@ if ((isset($wr_id) && $wr_id) || (isset($wr_seo_title) && $wr_seo_title)) {
 		//새글DB의 조회수
 		if (na_check_new($write['wr_datetime'])) {
 			$tmp_wr_hit = $write['wr_hit'] + 1;
-	        sql_query(" update {$g5['board_new_table']} set wr_hit = '{$tmp_wr_hit}' where bo_table = '{$bo_table}' and wr_id = '{$wr_id}' ", false);
+            // slow Query 주석 :
+            // sql_query(" update {$g5['board_new_table']} set wr_hit = '{$tmp_wr_hit}' where bo_table = '{$bo_table}' and wr_id = '{$wr_id}' ", false);
 		}
 
         // 자신의 글이면 통과
