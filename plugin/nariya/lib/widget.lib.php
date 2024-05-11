@@ -197,8 +197,9 @@ function na_rank_start($rows, $page) {
 }
 
 // Date & Time
-function na_date($date, $class='', $day='H:i', $month='m.d H:i', $year='Y.m.d H:i') {
-
+//function na_date($date, $class='', $day='H:i', $month='m.d H:i', $year='Y.m.d H:i') {
+//기여자 :이프로부족/풀스택/땅파기 2024-04-09
+function na_date($date, $class='', $day='H:i', $month='m.d H:i', $year='Y.m.d H:i', $yday='m.d H:i') {
 	$date = strtotime($date);
 	$today = date('Y-m-d', $date);
 
@@ -229,6 +230,8 @@ function na_date($date, $class='', $day='H:i', $month='m.d H:i', $year='Y.m.d H:
 		}
 	} else if(substr(G5_TIME_YMD, 0, 7) == substr($today, 0, 7)) {
 		$time = date($month, $date);
+    } else if (time() - $date < 606024 ) {
+        $time = date($yday, $date);
 	} else {
 		$time = date($year, $date);
 	} 
