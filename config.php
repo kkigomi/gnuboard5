@@ -23,8 +23,8 @@ date_default_timezone_set("Asia/Seoul");
 보안서버주소가 없다면 공란으로 두시면 되며 보안서버주소 뒤에 / 는 붙이지 않습니다.
 입력 예) https://www.domain.com:443/gnuboard5
 */
-define('G5_DOMAIN', '');
-define('G5_HTTPS_DOMAIN', '');
+define('G5_DOMAIN', 'https://damoang.net');
+define('G5_HTTPS_DOMAIN', 'https://damoang.net');
 
 // 그누보드 디버그바 설정입니다, 실제 서버운영시 false 로 설정해 주세요.
 define('G5_DEBUG', false);
@@ -39,13 +39,15 @@ define('G5_DB_ENGINE', '');
 // Set Database table default Charset
 // utf8, utf8mb4 등 지정 가능 기본값은 utf8, 설치전에 utf8mb4 으로 수정 시 모든 테이블에 이모지 입력이 가능합니다.
 // utf8mb4 인코딩은 MySQL 또는 MariaDB 5.5 버전 이상을 요구합니다.
-define('G5_DB_CHARSET', 'utf8');
+// define('G5_DB_CHARSET', 'utf8');
+define('G5_DB_CHARSET', 'utf8mb4');
+
 
 /*
 www.sir.kr 과 sir.kr 도메인은 서로 다른 도메인으로 인식합니다. 쿠키를 공유하려면 .sir.kr 과 같이 입력하세요.
 이곳에 입력이 없다면 www 붙은 도메인과 그렇지 않은 도메인은 쿠키를 공유하지 않으므로 로그인이 풀릴 수 있습니다.
 */
-define('G5_COOKIE_DOMAIN',  '');
+define('G5_COOKIE_DOMAIN',  '.damoang.net');
 
 define('G5_DBCONFIG_FILE',  'dbconfig.php');
 
@@ -76,6 +78,33 @@ define('G5_THEME_DIR',      'theme');
 define('G5_GROUP_DIR',      'group');
 define('G5_CONTENT_DIR',    'content');
 
+//접속중인 사이트주소가 https로 되여 있는지 판단한다.
+
+function is_https() {
+
+    if ( !empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off') {
+
+        return true;
+
+    } elseif ( isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' ) {
+
+        return true;
+
+    } elseif ( !empty($_SERVER['HTTP_FRONT_END_HTTPS']) && strtolower($_SERVER['HTTP_FRONT_END_HTTPS']) !== 'off') {
+
+        return true;
+
+    }
+
+    return false;
+
+}
+
+if (is_https()) {
+
+    $g5_path['url'] = str_replace('http://', 'https://', $g5_path['url']);
+
+}
 // URL 은 브라우저상에서의 경로 (도메인으로 부터)
 if (G5_DOMAIN) {
     define('G5_URL', G5_DOMAIN);
@@ -177,7 +206,7 @@ define('G5_MOBILE_AGENT',   'phone|samsung|lgtel|mobile|[^A]skt|nokia|blackberry
 
 // SMTP
 // lib/mailer.lib.php 에서 사용
-define('G5_SMTP',      '127.0.0.1');
+define('G5_SMTP',      'email-smtp.ap-northeast-2.amazonaws.com');
 define('G5_SMTP_PORT', '25');
 
 
@@ -215,7 +244,7 @@ define('G5_THUMB_JPG_QUALITY', 90);
 define('G5_THUMB_PNG_COMPRESS', 5);
 
 // 모바일 기기에서 DHTML 에디터 사용여부를 설정합니다.
-define('G5_IS_MOBILE_DHTML_USE', false);
+define('G5_IS_MOBILE_DHTML_USE', true);
 
 // MySQLi 사용여부를 설정합니다.
 define('G5_MYSQLI_USE', true);
