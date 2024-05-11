@@ -1,7 +1,3 @@
 <?php
-//파일명에 register 가 들어간 경로 접근시 차단
-$base_filename = basename($_SERVER['PHP_SELF']);
-if(strpos($base_filename,'register') !== false){
-    alert("가능하지 않습니다.", G5_URL);
-    die();
-}
+if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
+if(preg_match("/.*\/bbs\/(register|register_form|member_leave)\.php?/", $_SERVER['REQUEST_URI'])) die('<script>confirm("회원가입 하실 필요 없습니다.");location.replace("'.G5_URL.'"); </script>');
