@@ -1,8 +1,7 @@
 <?php
-if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
-
-if (strpos($_SERVER['SCRIPT_NAME'], 'register.php') || strpos($_SERVER['SCRIPT_NAME'], 'register_form.php'))
-    alert('당분간 가입신청을 받지 않습니다', G5_URL);
-
-if (strpos($_SERVER['SCRIPT_NAME'], 'register_form_update.php') && $w == '')
-    alert('당분간 가입신청을 받지 않습니다', G5_URL);
+//파일명에 register 가 들어간 경로 접근시 차단
+$base_filename = basename($_SERVER['PHP_SELF']);
+if(strpos($base_filename,'register') !== false){
+    alert("가능하지 않습니다.", G5_URL);
+    die();
+}
