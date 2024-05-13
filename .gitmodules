@@ -4,7 +4,7 @@
     branch = main
 [submodule "plugin/da_member_memo"]
 	path = plugin/da_member_memo
-	url = https://github.com/kkigomi/da_member_memo.git
+	url = https://github.com/damoang/da_member_memo.git
 	branch = main
 [submodule "plugin/editor/suneditor_damoang"]
 	path = plugin/editor/suneditor_damoang
