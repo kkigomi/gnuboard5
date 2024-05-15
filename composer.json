@@ -1,18 +1,8 @@
 {
     "name": "sdk/damoang",
     "description": "damoang",
-    "homepage": "https://damoang.net",
     "minimum-stability": "stable",
-    "config": {
-        "optimize-autoloader": true,
-        "platform-check": false,
-        "prepend-autoloader": false
-    },
     "require": {
-        "php": ">=7.3.33",
-        "ext-curl": "*",
-        "ext-mbstring": "*",
-        "ext-openssl": "*",
         "aws/aws-sdk-php": "^3.306"
     }
 }
