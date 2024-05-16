@@ -1,8 +1,9 @@
 {
-    "name": "sdk/damoang",
-    "description": "damoang",
-    "minimum-stability": "stable",
-    "require": {
-        "aws/aws-sdk-php": "^3.306"
-    }
+  "name": "sdk/damoang",
+  "description": "damoang",
+  "minimum-stability": "stable",
+  "require": {
+    "aws/aws-sdk-php": "^3.306",
+    "ext-curl": "*"
+  }
 }
