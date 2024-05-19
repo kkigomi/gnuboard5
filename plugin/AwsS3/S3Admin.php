@@ -81,7 +81,7 @@ class S3Admin
 
 
         $lists = $this->s3_service->get_paginator('ListObjects', [
-            'Bucket' => G5_S3_BUCKET_NAME,
+            'Bucket' => $this->s3_service->get_bucket_name(),
             'Prefix' => $prefix,
         ]);
 
@@ -151,30 +151,4 @@ class S3Admin
         }
     }
 
-    /**
-     * S3 설정 파일 생성및 수정
-     */
-    public function create_s3_config($s3_access_key, $s3_secret_key, $s3_bucket_name, $s3_region, $s3_is_acl_use)
-    {
-        $file = G5_DATA_PATH . DIRECTORY_SEPARATOR . S3CONFIG_FILE;
-        $file_handle = fopen($file, 'wb');
-        if (!$file_handle) {
-            echo "Failed to open file for writing.";
-            exit;
-        }
-
-        // 파일 작성
-        $content = "<?php" . PHP_EOL;
-        $content .= "if (!defined('_GNUBOARD_')) exit;" . PHP_EOL;
-        $content .= "define('G5_S3_ACCESS_KEY', '" . str_replace("'", "\\'", $s3_access_key) . "');" . PHP_EOL;
-        $content .= "define('G5_S3_SECRET_KEY', '" . str_replace("'", "\\'", $s3_secret_key) . "');" . PHP_EOL;
-        $content .= "define('G5_S3_BUCKET_NAME', '" . str_replace("'", "\\'", $s3_bucket_name) . "');" . PHP_EOL;
-        $content .= "define('G5_S3_REGION', '" . str_replace("'", "\\'", $s3_region) . "');" . PHP_EOL;
-        $content .= "define('G5_S3_IS_USE_ACL', " . ($s3_is_acl_use ? 'true' : 'false') . ");" . PHP_EOL;
-
-        fwrite($file_handle, $content);
-        fclose($file_handle);
-
-        @chmod($file, G5_FILE_PERMISSION);
-    }
 }
