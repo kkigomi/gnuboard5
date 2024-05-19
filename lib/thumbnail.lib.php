@@ -533,12 +533,18 @@ function thumbnail($filename, $source_path, $target_path, $thumb_width, $thumb_h
 
     if($file_ext === 'gif') {
         imagegif($dst, $thumb_file);
+    /*} else if($file_ext === 'png') {
+        if(!defined('G5_THUMB_PNG_COMPRESS'))
+            $png_compress = 5;
+        else
+            $png_compress = G5_THUMB_PNG_COMPRESS;
+
+        imagepng($dst, $thumb_file, $png_compress);*/
     } else if ($file_ext === 'jpg' || $file_ext === 'png') {
         if(!defined('G5_THUMB_JPG_QUALITY'))
             $jpg_quality = 90;
         else
             $jpg_quality = G5_THUMB_JPG_QUALITY;
-
         $thumb_file = substr($thumb_file, 0, strrpos($thumb_file, ".")) . '.jpg';
         imagejpeg($dst, $thumb_file, $jpg_quality);
     } else if ($file_ext === 'webp') {
