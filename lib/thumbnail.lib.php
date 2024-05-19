@@ -206,9 +206,6 @@ function get_view_thumbnail($contents, $thumb_width=0)
             if(!$thumb_file)
                 continue;
 
-            if (substr(strrchr($thumb_file, '.'), 1) === 'png')
-                $thumb_file = substr($thumb_file, 0, strrpos($thumb_file, ".")) . '.jpg';
-
             if ($width) {
                 $thumb_tag = '<img src="'.G5_URL.str_replace($filename, $thumb_file, $data_path).'" alt="'.$alt.'" width="'.$width.'" height="'.$height.'"/>';
             } else {
