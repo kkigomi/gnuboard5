@@ -1,5 +1,6 @@
 <?php
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
+use Gnuboard\Plugin\AwsS3\S3Service;
 
 // Admin
 function na_admin($val='', $opt='') {
@@ -332,72 +333,31 @@ function na_grade($grade) {
 // 회원사진
 function na_member_photo($mb_id){
 
-	static $no_profile_cache = '';
     static $member_cache = array();
+    global $member;
     
     $src = '';
 
-    if ($mb_id){
+    if ($mb_id) {
         if (isset($member_cache[$mb_id])) {
             $src = $member_cache[$mb_id];
         } else {
-            $member_img = G5_DATA_PATH.'/member_image/'.substr($mb_id,0,2).'/'.get_mb_icon_name($mb_id).'.gif';
-            if (is_file($member_img)) {
-                if(defined('G5_USE_MEMBER_IMAGE_FILETIME') && G5_USE_MEMBER_IMAGE_FILETIME) {
-                    $member_img .= '?'.filemtime($member_img);
-                }
-                $member_cache[$mb_id] = $src = str_replace(G5_DATA_PATH, G5_DATA_URL, $member_img);
-            }
-        }
-    }
 
-    if(!$src){
-        if(!empty($no_profile_cache)){
-            $src = $no_profile_cache;
-        } else {
-            // 프로필 이미지가 없을때 기본 이미지
-            $no_profile_img = (defined('G5_THEME_NO_PROFILE_IMG') && G5_THEME_NO_PROFILE_IMG) ? G5_THEME_NO_PROFILE_IMG : G5_NO_PROFILE_IMG;
-            $tmp = array();
-            preg_match( '/src="([^"]*)"/i', $no_profile_img, $tmp);
-            $no_profile_cache = $src = isset($tmp[1]) ? $tmp[1] : G5_IMG_URL.'/no_profile.gif';
+            $member_img = G5_DATA_URL.'/member_image/'.substr($mb_id,0,2).'/'.get_mb_icon_name($mb_id). '.gif';
+			$member_img = run_replace('s3_replace_url', $member_img);
+            if(isset($member['mb_3'])){
+                $member_img .= "?v={$member['mb_3']}";
+            }
+            $member_cache[$mb_id] = $member_img;
+			$src = $member_img;
         }
     }
+	
 
 	return $src;
 }
 
 function na_name_photo($mb_id, $name){
-	global $nariya;
-	
-	$is_photo = false;
-
-	$matches = get_editor_image($name, true);
-
-	for($i=0; $i<count($matches[1]); $i++) {
-
-        $img = $matches[1][$i];
-        $mb_icon = isset($matches[0][$i]) ? $matches[0][$i] : '';
-
-        preg_match("/alt=[\"\']?([^\"\']*)[\"\']?/", $img, $m);
-        $alt = isset($m[1]) ? get_text($m[1]) : '';
-
-		$name = str_replace($mb_icon, '<img src="'.na_member_photo($mb_id).'" alt="'.$alt.'" class="mb-photo">', $name);
-
-		$is_photo = true;
-
-		break;
-    }
-
-	if($is_photo) {
-		if($nariya['lvl_skin'])
-			$name = str_replace('onclick="return false;">','onclick="return false;">'.na_xp_icon($mb_id), $name);
-	} else {
-		$mb_photo = ($nariya['lvl_skin']) ? na_xp_icon($mb_id) : '';
-		$mb_photo .= '<img src="'.na_member_photo($mb_id).'" alt="" class="mb-photo">';
-
-		$name = str_replace('onclick="return false;">','onclick="return false;">'.$mb_photo, $name);
-	}
-
 	return $name;
 }
 
@@ -558,4 +518,187 @@ function na_board_write_permit_check($bo_table, $mb_id) {
         }
 
     }
+}
+
+function na_myphoto_upload($mb_id, $del_photo, $file) {
+	global $g5, $config;
+
+	if(!$mb_id) 
+		return;
+
+	$photo_w = (isset($config['cf_member_img_width']) && $config['cf_member_img_width']) ? $config['cf_member_img_width'] : 80;
+	$photo_h = (isset($config['cf_member_img_height']) && $config['cf_member_img_height']) ? $config['cf_member_img_height'] : 80;
+
+	$photo_dir = G5_DATA_PATH.'/member_image/'.substr($mb_id,0,2);
+	$temp_dir = G5_DATA_PATH.'/member_image/temp';
+
+	// Delete Photo
+	if ($del_photo == "1") {
+		@unlink($photo_dir.'/'.$mb_id.'.gif');
+	}
+    
+	// Upload Photo
+	if (is_uploaded_file($file['mb_img']['tmp_name'])) {
+		if (!preg_match("/(\.(gif|jpe?g|bmp|png|webp))$/i", $file['mb_img']['name'])) {
+			alert('gif/jpg/png|webp 이미지 파일만 가능합니다.');
+		} else {
+			if(!is_dir(G5_DATA_PATH.'/member_image')) {
+				mkdir(G5_DATA_PATH.'/member_image', G5_DIR_PERMISSION);
+				chmod(G5_DATA_PATH.'/member_image', G5_DIR_PERMISSION);
+			}
+
+			if(!is_dir($temp_dir)) {
+				mkdir($temp_dir, G5_DIR_PERMISSION);
+				chmod($temp_dir, G5_DIR_PERMISSION);
+			}
+
+			$temp_photo = $temp_dir.'/'.$mb_id.'.gif';
+			$org_photo_key = G5_DATA_DIR .'/member_image/'. substr($mb_id,0,2). "/{$mb_id}.gif";
+			
+			$size = getimagesize($file['mb_img']['tmp_name']);
+			//Non Image
+			if (!isset($size[0])) {
+				alert('회원이미지 등록에 실패했습니다. 이미지 파일이 정상적으로 업로드 되지 않았거나, 이미지 파일이 아닙니다.');
+			}
+
+			convert_image_webp($file['mb_img']['tmp_name'], $temp_photo, $photo_w, $photo_h);
+			$s3_service = S3Service::getInstance();
+			$upload_result = $s3_service->put_object([
+					'Key' => $org_photo_key,	
+					'SourceFile' => $temp_photo,
+					'ContentType' => 'gif' //@todo webp 로 바꿔야함
+				]
+			);
+
+			unlink($temp_photo);
+			$upload_result = $upload_result['ObjectURL'] ?? '';
+			if(!$upload_result) {
+				alert('회원이미지 등록에 실패했습니다. 이미지 파일이 정상적으로 업로드 되지 않았거나, 이미지 파일이 아닙니다.');
+			}
+		}
+	}
+}
+
+/**
+ * gif,jpg,jpeg,png, webp 리사이즈 webp 이미지 변환
+ * imagedestroy($image); 필수.
+ * @param string $input_file
+ * @param string $output_file null 이면 이미지 리소스 반환
+ * @param int $width
+ * @param int $height
+ * @param int $quality
+ * @return bool
+ */
+function convert_image_webp($input_file, $output_file, $width = 60, $height = 60, int $quality = 70)
+{
+	$size = getimagesize($input_file);
+	if(empty($size)) {
+		return false;
+	}
+
+    $extensions = array(1=>'gif', 2=>'jpg', 3=>'png', 18=>'webp');
+	$file_extension = $extensions[$size[2]];
+	if (!$file_extension) {
+		false;
+	}
+	
+    switch ($file_extension) {
+        case 'gif':
+            $image = imagecreatefromgif($input_file);
+			$ori_width = imagesx($image);
+			$ori_height = imagesy($image);
+			$new_image = imagecreatetruecolor($width, $height);
+			if(!$new_image) {
+				error_log("convert_image_webp: file: {$output_file} error function. imagecreatetruecolor");
+				return false;
+			}
+			$function_step = [
+				['imagecopyresampled', [$new_image, $image, 0, 0, 0, 0, $width, $height, $ori_width, $ori_height]],
+				['imagepalettetotruecolor', [$new_image]],
+				['imagealphablending', [$new_image, true]],
+				['imagesavealpha', [$new_image, true]]
+			];
+
+			foreach ($function_step as $function) {
+				$result = call_user_func_array($function[0], $function[1]);
+				if (!$result) {
+					error_log("convert_image_webp: file: {$output_file} error function. {$function[0]}");
+					return false;
+				}
+			}
+            break;
+        case 'jpg':
+		case 'jpeg':
+            $image = imagecreatefromjpeg($input_file);
+			$ori_width = imagesx($image);
+			$ori_height = imagesy($image);
+			$new_image = imagecreatetruecolor($width, $height);
+			if(!$new_image) {
+				error_log("convert_image_webp: file: {$output_file} error function. imagecreatetruecolor");
+				return false;
+			}
+            
+			$result = imagecopyresampled($new_image, $image, 0, 0, 0, 0, $width, $height, $ori_width, $ori_height);
+			if(!$result) {
+				error_log("convert_image_webp: file: {$output_file} error function. imagecopyresampled");
+				return false;
+			}
+
+			break;
+			case 'png':
+            $image = imagecreatefrompng($input_file);
+			$ori_width = imagesx($image);
+			$ori_height = imagesy($image);
+			$new_image = imagecreatetruecolor($width, $height);
+			if(!$new_image) {
+				error_log("convert_image_webp: file: {$output_file} error function. imagecreatetruecolor");
+				return false;
+			}
+			$function_step = [
+				['imagecopyresampled', [$new_image, $image, 0, 0, 0, 0, $width, $height, $ori_width, $ori_height]],
+				['imagepalettetotruecolor', [$new_image]],
+				['imagealphablending', [$new_image, true]],
+				['imagesavealpha', [$new_image, true]]
+			];
+
+			foreach ($function_step as $function) {
+				$result = call_user_func_array($function[0], $function[1]);
+				if (!$result) {
+					error_log("convert_image_webp: file: {$output_file} error function. {$function[0]}");
+					return false;
+				}
+			}
+            break;
+        case 'webp':
+			$image = imagecreatefromwebp($input_file);
+			$ori_width = imagesx($image);
+			$ori_height = imagesy($image);
+			$new_image = imagecreatetruecolor($width, $height);
+			if(!$new_image) {
+				error_log("convert_image_webp: file: {$output_file} error function. imagecreatetruecolor");
+				return false;
+			}
+			$result = imagecopyresampled($new_image, $image, 0, 0, 0, 0, $width, $height, $ori_width, $ori_height);
+			if(!$result) {
+				error_log("convert_image_webp: file: {$output_file} error function. imagecopyresampled");
+				return false;
+			}
+			break;
+        default:
+            return false;
+    }
+
+	if(!isset($new_image)){
+		return false;
+	}
+
+    $result = imagewebp($new_image, $output_file, $quality);
+	imagedestroy($new_image);
+	imagedestroy($image);
+	if(!$result) {
+		error_log("convert_image_webp: file: {$output_file} error function. imagewebp");
+		return false;
+	}
+	
+	return true;
 }
