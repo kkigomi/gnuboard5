@@ -403,7 +403,7 @@ $msg = "";
 // 아이콘 업로드
 $mb_icon = '';
 $image_regex = "/(\.(gif|jpe?g|png|webp))$/i";
-$mb_icon_img = get_mb_icon_name($mb_id).'.gif';
+$mb_icon_img = get_mb_icon_name($mb_id).'.gif'; // @todo webp 로 바꿔야함
 
 if (isset($_FILES['mb_icon']) && is_uploaded_file($_FILES['mb_icon']['tmp_name'])) {
     //temp 생성
@@ -415,19 +415,18 @@ if (isset($_FILES['mb_icon']) && is_uploaded_file($_FILES['mb_icon']['tmp_name']
     if (preg_match($image_regex, $_FILES['mb_icon']['name'])) {
         // 아이콘 용량이 설정값보다 이하만 업로드 가능
         if ($_FILES['mb_icon']['size'] <= $config['cf_member_icon_size']) {
-            $dest_path = $temp_dir.'/'.$mb_icon_img;
+            $dest_path = $temp_dir . '/' . $mb_icon_img;
             move_uploaded_file($_FILES['mb_icon']['tmp_name'], $dest_path);
             chmod($dest_path, G5_FILE_PERMISSION);
-            $output_full_path = G5_DATA_PATH . '/member/' . $mb_icon_img; // @todo webp 로 바뀌어야됨.
-            var_dump($output_full_path);
-                
-            $result = convert_image_webp($dest_path, $output_full_path,$config['cf_member_icon_width'], $config['cf_member_icon_height'], 70);
-            if($result) {
+            $output_full_path = G5_DATA_PATH . '/member/' . $mb_icon_img; 
+
+            $result = convert_image_webp($dest_path, $output_full_path, $config['cf_member_icon_width'], $config['cf_member_icon_height'], 70);
+            if ($result) {
                 $s3_service = S3Service::getInstance();
-                $file_key = G5_DATA_DIR .'/member/'.$mb_icon_img;
+                $file_key = G5_DATA_DIR . '/member/' . $mb_icon_img;
                 $upload_result = $s3_service->put_object([
-                    'Key' => $file_key,	
-                    'SourceFile' =>$output_full_path,//$file['mb_icon2']['tmp_name'],
+                    'Key' => $file_key,
+                    'SourceFile' => $output_full_path,//$file['mb_icon2']['tmp_name'],
                     'ContentType' => 'gif' //@todo webp 로 바꿔야함
                 ]);
             } else {
@@ -466,11 +465,10 @@ if (isset($_FILES['mb_icon']) && is_uploaded_file($_FILES['mb_icon']['tmp_name']
             //     //=================================================================\
             //}
         } else {
-            $msg .= '회원아이콘을 '.number_format($config['cf_member_icon_size']).'바이트 이하로 업로드 해주십시오.';
+            $msg .= '회원아이콘을 ' . number_format($config['cf_member_icon_size']) . '바이트 이하로 업로드 해주십시오.';
         }
-
     } else {
-        $msg .= $_FILES['mb_icon']['name'].'은(는) 이미지 파일이 아닙니다.';
+        $msg .= $_FILES['mb_icon']['name'] . '은(는) 이미지 파일이 아닙니다.';
     }
 }
 

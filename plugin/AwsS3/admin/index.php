@@ -15,10 +15,10 @@ auth_check_menu($auth, $sub_menu, 'r');
 
 $admin_aws_config = [
     'access_key' => $_ENV['s3_access_key'] ?? '',
-    'bucket_name' => $_ENV['s3_bucket_name'] ?? '',
+    'bucket_name' => $_ENV['S3_BUCKET_NAME'] ?? '',
     'bucket_region' => $_ENV['s3_bucket_region'] ?? '',
-    'is_use_s3' => $_ENV['s3_is_use'] ?? '',
-    'is_use_acl' => $_ENV['s3_is_use_acl'] ?? '',
+    'is_use_s3' => filter_var(trim($_ENV['is_use_s3'] ?? ''), FILTER_VALIDATE_BOOLEAN),
+    'is_use_acl' => filter_var($_ENV['S3_IS_USE_ACL'] ?? '', FILTER_VALIDATE_BOOLEAN),
 ];
 
 $all_region = get_aws_regions();

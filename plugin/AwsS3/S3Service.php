@@ -87,7 +87,7 @@ class S3Service
             $this->add_hooks();
             $this->s3_client()->registerStreamWrapperV2();
         } else {
-            error_log("s3 service is not start . is_use_s3 value: {$this->is_use_s3}" );
+            error_log("s3 service is not start . is_use_s3 value: {$this->is_use_s3}");
         }
     }
 
@@ -102,14 +102,14 @@ class S3Service
      */
     private function get_config()
     {
-        $this->bucket_name = trim($_ENV['s3_bucket_name'] ?? '');
-        $this->region = trim($_ENV['s3_region'] ?? '');
+        $this->bucket_name = trim($_ENV['S3_BUCKET_NAME'] ?? '');
+        $this->region = trim($_ENV['S3_REGION'] ?? '');
         $this->access_key = trim($_ENV['s3_access_key'] ?? '');
-        $this->secret_key = trim($_ENV['s3_secret_key'] ?? '');
-        $this->is_use_acl = trim($_ENV['s3_is_use_acl'] ?? '')  !== 'false' && (bool)trim($_ENV['s3_is_use_acl'] ?? '') == true;
-        $this->is_use_s3 = trim($_ENV['s3_is_use'] ?? '') !== 'false' && (bool)trim($_ENV['s3_is_use'] ?? '') == true;
-        $this->endpoint = trim($_ENV['s3_end_point'] ?? '');
-        $this->storage_url =  trim($_ENV['s3_storage_url'] ?? '');
+        $this->secret_key = trim($_ENV['S3_SECRET_KEY'] ?? '');
+        $this->is_use_acl =  filter_var(trim($_ENV['S3_IS_USE_ACL'] ?? ''), FILTER_VALIDATE_BOOLEAN); 
+        $this->is_use_s3 = filter_var(trim($_ENV['S3_IS_USE'] ?? ''), FILTER_VALIDATE_BOOLEAN);
+        $this->endpoint = trim($_ENV['S3_ENDPOINT'] ?? '');
+        $this->storage_url = trim($_ENV['S3_STORAGE_URL'] ?? '');
         /**
          * s3 사용시 "https://{$this->bucket_name}.s3.amazonaws.com";
          * gcp 는 gcp 스토리지 주소
@@ -210,7 +210,7 @@ class S3Service
                 'version' => 'latest',
                 'credentials' => new Credentials($this->access_key, $this->secret_key),
             ];
-            if($this->storage_url){
+            if ($this->storage_url) {
                 $s3_config['use_path_style_endpoint'] = true; //aws 이외의 곳에서 쓸 때필요
             }
 
@@ -262,7 +262,6 @@ class S3Service
 
     private function add_hooks()
     {
-
         // bbs,qa download.php 등에서 사용
         add_event('download_file_header', [$this, 'download_file_header'], 1, 2);
 
@@ -461,7 +460,7 @@ class S3Service
         if (preg_match('/' . preg_quote(G5_DATA_PATH, '/') . '/i', $replace_path) !== false) {
             return unlink($replace_path); //@todo @ 삭제영향 확인
         }
-        
+
         return false;
     }
 
@@ -751,7 +750,6 @@ class S3Service
         }
 
         if ((isset($file_array['bf_fileurl']) && $file_array['bf_fileurl']) || (isset($file_array['bf_thumburl']) && $file_array['bf_thumburl'])) {
-
             $thumburl = (isset($file_array['bf_thumburl']) && $file_array['bf_thumburl']) ? $file_array['bf_thumburl'] : $file_array['bf_fileurl'];
             $thumb_tag = '<a href="' . G5_BBS_URL . '/view_image.php?bo_table=' . $board['bo_table'] . '&amp;fn=' . urlencode(
                     $file_array['file']
@@ -804,11 +802,11 @@ class S3Service
         curl_close($curl);
         fclose($fp);
 
-        if($err_status){
+        if ($err_status) {
             error_log($err_status);
             return false;
         }
-        
+
         return true;
     }
 
@@ -837,9 +835,9 @@ class S3Service
 
         $tname = '';
         $thumb = array('src' => '', 'ori' => '', 'alt' => '');
-        if (!$source_path && 
-            (stripos($data_path, '/' . G5_EDITOR_DIR . '/' ) !== false) &&
-            (stripos($data_path, '/' . 'file' . '/' ) !== false)
+        if (!$source_path &&
+            (stripos($data_path, '/' . G5_EDITOR_DIR . '/') !== false) &&
+            (stripos($data_path, '/' . 'file' . '/') !== false)
         ) {
             $edt = true;
             $source_path = $target_path = G5_PATH . preg_replace(
@@ -848,7 +846,6 @@ class S3Service
                     dirname($data_path)
                 );
         }
-
 
 
         $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
@@ -888,30 +885,29 @@ class S3Service
         try {
             $this->s3_client->headObject([
                 'Bucket' => $this->bucket_name,
-                'Key'    => $file_key,
+                'Key' => $file_key,
             ]);
             $thumbnailExists = true;
         } catch (S3Exception $e) {
             // Thumbnail does not exist
         }
 
-        if(!$thumbnailExists){
+        if (!$thumbnailExists) {
             $image_info = $this->get_curl_image($download_path, $file_key);
-
         }
 
-       if (!$image_info) {
-           $no_image_path = G5_PATH . '/img/no_img.png';
-           if (file_exists($no_image_path)) {
-               // 노 이미지로 썸네일 파일을 만들어 두번 다시 s3.amazonaws.com 에서 파일을 찾지 않도록 합니다.
-               copy($no_image_path, $thumb_file);
-               chmod($thumb_file, G5_FILE_PERMISSION);
-           }
+        if (!$image_info) {
+            $no_image_path = G5_PATH . '/img/no_img.png';
+            if (file_exists($no_image_path)) {
+                // 노 이미지로 썸네일 파일을 만들어 두번 다시 s3.amazonaws.com 에서 파일을 찾지 않도록 합니다.
+                copy($no_image_path, $thumb_file);
+                chmod($thumb_file, G5_FILE_PERMISSION);
+            }
 
-           // 생성한 파일 삭제
-           unlink($download_path);
-           return array();
-       }
+            // 생성한 파일 삭제
+            unlink($download_path);
+            return array();
+        }
 
         if (file_exists($download_path)) {
             $tname = thumbnail(
@@ -1049,7 +1045,6 @@ class S3Service
 
             //글 업로드시 write_update에서 원본과 썸네일을 삭제합니다.
             if (isset($result['ObjectURL'])) {
-
                 return $this->replace_url($result['ObjectURL']);
             }
         }
@@ -1125,7 +1120,7 @@ class S3Service
     {
         $editor_path = G5_DATA_DIR . '/' . G5_EDITOR_DIR;
         $length = count($matchs[1]);
-        for ($i = 0; $i < $length; $i++) {
+        for ($i = 0;$i < $length;$i++) {
             // 이미지 path 구함
             $img_url = explode($editor_path, $matchs[1][$i]);
             if (!isset($img_url[1])) {
@@ -1231,8 +1226,8 @@ EOD;
         $thumb_result = [];
         $original_object_url = '';
         // 이미지 파일일 때
-        if ($upload_info && 
-            ($upload_mime === 'image/png' || $upload_mime === 'image/jpeg'|| $upload_mime === 'image/webp') ) {
+        if ($upload_info &&
+            ($upload_mime === 'image/png' || $upload_mime === 'image/jpeg' || $upload_mime === 'image/webp')) {
             $size = $upload_info['image'];
 
             if ($size && isset($board['bo_image_width']) && $size[0] > $board['bo_image_width']) {
@@ -1277,9 +1272,9 @@ EOD;
                     false
                 );
                 if ($thumb_file) {
-                    $thumb_full_path ="{$thumb_path}/{$thumb_file}";
+                    $thumb_full_path = "{$thumb_path}/{$thumb_file}";
                     $thumb_key = G5_DATA_DIR . str_replace(G5_DATA_PATH, '', $thumb_full_path);
-                    
+
                     // 업로드
                     $thumb_result = $this->put_object([
                         'Bucket' => $this->bucket_name,
@@ -1323,7 +1318,7 @@ EOD;
             'thumburl' => $thumb_url,
             'storage' => $this->storage(),
         ];
-        
+
         return array_merge($upload_info, $return_value);
     }
 
@@ -1343,7 +1338,7 @@ EOD;
 
         $matches = get_editor_image($wr_content, false);
         $img_source = isset($matches[1]) ? $matches[1] : '';
-        
+
         //도메인 체크
         $site_imgs = [];
         foreach ($img_source as $img) {
@@ -1356,7 +1351,7 @@ EOD;
 
         $first_img = '';
         $editor_img = $site_imgs[0] ?? '';
-        if($editor_img){
+        if ($editor_img) {
             $first_img = $editor_img;
         } else {
             //에디터 이미지가 없다면 파일에서 확인
@@ -1364,19 +1359,18 @@ EOD;
         }
 
         if ($first_img) {
-
             // 업로드된 파일 경로 구하기.
             $parse_result = parse_url($first_img[1]);
             $file_name = $parse_result['path'];
             $ori_filename = basename($file_name);
-            $ori_file_path = G5_DATA_PATH. '/' . G5_EDITOR_DIR . "/$ori_filename";
-            if(strpos($ori_filename, 'thumb-') !== false) {
+            $ori_file_path = G5_DATA_PATH . '/' . G5_EDITOR_DIR . "/$ori_filename";
+            if (strpos($ori_filename, 'thumb-') !== false) {
                 $ext = pathinfo($ori_filename, PATHINFO_EXTENSION);
                 $ori_filename = str_replace('thumb-', '', $ori_filename);
                 $ori_filename = explode('_', $ori_filename)[0] . '.' . $ext;
-                $ori_file_path = G5_DATA_PATH. '/' . G5_EDITOR_DIR . "/$ori_filename";
+                $ori_file_path = G5_DATA_PATH . '/' . G5_EDITOR_DIR . "/$ori_filename";
             }
-            
+
             // 게시글 수정/생성시 파일업로드 직후에는 파일이 있으므로 확인.
             if (file_exists($ori_file_path)) {
                 $pc_thumb_width = $board['bo_gallery_width'];

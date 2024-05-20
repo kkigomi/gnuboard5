@@ -591,114 +591,114 @@ function na_myphoto_upload($mb_id, $del_photo, $file) {
  */
 function convert_image_webp($input_file, $output_file, $width = 60, $height = 60, int $quality = 70)
 {
-	$size = getimagesize($input_file);
-	if(empty($size)) {
-		return false;
-	}
+    $size = getimagesize($input_file);
+    if (empty($size)) {
+        return false;
+    }
 
-    $extensions = array(1=>'gif', 2=>'jpg', 3=>'png', 18=>'webp');
-	$file_extension = $extensions[$size[2]];
-	if (!$file_extension) {
-		false;
-	}
-	
+    $extensions = array(1 => 'gif', 2 => 'jpg', 3 => 'png', 18 => 'webp');
+    $file_extension = $extensions[$size[2]];
+    if (!$file_extension) {
+        return false;
+    }
+
     switch ($file_extension) {
         case 'gif':
             $image = imagecreatefromgif($input_file);
-			$ori_width = imagesx($image);
-			$ori_height = imagesy($image);
-			$new_image = imagecreatetruecolor($width, $height);
-			if(!$new_image) {
-				error_log("convert_image_webp: file: {$output_file} error function. imagecreatetruecolor");
-				return false;
-			}
-			$function_step = [
-				['imagecopyresampled', [$new_image, $image, 0, 0, 0, 0, $width, $height, $ori_width, $ori_height]],
-				['imagepalettetotruecolor', [$new_image]],
-				['imagealphablending', [$new_image, true]],
-				['imagesavealpha', [$new_image, true]]
-			];
+            $ori_width = imagesx($image);
+            $ori_height = imagesy($image);
+            $new_image = imagecreatetruecolor($width, $height);
+            if (!$new_image) {
+                error_log("convert_image_webp: file: {$output_file} error function. imagecreatetruecolor");
+                return false;
+            }
+            $function_step = [
+                ['imagecopyresampled', [$new_image, $image, 0, 0, 0, 0, $width, $height, $ori_width, $ori_height]],
+                ['imagepalettetotruecolor', [$new_image]],
+                ['imagealphablending', [$new_image, true]],
+                ['imagesavealpha', [$new_image, true]]
+            ];
 
-			foreach ($function_step as $function) {
-				$result = call_user_func_array($function[0], $function[1]);
-				if (!$result) {
-					error_log("convert_image_webp: file: {$output_file} error function. {$function[0]}");
-					return false;
-				}
-			}
+            foreach ($function_step as $function) {
+                $result = call_user_func_array($function[0], $function[1]);
+                if (!$result) {
+                    error_log("convert_image_webp: file: {$output_file} error function. {$function[0]}");
+                    return false;
+                }
+            }
             break;
         case 'jpg':
-		case 'jpeg':
+        case 'jpeg':
             $image = imagecreatefromjpeg($input_file);
-			$ori_width = imagesx($image);
-			$ori_height = imagesy($image);
-			$new_image = imagecreatetruecolor($width, $height);
-			if(!$new_image) {
-				error_log("convert_image_webp: file: {$output_file} error function. imagecreatetruecolor");
-				return false;
-			}
-            
-			$result = imagecopyresampled($new_image, $image, 0, 0, 0, 0, $width, $height, $ori_width, $ori_height);
-			if(!$result) {
-				error_log("convert_image_webp: file: {$output_file} error function. imagecopyresampled");
-				return false;
-			}
+            $ori_width = imagesx($image);
+            $ori_height = imagesy($image);
+            $new_image = imagecreatetruecolor($width, $height);
+            if (!$new_image) {
+                error_log("convert_image_webp: file: {$output_file} error function. imagecreatetruecolor");
+                return false;
+            }
 
-			break;
-			case 'png':
+            $result = imagecopyresampled($new_image, $image, 0, 0, 0, 0, $width, $height, $ori_width, $ori_height);
+            if (!$result) {
+                error_log("convert_image_webp: file: {$output_file} error function. imagecopyresampled");
+                return false;
+            }
+
+            break;
+        case 'png':
             $image = imagecreatefrompng($input_file);
-			$ori_width = imagesx($image);
-			$ori_height = imagesy($image);
-			$new_image = imagecreatetruecolor($width, $height);
-			if(!$new_image) {
-				error_log("convert_image_webp: file: {$output_file} error function. imagecreatetruecolor");
-				return false;
-			}
-			$function_step = [
-				['imagecopyresampled', [$new_image, $image, 0, 0, 0, 0, $width, $height, $ori_width, $ori_height]],
-				['imagepalettetotruecolor', [$new_image]],
-				['imagealphablending', [$new_image, true]],
-				['imagesavealpha', [$new_image, true]]
-			];
+            $ori_width = imagesx($image);
+            $ori_height = imagesy($image);
+            $new_image = imagecreatetruecolor($width, $height);
+            if (!$new_image) {
+                error_log("convert_image_webp: file: {$output_file} error function. imagecreatetruecolor");
+                return false;
+            }
+            $function_step = [
+                ['imagecopyresampled', [$new_image, $image, 0, 0, 0, 0, $width, $height, $ori_width, $ori_height]],
+                ['imagepalettetotruecolor', [$new_image]],
+                ['imagealphablending', [$new_image, true]],
+                ['imagesavealpha', [$new_image, true]]
+            ];
 
-			foreach ($function_step as $function) {
-				$result = call_user_func_array($function[0], $function[1]);
-				if (!$result) {
-					error_log("convert_image_webp: file: {$output_file} error function. {$function[0]}");
-					return false;
-				}
-			}
+            foreach ($function_step as $function) {
+                $result = call_user_func_array($function[0], $function[1]);
+                if (!$result) {
+                    error_log("convert_image_webp: file: {$output_file} error function. {$function[0]}");
+                    return false;
+                }
+            }
             break;
         case 'webp':
-			$image = imagecreatefromwebp($input_file);
-			$ori_width = imagesx($image);
-			$ori_height = imagesy($image);
-			$new_image = imagecreatetruecolor($width, $height);
-			if(!$new_image) {
-				error_log("convert_image_webp: file: {$output_file} error function. imagecreatetruecolor");
-				return false;
-			}
-			$result = imagecopyresampled($new_image, $image, 0, 0, 0, 0, $width, $height, $ori_width, $ori_height);
-			if(!$result) {
-				error_log("convert_image_webp: file: {$output_file} error function. imagecopyresampled");
-				return false;
-			}
-			break;
+            $image = imagecreatefromwebp($input_file);
+            $ori_width = imagesx($image);
+            $ori_height = imagesy($image);
+            $new_image = imagecreatetruecolor($width, $height);
+            if (!$new_image) {
+                error_log("convert_image_webp: file: {$output_file} error function. imagecreatetruecolor");
+                return false;
+            }
+            $result = imagecopyresampled($new_image, $image, 0, 0, 0, 0, $width, $height, $ori_width, $ori_height);
+            if (!$result) {
+                error_log("convert_image_webp: file: {$output_file} error function. imagecopyresampled");
+                return false;
+            }
+            break;
         default:
             return false;
     }
 
-	if(!isset($new_image)){
-		return false;
-	}
+    if (!isset($new_image)) {
+        return false;
+    }
 
     $result = imagewebp($new_image, $output_file, $quality);
-	imagedestroy($new_image);
-	imagedestroy($image);
-	if(!$result) {
-		error_log("convert_image_webp: file: {$output_file} error function. imagewebp");
-		return false;
-	}
-	
-	return true;
+    imagedestroy($new_image);
+    imagedestroy($image);
+    if (!$result) {
+        error_log("convert_image_webp: file: {$output_file} error function. imagewebp");
+        return false;
+    }
+
+    return true;
 }

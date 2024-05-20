@@ -137,7 +137,7 @@ class S3Admin
 
         if ($act_button === '선택삭제' && $is_admin === 'super') {
             $iMax = count($chk);
-            for ($i = 0; $i < $iMax; $i++) {
+            for ($i = 0;$i < $iMax;$i++) {
                 // 실제 번호를 넘김
                 $k = $chk[$i];
 

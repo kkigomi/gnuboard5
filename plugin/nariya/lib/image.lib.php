@@ -233,37 +233,37 @@ function na_wr_img($bo_table, $wr, $re='') {
  * @param string $thumb_w
  * @param string $thumb_h
  */
-function na_thumb($img, $thumb_w, $thumb_h) {
+function na_thumb($img, $thumb_w, $thumb_h)
+{
 
-    global $board;
-
-	// 썸네일 호출 훅
+    // 썸네일 호출 훅
     $ext = pathinfo($img, PATHINFO_EXTENSION);
     $file_name_part = explode('_', $img);
     $file_name = $file_name_part[0] ?? '';
     $thumb_file_name = "{$file_name}_{$thumb_w}x{$thumb_h}.{$ext}";
-    $thumbnail_url =  run_replace('get_file_board_url', $thumb_file_name);
-    if($thumbnail_url) {
+    $thumbnail_url = run_replace('get_file_board_url', $thumb_file_name);
+    if ($thumbnail_url) {
         return $thumbnail_url;
     }
 
-    if((int)$thumb_w > 0) {
+    if ((int)$thumb_w > 0) {
         // 이미지 path 구함
         $p = parse_url($img);
         $p['path'] = isset($p['path']) ? $p['path'] : '';
 
-        if(strpos($p['path'], '/'.G5_DATA_DIR.'/') != 0)
-            $data_path = preg_replace('/^\/.*\/'.G5_DATA_DIR.'/', '/'.G5_DATA_DIR, $p['path']);
-        else
+        if (strpos($p['path'], '/' . G5_DATA_DIR . '/') != 0) {
+            $data_path = preg_replace('/^\/.*\/' . G5_DATA_DIR . '/', '/' . G5_DATA_DIR, $p['path']);
+        } else {
             $data_path = $p['path'];
-		
-        $srcfile = G5_PATH.$data_path;
+        }
 
-         if(is_file($srcfile)) {
+        $srcfile = G5_PATH . $data_path;
+
+        if (is_file($srcfile)) {
             $filename = basename($srcfile);
             $filepath = dirname($srcfile);
             $tname = thumbnail($filename, $filepath, $filepath, $thumb_w, $thumb_h, false, true);
-            $img = G5_URL.str_replace($filename, $tname, $data_path);
+            $img = G5_URL . str_replace($filename, $tname, $data_path);
         }
     }
 
