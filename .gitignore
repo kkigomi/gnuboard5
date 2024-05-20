@@ -20,3 +20,6 @@ SIRsoft000/
 config.php
 pma/
 /vendor
+.env
+.env.*
+!.env.sample

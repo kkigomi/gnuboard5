@@ -120,6 +120,23 @@ function fboardlist_submit(txt) {
 		return false;
 	}
 
+    // TODO 추후 카테고리명을 하드코딩이 아닌 DB에서 값을 읽어올 수 있도록 수정 필요
+    const allowed_category_name = ['기능제안','버그','완료','취소'];
+    if(allowed_category_name.includes(txt)) {
+        const msg = '카테고리 [' + txt + '](으)로 일괄 변경 하시겠습니까?';
+        na_confirm(msg, function() {
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'btn_submit';
+            input.value = txt;
+            f.appendChild(input);
+            f.removeAttribute("target");
+            f.action = g5_bbs_url+"/board_list_update.php";
+            f.submit();
+        });
+        return false;
+    }
+
 	return false;
 }
 

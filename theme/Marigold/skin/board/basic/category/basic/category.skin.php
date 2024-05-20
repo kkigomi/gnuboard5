@@ -89,10 +89,48 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 							선택 이동
 						</button>
 					<li>
+                    <?php if ($board['bo_table'] === 'bug') {?>
+                        <li><hr class="dropdown-divider"></li>
+                        <!-- TODO 추후 카테고리 변경 버튼 활성화 여부를 어드민에서 설정할 수 있도록 수정 필요 -->
+                        <li>
+                            <button class="dropdown-item changeCategoryBtn" type="button" value="feature" title="기능제안">
+                                <i class="bi bi-arrow-right-circle"></i>
+                                기능제안
+                            </button>
+                        <li>
+                        <li>
+                            <button class="dropdown-item changeCategoryBtn" type="button" value="bug" title="버그">
+                                <i class="bi bi-arrow-right-circle"></i>
+                                버그
+                            </button>
+                        <li>
+                        <li>
+                            <button class="dropdown-item changeCategoryBtn" type="button" value="done" title="완료">
+                                <i class="bi bi-arrow-right-circle"></i>
+                                완료
+                            </button>
+                        <li>
+                        <li>
+                            <button class="dropdown-item changeCategoryBtn" type="button" value="cancel" title="취소">
+                                <i class="bi bi-arrow-right-circle"></i>
+                                취소
+                            </button>
+                        <li>
+                    <?php } ?>
 				<?php } ?>
 			</ul>
 		</div>
 	<?php } ?>
+
+    <script>
+        $('.changeCategoryBtn').on('click', function() {
+            let $this = $(this);
+            let category = $this.attr('title');
+
+            fboardlist_submit(category);
+        });
+    </script>
+
 	<?php if ($rss_href) { ?>
 		<div class="order-4 pe-1">
 			<a href="<?php echo $rss_href ?>" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="RSS" class="text-body-tertiary">

@@ -1431,10 +1431,6 @@ function get_sideview($mb_id, $name='', $email='', $homepage='')
         $menus['memo'] = '<a href="' . G5_BBS_URL . '/memo_form.php?me_recv_mb_id=' . $mb_id . '" rel="nofollow" onclick="win_memo(this.href); return false;">쪽지보내기</a>';
     }
 
-    if ($email) {
-        $menus['email'] = '<a href="' . G5_BBS_URL . '/formmail.php?mb_id=' . $mb_id . '&amp;name=' . urlencode($name) . '&amp;email=' . $email . '" onclick="win_email(this.href); return false;" rel="nofollow">메일보내기</a>';
-    }
-
     if ($homepage) {
         $menus['homepage'] = '<a href="' . $homepage . '" rel="nofollow noopener" target="_blank">홈페이지</a>';
     }
