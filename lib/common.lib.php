@@ -2796,31 +2796,31 @@ class html_process {
 
     public static function run()
     {
-        global $config, $g5, $member;
+        //global $config, $g5, $member;
 
+
+        // 현재접속자 처리
+//        $tmp_sql = " select count(*) as cnt from {$g5['login_table']} where lo_ip = '{$_SERVER['REMOTE_ADDR']}' ";
+//        $tmp_row = sql_fetch($tmp_sql);
+//
+//        if ($tmp_row['cnt']) {
+//            $tmp_sql = " update {$g5['login_table']} set mb_id = '{$member['mb_id']}', lo_datetime = '".G5_TIME_YMDHIS."', lo_location = '{$g5['lo_location']}', lo_url = '{$g5['lo_url']}' where lo_ip = '{$_SERVER['REMOTE_ADDR']}' ";
+//            sql_query($tmp_sql, FALSE);
+//        } else {
+//            $tmp_sql = " insert into {$g5['login_table']} ( lo_ip, mb_id, lo_datetime, lo_location, lo_url ) values ( '{$_SERVER['REMOTE_ADDR']}', '{$member['mb_id']}', '".G5_TIME_YMDHIS."', '{$g5['lo_location']}',  '{$g5['lo_url']}' ) ";
+//            sql_query($tmp_sql, FALSE);
+//
+//            // 시간이 지난 접속은 삭제한다
+//            sql_query(" delete from {$g5['login_table']} where lo_datetime < '".date("Y-m-d H:i:s", G5_SERVER_TIME - (60 * $config['cf_login_minutes']))."' ");
+//
+//            // 부담(overhead)이 있다면 테이블 최적화
+//            //$row = sql_fetch(" SHOW TABLE STATUS FROM `$mysql_db` LIKE '$g5['login_table']' ");
+//            //if ($row['Data_free'] > 0) sql_query(" OPTIMIZE TABLE $g5['login_table'] ");
+//        }
         if (self::$is_end) return;  // 여러번 호출해도 한번만 실행되게 합니다.
 
         self::$is_end = 1;
-
-        // 현재접속자 처리
-        $tmp_sql = " select count(*) as cnt from {$g5['login_table']} where lo_ip = '{$_SERVER['REMOTE_ADDR']}' ";
-        $tmp_row = sql_fetch($tmp_sql);
-        $http_host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME']; 
-
-        if ($tmp_row['cnt']) {
-            $tmp_sql = " update {$g5['login_table']} set mb_id = '{$member['mb_id']}', lo_datetime = '".G5_TIME_YMDHIS."', lo_location = '{$g5['lo_location']}', lo_url = '{$g5['lo_url']}' where lo_ip = '{$_SERVER['REMOTE_ADDR']}' ";
-            sql_query($tmp_sql, FALSE);
-        } else {
-            $tmp_sql = " insert into {$g5['login_table']} ( lo_ip, mb_id, lo_datetime, lo_location, lo_url ) values ( '{$_SERVER['REMOTE_ADDR']}', '{$member['mb_id']}', '".G5_TIME_YMDHIS."', '{$g5['lo_location']}',  '{$g5['lo_url']}' ) ";
-            sql_query($tmp_sql, FALSE);
-
-            // 시간이 지난 접속은 삭제한다
-            sql_query(" delete from {$g5['login_table']} where lo_datetime < '".date("Y-m-d H:i:s", G5_SERVER_TIME - (60 * $config['cf_login_minutes']))."' ");
-
-            // 부담(overhead)이 있다면 테이블 최적화
-            //$row = sql_fetch(" SHOW TABLE STATUS FROM `$mysql_db` LIKE '$g5['login_table']' ");
-            //if ($row['Data_free'] > 0) sql_query(" OPTIMIZE TABLE $g5['login_table'] ");
-        }
+        $http_host = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'];
 
         $buffer = ob_get_contents();
         ob_end_clean();
