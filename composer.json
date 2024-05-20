@@ -3,8 +3,9 @@
     "description": "damoang",
     "minimum-stability": "stable",
     "require": {
+        "php": ">=7.3.33",
         "aws/aws-sdk-php": "^3.306",
-        "symfony/dotenv": "^7.0",
-        "ext-gd": "*"
+        "symfony/dotenv": "^5.4|^6.4",
+        "ext-curl": "*"
     }
 }
