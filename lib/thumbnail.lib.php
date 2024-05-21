@@ -275,7 +275,7 @@ function thumbnail($filename, $source_path, $target_path, $thumb_width, $thumb_h
     $thumb_filename = preg_replace("/\.[^\.]+$/i", "", $filename); // 확장자제거
     // $thumb_file = "$target_path/thumb-{$thumb_filename}_{$thumb_width}x{$thumb_height}.".$ext[$size[2]];
     $thumb_file = "$target_path/thumb-{$thumb_filename}_{$thumb_width}x{$thumb_height}.".$file_ext;
-    
+    if ($file_ext === 'png') $thumb_file = substr($thumb_file, 0, strrpos($thumb_file, ".")) . '.jpg';
     $thumb_time = @filemtime($thumb_file);
     $source_time = @filemtime($source_file);
 
@@ -533,14 +533,14 @@ function thumbnail($filename, $source_path, $target_path, $thumb_width, $thumb_h
 
     if($file_ext === 'gif') {
         imagegif($dst, $thumb_file);
-    } else if($file_ext === 'png') {
+    /*} else if($file_ext === 'png') {
         if(!defined('G5_THUMB_PNG_COMPRESS'))
             $png_compress = 5;
         else
             $png_compress = G5_THUMB_PNG_COMPRESS;
 
-        imagepng($dst, $thumb_file, $png_compress);
-    } else if ($file_ext === 'jpg') {
+        imagepng($dst, $thumb_file, $png_compress);*/
+    } else if ($file_ext === 'jpg' || $file_ext === 'png') {
         if(!defined('G5_THUMB_JPG_QUALITY'))
             $jpg_quality = 90;
         else
