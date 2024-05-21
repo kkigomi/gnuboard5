@@ -1,5 +1,6 @@
 <?php
 include_once('./_common.php');
+goto_url(G5_URL);
 
 $g5['title'] = '현재접속자';
 include_once('./_head.php');
