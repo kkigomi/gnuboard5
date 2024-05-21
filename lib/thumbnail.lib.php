@@ -275,15 +275,15 @@ function thumbnail($filename, $source_path, $target_path, $thumb_width, $thumb_h
     $thumb_filename = preg_replace("/\.[^\.]+$/i", "", $filename); // 확장자제거
     // $thumb_file = "$target_path/thumb-{$thumb_filename}_{$thumb_width}x{$thumb_height}.".$ext[$size[2]];
     $thumb_file = "$target_path/thumb-{$thumb_filename}_{$thumb_width}x{$thumb_height}.".$file_ext;
-    if ($file_ext === 'png') $thumb_file = substr($thumb_file, 0, strrpos($thumb_file, ".")) . '.jpg';
+    $thumb_file_webp = substr($thumb_file, 0, strrpos($thumb_file, ".")) . '.webp';
     $thumb_time = @filemtime($thumb_file);
     $source_time = @filemtime($source_file);
-
-    if (file_exists($thumb_file)) {
-        if ($is_create == false && $source_time < $thumb_time) {
-            return basename($thumb_file);
-        }
+    $thumb_time_webp = @filemtime($thumb_file_webp);
+    if (file_exists($thumb_file) || file_exists($thumb_file_webp)) {
+        if ($is_create == false && $source_time < $thumb_time) return basename($thumb_file);
+        if ($is_create == false && $source_time < $thumb_time_webp) return basename($thumb_file_webp);
     }
+    $thumb_file = $thumb_file_webp;
 
     // 원본파일의 GD 이미지 생성
     $src = null;
@@ -531,15 +531,15 @@ function thumbnail($filename, $source_path, $target_path, $thumb_width, $thumb_h
         UnsharpMask($dst, $val[0], $val[1], $val[2]);
     }
 
-    if($file_ext === 'gif') {
+    /*if($file_ext === 'gif') {
         imagegif($dst, $thumb_file);
-    /*} else if($file_ext === 'png') {
+    } else if($file_ext === 'png') {
         if(!defined('G5_THUMB_PNG_COMPRESS'))
             $png_compress = 5;
         else
             $png_compress = G5_THUMB_PNG_COMPRESS;
 
-        imagepng($dst, $thumb_file, $png_compress);*/
+        imagepng($dst, $thumb_file, $png_compress);
     } else if ($file_ext === 'jpg' || $file_ext === 'png') {
         if(!defined('G5_THUMB_JPG_QUALITY'))
             $jpg_quality = 90;
@@ -549,8 +549,8 @@ function thumbnail($filename, $source_path, $target_path, $thumb_width, $thumb_h
         imagejpeg($dst, $thumb_file, $jpg_quality);
     } else if ($file_ext === 'webp') {
         imagewebp($dst, $thumb_file);
-    }
-
+    }*/
+    imagewebp($dst, $thumb_file);
     chmod($thumb_file, G5_FILE_PERMISSION); // 추후 삭제를 위하여 파일모드 변경
 
     imagedestroy($src);
