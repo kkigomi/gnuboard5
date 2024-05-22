@@ -49,7 +49,10 @@ www.sir.kr 과 sir.kr 도메인은 서로 다른 도메인으로 인식합니다
 */
 define('G5_COOKIE_DOMAIN',  $_ENV['G5_COOKIE_DOMAIN'] ?? '');
 
-define('G5_DBCONFIG_FILE',  'dbconfig.php');
+/** @var string G5_DBCONFIG_PATH DB 설정 파일의 경로 */
+define('G5_DBCONFIG_PATH',  $_ENV['G5_DBCONFIG_PATH'] ?? '');
+/** @var string G5_DBCONFIG_FILE DB 설정 파일의 이름 */
+define('G5_DBCONFIG_FILE',  $_ENV['G5_DBCONFIG_FILE'] ?? 'dbconfig.php');
 
 define('G5_ADMIN_DIR',      'adm');
 define('G5_BBS_DIR',        'bbs');

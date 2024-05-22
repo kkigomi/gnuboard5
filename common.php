@@ -166,7 +166,7 @@ $g5_object = new G5_object_cache();
 //==============================================================================
 // 공통
 //------------------------------------------------------------------------------
-$dbconfig_file = G5_DATA_PATH.'/'.G5_DBCONFIG_FILE;
+$dbconfig_file = ((G5_DBCONFIG_PATH) ? rtrim(G5_DBCONFIG_PATH, '/') : G5_DATA_PATH) . '/' . G5_DBCONFIG_FILE;
 if (file_exists($dbconfig_file)) {
     include_once($dbconfig_file);
     include_once(G5_LIB_PATH.'/common.lib.php');    // 공통 라이브러리
@@ -187,27 +187,13 @@ if (file_exists($dbconfig_file)) {
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<title>오류! <?php echo G5_VERSION ?> 설치하기</title>
-<link rel="stylesheet" href="__install/install.css">
+<title>오류!</title>
 </head>
 <body>
 
-<div id="ins_bar">
-    <span id="bar_img">GNUBOARD5</span>
-    <span id="bar_txt">Message</span>
-</div>
-<h1>그누보드5를 먼저 설치해주십시오.</h1>
 <div class="ins_inner">
-    <p>다음 파일을 찾을 수 없습니다.</p>
-    <ul>
-        <li><strong><?php echo G5_DATA_DIR.'/'.G5_DBCONFIG_FILE ?></strong></li>
-    </ul>
+    <p>DB 설정 파일을 찾을 수 없습니다.</p>
 </div>
-<div id="ins_ft">
-    <strong>GNUBOARD5</strong>
-    <p>GPL! OPEN SOURCE GNUBOARD</p>
-</div>
-
 </body>
 </html>
 
