@@ -559,3 +559,31 @@ function na_board_write_permit_check($bo_table, $mb_id) {
 
     }
 }
+
+/**
+ * 글 작성 시 "회원만 보기" 설정을 지정/변경할 수 있는 권한을 확인
+ */
+function da_board_member_only_permit_check(): bool {
+	global $g5, $nariya, $member, $is_admin, $is_guest, $boset, $write;
+
+	// 최고관리자는 항상 허용
+	if ($is_admin === 'super') {
+		return true;
+	}
+
+	$member_only_permit = false;
+	$boset['check_member_only'] = $boset['check_member_only'] ?? '0';
+	$boset['member_only_permit'] = $boset['member_only_permit'] ?? 'admin_only';
+
+	if ($boset['check_member_only'] === '1') {
+		if ($boset['member_only_permit'] === 'all') {
+			// 전체 허용
+			$member_only_permit = true;
+		} else if ($boset['member_only_permit'] === 'admin_only' && $is_admin) {
+			// 관리자만 허용
+			$member_only_permit = true;
+		}
+	}
+
+	return $member_only_permit;
+}
