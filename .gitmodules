@@ -1,7 +1,3 @@
-[submodule "theme/damoang"]
-	path = theme/damoang
-    url = https://github.com/damoang/theme.git
-    branch = main
 [submodule "plugin/da_member_memo"]
 	path = plugin/da_member_memo
 	url = https://github.com/damoang/da_member_memo.git
@@ -10,3 +6,6 @@
 	path = plugin/editor/suneditor_damoang
 	url = https://github.com/damoang/suneditor_damoang.git
     branch = main
+[submodule "theme/damoang"]
+	path = theme/damoang
+	url = https://github.com/damoang/theme.git
