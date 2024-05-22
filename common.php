@@ -14,11 +14,20 @@ header('P3P: CP="ALL CURa ADMa DEVa TAIa OUR BUS IND PHY ONL UNI PUR FIN COM NAV
 if (!defined('G5_SET_TIME_LIMIT')) define('G5_SET_TIME_LIMIT', 0);
 @set_time_limit(G5_SET_TIME_LIMIT);
 
-require_once (__DIR__ . '/vendor/autoload.php');
+if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+    require_once (__DIR__ . '/vendor/autoload.php');
 
-//.env 의 APP_ENV 값에 따라 해당 env를 추가로 로딩합니다. 추가 파일이 로딩되면 값이 덮어씌워집니다.
-$dotenv = new Dotenv();
-$dotenv->loadEnv(__DIR__ . '/.env');
+    //.env 의 APP_ENV 값에 따라 해당 env를 추가로 로딩합니다. 추가 파일이 로딩되면 값이 덮어씌워집니다.
+    try {
+        $dotenv = new Dotenv();
+        $dotenv->loadEnv(__DIR__ . '/.env');
+    } catch (\Exception $e) {
+        echo '.env';
+        throw $e;
+    }
+}
+
+
 //==========================================================================================================================
 // extract($_GET); 명령으로 인해 page.php?_POST[var1]=data1&_POST[var2]=data2 와 같은 코드가 _POST 변수로 사용되는 것을 막음
 // 081029 : letsgolee 님께서 도움 주셨습니다.
