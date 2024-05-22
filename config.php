@@ -27,8 +27,8 @@ define('G5_DOMAIN', $_ENV['G5_DOMAIN'] ?? '');
 define('G5_HTTPS_DOMAIN', $_ENV['G5_HTTPS_DOMAIN'] ?? '');
 
 // 그누보드 디버그바 설정입니다, 실제 서버운영시 false 로 설정해 주세요.
-define('G5_DEBUG', $_ENV['G5_DEBUG'] ?? false);
-define('G5_COLLECT_QUERY', $_ENV['G5_COLLECT_QUERY'] ?? false);
+define('G5_DEBUG', ($_ENV['G5_DEBUG'] ?? 'false') === 'true');
+define('G5_COLLECT_QUERY', ($_ENV['G5_COLLECT_QUERY'] ?? 'false') === 'true');
 
 // Set Database table default engine is Database default_storage_engine, If you want to use MyISAM or InnoDB, change to MyISAM or InnoDB.
 // DB에 테이블 생성 시 테이블의 기본 스토리지 엔진을 설정할 수 있습니다.
@@ -206,8 +206,8 @@ define('G5_MOBILE_AGENT',   'phone|samsung|lgtel|mobile|[^A]skt|nokia|blackberry
 
 // SMTP
 // lib/mailer.lib.php 에서 사용
-define('G5_SMTP', $_ENV['G5_SMTP']);
-define('G5_SMTP_PORT', $_ENV['G5_SMTP_PORT']);
+define('G5_SMTP', $_ENV['G5_SMTP'] ?? '127.0.0.1');
+define('G5_SMTP_PORT', $_ENV['G5_SMTP_PORT'] ?? '25');
 
 
 /********************
