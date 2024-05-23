@@ -701,6 +701,7 @@ function convert_image_webp($input_file, $output_file, $width = 60, $height = 60
     }
 
     return true;
+}
 
 /**
  * 글 작성 시 "회원만 보기" 설정을 지정/변경할 수 있는 권한을 확인
