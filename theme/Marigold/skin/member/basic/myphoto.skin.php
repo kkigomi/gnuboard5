@@ -17,17 +17,17 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 			<img src="<?php echo na_member_photo($member['mb_id']) ?>?nocache=<?php echo time() ?>" class="rounded-circle">
 		</p>
 		<p class="my-3">
-			회원사진은 이미지 중 GIF/JPG/PNG 파일만 가능하며, 등록시 <?php echo $photo_width ?>x<?php echo $photo_height ?> 사이즈로 자동으로 조절됩니다.
+			회원사진은 이미지 중 GIF/JPG/PNG/WEBP 파일만 가능하며, 등록시 <?php echo $photo_width ?>x<?php echo $photo_height ?> 사이즈로 자동으로 조절됩니다.
 		</p>
 
 		<div class="input-group mb-3">
-			<label class="input-group-text" for="MbIcon2">사진</label>
-			<input type="file" name="mb_icon2" class="form-control" id="MbIcon2">
+			<label class="input-group-text" for="mbImg">사진</label>
+			<input type="file" name="mb_img" class="form-control" id="mbImg">
 			<?php if ($is_photo) { ?>
 				<span class="input-group-text">
 					<span class="form-check form-check-inline me-0">
-						<input class="form-check-input" type="checkbox" name="del_mb_icon2" value="1" id="delMbIcon">
-						<label class="form-check-label" for="delMbIcon">삭제</label>
+						<input class="form-check-input" type="checkbox" name="del_mb_img" value="1" id="delMbImg">
+						<label class="form-check-label" for="delMbImg">삭제</label>
 					</span>
 				</span>
 			<?php } ?>

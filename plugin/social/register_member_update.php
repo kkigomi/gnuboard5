@@ -117,21 +117,14 @@ if($config['cf_cert_use']) {
     $cert_type = get_session('ss_cert_type');
     if ($config['cf_cert_use'] && $cert_type && $md5_cert_no) {
         // 해시값이 같은 경우에만 본인확인 값을 저장한다.
-        if ($cert_type == 'ipin' && get_session('ss_cert_hash') == md5($mb_name.$cert_type.get_session('ss_cert_birth').$md5_cert_no)) { // 아이핀일때 hash 값 체크 hp미포함
-            $sql_certify .= " , mb_hp = '{$mb_hp}' ";
+        // NOTE: 개인정보 저장 부분 최소화를 위한 변경
+        if ($cert_type == 'ipin' && get_session('ss_cert_hash') == sha1($cert_type.get_session('ss_cert_birth').get_session('ss_cert_dupinfo').$md5_cert_no)) { // 아이핀일때 hash 값 체크 hp미포함
             $sql_certify .= " , mb_certify  = '{$cert_type}' ";
-            $sql_certify .= " , mb_adult = '".get_session('ss_cert_adult')."' ";
-            $sql_certify .= " , mb_birth = '".get_session('ss_cert_birth')."' ";
-            $sql_certify .= " , mb_sex = '".get_session('ss_cert_sex')."' ";
             $sql_certify .= " , mb_dupinfo = '".get_session('ss_cert_dupinfo')."' ";
             if($w == 'u')
                 $sql_certify .= " , mb_name = '{$mb_name}' ";
-        } else if($cert_type != 'ipin' && get_session('ss_cert_hash') == md5($mb_name.$cert_type.get_session('ss_cert_birth').$mb_hp.$md5_cert_no)) { // 간편인증, 휴대폰일때 hash 값 체크 hp포함
-            $sql_certify .= " , mb_hp = '{$mb_hp}' ";
+        } else if($cert_type != 'ipin' && get_session('ss_cert_hash') == sha1($cert_type.get_session('ss_cert_birth').get_session('ss_cert_dupinfo').$md5_cert_no)) { // 간편인증, 휴대폰일때 hash 값 체크 hp포함
             $sql_certify .= " , mb_certify  = '{$cert_type}' ";
-            $sql_certify .= " , mb_adult = '".get_session('ss_cert_adult')."' ";
-            $sql_certify .= " , mb_birth = '".get_session('ss_cert_birth')."' ";
-            $sql_certify .= " , mb_sex = '".get_session('ss_cert_sex')."' ";
             $sql_certify .= " , mb_dupinfo = '".get_session('ss_cert_dupinfo')."' ";
             if($w == 'u')
                 $sql_certify .= " , mb_name = '{$mb_name}' ";
@@ -139,13 +132,11 @@ if($config['cf_cert_use']) {
             alert('본인인증된 정보와 개인정보가 일치하지않습니다. 다시시도 해주세요');
         }
     } else {
-        if (get_session("ss_reg_mb_name") != $mb_name || get_session("ss_reg_mb_hp") != $mb_hp) {
-            $sql_certify .= " , mb_hp = '{$mb_hp}' ";
-            $sql_certify .= " , mb_certify = '' ";
-            $sql_certify .= " , mb_adult = 0 ";
-            $sql_certify .= " , mb_birth = '' ";
-            $sql_certify .= " , mb_sex = '' ";
-        }
+        $sql_certify .= " , mb_hp = '' ";
+        $sql_certify .= " , mb_certify = '' ";
+        $sql_certify .= " , mb_adult = 0 ";
+        $sql_certify .= " , mb_birth = '' ";
+        $sql_certify .= " , mb_sex = '' ";
     }
     //===============================================================
 }
@@ -172,10 +163,11 @@ $result = sql_query($sql, false);
 
 if($result) {
   
-    if($cert_type == 'ipin' && get_session('ss_cert_hash') == md5($mb_name.$cert_type.get_session('ss_cert_birth').$md5_cert_no)) { // 아이핀일때 hash 값 체크 hp미포함)
-        insert_member_cert_history($mb_id, $mb_name, $mb_hp, get_session('ss_cert_birth'), get_session('ss_cert_type') ); // 본인인증 후 정보 수정 시 내역 기록
-    }else if($cert_type != 'ipin' && get_session('ss_cert_hash') == md5($mb_name.$cert_type.get_session('ss_cert_birth').$mb_hp.$md5_cert_no)) { // 간편인증, 휴대폰일때 hash 값 체크 hp포함
-        insert_member_cert_history($mb_id, $mb_name, $mb_hp, get_session('ss_cert_birth'), get_session('ss_cert_type') ); // 본인인증 후 정보 수정 시 내역 기록
+    // NOTE: 개인정보 저장 부분 최소화를 위한 변경
+    if($cert_type == 'ipin' && get_session('ss_cert_hash') == sha1($cert_type.get_session('ss_cert_birth').get_session('ss_cert_dupinfo').$md5_cert_no)) { // 아이핀일때 hash 값 체크 hp미포함)
+        insert_member_cert_history($mb_id, '', '', '', get_session('ss_cert_type') ); // 본인인증 후 정보 수정 시 내역 기록
+    }else if($cert_type != 'ipin' && get_session('ss_cert_hash') == sha1($cert_type.get_session('ss_cert_birth').get_session('ss_cert_dupinfo').$md5_cert_no)) { // 간편인증, 휴대폰일때 hash 값 체크 hp포함
+        insert_member_cert_history($mb_id, '', '', '', get_session('ss_cert_type') ); // 본인인증 후 정보 수정 시 내역 기록
     }
     // 회원가입 포인트 부여
     insert_point($mb_id, $config['cf_register_point'], '회원가입 축하', '@member', $mb_id, '회원가입');

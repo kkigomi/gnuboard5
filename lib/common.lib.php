@@ -1390,36 +1390,31 @@ function get_sideview($mb_id, $name='', $email='', $homepage='')
     $menus = array();
 
     if ($mb_id) {
-        // $tmp_name = "<a href=\"".G5_BBS_URL."/profile.php?mb_id=".$mb_id."\" class=\"sv_member\" title=\"$name 자기소개\" rel="nofollow" target=\"_blank\" onclick=\"return false;\">$name</a>";
         $name_tag_open = '<a href="' . G5_BBS_URL . '/profile.php?mb_id=' . $mb_id . '" class="sv_member" title="' . $name . ' 자기소개" target="_blank" rel="nofollow" onclick="return false;">';
 
         if ($config['cf_use_member_icon']) {
             $mb_dir = substr($mb_id, 0, 2);
-            $icon_file = G5_DATA_PATH . '/member/' . $mb_dir . '/' . get_mb_icon_name($mb_id) . '.gif';
-
-            if (file_exists($icon_file)) {
-                $icon_filemtile = (defined('G5_USE_MEMBER_IMAGE_FILETIME') && G5_USE_MEMBER_IMAGE_FILETIME) ? '?' . filemtime($icon_file) : '';
-                $width = $config['cf_member_icon_width'];
-                $height = $config['cf_member_icon_height'];
-                $icon_file_url = G5_DATA_URL . '/member/' . $mb_dir . '/' . get_mb_icon_name($mb_id) . '.gif' . $icon_filemtile;
-                $name_tag['profile_image'] = '<span class="profile_img"><img src="' . $icon_file_url . '" width="' . $width . '" height="' . $height . '" alt=""></span>';
-
-                // 회원아이콘+이름
-                if ($config['cf_use_member_icon'] == 2) {
-                    $name_tag['name'] = $name;
-                }
-            } else {
-                if (defined('G5_THEME_NO_PROFILE_IMG')) {
-                    $name_tag['profile_image'] = G5_THEME_NO_PROFILE_IMG;
-                } else if (defined('G5_NO_PROFILE_IMG')) {
-                    $name_tag['profile_image'] = G5_NO_PROFILE_IMG;
-                }
-
-                // 회원아이콘+이름
-                if ($config['cf_use_member_icon'] == 2) {
-                    $name_tag['name'] = $name;
-                }
+            $width = $config['cf_member_icon_width'];
+            $height = $config['cf_member_icon_height'];
+            $icon_file_url = G5_DATA_URL . "/member/{$mb_dir}/" . get_mb_icon_name($mb_id) . '.gif';
+            $icon_file_url = run_replace('s3_replace_url', $icon_file_url);
+            
+            if(isset($member['mb_3'])) {
+                $icon_file_url .= "?v={$member['mb_3']}";//회원이미지 변경날짜 필드
             }
+
+            $no_profile_path = G5_IMG_URL . '/no_profile.gif';
+            $name_tag['profile_image'] = "<span class='profile_img'>
+            <img src='{$icon_file_url}' width='{$width}' height='{$height}' 
+            onerror=\"this.onerror=null; this.src='{$no_profile_path}';\"    
+            />
+            </span>";
+
+            // 회원아이콘+이름
+            if ($config['cf_use_member_icon'] == 2) {
+                $name_tag['name'] = $name;
+            }
+
         } else {
             $name_tag['name'] = $name;
         }
@@ -2581,18 +2576,21 @@ function delete_editor_thumbnail($contents)
     if(!$matchs)
         return;
 
-    for($i=0; $i<count($matchs[1]); $i++) {
-        // 이미지 path 구함
-        $imgurl = @parse_url($matchs[1][$i]);
-        // $srcfile = dirname(G5_PATH).$imgurl['path'];
-        $srcfile = (G5_PATH).$imgurl['path'];
-        if(!preg_match('/(\.jpe?g|\.gif|\.png|\.webp)$/i', $srcfile)) continue;
-        $filename = preg_replace("/\.[^\.]+$/i", "", basename($srcfile));
-        $filepath = dirname($srcfile);
-        $files = glob($filepath.'/thumb-'.$filename.'*');
-        if (is_array($files)) {
-            foreach($files as $filename)
-                unlink($filename);
+    //s3 플러그인으로 대체.
+    if (!$_ENV['is_use_s3']) {
+        for($i=0; $i<count($matchs[1]); $i++) {
+            // 이미지 path 구함
+            $imgurl = @parse_url($matchs[1][$i]);
+            // $srcfile = dirname(G5_PATH).$imgurl['path'];
+            $srcfile = (G5_PATH).$imgurl['path'];
+            if(!preg_match('/(\.jpe?g|\.gif|\.png|\.webp)$/i', $srcfile)) continue;
+            $filename = preg_replace("/\.[^\.]+$/i", "", basename($srcfile));
+            $filepath = dirname($srcfile);
+            $files = glob($filepath.'/thumb-'.$filename.'*');
+            if (is_array($files)) {
+                foreach($files as $filename)
+                    unlink($filename);
+            }
         }
     }
 
@@ -2796,31 +2794,31 @@ class html_process {
 
     public static function run()
     {
-        global $config, $g5, $member;
+        //global $config, $g5, $member;
 
+
+        // 현재접속자 처리
+//        $tmp_sql = " select count(*) as cnt from {$g5['login_table']} where lo_ip = '{$_SERVER['REMOTE_ADDR']}' ";
+//        $tmp_row = sql_fetch($tmp_sql);
+//
+//        if ($tmp_row['cnt']) {
+//            $tmp_sql = " update {$g5['login_table']} set mb_id = '{$member['mb_id']}', lo_datetime = '".G5_TIME_YMDHIS."', lo_location = '{$g5['lo_location']}', lo_url = '{$g5['lo_url']}' where lo_ip = '{$_SERVER['REMOTE_ADDR']}' ";
+//            sql_query($tmp_sql, FALSE);
+//        } else {
+//            $tmp_sql = " insert into {$g5['login_table']} ( lo_ip, mb_id, lo_datetime, lo_location, lo_url ) values ( '{$_SERVER['REMOTE_ADDR']}', '{$member['mb_id']}', '".G5_TIME_YMDHIS."', '{$g5['lo_location']}',  '{$g5['lo_url']}' ) ";
+//            sql_query($tmp_sql, FALSE);
+//
+//            // 시간이 지난 접속은 삭제한다
+//            sql_query(" delete from {$g5['login_table']} where lo_datetime < '".date("Y-m-d H:i:s", G5_SERVER_TIME - (60 * $config['cf_login_minutes']))."' ");
+//
+//            // 부담(overhead)이 있다면 테이블 최적화
+//            //$row = sql_fetch(" SHOW TABLE STATUS FROM `$mysql_db` LIKE '$g5['login_table']' ");
+//            //if ($row['Data_free'] > 0) sql_query(" OPTIMIZE TABLE $g5['login_table'] ");
+//        }
         if (self::$is_end) return;  // 여러번 호출해도 한번만 실행되게 합니다.
 
         self::$is_end = 1;
-
-        // 현재접속자 처리
-        $tmp_sql = " select count(*) as cnt from {$g5['login_table']} where lo_ip = '{$_SERVER['REMOTE_ADDR']}' ";
-        $tmp_row = sql_fetch($tmp_sql);
-        $http_host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME']; 
-
-        if ($tmp_row['cnt']) {
-            $tmp_sql = " update {$g5['login_table']} set mb_id = '{$member['mb_id']}', lo_datetime = '".G5_TIME_YMDHIS."', lo_location = '{$g5['lo_location']}', lo_url = '{$g5['lo_url']}' where lo_ip = '{$_SERVER['REMOTE_ADDR']}' ";
-            sql_query($tmp_sql, FALSE);
-        } else {
-            $tmp_sql = " insert into {$g5['login_table']} ( lo_ip, mb_id, lo_datetime, lo_location, lo_url ) values ( '{$_SERVER['REMOTE_ADDR']}', '{$member['mb_id']}', '".G5_TIME_YMDHIS."', '{$g5['lo_location']}',  '{$g5['lo_url']}' ) ";
-            sql_query($tmp_sql, FALSE);
-
-            // 시간이 지난 접속은 삭제한다
-            sql_query(" delete from {$g5['login_table']} where lo_datetime < '".date("Y-m-d H:i:s", G5_SERVER_TIME - (60 * $config['cf_login_minutes']))."' ");
-
-            // 부담(overhead)이 있다면 테이블 최적화
-            //$row = sql_fetch(" SHOW TABLE STATUS FROM `$mysql_db` LIKE '$g5['login_table']' ");
-            //if ($row['Data_free'] > 0) sql_query(" OPTIMIZE TABLE $g5['login_table'] ");
-        }
+        $http_host = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'];
 
         $buffer = ob_get_contents();
         ob_end_clean();

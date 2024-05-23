@@ -67,7 +67,7 @@ if ($txId && isset($_POST["resultCode"]) && $_POST["resultCode"] === "0000") {
         if(!$phone_no)
         alert_close("정상적인 인증이 아닙니다. 올바른 방법으로 이용해 주세요.");
 
-        $mb_dupinfo = md5($ci . $ci);
+        $mb_dupinfo = sha1($ci . $ci);
         $phone_no = hyphen_hp_number($phone_no);
 
         // 명의 변경 체크
@@ -82,9 +82,8 @@ if ($txId && isset($_POST["resultCode"]) && $_POST["resultCode"] === "0000") {
         }
 
         // hash 데이터
-        
-        $md5_cert_no = md5($cert_no);
-        $hash_data   = md5($user_name.$cert_type.$birth_day.$phone_no.$md5_cert_no);
+        $md5_cert_no = sha1($cert_no);
+        $hash_data   = sha1($cert_type.$birth_day.$mb_dupinfo.$md5_cert_no);
 
         // 성인인증결과
         $adult_day = date("Ymd", strtotime("-19 years", G5_SERVER_TIME));
@@ -118,8 +117,6 @@ include_once(G5_PATH.'/head.sub.php');
 
         // 인증정보
         $opener.$("input[name=cert_type]").val("<?php echo $cert_type; ?>");
-        $opener.$("input[name=mb_name]").val("<?php echo $user_name; ?>").attr("readonly", true);
-        $opener.$("input[name=mb_hp]").val("<?php echo $phone_no; ?>").attr("readonly", true);
         $opener.$("input[name=cert_no]").val("<?php echo $md5_cert_no; ?>");
         
         alert("본인인증이 완료되었습니다.");

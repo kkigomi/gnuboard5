@@ -1,31 +1,32 @@
 <?php
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
+use Gnuboard\Plugin\AwsS3\S3Service;
 
 // Admin
 function na_admin($val='', $opt='') {
-	global $is_admin, $member, $group, $board, $nariya;
+    global $is_admin, $member, $group, $board, $nariya;
 
-	if(!$member['mb_id'])
-		return;
+    if(!$member['mb_id'])
+        return;
 
-	// 게시판 관리자
-	if($opt) {
-		if($val && in_array($member['mb_id'], array_map('trim', explode(",", $val)))) {
-			$is_admin = 'board';
-			if(isset($board['bo_admin'])) {
-				$board['bo_admin'] = $member['mb_id']; // 게시판 관리자 변경
-			}
-		}
-	} else {
-		if($nariya['cf_admin'] && in_array($member['mb_id'], array_map('trim', explode(",", $nariya['cf_admin'])))) {
-			$is_admin = 'super'; // 통합 최고관리자
-		} else if($nariya['cf_group'] && in_array($member['mb_id'], array_map('trim', explode(",", $nariya['cf_group'])))) {
-			$is_admin = 'group'; // 통합 그룹관리자
-			if(isset($group['gr_admin'])) {
-				$group['gr_admin'] = $member['mb_id']; // 그룹 관리자 변경
-			}
-		}
-	}
+    // 게시판 관리자
+    if($opt) {
+        if($val && in_array($member['mb_id'], array_map('trim', explode(",", $val)))) {
+            $is_admin = 'board';
+            if(isset($board['bo_admin'])) {
+                $board['bo_admin'] = $member['mb_id']; // 게시판 관리자 변경
+            }
+        }
+    } else {
+        if($nariya['cf_admin'] && in_array($member['mb_id'], array_map('trim', explode(",", $nariya['cf_admin'])))) {
+            $is_admin = 'super'; // 통합 최고관리자
+        } else if($nariya['cf_group'] && in_array($member['mb_id'], array_map('trim', explode(",", $nariya['cf_group'])))) {
+            $is_admin = 'group'; // 통합 그룹관리자
+            if(isset($group['gr_admin'])) {
+                $group['gr_admin'] = $member['mb_id']; // 그룹 관리자 변경
+            }
+        }
+    }
 }
 
 // 포인트 중복 부여
@@ -104,116 +105,116 @@ function na_insert_point($mb_id, $point, $content='', $rel_table='', $rel_id='',
 
 // 레벨 체크
 function na_chk_xp($old_grade, $old_level, $old_exp, $exp) {
-	global $nariya;
+    global $nariya;
 
-	$info = array();
+    $info = array();
 
-	$xp_rate = (isset($nariya['xp_rate']) && $nariya['xp_rate']) ? $nariya['xp_rate'] : 0;
-	$xp_point = (isset($nariya['xp_point']) && (int)$nariya['xp_point'] > 0) ? (int)$nariya['xp_point'] : 0;
-	$max_level = (isset($nariya['xp_max']) && (int)$nariya['xp_max'] > 0) ? (int)$nariya['xp_max'] : 0;
-	$exp = ($exp > 0) ? $exp : 0;
+    $xp_rate = (isset($nariya['xp_rate']) && $nariya['xp_rate']) ? $nariya['xp_rate'] : 0;
+    $xp_point = (isset($nariya['xp_point']) && (int)$nariya['xp_point'] > 0) ? (int)$nariya['xp_point'] : 0;
+    $max_level = (isset($nariya['xp_max']) && (int)$nariya['xp_max'] > 0) ? (int)$nariya['xp_max'] : 0;
+    $exp = ($exp > 0) ? $exp : 0;
 
-	if($exp <= $xp_point) {
-		$level = 1;
-		$xp_max = $xp_point;
-		$xp_min = 0;
-	} else if($old_level == $max_level) {
-		$level = $max_level;
-		$xp_min = $exp;
-		$xp_max = $exp;
-	} else {
-		$xp_min = $xp_point;
-		for ($i=2; $i <= $max_level; $i++) {
-			$xp_plus = $xp_point + $xp_point * ($i - 1) * $xp_rate;
-			$xp_max = $xp_min + $xp_plus;
-			if($exp <= $xp_max) {
-				$level = $i;
-				break;
-			}
-			$xp_min = $xp_max;
-		}
-	}
+    if($exp <= $xp_point) {
+        $level = 1;
+        $xp_max = $xp_point;
+        $xp_min = 0;
+    } else if($old_level == $max_level) {
+        $level = $max_level;
+        $xp_min = $exp;
+        $xp_max = $exp;
+    } else {
+        $xp_min = $xp_point;
+        for ($i=2; $i <= $max_level; $i++) {
+            $xp_plus = $xp_point + $xp_point * ($i - 1) * $xp_rate;
+            $xp_max = $xp_min + $xp_plus;
+            if($exp <= $xp_max) {
+                $level = $i;
+                break;
+            }
+            $xp_min = $xp_max;
+        }
+    }
 
-	$msg = 0;
-	$old_level = ($old_level > 0) ? $old_level : 1;
-	if($level > $old_level) { // 레벨업
-		$msg = 1;
-	} else if($level < $old_level) { // 레벨다운
-		$msg = 2;
-	}
+    $msg = 0;
+    $old_level = ($old_level > 0) ? $old_level : 1;
+    if($level > $old_level) { // 레벨업
+        $msg = 1;
+    } else if($level < $old_level) { // 레벨다운
+        $msg = 2;
+    }
 
-	// 자동등업
-	$grade = $old_grade;
-	if(isset($nariya['xp_auto']) && $nariya['xp_auto']) {
+    // 자동등업
+    $grade = $old_grade;
+    if(isset($nariya['xp_auto']) && $nariya['xp_auto']) {
 
-		list($start, $tmp) = na_explode(':', $nariya['xp_auto']);
+        list($start, $tmp) = na_explode(':', $nariya['xp_auto']);
 
-		$start = (int)$start;
+        $start = (int)$start;
 
-		if($start && $tmp) {
-			$gup = array();
-			$lup = array();
+        if($start && $tmp) {
+            $gup = array();
+            $lup = array();
 
-			$arr = na_explode(',', $tmp.','.$max_level);
-			$arr_cnt = count($arr);
-			$n = 0;
-			for($i=0; $i < $arr_cnt; $i++) {
+            $arr = na_explode(',', $tmp.','.$max_level);
+            $arr_cnt = count($arr);
+            $n = 0;
+            for($i=0; $i < $arr_cnt; $i++) {
 
-				$lvl = (int)$arr[$i];
+                $lvl = (int)$arr[$i];
 
-				if(!$lvl)
-					continue;
+                if(!$lvl)
+                    continue;
 
-				$gup[] = $start + $n; // 등급
-				$lup[] = $lvl; // 레벨
-				$n++;
-			}
+                $gup[] = $start + $n; // 등급
+                $lup[] = $lvl; // 레벨
+                $n++;
+            }
 
-			if(!empty($gup) && in_array($old_grade, $gup)) {
-				$lup_cnt = count($lup);
-				for($i=0; $i < $lup_cnt; $i++) {
-					if($level <= $lup[$i]) {
-						$grade = $gup[$i];
-						break;
-					}
-				}
+            if(!empty($gup) && in_array($old_grade, $gup)) {
+                $lup_cnt = count($lup);
+                for($i=0; $i < $lup_cnt; $i++) {
+                    if($level <= $lup[$i]) {
+                        $grade = $gup[$i];
+                        break;
+                    }
+                }
 
-				if($grade > $old_grade) { // 등업
-					$msg = 3;
-				} else if($grade < $old_grade) { // 등급 다운
-					$msg = 4;
-				}
-			}
-		}
-	}
+                if($grade > $old_grade) { // 등업
+                    $msg = 3;
+                } else if($grade < $old_grade) { // 등급 다운
+                    $msg = 4;
+                }
+            }
+        }
+    }
 
-	return array($grade, $level, $exp, $xp_max, $msg);
+    return array($grade, $level, $exp, $xp_max, $msg);
 }
 
 // 경험치 정리
 function na_sum_xp($mb) {
     global $g5;
 
-	$mb_id = $mb['mb_id'];
+    $mb_id = $mb['mb_id'];
 
-	// 경험치 내역의 합을 구하고
-	$row = sql_fetch(" select sum(xp_point) as sum_exp from {$g5['na_xp']} where mb_id = '$mb_id' ");
+    // 경험치 내역의 합을 구하고
+    $row = sql_fetch(" select sum(xp_point) as sum_exp from {$g5['na_xp']} where mb_id = '$mb_id' ");
 
-	// 레벨변동 체크
-	list($grade, $level, $exp, $max, $msg) = na_chk_xp($mb['mb_level'], $mb['as_level'], $mb['as_exp'], $row['sum_exp']);
+    // 레벨변동 체크
+    list($grade, $level, $exp, $max, $msg) = na_chk_xp($mb['mb_level'], $mb['as_level'], $mb['as_exp'], $row['sum_exp']);
 
-	// 회원정보 UPDATE
-	if($msg) {
-		sql_query(" update {$g5['member_table']} 
-						set mb_level = '{$grade}',
-						as_msg = '{$msg}',
-						as_exp = '{$exp}', 
-						as_level = '{$level}', 
-						as_max = '{$max}' where mb_id = '$mb_id' ");
-	} else {
-		$sql = ($mb['as_max'] == $max) ? "" : ", as_max = '{$max}'";
-		sql_query(" update {$g5['member_table']} set as_exp = '{$exp}' $sql where mb_id = '$mb_id' ");
-	}
+    // 회원정보 UPDATE
+    if($msg) {
+        sql_query(" update {$g5['member_table']} 
+                        set mb_level = '{$grade}',
+                        as_msg = '{$msg}',
+                        as_exp = '{$exp}', 
+                        as_level = '{$level}', 
+                        as_max = '{$max}' where mb_id = '$mb_id' ");
+    } else {
+        $sql = ($mb['as_max'] == $max) ? "" : ", as_max = '{$max}'";
+        sql_query(" update {$g5['member_table']} set as_exp = '{$exp}' $sql where mb_id = '$mb_id' ");
+    }
 }
 
 // 경험치 부여
@@ -244,7 +245,7 @@ function na_insert_xp($mb_id, $point, $content='', $rel_table='', $rel_id='', $r
 
     // 경험치 건별 생성
     $result = sql_query(" insert into {$g5['na_xp']}
-			      set mb_id = '$mb_id',
+                  set mb_id = '$mb_id',
                     xp_datetime = '".G5_TIME_YMDHIS."',
                     xp_content = '".addslashes($content)."',
                     xp_point = '$point',
@@ -252,10 +253,10 @@ function na_insert_xp($mb_id, $point, $content='', $rel_table='', $rel_id='', $r
                     xp_rel_id = '$rel_id',
                     xp_rel_action = '$rel_action' ");
 
-	// 회원정보 UPDATE
-	na_sum_xp($mb);
+    // 회원정보 UPDATE
+    na_sum_xp($mb);
 
-	return 1;
+    return 1;
 }
 
 // 경험치 삭제
@@ -268,257 +269,216 @@ function na_delete_xp($mb_id, $rel_table, $rel_id, $rel_action) {
     $result = false;
     if ($rel_table || $rel_id || $rel_action) {
 
-		$mb = sql_fetch(" select mb_id, mb_level, as_level, as_exp, as_max from {$g5['member_table']} where mb_id = '$mb_id' ");
-	    if (!$mb['mb_id']) { return 0; }
+        $mb = sql_fetch(" select mb_id, mb_level, as_level, as_exp, as_max from {$g5['member_table']} where mb_id = '$mb_id' ");
+        if (!$mb['mb_id']) { return 0; }
 
         $result = sql_query(" delete from {$g5['na_xp']}
-					where mb_id = '$mb_id'
-						and xp_rel_table = '$rel_table'
-				        and xp_rel_id = '$rel_id'
-						and xp_rel_action = '$rel_action' ");
+                    where mb_id = '$mb_id'
+                        and xp_rel_table = '$rel_table'
+                        and xp_rel_id = '$rel_id'
+                        and xp_rel_action = '$rel_action' ");
 
-		// 회원정보 UPDATE
-		if($result) {
-			na_sum_xp($mb);
-		}
-	}
+        // 회원정보 UPDATE
+        if($result) {
+            na_sum_xp($mb);
+        }
+    }
 
     return $result;
 }
 
 // 레벨 아이콘
 function na_xp_icon($mb_id, $level='', $mb=array()){
-	global $nariya, $xp;
+    global $nariya, $xp;
 
-	if(!$nariya['lvl_skin'])
-		return;
+    if(!$nariya['lvl_skin'])
+        return;
 
-	if($level) {
-		$xp_icon = $level;
-	} else if(!$mb_id) {
-		$xp_icon = 'guest';
-	} else if(!empty($xp['admin']) && in_array($mb_id, $xp['admin'])) {
-		$xp_icon = 'admin';
-	} else if(!empty($xp['special']) && in_array($mb_id, $xp['special'])) {
-		$xp_icon = 'special';
-	} else {
-		if(!isset($mb['as_level'])) {
-			$mb = get_member($mb_id, 'as_level');
-		}
-		$xp_icon = $mb['as_level'];	
-	}
+    if($level) {
+        $xp_icon = $level;
+    } else if(!$mb_id) {
+        $xp_icon = 'guest';
+    } else if(!empty($xp['admin']) && in_array($mb_id, $xp['admin'])) {
+        $xp_icon = 'admin';
+    } else if(!empty($xp['special']) && in_array($mb_id, $xp['special'])) {
+        $xp_icon = 'special';
+    } else {
+        if(!isset($mb['as_level'])) {
+            $mb = get_member($mb_id, 'as_level');
+        }
+        $xp_icon = $mb['as_level'];	
+    }
 
-	$xp_icon = $xp_icon ? $xp_icon : '1';
+    $xp_icon = $xp_icon ? $xp_icon : '1';
 
-	$xp_icon = '<span class="xp-icon"><img src="'.NA_URL.'/skin/level/'.$nariya['lvl_skin'].'/'.$xp_icon.'.'.$nariya['lvl_ext'].'"></span> ';
+    $xp_icon = '<span class="xp-icon"><img src="'.NA_URL.'/skin/level/'.$nariya['lvl_skin'].'/'.$xp_icon.'.'.$nariya['lvl_ext'].'"></span> ';
 
-	return $xp_icon;
+    return $xp_icon;
 }
 
 // 회원등급명
 function na_grade($grade) {
-	global $nariya;
+    global $nariya;
 
-	if(!$grade)
-		$grade = 1;
+    if(!$grade)
+        $grade = 1;
 
-	$g = 'mb_gn'.$grade;
+    $g = 'mb_gn'.$grade;
 
-	$gn = (isset($nariya[$g]) && $nariya[$g]) ? $nariya[$g] : '';
+    $gn = (isset($nariya[$g]) && $nariya[$g]) ? $nariya[$g] : '';
 
-	return $gn;
+    return $gn;
 }
 
 // 회원사진
 function na_member_photo($mb_id){
 
-	static $no_profile_cache = '';
     static $member_cache = array();
+    global $member;
     
     $src = '';
 
-    if ($mb_id){
+    if ($mb_id) {
         if (isset($member_cache[$mb_id])) {
             $src = $member_cache[$mb_id];
         } else {
-            $member_img = G5_DATA_PATH.'/member_image/'.substr($mb_id,0,2).'/'.get_mb_icon_name($mb_id).'.gif';
-            if (is_file($member_img)) {
-                if(defined('G5_USE_MEMBER_IMAGE_FILETIME') && G5_USE_MEMBER_IMAGE_FILETIME) {
-                    $member_img .= '?'.filemtime($member_img);
-                }
-                $member_cache[$mb_id] = $src = str_replace(G5_DATA_PATH, G5_DATA_URL, $member_img);
+
+            $member_img = G5_DATA_URL.'/member_image/'.substr($mb_id,0,2).'/'.get_mb_icon_name($mb_id). '.gif';
+            $member_img = run_replace('s3_replace_url', $member_img);
+            if(isset($member['mb_3'])){
+                $member_img .= "?v={$member['mb_3']}";
             }
+            $member_cache[$mb_id] = $member_img;
+            $src = $member_img;
         }
     }
+    
 
-    if(!$src){
-        if(!empty($no_profile_cache)){
-            $src = $no_profile_cache;
-        } else {
-            // 프로필 이미지가 없을때 기본 이미지
-            $no_profile_img = (defined('G5_THEME_NO_PROFILE_IMG') && G5_THEME_NO_PROFILE_IMG) ? G5_THEME_NO_PROFILE_IMG : G5_NO_PROFILE_IMG;
-            $tmp = array();
-            preg_match( '/src="([^"]*)"/i', $no_profile_img, $tmp);
-            $no_profile_cache = $src = isset($tmp[1]) ? $tmp[1] : G5_IMG_URL.'/no_profile.gif';
-        }
-    }
-
-	return $src;
+    return $src;
 }
 
 function na_name_photo($mb_id, $name){
-	global $nariya;
-	
-	$is_photo = false;
-
-	$matches = get_editor_image($name, true);
-
-	for($i=0; $i<count($matches[1]); $i++) {
-
-        $img = $matches[1][$i];
-        $mb_icon = isset($matches[0][$i]) ? $matches[0][$i] : '';
-
-        preg_match("/alt=[\"\']?([^\"\']*)[\"\']?/", $img, $m);
-        $alt = isset($m[1]) ? get_text($m[1]) : '';
-
-		$name = str_replace($mb_icon, '<img src="'.na_member_photo($mb_id).'" alt="'.$alt.'" class="mb-photo">', $name);
-
-		$is_photo = true;
-
-		break;
-    }
-
-	if($is_photo) {
-		if($nariya['lvl_skin'])
-			$name = str_replace('onclick="return false;">','onclick="return false;">'.na_xp_icon($mb_id), $name);
-	} else {
-		$mb_photo = ($nariya['lvl_skin']) ? na_xp_icon($mb_id) : '';
-		$mb_photo .= '<img src="'.na_member_photo($mb_id).'" alt="" class="mb-photo">';
-
-		$name = str_replace('onclick="return false;">','onclick="return false;">'.$mb_photo, $name);
-	}
-
-	return $name;
+    return $name;
 }
 
 // 멤버십 체크
 function is_membership($cols='') {
-	global $nariya, $member, $is_admin, $is_guest, $write;
+    global $nariya, $member, $is_admin, $is_guest, $write;
 
-	if ($is_guest)
-		return false;
+    if ($is_guest)
+        return false;
 
-	if ($is_admin || (isset($write['mb_id']) && $write['mb_id'] === $member['mb_id'])) {
-		return true; // 관리자 또는 자기자신이면 통과
-	} else {
-		$mbs_list = isset($nariya['mbs_list']) ? $nariya['mbs_list'] : '';
-		$mbs_list = ($cols) ? $cols : $mbs_list;
-		if($mbs_list) {
-			$chk_today = (int)date('Ymd', G5_SERVER_TIME);
-			$mbs_arr = na_explode(',', $mbs_list);
-			for ($i=0; $i < count($mbs_arr); $i++) {
-				$db = trim($mbs_arr[$i]);
+    if ($is_admin || (isset($write['mb_id']) && $write['mb_id'] === $member['mb_id'])) {
+        return true; // 관리자 또는 자기자신이면 통과
+    } else {
+        $mbs_list = isset($nariya['mbs_list']) ? $nariya['mbs_list'] : '';
+        $mbs_list = ($cols) ? $cols : $mbs_list;
+        if($mbs_list) {
+            $chk_today = (int)date('Ymd', G5_SERVER_TIME);
+            $mbs_arr = na_explode(',', $mbs_list);
+            for ($i=0; $i < count($mbs_arr); $i++) {
+                $db = trim($mbs_arr[$i]);
 
-				if(!$db)
-					continue;
+                if(!$db)
+                    continue;
 
-				if(isset($member[$db]) && $member[$db]) {
-					$mbs_day = $member[$db];
-					$chk_mbs = (int)str_replace('-', '', $mbs_day);
-					if ($chk_mbs >= $chk_today) {
-						return true;
-					}
-				}
-			}
-		}
-	}
+                if(isset($member[$db]) && $member[$db]) {
+                    $mbs_day = $member[$db];
+                    $chk_mbs = (int)str_replace('-', '', $mbs_day);
+                    if ($chk_mbs >= $chk_today) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
 
-	return false;
+    return false;
 }
 
 // 멤버십 체크
 function na_membership($flag, $msg, $opt='') {
-	global $nariya, $member, $is_admin, $is_guest, $boset, $write;
+    global $nariya, $member, $is_admin, $is_guest, $boset, $write;
 
-	$db = (isset($boset['mbs_db']) && $boset['mbs_db']) ? na_fid($boset['mbs_db']) : '';
-	if (!$db)
-		return;
+    $db = (isset($boset['mbs_db']) && $boset['mbs_db']) ? na_fid($boset['mbs_db']) : '';
+    if (!$db)
+        return;
 
-	$mb = 'mbs_'.$flag;
-	if (!$opt && (!isset($boset[$mb]) || !$boset[$mb]))
-		return;
+    $mb = 'mbs_'.$flag;
+    if (!$opt && (!isset($boset[$mb]) || !$boset[$mb]))
+        return;
 
-	if ($is_guest)
-		alert('멤버십 회원 전용입니다.');
+    if ($is_guest)
+        alert('멤버십 회원 전용입니다.');
 
-	if(!isset($nariya['mbs_list']) || !$nariya['mbs_list']) {
-		if ($flag === 'list' || $flag === 'view') {
-			echo '<div class="alert alert-danger mb-3" role="alert">나리야 설정에 설정한 멤버십 칼럼을 등록해야 작동합니다.</div>';
-			return;
-		} else {
-			alert('나리야 설정에 설정한 멤버십 칼럼을 등록해야 작동합니다.');
-		}
-	}
+    if(!isset($nariya['mbs_list']) || !$nariya['mbs_list']) {
+        if ($flag === 'list' || $flag === 'view') {
+            echo '<div class="alert alert-danger mb-3" role="alert">나리야 설정에 설정한 멤버십 칼럼을 등록해야 작동합니다.</div>';
+            return;
+        } else {
+            alert('나리야 설정에 설정한 멤버십 칼럼을 등록해야 작동합니다.');
+        }
+    }
 
-	$mbs_list = na_explode(',', $nariya['mbs_list']);
-	if(!in_array($db, $mbs_list)) {
-		if ($flag === 'list' || $flag === 'view') {
-			echo '<div class="alert alert-danger mb-3" role="alert">나리야 설정에 설정한 멤버십 칼럼을 등록해야 작동합니다.</div>';
-			return;
-		} else {
-			alert('나리야 설정에 설정한 멤버십 칼럼을 등록해야 작동합니다.');
-		}
-	}
+    $mbs_list = na_explode(',', $nariya['mbs_list']);
+    if(!in_array($db, $mbs_list)) {
+        if ($flag === 'list' || $flag === 'view') {
+            echo '<div class="alert alert-danger mb-3" role="alert">나리야 설정에 설정한 멤버십 칼럼을 등록해야 작동합니다.</div>';
+            return;
+        } else {
+            alert('나리야 설정에 설정한 멤버십 칼럼을 등록해야 작동합니다.');
+        }
+    }
 
-	if (!isset($member[$db])) {
-		if ($flag === 'list' || $flag === 'view') {
-			echo '<div class="alert alert-danger mb-3" role="alert">지정하신 멤버십 칼럼이 회원정보 테이블에 존재하지 않습니다.</div>';
-			return;
-		} else {
-			alert('설정한 멤버십 칼럼이 회원정보 테이블에 존재하지 않습니다.');
-		}
-	}
+    if (!isset($member[$db])) {
+        if ($flag === 'list' || $flag === 'view') {
+            echo '<div class="alert alert-danger mb-3" role="alert">지정하신 멤버십 칼럼이 회원정보 테이블에 존재하지 않습니다.</div>';
+            return;
+        } else {
+            alert('설정한 멤버십 칼럼이 회원정보 테이블에 존재하지 않습니다.');
+        }
+    }
 
-	if ($is_admin || (isset($write['mb_id']) && $write['mb_id'] === $member['mb_id'])) {
-		; // 관리자 또는 자기자신이면 통과
-	} else {
-		$mbs_day = $member[$db];
-		if (!$mbs_day)
-			alert($msg);
+    if ($is_admin || (isset($write['mb_id']) && $write['mb_id'] === $member['mb_id'])) {
+        ; // 관리자 또는 자기자신이면 통과
+    } else {
+        $mbs_day = $member[$db];
+        if (!$mbs_day)
+            alert($msg);
 
-		$chk_mbs = (int)str_replace('-', '', $mbs_day);
-		$chk_today = (int)date('Ymd', G5_SERVER_TIME);
-		if ($chk_today > $chk_mbs) {
-			alert('기존 멤버십이 '.$mbs_day.' 종료되어 재가입 후 이용할 수 있습니다.');
-		}
-	}
-	return;
+        $chk_mbs = (int)str_replace('-', '', $mbs_day);
+        $chk_today = (int)date('Ymd', G5_SERVER_TIME);
+        if ($chk_today > $chk_mbs) {
+            alert('기존 멤버십이 '.$mbs_day.' 종료되어 재가입 후 이용할 수 있습니다.');
+        }
+    }
+    return;
 }
 
 
 // 회원정보 재가공
 function na_member($member) {
-	global $g5, $config, $is_member;
+    global $g5, $config, $is_member;
 
-	if ($is_member) {
-		$member['sideview'] = get_sideview($member['mb_id'], $member['mb_nick'], $member['mb_email'], $member['mb_homepage']);
-		$member['mb_scrap_cnt'] = isset($member['mb_scrap_cnt']) ? (int)$member['mb_scrap_cnt'] : 0;
+    if ($is_member) {
+        $member['sideview'] = get_sideview($member['mb_id'], $member['mb_nick'], $member['mb_email'], $member['mb_homepage']);
+        $member['mb_scrap_cnt'] = isset($member['mb_scrap_cnt']) ? (int)$member['mb_scrap_cnt'] : 0;
     }
 
-	$member['as_level'] = isset($member['as_level']) ? $member['as_level'] : 1; // 레벨	
-	$member['as_noti'] = isset($member['as_noti']) ? $member['as_noti'] : 0; // 알림수
-	$member['mb_memo_cnt'] = isset($member['mb_memo_cnt']) ? $member['mb_memo_cnt'] : 0; // 쪽지수
-	$member['noti_cnt'] = $member['as_noti'] + $member['mb_memo_cnt'];
-	$member['mb_grade'] = na_grade($member['mb_level']);
+    $member['as_level'] = isset($member['as_level']) ? $member['as_level'] : 1; // 레벨	
+    $member['as_noti'] = isset($member['as_noti']) ? $member['as_noti'] : 0; // 알림수
+    $member['mb_memo_cnt'] = isset($member['mb_memo_cnt']) ? $member['mb_memo_cnt'] : 0; // 쪽지수
+    $member['noti_cnt'] = $member['as_noti'] + $member['mb_memo_cnt'];
+    $member['mb_grade'] = na_grade($member['mb_level']);
 
     // 회원, 방문객 카운트
     $sql = " select sum(IF(mb_id<>'',1,0)) as mb_cnt, count(*) as total_cnt from {$g5['login_table']}  where mb_id <> '{$config['cf_admin']}' ";
     $row = sql_fetch($sql);
 
-	$member['connect_cnt'] = isset($row['total_cnt']) ? $row['total_cnt'] : 0;
-	$member['login_cnt'] = isset($row['mb_cnt']) ? $row['mb_cnt'] : 0;
+    $member['connect_cnt'] = isset($row['total_cnt']) ? $row['total_cnt'] : 0;
+    $member['login_cnt'] = isset($row['mb_cnt']) ? $row['mb_cnt'] : 0;
 
-	return $member;
+    return $member;
 }
 
 
@@ -560,30 +520,213 @@ function na_board_write_permit_check($bo_table, $mb_id) {
     }
 }
 
+function na_myphoto_upload($mb_id, $del_photo, $file) {
+    global $g5, $config;
+
+    if(!$mb_id) 
+        return;
+
+    $photo_w = (isset($config['cf_member_img_width']) && $config['cf_member_img_width']) ? $config['cf_member_img_width'] : 80;
+    $photo_h = (isset($config['cf_member_img_height']) && $config['cf_member_img_height']) ? $config['cf_member_img_height'] : 80;
+
+    $photo_dir = G5_DATA_PATH.'/member_image/'.substr($mb_id,0,2);
+    $temp_dir = G5_DATA_PATH.'/member_image/temp';
+
+    // Delete Photo
+    if ($del_photo == "1") {
+        @unlink($photo_dir.'/'.$mb_id.'.gif');
+    }
+    
+    // Upload Photo
+    if (is_uploaded_file($file['mb_img']['tmp_name'])) {
+        if (!preg_match("/(\.(gif|jpe?g|bmp|png|webp))$/i", $file['mb_img']['name'])) {
+            alert('gif/jpg/png|webp 이미지 파일만 가능합니다.');
+        } else {
+            if(!is_dir(G5_DATA_PATH.'/member_image')) {
+                mkdir(G5_DATA_PATH.'/member_image', G5_DIR_PERMISSION);
+                chmod(G5_DATA_PATH.'/member_image', G5_DIR_PERMISSION);
+            }
+
+            if(!is_dir($temp_dir)) {
+                mkdir($temp_dir, G5_DIR_PERMISSION);
+                chmod($temp_dir, G5_DIR_PERMISSION);
+            }
+
+            $temp_photo = $temp_dir.'/'.$mb_id.'.gif';
+            $org_photo_key = G5_DATA_DIR .'/member_image/'. substr($mb_id,0,2). "/{$mb_id}.gif";
+            
+            $size = getimagesize($file['mb_img']['tmp_name']);
+            //Non Image
+            if (!isset($size[0])) {
+                alert('회원이미지 등록에 실패했습니다. 이미지 파일이 정상적으로 업로드 되지 않았거나, 이미지 파일이 아닙니다.');
+            }
+
+            convert_image_webp($file['mb_img']['tmp_name'], $temp_photo, $photo_w, $photo_h);
+            $s3_service = S3Service::getInstance();
+            $upload_result = $s3_service->put_object([
+                    'Key' => $org_photo_key,	
+                    'SourceFile' => $temp_photo,
+                    'ContentType' => 'gif' //@todo webp 로 바꿔야함
+                ]
+            );
+
+            unlink($temp_photo);
+            $upload_result = $upload_result['ObjectURL'] ?? '';
+            if(!$upload_result) {
+                alert('회원이미지 등록에 실패했습니다. 이미지 파일이 정상적으로 업로드 되지 않았거나, 이미지 파일이 아닙니다.');
+            }
+        }
+    }
+}
+
+/**
+ * gif,jpg,jpeg,png, webp 리사이즈 webp 이미지 변환
+ * imagedestroy($image); 필수.
+ * @param string $input_file
+ * @param string $output_file null 이면 이미지 리소스 반환
+ * @param int $width
+ * @param int $height
+ * @param int $quality
+ * @return bool
+ */
+function convert_image_webp($input_file, $output_file, $width = 60, $height = 60, int $quality = 70)
+{
+    $size = getimagesize($input_file);
+    if (empty($size)) {
+        return false;
+    }
+
+    $extensions = array(1 => 'gif', 2 => 'jpg', 3 => 'png', 18 => 'webp');
+    $file_extension = $extensions[$size[2]];
+    if (!$file_extension) {
+        return false;
+    }
+
+    switch ($file_extension) {
+        case 'gif':
+            $image = imagecreatefromgif($input_file);
+            $ori_width = imagesx($image);
+            $ori_height = imagesy($image);
+            $new_image = imagecreatetruecolor($width, $height);
+            if (!$new_image) {
+                error_log("convert_image_webp: file: {$output_file} error function. imagecreatetruecolor");
+                return false;
+            }
+            $function_step = [
+                ['imagecopyresampled', [$new_image, $image, 0, 0, 0, 0, $width, $height, $ori_width, $ori_height]],
+                ['imagepalettetotruecolor', [$new_image]],
+                ['imagealphablending', [$new_image, true]],
+                ['imagesavealpha', [$new_image, true]]
+            ];
+
+            foreach ($function_step as $function) {
+                $result = call_user_func_array($function[0], $function[1]);
+                if (!$result) {
+                    error_log("convert_image_webp: file: {$output_file} error function. {$function[0]}");
+                    return false;
+                }
+            }
+            break;
+        case 'jpg':
+        case 'jpeg':
+            $image = imagecreatefromjpeg($input_file);
+            $ori_width = imagesx($image);
+            $ori_height = imagesy($image);
+            $new_image = imagecreatetruecolor($width, $height);
+            if (!$new_image) {
+                error_log("convert_image_webp: file: {$output_file} error function. imagecreatetruecolor");
+                return false;
+            }
+
+            $result = imagecopyresampled($new_image, $image, 0, 0, 0, 0, $width, $height, $ori_width, $ori_height);
+            if (!$result) {
+                error_log("convert_image_webp: file: {$output_file} error function. imagecopyresampled");
+                return false;
+            }
+
+            break;
+        case 'png':
+            $image = imagecreatefrompng($input_file);
+            $ori_width = imagesx($image);
+            $ori_height = imagesy($image);
+            $new_image = imagecreatetruecolor($width, $height);
+            if (!$new_image) {
+                error_log("convert_image_webp: file: {$output_file} error function. imagecreatetruecolor");
+                return false;
+            }
+            $function_step = [
+                ['imagecopyresampled', [$new_image, $image, 0, 0, 0, 0, $width, $height, $ori_width, $ori_height]],
+                ['imagepalettetotruecolor', [$new_image]],
+                ['imagealphablending', [$new_image, true]],
+                ['imagesavealpha', [$new_image, true]]
+            ];
+
+            foreach ($function_step as $function) {
+                $result = call_user_func_array($function[0], $function[1]);
+                if (!$result) {
+                    error_log("convert_image_webp: file: {$output_file} error function. {$function[0]}");
+                    return false;
+                }
+            }
+            break;
+        case 'webp':
+            $image = imagecreatefromwebp($input_file);
+            $ori_width = imagesx($image);
+            $ori_height = imagesy($image);
+            $new_image = imagecreatetruecolor($width, $height);
+            if (!$new_image) {
+                error_log("convert_image_webp: file: {$output_file} error function. imagecreatetruecolor");
+                return false;
+            }
+            $result = imagecopyresampled($new_image, $image, 0, 0, 0, 0, $width, $height, $ori_width, $ori_height);
+            if (!$result) {
+                error_log("convert_image_webp: file: {$output_file} error function. imagecopyresampled");
+                return false;
+            }
+            break;
+        default:
+            return false;
+    }
+
+    if (!isset($new_image)) {
+        return false;
+    }
+
+    $result = imagewebp($new_image, $output_file, $quality);
+    imagedestroy($new_image);
+    imagedestroy($image);
+    if (!$result) {
+        error_log("convert_image_webp: file: {$output_file} error function. imagewebp");
+        return false;
+    }
+
+    return true;
+}
+
 /**
  * 글 작성 시 "회원만 보기" 설정을 지정/변경할 수 있는 권한을 확인
  */
 function da_board_member_only_permit_check(): bool {
-	global $g5, $nariya, $member, $is_admin, $is_guest, $boset, $write;
+    global $g5, $nariya, $member, $is_admin, $is_guest, $boset, $write;
 
-	// 최고관리자는 항상 허용
-	if ($is_admin === 'super') {
-		return true;
-	}
+    // 최고관리자는 항상 허용
+    if ($is_admin === 'super') {
+        return true;
+    }
 
-	$member_only_permit = false;
-	$boset['check_member_only'] = $boset['check_member_only'] ?? '0';
-	$boset['member_only_permit'] = $boset['member_only_permit'] ?? 'admin_only';
+    $member_only_permit = false;
+    $boset['check_member_only'] = $boset['check_member_only'] ?? '0';
+    $boset['member_only_permit'] = $boset['member_only_permit'] ?? 'admin_only';
 
-	if ($boset['check_member_only'] === '1') {
-		if ($boset['member_only_permit'] === 'all') {
-			// 전체 허용
-			$member_only_permit = true;
-		} else if ($boset['member_only_permit'] === 'admin_only' && $is_admin) {
-			// 관리자만 허용
-			$member_only_permit = true;
-		}
-	}
+    if ($boset['check_member_only'] === '1') {
+        if ($boset['member_only_permit'] === 'all') {
+            // 전체 허용
+            $member_only_permit = true;
+        } else if ($boset['member_only_permit'] === 'admin_only' && $is_admin) {
+            // 관리자만 허용
+            $member_only_permit = true;
+        }
+    }
 
-	return $member_only_permit;
+    return $member_only_permit;
 }
