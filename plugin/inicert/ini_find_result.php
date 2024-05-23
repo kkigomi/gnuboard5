@@ -46,7 +46,7 @@ if ($txId && isset($_POST["resultCode"]) && $_POST["resultCode"] === "0000") {
         if(!$phone_no)
         alert_close("정상적인 인증이 아닙니다. 올바른 방법으로 이용해 주세요.");
 
-        $md5_ci = md5($ci . $ci);
+        $md5_ci = sha1($ci . $ci);
         $phone_no = hyphen_hp_number($phone_no);
         $mb_dupinfo = $md5_ci;
 
@@ -56,8 +56,8 @@ if ($txId && isset($_POST["resultCode"]) && $_POST["resultCode"] === "0000") {
             exit;                
         }
 
-        $md5_cert_no = md5($cert_no);
-        $hash_data   = md5($user_name.$cert_type.$birth_day.$phone_no.$md5_cert_no);
+        $md5_cert_no = sha1($cert_no);
+        $hash_data   = sha1($cert_type.$birth_day.$mb_dupinfo.$md5_cert_no);
 
         // 성인인증결과
         $adult_day = date("Ymd", strtotime("-19 years", G5_SERVER_TIME));
