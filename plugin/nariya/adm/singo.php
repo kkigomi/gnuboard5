@@ -70,7 +70,7 @@ $pagination = $pg->getPagination();
                         <input type="checkbox" name="chkall" value="1" id="chkall" onclick="check_all(this.form)">
                     </th>
                     <th scope="col">유형</th>
-                    <th scope="col">제목</th>
+                    <th scope="col">제목(내용)</th>
                     <th scope="col">작성자</th>
                     <th scope="col">신고 사유</th>
                     <th scope="col">신고자</th>
@@ -94,10 +94,12 @@ $pagination = $pg->getPagination();
                         // 게시물이라면
                         $post_type = '게시물';
                         $sel_comment = '';
+                        $content = $row2['wr_subject'];
 
                     } else {
                         $post_type = '댓글';
                         $sel_comment = '#c_'.$row['sg_id'];
+                        $content = $row2['wr_content'];
                     }
 
                     $view_url = short_url_clean(
@@ -110,7 +112,7 @@ $pagination = $pg->getPagination();
                         <input type="checkbox" name="chk[]" value="<?php echo $row['id']; ?>" id="chk_<?php echo $row['id']; ?>">
                     </td>
                     <td class="td_left"><?=$post_type?></td>                           <!-- 게시물 타입 -->
-                    <td class="td_left"><?php echo strip_tags($row2['wr_subject']); ?></td>        <!-- 제목 -->
+                    <td class="td_left"><?php echo strip_tags($content); ?></td>        <!-- 제목 또는 댓글 내용 -->
                     <td class="td_left"><?php echo $name; ?></td>                      <!-- 작성자 -->
                     <td><?php echo $singo_type[$row['sg_type']]; ?></td>               <!-- 신고 사유 -->
                     <td class="td_left"><?php echo $singo_name; ?></td>                <!-- 신고자 -->
