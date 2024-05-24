@@ -1,11 +1,18 @@
 <?php
 include_once('./_common.php');
+include_once(G5_PLUGIN_PATH.'/sphinxsearch/SphinxSearch.php');
+$use_sphinx = false;
+
 
 $g5['title'] = '전체검색 결과';
 
 if (isset($wr_is_comment) && trim($sfl) === 'mb_id') {
     $g5['title'] = '내가 작성한 ' . ($wr_is_comment ? '댓글' : '글');
 }
+
+if(!$sfl) $sfl = 'wr_subject||wr_content';
+
+
 
 include_once('./_head.php');
 
@@ -80,6 +87,19 @@ if ($stx) {
     // 검색필드를 구분자로 나눈다. 여기서는 +
     $field = explode('||', trim($sfl));
 
+
+    if($stx && (strpos($sfl, "wr_subject") !== FALSE  ||  strpos($sfl, "wr_content") !== FALSE)) {
+        try {
+            if($_ENV['SPHINX_USE'] == 'Y') {
+                $sphinx = new SphinxSearch($_ENV['SPHINX_HOST'], $_ENV['SPHINX_PORT']);
+                $use_sphinx = true;
+            }
+        } catch (Exception $e) {
+            $use_sphinx = false;
+        }
+    }
+
+
     $str = '(';
     for ($i=0; $i<count($s); $i++) {
         if (trim($s[$i]) == '') continue;
@@ -136,9 +156,20 @@ if ($stx) {
     for ($i=0; $i<count($g5_search['tables']); $i++) {
         $tmp_write_table   = $g5['write_prefix'] . $g5_search['tables'][$i];
 
-        $sql = " select wr_id from {$tmp_write_table} where {$sql_search} ";
-        $result = sql_query($sql, false);
-        $row['cnt'] = @sql_num_rows($result);
+        //$sql = " select wr_id from {$tmp_write_table} where {$sql_search} ";
+        //$result = sql_query($sql, false);
+        //$row['cnt'] = @sql_num_rows($result);
+
+        if($use_sphinx && $sphinx->is_indexed_table($tmp_write_table)) {
+            $sphinx->set_sql_search("", $sfl, $stx, $sop);
+            $cnt = $sphinx->get_total_count($tmp_write_table);
+            $row  = array('cnt' => $cnt);
+        } else {
+            $sql = " select count(wr_id) as cnt from {$tmp_write_table} where {$sql_search} ";
+            $result = sql_fetch($sql, false);
+            $row['cnt'] = (int)$result['cnt'];
+        }
+
 
         $total_count += $row['cnt'];
         if ($row['cnt']) {
@@ -182,8 +213,27 @@ if ($stx) {
         $tmp_write_table = $g5['write_prefix'] . $search_table[$idx];
 
         $sql = " select * from {$tmp_write_table} where {$sql_search} order by wr_id desc limit {$from_record}, {$rows} ";
-        $result = sql_query($sql);
-        for ($i=0; $row=sql_fetch_array($result); $i++) {
+        //$result = sql_query($sql);
+
+        $temp_list = array();
+        if($use_sphinx && $sphinx->is_indexed_table($tmp_write_table)) {
+            $sphinx->search($tmp_write_table, "order by wr_id desc", $from_record, $rows);
+            $wr_list = $sphinx->get_items();
+            for($i=0; $i<count($wr_list); $i++) {
+                $row = sql_fetch(" select * from {$tmp_write_table} where wr_id = ".intVal($wr_list[$i]['wr_id']));
+                $temp_list[] = $row;
+            }
+        } else {
+            $result = sql_query($sql);
+            for ($i=0; $row=sql_fetch_array($result); $i++) {
+                $temp_list[] = $row;
+            }
+        }
+
+
+        //for ($i=0; $row=sql_fetch_array($result); $i++) {
+        for ($i=0; $i < count($temp_list); $i++) {
+            $row = $temp_list[$i];
             // 검색어까지 링크되면 게시판 부하가 일어남
             $list[$idx][$i] = $row;
             $list[$idx][$i]['href'] = get_pretty_url($search_table[$idx], $row['wr_parent']);
