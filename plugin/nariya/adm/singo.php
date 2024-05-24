@@ -45,6 +45,20 @@ $pg->one_section = G5_IS_MOBILE ? (int) $config['cf_mobile_pages'] : (int) $conf
 $pagination = $pg->getPagination();
 ?>
 
+<style>
+    .sg_desc {
+        position: absolute;
+        left: 10px;
+        display: none;
+        width: 200px;
+        border-radius: 4px;
+        border: 1px solid #d6dce7;
+        background-color: #fff;
+        padding: 4px 10px;
+        text-align: left;
+        z-index: 100;
+    }
+</style>
 
 <div class="local_ov01 local_ov">
     <a class="ov_listall" href="/plugin/nariya/adm/singo.php">전체목록</a>
@@ -63,6 +77,17 @@ $pagination = $pg->getPagination();
 <form name="fboardlist" id="fboardlist" action="./singo_update.php" onsubmit="return fboardlist_submit(this);" method="post">
     <div class="tbl_head01 tbl_wrap">
         <table>
+            <colgroup>
+                <col style="width:2%">
+                <col style="width:5%">
+                <col>
+                <col style="width:10%">
+                <col style="width:10%">
+                <col style="width:6%">
+                <col style="width:10%">
+                <col style="width:6%">
+                <col style="width:6%">
+            </colgroup>
             <thead>
                 <tr>
                     <th scope="col">
@@ -70,9 +95,10 @@ $pagination = $pg->getPagination();
                         <input type="checkbox" name="chkall" value="1" id="chkall" onclick="check_all(this.form)">
                     </th>
                     <th scope="col">유형</th>
-                    <th scope="col">제목</th>
+                    <th scope="col">제목(내용)</th>
                     <th scope="col">작성자</th>
                     <th scope="col">신고 사유</th>
+                    <th scope="col">추가 내용</th>
                     <th scope="col">신고자</th>
                     <th scope="col">게시물 필터</th>
                     <th scope="col">게시물 보기</th>
@@ -94,10 +120,12 @@ $pagination = $pg->getPagination();
                         // 게시물이라면
                         $post_type = '게시물';
                         $sel_comment = '';
+                        $content = $row2['wr_subject'];
 
                     } else {
                         $post_type = '댓글';
                         $sel_comment = '#c_'.$row['sg_id'];
+                        $content = $row2['wr_content'];
                     }
 
                     $view_url = short_url_clean(
@@ -110,9 +138,17 @@ $pagination = $pg->getPagination();
                         <input type="checkbox" name="chk[]" value="<?php echo $row['id']; ?>" id="chk_<?php echo $row['id']; ?>">
                     </td>
                     <td class="td_left"><?=$post_type?></td>                           <!-- 게시물 타입 -->
-                    <td class="td_left"><?php echo strip_tags($row2['wr_subject']); ?></td>        <!-- 제목 -->
+                    <td class="td_left"><?php echo strip_tags($content); ?></td>        <!-- 제목 또는 댓글 내용 -->
                     <td class="td_left"><?php echo $name; ?></td>                      <!-- 작성자 -->
                     <td><?php echo $singo_type[$row['sg_type']]; ?></td>               <!-- 신고 사유 -->
+                    <td style="position:relative">
+                        <a id="sg_desc_toggle_<?php echo $row['id']; ?>" href="javascript:toggle_singo_desc(<?php echo $row['id']; ?>);">
+                            <strong>펼치기</strong>
+                        </a>
+                        <p class="sg_desc" id="sg_desc_<?php echo $row['id']; ?>">
+                            <?php echo ($row['sg_desc']) ? strip_tags($row['sg_desc']) : '내용이 없습니다.' ; ?>
+                        </p>
+                    </td>                                                              <!-- 추가 내용 -->
                     <td class="td_left"><?php echo $singo_name; ?></td>                <!-- 신고자 -->
                     <td><a href="<?=$filter_url?>">필터</a></td>                       <!-- 게시물 필터 -->
                     <td><a href="<?=$view_url?>" target="_blank"><strong>보기</strong></a></td>                         <!-- 게시물 보기 -->
@@ -174,6 +210,16 @@ $pagination = $pg->getPagination();
         }
 
         return true;
+    }
+
+    function toggle_singo_desc(id) {
+        $('#sg_desc_' + id).toggle();
+        var toggle_link = $('#sg_desc_toggle_' + id + '>strong');
+        if (toggle_link.text() === '펼치기') {
+            toggle_link.text('접기');
+        } else {
+            toggle_link.text('펼치기');
+        }
     }
 
     $(function() {
