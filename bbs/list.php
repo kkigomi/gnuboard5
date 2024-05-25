@@ -211,7 +211,11 @@ if($page_rows > 0) {
             $list[$i]['wr_content'] = '';
         }
 
-        $list_num = $total_count - ($page - 1) * $list_page_rows - $notice_count;
+        if($is_search_bbs) { //검색일 경우, 첫페이지에 상단에 표시되는 공지사항 카운트를 제외하지 않음 (검색결과 공지사항 갯수만큼 - 되는 이슈)
+              $list_num = $total_count - ($page - 1) * $list_page_rows;
+        }else{
+              $list_num = $total_count - ($page - 1) * $list_page_rows - $notice_count;
+        }
         $list[$i]['num'] = $list_num - $k;
 
         $i++;
