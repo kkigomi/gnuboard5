@@ -228,10 +228,11 @@ function na_date($date, $class='', $day='H:i', $month='m.d H:i', $year='Y.m.d H:
 		if($class) {
 			$time = '<span class="'.$class.'">'.$time.'</span>';
 		}
+	} else if (time() - $date < /* 60*60*24 */ 86400 ) {
+		// 24 시간 이내
+		$time = date($yday, $date);
 	} else if(substr(G5_TIME_YMD, 0, 7) == substr($today, 0, 7)) {
 		$time = date($month, $date);
-    } else if (time() - $date < 606024 ) {
-        $time = date($yday, $date);
 	} else {
 		$time = date($year, $date);
 	} 
