@@ -67,7 +67,7 @@ $pagination = $pg->getPagination();
             <span class="ov_txt">
                 신고 횟수
             </span>
-            <span class="ov_num"> <?=$count?>개</span>
+            <span class="ov_num"> <?=$count?>회</span>
         </span>
     <?php } ?>
 </div>
