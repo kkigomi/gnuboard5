@@ -199,7 +199,7 @@ function na_rank_start($rows, $page) {
 // Date & Time
 //function na_date($date, $class='', $day='H:i', $month='m.d H:i', $year='Y.m.d H:i') {
 //기여자 :이프로부족/풀스택/땅파기 2024-04-09
-function na_date($date, $class='', $day='H:i', $month='m.d H:i', $year='Y.m.d H:i', $yday='m.d H:i') {
+function na_date($date, $class='', $day='H:i', $month='m.d H:i', $year='Y.m.d H:i', $yday='H:i') {
 	$date = strtotime($date);
 	$today = date('Y-m-d', $date);
 
