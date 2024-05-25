@@ -91,8 +91,7 @@ $notice_count = 0;
 $notice_array = array();
 
 // 공지 처리
-//if (!$is_search_bbs) {
-if ($page == 1) {
+if (!$is_search_bbs) {
     $arr_notice = explode(',', trim($board['bo_notice']));
     $from_notice_idx = ($page - 1) * $page_rows;
     if($from_notice_idx < 0)
@@ -112,7 +111,14 @@ if ($page == 1) {
 
         $list[$i] = get_list($row, $board, $board_skin_url, G5_IS_MOBILE ? $board['bo_mobile_subject_len'] : $board['bo_subject_len']);
         $list[$i]['is_notice'] = true;
-		$list[$i]['num'] = 0;
+        $list[$i]['list_content'] = $list[$i]['wr_content'];
+
+        // 비밀글인 경우 리스트에서 내용이 출력되지 않게 글 내용을 지웁니다. 
+        if (strstr($list[$i]['wr_option'], "secret")) {
+            $list[$i]['wr_content'] = '';
+        }
+
+        $list[$i]['num'] = 0;
         $i++;
         $notice_count++;
 
@@ -126,13 +132,13 @@ $from_record = ($page - 1) * $page_rows; // 시작 열을 구함
 
 // 공지글이 있으면 변수에 반영
 if(!empty($notice_array)) {
-    //$from_record -= count($notice_array);
+    $from_record -= count($notice_array);
 
     if($from_record < 0)
         $from_record = 0;
 
-    //if($notice_count > 0)
-        //$page_rows -= $notice_count;
+    if($notice_count > 0)
+        $page_rows -= $notice_count;
 
     if($page_rows < 0)
         $page_rows = $list_page_rows;
@@ -184,13 +190,13 @@ if ($is_search_bbs) {
 } else {
     $sql = " select * from {$write_table} where wr_is_comment = 0 {$na_sql_where} ";
     if(!empty($notice_array))
-        $sql .= " and find_in_set(wr_id, '".implode(',', $notice_array)."')=0 ";
+        $sql .= " and wr_id not in (".implode(', ', $notice_array).") ";
     $sql .= " {$sql_order} limit {$from_record}, $page_rows ";
 }
 
 // 페이지의 공지개수가 목록수 보다 작을 때만 실행
 if($page_rows > 0) {
-	$notice_count = !empty($notice_array) ? count($notice_array) : 0;
+	// $notice_count = !empty($notice_array) ? count($notice_array) : 0;
     $result = sql_query($sql);
 
     $k = 0;
@@ -206,11 +212,14 @@ if($page_rows > 0) {
             $list[$i]['subject'] = search_font($stx, $list[$i]['subject']);
         }
         $list[$i]['is_notice'] = false;
-        if($is_search_bbs) { //검색일 경우, 첫페이지에 상단에 표시되는 공지사항 카운트를 제외하지 않음 (검색결과 공지사항 갯수만큼 - 되는 이슈)
-              $list_num = $total_count - ($page - 1) * $list_page_rows;
-        }else{
-              $list_num = $total_count - ($page - 1) * $list_page_rows - $notice_count;
+        $list[$i]['list_content'] = $list[$i]['wr_content'];
+
+        // 비밀글인 경우 리스트에서 내용이 출력되지 않게 글 내용을 지웁니다. 
+        if (strstr($list[$i]['wr_option'], "secret")) {
+            $list[$i]['wr_content'] = '';
         }
+
+        $list_num = $total_count - ($page - 1) * $list_page_rows - $notice_count;
         $list[$i]['num'] = $list_num - $k;
 
         $i++;
@@ -235,14 +244,14 @@ if ($is_search_bbs) {
     if (isset($min_spt) && $prev_spt >= $min_spt) {
         $qstr1 = preg_replace($patterns, '', $qstr);
         $prev_part_href = get_pretty_url($bo_table,0,$qstr1.'&amp;spt='.$prev_spt.'&amp;page=1');
-        $write_pages = page_insertbefore($write_pages, '<a href="'.$prev_part_href.'" class="pg_page pg_prev">이전검색</a>');
+        $write_pages = page_insertbefore($write_pages, '<a href="'.$prev_part_href.'" class="pg_page pg_search pg_prev">이전검색</a>');
     }
 
     $next_spt = $spt + $config['cf_search_part'];
     if ($next_spt < 0) {
         $qstr1 = preg_replace($patterns, '', $qstr);
         $next_part_href = get_pretty_url($bo_table,0,$qstr1.'&amp;spt='.$next_spt.'&amp;page=1');
-        $write_pages = page_insertafter($write_pages, '<a href="'.$next_part_href.'" class="pg_page pg_end">다음검색</a>');
+        $write_pages = page_insertafter($write_pages, '<a href="'.$next_part_href.'" class="pg_page pg_search pg_next">다음검색</a>');
     }
 }
 
