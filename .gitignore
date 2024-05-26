@@ -23,3 +23,6 @@ pma/
 .env
 .env.*
 !.env.sample
+*.bak
+*.swp
+.DS_Store
