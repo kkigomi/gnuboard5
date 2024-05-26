@@ -5,7 +5,7 @@ include_once(NA_PATH.'/_adm.php');
 auth_check_menu($auth, $sub_menu, "r");
 
 if (!isset($g5['content_table'])) {
-    die('<meta charset="utf-8">/data/dbconfig.php 파일에 <strong>$g5[\'content_table\'] = G5_TABLE_PREFIX.\'content\';</strong> 를 추가해 주세요.');
+    die('<meta charset="utf-8">/db/dbconfig.php 파일에 <strong>$g5[\'content_table\'] = G5_TABLE_PREFIX.\'content\';</strong> 를 추가해 주세요.');
 }
 
 // 저장하기

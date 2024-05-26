@@ -62,12 +62,14 @@ $pagination = $pg->getPagination();
 
 <div class="local_ov01 local_ov">
     <a class="ov_listall" href="/plugin/nariya/adm/singo.php">전체목록</a>
-    <span class="btn_ov01">
-        <span class="ov_txt">
-            게시물 수
+    <?php if (isset($sg_id)) { ?>
+        <span class="btn_ov01">
+            <span class="ov_txt">
+                신고 횟수
+            </span>
+            <span class="ov_num"> <?=$count?>회</span>
         </span>
-        <span class="ov_num"> <?=$count?>개</span>
-    </span>
+    <?php } ?>
 </div>
 <?php if (isset($sg_id)) { ?>
 <h2><?=$sg_table?>의 [<?=$sg_id?>] 게시물 신고 목록</h2>
@@ -79,6 +81,7 @@ $pagination = $pg->getPagination();
         <table>
             <colgroup>
                 <col style="width:2%">
+                <col style="width:8%">
                 <col style="width:5%">
                 <col>
                 <col style="width:10%">
@@ -94,6 +97,7 @@ $pagination = $pg->getPagination();
                         <label for="chkall" class="sound_only">게시판 전체</label>
                         <input type="checkbox" name="chkall" value="1" id="chkall" onclick="check_all(this.form)">
                     </th>
+                    <th scope="col">게시판</th>
                     <th scope="col">유형</th>
                     <th scope="col">제목(내용)</th>
                     <th scope="col">작성자</th>
@@ -108,7 +112,20 @@ $pagination = $pg->getPagination();
                 <?php
                 for ($i=0; $row=sql_fetch_array($result); $i++) {
                     $tmp_write_table = $g5['write_prefix'].$row['sg_table'];
+                    $row_board = sql_fetch(" SELECT * from {$g5['board_table']} where bo_table = '{$row['sg_table']}' ");
                     $row2 = sql_fetch(" SELECT * from {$tmp_write_table} where wr_id = '{$row['sg_id']}' ");
+
+                    if (!$row2) {
+                ?>
+                <tr>
+                    <td class="td_chk">
+                        <label for="chk_<?php echo $row['id']; ?>" class="sound_only"><?php echo $row['id']; ?>번 항목 체크</label>
+                        <input type="checkbox" name="chk[]" value="<?php echo $row['id']; ?>" id="chk_<?php echo $row['id']; ?>">
+                    </td>
+                    <td colspan="9" class="td_left">삭제 또는 이동된 게시물입니다.</td>
+                </tr>
+                <?php continue; }
+
                     $name = get_sideview($row2['mb_id'], get_text(
                         cut_str($row2['wr_name'], $config['cf_cut_name'])),
                         $row2['wr_email'], $row2['wr_homepage']);
@@ -137,6 +154,7 @@ $pagination = $pg->getPagination();
                         <label for="chk_<?php echo $row['id']; ?>" class="sound_only"><?php echo $row['id']; ?>번 항목 체크</label>
                         <input type="checkbox" name="chk[]" value="<?php echo $row['id']; ?>" id="chk_<?php echo $row['id']; ?>">
                     </td>
+                    <td class="td_left"><?=$row_board['bo_subject']?></td>             <!-- 게시판 -->
                     <td class="td_left"><?=$post_type?></td>                           <!-- 게시물 타입 -->
                     <td class="td_left"><?php echo strip_tags($content); ?></td>        <!-- 제목 또는 댓글 내용 -->
                     <td class="td_left"><?php echo $name; ?></td>                      <!-- 작성자 -->

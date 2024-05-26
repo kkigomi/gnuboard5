@@ -884,6 +884,8 @@ function na_jwplayer($url, $img='', $caption='', $title=''){
 			if($img) {
 				$player .= ' poster="'.$img.'"';
 			}
+			// 음소거
+			$player .= ' muted ';
 			$player .= ' width="640" height="360">브라우저가 VIDEO 태그를 지원하지 않습니다.</video></div></div>';
 
 			return $player;
@@ -894,6 +896,8 @@ function na_jwplayer($url, $img='', $caption='', $title=''){
 			if($is_auto) {
 				$player .= ' autoplay';
 			}
+			// 음소거
+			$player .= ' muted ';
 			$player .= ' style="width:100%;min-width:100%;">브라우저가 AUDIO 태그를 지원하지 않습니다.</audio>';
 
 			return $player;
