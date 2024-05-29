@@ -19,7 +19,7 @@ if ($url) {
     if ( substr($url, 0, 2) == '//' )
         $url = 'http:' . $url;
 
-    if (preg_match('#\\\0#', $url) || preg_match('/^\/{1,}\\\/', $url)) {
+    if (preg_match('#\\\0#', $url) || preg_match('/^\/{1,}\\\/', $url) || preg_match('/\\\/', $url)) {
         alert('url 에 올바르지 않은 값이 포함되어 있습니다.', G5_URL);
     }
 
