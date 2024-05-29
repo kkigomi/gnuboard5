@@ -358,6 +358,37 @@ function na_member_photo($mb_id){
 }
 
 function na_name_photo($mb_id, $name){
+   global $nariya;
+
+    $is_photo = false;
+
+    $matches = get_editor_image($name, true);
+
+    for ($i = 0; $i < count($matches[1]); $i++) {
+
+        $img = $matches[1][$i];
+        $mb_icon = isset($matches[0][$i]) ? $matches[0][$i] : '';
+
+        preg_match("/alt=[\"\']?([^\"\']*)[\"\']?/", $img, $m);
+        $alt = isset($m[1]) ? get_text($m[1]) : '';
+
+        $name = str_replace($mb_icon, '<img src="' . na_member_photo($mb_id) . '" alt="' . $alt . '" class="mb-photo">', $name);
+
+        $is_photo = true;
+
+        break;
+    }
+
+    if ($is_photo) {
+        if ($nariya['lvl_skin'])
+            $name = str_replace('onclick="return false;">', 'onclick="return false;">' . na_xp_icon($mb_id), $name);
+    } else {
+        $mb_photo = ($nariya['lvl_skin']) ? na_xp_icon($mb_id) : '';
+        $mb_photo .= '<img src="' . na_member_photo($mb_id) . '" alt="" class="mb-photo">';
+
+        $name = str_replace('onclick="return false;">', 'onclick="return false;">' . $mb_photo, $name);
+    }
+
     return $name;
 }
 
