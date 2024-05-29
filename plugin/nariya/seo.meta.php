@@ -1,10 +1,33 @@
 <?php
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
-global $config, $nariya, $g5_head_title, $bo_table, $view, $it, $co, $pset;
+global $config, $nariya, $g5_head_title, $bo_table, $view, $it, $co, $pset, $wr_id, $gr_id, $co_id, $qstr, $fm_id;
 
 // 변수체크
 $pset['href'] = isset($pset['href']) ? $pset['href'] : '';
+
+$canonical = $pset['href'];
+$request_filename = str_replace(G5_PATH, '', $_SERVER['SCRIPT_FILENAME']);
+if ($bo_table) {
+	// 게시판
+	$canonical = get_pretty_url(
+		$bo_table,
+		($wr_id) ? intval($wr_id) : '',
+		($wr_id) ? '' : $qstr
+	);
+} else if ($request_filename === '/index.php') {
+	// index
+	$canonical = G5_URL;
+} else if ($request_filename === '/bbs/content.php') {
+	// 페이지
+	$canonical = get_pretty_url('content', $co_id);
+} else if ($request_filename === '/bbs/group.php') {
+	// 그룹
+	$canonical = get_pretty_url('bbs', 'group.php', "gr_id={$gr_id}");
+} else if ($request_filename === '/bbs/faq.php') {
+	// faq
+	$canonical = get_pretty_url('bbs', 'faq.php', (isset($fm_id)) ? "fm_id={$fm_id}" : $qstr);
+}
 
 // SEO 설정
 $author = na_get_text($config['cf_title']);
@@ -96,6 +119,7 @@ $desc = na_htmlspecialchars($desc);
 $keys = na_htmlspecialchars($keys);
 ?>
 <meta http-equiv="content-language" content="kr">
+<link rel="canonical" href="<?= $canonical ?>">
 <meta name="robots" content="index,follow">
 <meta name="title" content="<?php echo $title ?>">
 <meta name="author" content="<?php echo $author ?>">
@@ -109,7 +133,7 @@ $keys = na_htmlspecialchars($keys);
 <meta property="og:description" content="<?php echo $desc ?>">
 <meta property="og:keywords" content="<?php echo $keys ?>">
 <meta property="og:image" content="<?php echo $image ?>">
-<meta property="og:url" content="<?php echo $pset['href'] ?>">
+<meta property="og:url" content="<?php echo $canonical ?>">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="<?php echo $site ?>">
 <meta name="twitter:title" content="<?php echo $title ?>">
