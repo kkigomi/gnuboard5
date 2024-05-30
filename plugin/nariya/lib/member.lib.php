@@ -371,8 +371,8 @@ function na_name_photo($mb_id, $name){
 
         preg_match("/alt=[\"\']?([^\"\']*)[\"\']?/", $img, $m);
         $alt = isset($m[1]) ? get_text($m[1]) : '';
-
-        $name = str_replace($mb_icon, '<img src="' . na_member_photo($mb_id) . '" alt="' . $alt . '" class="mb-photo">', $name);
+        $no_profile_path = G5_IMG_URL . '/no_profile.gif';
+        $name = str_replace($mb_icon, '<img src="' . na_member_photo($mb_id) . '" alt="' . $alt . '" class="mb-photo" onerror="this.onerror=null; this.src=\'' . $no_profile_path . '\';">', $name);
 
         $is_photo = true;
 

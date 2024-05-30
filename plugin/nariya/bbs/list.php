@@ -1,6 +1,8 @@
 <?php
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
+include_once(G5_PLUGIN_PATH.'/sphinxsearch/SphinxSearch.php');
+
 // 분류 사용 여부
 $is_category = false;
 $category_option = '';
@@ -36,34 +38,56 @@ $stx = trim($stx);
 //검색인지 아닌지 구분하는 변수 초기화
 $is_search_bbs = false;
 $sql_search = "";
+
+$use_sphinx = false;
+
 if ($sca || $stx || $stx === '0') {     //검색이면
+
+    //제목이나 본문검색인 경우에만 sphinx 검색을 사용하도록 함.
+    if($stx && (strpos($sfl, "wr_subject") !== FALSE  ||  strpos($sfl, "wr_content") !== FALSE)) {
+        try {
+            if($_ENV['SPHINX_USE'] == 'Y') {
+                $sphinx = new SphinxSearch($_ENV['SPHINX_HOST'], $_ENV['SPHINX_PORT']);
+                $use_sphinx = true;
+            }
+        } catch (Exception $e) {
+            $use_sphinx = false;
+        }
+    }
+
     $is_search_bbs = true;      //검색구분변수 true 지정
 
-	$sql_search = get_sql_search($sca, $sfl, $stx, $sop);
+    if($use_sphinx & $sphinx->is_indexed_table($write_table)) {
+        $sphinx->set_sql_search($sca, $sfl, $stx, $sop);
+        $total_count = $sphinx->get_total_count($write_table);
+    } else {
+        $sql_search = get_sql_search($sca, $sfl, $stx, $sop);
 
-	// 가장 작은 번호를 얻어서 변수에 저장 (하단의 페이징에서 사용)
-	$sql = " select MIN(wr_num) as min_wr_num from {$write_table} ";
-	$row = sql_fetch($sql);
-	$min_spt = (int)$row['min_wr_num'];
+        // 가장 작은 번호를 얻어서 변수에 저장 (하단의 페이징에서 사용)
+        $sql = " select MIN(wr_num) as min_wr_num from {$write_table} ";
+        $row = sql_fetch($sql);
+        $min_spt = (int)$row['min_wr_num'];
 
-	if (!$spt) $spt = $min_spt;
+        if (!$spt) $spt = $min_spt;
 
-	$sql_search .= " and (wr_num between {$spt} and ({$spt} + {$config['cf_search_part']})) ";
+        $sql_search .= " and (wr_num between {$spt} and ({$spt} + {$config['cf_search_part']})) ";
 
-	// 나리야
-	if($na_sql_where) 
-		$sql_search .= $na_sql_where;
+        // 나리야
+        if($na_sql_where)
+            $sql_search .= $na_sql_where;
 
-    // 원글만 얻는다. (코멘트의 내용도 검색하기 위함)
-    // 라엘님 제안 코드로 대체 http://sir.kr/g5_bug/2922
-    $sql = " SELECT COUNT(DISTINCT `wr_parent`) AS `cnt` FROM {$write_table} WHERE {$sql_search} ";
-    $row = sql_fetch($sql);
-    $total_count = $row['cnt'];
-    /*
-    $sql = " select distinct wr_parent from {$write_table} where {$sql_search} ";
-    $result = sql_query($sql);
-    $total_count = sql_num_rows($result);
-    */
+        // 원글만 얻는다. (코멘트의 내용도 검색하기 위함)
+        // 라엘님 제안 코드로 대체 http://sir.kr/g5_bug/2922
+        $sql = " SELECT COUNT(DISTINCT `wr_parent`) AS `cnt` FROM {$write_table} WHERE {$sql_search} ";
+        $row = sql_fetch($sql);
+        $total_count = $row['cnt'];
+        /*
+        $sql = " select distinct wr_parent from {$write_table} where {$sql_search} ";
+        $result = sql_query($sql);
+        $total_count = sql_num_rows($result);
+        */
+    }
+
 } else {
 	if($na_sql_where) {
 		$row = sql_fetch(" select count(*) as cnt from {$write_table} where wr_is_comment = 0 {$na_sql_where} ");
@@ -163,7 +187,7 @@ if (!$sst) {
     if ($board['bo_sort_field']) {
         $sst = $board['bo_sort_field'];
     } else {
-        $sst  = "wr_num, wr_reply";
+        $sst  = "wr_num asc, wr_reply asc";
         $sod = "";
     }
 } else {
@@ -179,14 +203,19 @@ if (!$sst) {
 }
 
 if(!$sst)
-    $sst  = "wr_num, wr_reply";
+    $sst  = "wr_num asc, wr_reply asc";
 
 if ($sst) {
     $sql_order = " order by {$na_sql_orderby} {$sst} {$sod} ";
 }
 
 if ($is_search_bbs) {
-    $sql = " select distinct wr_parent from {$write_table} where {$sql_search} {$sql_order} limit {$from_record}, $page_rows ";
+    if($use_sphinx & $sphinx->is_indexed_table($write_table)) {
+
+    } else {
+        $sql = " select distinct wr_parent from {$write_table} where {$sql_search} {$sql_order} limit {$from_record}, $page_rows ";
+    }
+
 } else {
     $sql = " select * from {$write_table} where wr_is_comment = 0 {$na_sql_where} ";
     if(!empty($notice_array))
@@ -196,12 +225,25 @@ if ($is_search_bbs) {
 
 // 페이지의 공지개수가 목록수 보다 작을 때만 실행
 if($page_rows > 0) {
-	// $notice_count = !empty($notice_array) ? count($notice_array) : 0;
+
+    $wr_list = array();
+
+    if($use_sphinx && $sphinx->is_indexed_table($write_table)) {
+        $sphinx->search($write_table, $sql_order, $from_record, $page_rows);
+        $wr_list = $sphinx->get_items();
+    } else {
+        $notice_count = !empty($notice_array) ? count($notice_array) : 0;
+        $result = sql_query($sql);
+        while ($row = sql_fetch_array($result)) {
+            $wr_list[] = $row;
+        }
+    }
+
     $result = sql_query($sql);
 
     $k = 0;
 
-    while ($row = sql_fetch_array($result))
+    foreach($wr_list as $row )
     {
         // 검색일 경우 wr_id만 얻었으므로 다시 한행을 얻는다
         if ($is_search_bbs)
