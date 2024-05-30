@@ -57,7 +57,7 @@ if ($sca || $stx || $stx === '0') {     //검색이면
 
     $is_search_bbs = true;      //검색구분변수 true 지정
 
-    if($use_sphinx & $sphinx->is_indexed_table($write_table)) {
+    if($use_sphinx && $sphinx->is_indexed_table($write_table)) {
         $sphinx->set_sql_search($sca, $sfl, $stx, $sop);
         $total_count = $sphinx->get_total_count($write_table);
     } else {
@@ -210,7 +210,7 @@ if ($sst) {
 }
 
 if ($is_search_bbs) {
-    if($use_sphinx & $sphinx->is_indexed_table($write_table)) {
+    if($use_sphinx && $sphinx->is_indexed_table($write_table)) {
 
     } else {
         $sql = " select distinct wr_parent from {$write_table} where {$sql_search} {$sql_order} limit {$from_record}, $page_rows ";
