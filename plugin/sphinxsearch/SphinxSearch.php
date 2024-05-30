@@ -180,7 +180,7 @@ class SphinxSearch {
                                 OPTION max_matches={$max_matches}  
                      ";
 
-        echo "sphinxsearch query = ".$sql."<br/>";
+        // echo "sphinxsearch query = ".$sql."<br/>";
 
         //쿼리 시간 측정
         $start_time = microtime(true);
@@ -191,7 +191,7 @@ class SphinxSearch {
         $end_time = microtime(true);
         $this->debug_info = "Query Time : " . ($end_time - $start_time) . " sec";
 
-        echo $this->debug_info;
+        // echo $this->debug_info;
 
         @mysqli_free_result($result);
         $rs =  mysqli_query($this->sph_connect, "show meta like 'total' ");
