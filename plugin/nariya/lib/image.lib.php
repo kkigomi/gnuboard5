@@ -242,7 +242,7 @@ function na_thumb($img, $thumb_w, $thumb_h)
     $file_name = $file_name_part[0] ?? '';
     $thumb_file_name = "{$file_name}_{$thumb_w}x{$thumb_h}.{$ext}";
     $thumbnail_url = run_replace('get_file_board_url', $thumb_file_name);
-    if ($thumbnail_url !== $thumb_file_name) {
+    if ($thumbnail_url) {
         return $thumbnail_url;
     }
 
