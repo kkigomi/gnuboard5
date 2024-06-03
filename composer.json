@@ -15,7 +15,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Damoang\\Lib\\": "lib/damoang"
+      "Damoang\\Lib\\": "lib/damoang/src"
     }
   }
 }
