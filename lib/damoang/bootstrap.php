@@ -20,11 +20,11 @@ add_replace('get_cachemanage_instance', function () {
         try {
             $instance = new RedisCache($config);
         } catch (\Exception $e) {
+            $instance = null;
             if ($GLOBALS['is_admin'] === 'super') {
                 var_dump(
                     '관리자용 오류 메시지 : Redis 오류',
-                    $e->getMessage(),
-                    var_export($config, true)
+                    $e->getMessage()
                 );
             }
         }
