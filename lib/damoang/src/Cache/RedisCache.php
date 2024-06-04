@@ -13,10 +13,6 @@ class RedisCache
 
     public function __construct(array $config = [])
     {
-        if (!class_exists('Redis', false)) {
-            throw new \Exception('Redis 설치되지 않음');
-        }
-
         try {
             $this->store = new \Redis();
             $this->store->connect(
@@ -90,7 +86,6 @@ class RedisCache
 
     public function set($key, $value, $ttl = null)
     {
-
         $key = strpos($key, 'g5cache:') === 0 ? $key : 'g5cache:' . $key;
         $this->store->set($key, serialize($value), $ttl);
     }
