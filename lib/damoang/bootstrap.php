@@ -18,6 +18,10 @@ add_replace('get_cachemanage_instance', function () {
         ];
 
         try {
+            if (!class_exists('Redis', false)) {
+                throw new \Exception('Class Redis not found');
+            }
+
             $instance = new RedisCache($config);
         } catch (\Exception $e) {
             $instance = null;

@@ -11,8 +11,19 @@ class RedisCache
      */
     protected $store;
 
+    /**
+     * @param array{
+     *      'host'?: string,
+     *      'port'?: int,
+     *      'timeout'?: int,
+     * } $config
+     */
     public function __construct(array $config = [])
     {
+        if (!class_exists('Redis', false)) {
+            throw new \Exception('Class Redis not found');
+        }
+
         try {
             $this->store = new \Redis();
             $this->store->connect(
@@ -43,7 +54,7 @@ class RedisCache
                     $this->delete(...$keys);
                 }
             }
-            return $keys;
+            return $keys ?? [];
         }, \G5_HOOK_DEFAULT_PRIORITY, 3);
 
         add_event('adm_cache_delete', function ($board_tables) {
@@ -69,10 +80,12 @@ class RedisCache
                 flush();
             }
         }, \G5_HOOK_DEFAULT_PRIORITY);
-
     }
 
-    public function get($key, $default = null)
+    /**
+     * @return false|mixed
+     */
+    public function get(string $key)
     {
         $key = strpos($key, 'g5cache:') === 0 ? $key : 'g5cache:' . $key;
         $value = $this->store->get($key);
@@ -84,19 +97,36 @@ class RedisCache
         return unserialize($value);
     }
 
-    public function set($key, $value, $ttl = null)
+    /**
+     * @param mixed $value
+     * @param ?int $ttl
+     */
+    public function set(string $key, $value, $ttl = null): void
     {
         $key = strpos($key, 'g5cache:') === 0 ? $key : 'g5cache:' . $key;
         $this->store->set($key, serialize($value), $ttl);
     }
 
-    public function save($key, $value, $ttl = null)
+    /**
+     * @param mixed $value
+     * @param ?int $ttl
+     */
+    public function save(string $key, $value, $ttl = null): void
     {
         $this->set($key, $value, $ttl);
     }
 
-    public function keys(string $pattern)
+    /**
+     * @return string[]
+     */
+    public function keys(string $pattern): array
     {
+        $keys = $this->store->keys('g5cache:' . $pattern);
+
+        if (!is_array($keys)) {
+            return [];
+        }
+
         return $this->store->keys('g5cache:' . $pattern);
     }
 
@@ -111,10 +141,5 @@ class RedisCache
         }
 
         return (bool) $this->store->del($key, ...$keys);
-    }
-
-    public function has($key)
-    {
-
     }
 }
