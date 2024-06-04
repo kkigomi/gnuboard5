@@ -289,10 +289,16 @@ if ($stx) {
 }
 
 $group_select = '<label for="gr_id" class="sound_only">게시판 그룹선택</label><select name="gr_id" id="gr_id" class="select"><option value="">전체 분류';
-$sql = " select gr_id, gr_subject from {$g5['group_table']} order by gr_id ";
+$sql = " select gr_id, gr_subject, gr_1 from {$g5['group_table']} order by gr_id ";
 $result = sql_query($sql);
-for ($i=0; $row=sql_fetch_array($result); $i++)
-    $group_select .= "<option value=\"".$row['gr_id']."\"".get_selected($gr_id, $row['gr_id']).">".$row['gr_subject']."</option>";
+for ($i = 0; $row = sql_fetch_array($result); $i++) {
+    // 여분 필드 1의 값이 false이면 노출하지 않음
+    if (($row['gr_1'] ?? '') === 'private') {
+        continue;
+    }
+
+    $group_select .= "<option value=\"" . $row['gr_id'] . "\"" . get_selected($gr_id, $row['gr_id']) . ">" . $row['gr_subject'] . "</option>";
+}
 $group_select .= '</select>';
 
 if (!$sfl) $sfl = 'wr_subject';
