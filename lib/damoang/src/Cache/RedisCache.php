@@ -25,9 +25,7 @@ class RedisCache
                 intval($config['timeout'] ?? 0),
             );
         } catch (\Exception $e) {
-            if ($GLOBALS['is_admin'] === 'super') {
-                throw $e;
-            }
+            throw $e;
         }
 
         add_replace('g5_get_cache_replace', function ($data = false, $cache, $key, $expired_time) {
