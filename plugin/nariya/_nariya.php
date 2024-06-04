@@ -157,6 +157,7 @@ $replace_bbs_file = array(
 	G5_BBS_DIR.'-content', // 내용관리
 	G5_BBS_DIR.'-board', // 게시판, 글쓰기
 	G5_BBS_DIR.'-page-faq', // FAQ
+	G5_BBS_DIR.'-page-scrap_popin_update', // FAQ
 );
 
 // 영카트 원본 대체 파일
