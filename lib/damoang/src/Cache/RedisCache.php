@@ -13,12 +13,22 @@ class RedisCache
 
     public function __construct(array $config = [])
     {
-        $this->store = new \Redis();
-        $this->store->connect(
-            $config['host'] ?? '127.0.0.1',
-            intval($config['port'] ?? 6379),
-            intval($config['timeout'] ?? 0),
-        );
+        if (!class_exists('Redis', false)) {
+            throw new \Exception('Redis 설치되지 않음');
+        }
+
+        try {
+            $this->store = new \Redis();
+            $this->store->connect(
+                $config['host'] ?? '127.0.0.1',
+                intval($config['port'] ?? 6379),
+                intval($config['timeout'] ?? 0),
+            );
+        } catch (\Exception $e) {
+            if ($GLOBALS['is_admin'] === 'super') {
+                throw $e;
+            }
+        }
 
         add_replace('g5_get_cache_replace', function ($data = false, $cache, $key, $expired_time) {
             if ($cache instanceof $this) {
@@ -70,7 +80,7 @@ class RedisCache
 
     public function get($key, $default = null)
     {
-        $key = str_starts_with($key, 'g5cache:') ? $key : 'g5cache:' . $key;
+        $key = strpos($key, 'g5cache:') === 0 ? $key : 'g5cache:' . $key;
         $value = $this->store->get($key);
 
         if ($value === false) {
@@ -82,7 +92,8 @@ class RedisCache
 
     public function set($key, $value, $ttl = null)
     {
-        $key = str_starts_with($key, 'g5cache:') ? $key : 'g5cache:' . $key;
+
+        $key = strpos($key, 'g5cache:') === 0 ? $key : 'g5cache:' . $key;
         $this->store->set($key, serialize($value), $ttl);
     }
 
@@ -98,11 +109,11 @@ class RedisCache
 
     public function delete(string $key, string ...$keys): bool
     {
-        $key = str_starts_with($key, 'g5cache:') ? $key : 'g5cache:' . $key;
+        $key = strpos($key, 'g5cache:') === 0 ? $key : 'g5cache:' . $key;
 
         if ($keys) {
             $keys = array_map(function ($key) {
-                return str_starts_with($key, 'g5cache:') ? $key : 'g5cache:' . $key;
+                return strpos($key, 'g5cache:') === 0 ? $key : 'g5cache:' . $key;
             }, $keys);
         }
 
