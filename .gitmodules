@@ -5,7 +5,8 @@
 [submodule "plugin/editor/suneditor_damoang"]
 	path = plugin/editor/suneditor_damoang
 	url = https://github.com/damoang/suneditor_damoang.git
-    branch = main
+        branch = main
 [submodule "theme/damoang"]
+        branch = main
 	path = theme/damoang
 	url = https://github.com/damoang/theme.git
