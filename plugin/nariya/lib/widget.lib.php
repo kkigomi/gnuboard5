@@ -154,13 +154,20 @@ function na_sql_sort($type, $sort) {
 }
 
 // 게시판 정리
-function na_sql_find($field, $str, $ex='') {
-
-	if(!$field || !$str)
+function na_sql_find($field, $str, $ex = '')
+{
+	if (!$field || !$str) {
 		return;
+	}
 
-	$ex = ($ex) ? '=0' : '';
-	$sql = " and find_in_set(".$field.", '".$str."')".$ex;
+	$items = explode(',', $str);
+	$items = array_map(function ($item) {
+		return "'" . trim($item) . "'";
+	}, $items);
+	$items = implode(',', $items);
+
+	$function = ($ex) ? 'NOT IN' : 'IN';
+	$sql = " and {$field} {$function} ({$items}) ";
 
 	return $sql;
 }
