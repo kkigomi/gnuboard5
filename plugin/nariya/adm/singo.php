@@ -82,6 +82,7 @@ $pagination = $pg->getPagination();
             <colgroup>
                 <col style="width:2%">
                 <col style="width:8%">
+                <col style="width:8%">
                 <col style="width:5%">
                 <col>
                 <col style="width:10%">
@@ -90,6 +91,7 @@ $pagination = $pg->getPagination();
                 <col style="width:10%">
                 <col style="width:6%">
                 <col style="width:6%">
+                <col style="width:10%"> <!-- Add width for the new date column -->
             </colgroup>
             <thead>
                 <tr>
@@ -97,6 +99,7 @@ $pagination = $pg->getPagination();
                         <label for="chkall" class="sound_only">게시판 전체</label>
                         <input type="checkbox" name="chkall" value="1" id="chkall" onclick="check_all(this.form)">
                     </th>
+                    <th scope="col">날짜</th> <!-- New date column header -->
                     <th scope="col">게시판</th>
                     <th scope="col">유형</th>
                     <th scope="col">제목(내용)</th>
@@ -154,6 +157,7 @@ $pagination = $pg->getPagination();
                         <label for="chk_<?php echo $row['id']; ?>" class="sound_only"><?php echo $row['id']; ?>번 항목 체크</label>
                         <input type="checkbox" name="chk[]" value="<?php echo $row['id']; ?>" id="chk_<?php echo $row['id']; ?>">
                     </td>
+                    <td class="td_left"><?php echo date("Y-m-d H:i:s", strtotime($row['sg_date'])); ?></td> <!-- New date column data -->
                     <td class="td_left"><?=$row_board['bo_subject']?></td>             <!-- 게시판 -->
                     <td class="td_left"><?=$post_type?></td>                           <!-- 게시물 타입 -->
                     <td class="td_left"><?php echo strip_tags($content); ?></td>        <!-- 제목 또는 댓글 내용 -->
@@ -250,3 +254,4 @@ $pagination = $pg->getPagination();
 
 <?php
 include_once (G5_ADMIN_PATH.'/admin.tail.php');
+?>
