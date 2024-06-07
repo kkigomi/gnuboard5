@@ -199,45 +199,24 @@ function na_rank_start($rows, $page) {
 // Date & Time
 //function na_date($date, $class='', $day='H:i', $month='m.d H:i', $year='Y.m.d H:i') {
 //기여자 :이프로부족/풀스택/땅파기 2024-04-09
-function na_date($date, $class='', $day='H:i', $month='m.d H:i', $year='Y.m.d H:i', $yday='H:i') {
-	$date = strtotime($date);
-	$today = date('Y-m-d', $date);
+function na_date(string $date, string $class = '', string $day = 'auto', string $month = 'auto', string $year = 'auto', string $yday = 'auto'): string
+{
+    $output = \Damoang\Lib\Helper\DateHelper::shorten(
+        $date,
+        ($day !== 'auto') ? $day : 'auto',
+        [
+            'day' => !in_array($day, ['auto', 'before']) ? $day : null,
+            'month' => !in_array($month, ['auto', 'before']) ? $month : null,
+            'year' => !in_array($year, ['auto', 'before']) ? $year : null,
+            'yday' => !in_array($yday, ['auto', 'before']) ? $yday : null,
+        ]
+    );
 
-	if (G5_TIME_YMD == $today) {
-		if($day == 'before') {
-			$diff = G5_SERVER_TIME - $date;
+    if (\G5_TIME_YMD === substr($date, 0, 10) && $class) {
+        $output = '<span class="' . $class . '">' . $output . '</span>';
+    }
 
-			$s = 60; //1분 = 60초
-			$h = $s * 60; //1시간 = 60분
-			$d = $h * 24; //1일 = 24시간
-			$y = $d * 10; //1년 = 1일 * 10일
-
-			if ($diff < $s) {
-				$time = $diff.'초 전';
-			} else if ($h > $diff && $diff >= $s) {
-				$time = round($diff / $s).'분 전';
-			} else if ($d > $diff && $diff >= $h) {
-				$time = round($diff / $h).'시간 전';
-			} else {
-				$time = date($day, $date);
-			} 
-		} else {
-			$time = date($day, $date);
-		}
-
-		if($class) {
-			$time = '<span class="'.$class.'">'.$time.'</span>';
-		}
-	} else if (time() - $date < /* 60*60*24 */ 86400 ) {
-		// 24 시간 이내
-		$time = date($yday, $date);
-	} else if(substr(G5_TIME_YMD, 0, 7) == substr($today, 0, 7)) {
-		$time = date($month, $date);
-	} else {
-		$time = date($year, $date);
-	} 
-
-	return $time;
+    return $output;
 }
 
 // 그누 get_list()함수에서 전역변수 일부 수정
