@@ -27,7 +27,7 @@ $count_sql = sql_fetch(" SELECT count(*) AS count FROM {$g5['na_singo']}".$sql_w
 $count = isset($count_sql["count"]) ? (int) $count_sql["count"] : 0;
 
 // 한 페이지당 보여지는 항목 수
-$list_count = 100;
+$list_count = 500;
 
 $offset = $list_count * $page;
 $sql = " SELECT * FROM {$g5['na_singo']}" .$sql_where."
