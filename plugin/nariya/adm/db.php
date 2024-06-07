@@ -13,25 +13,31 @@ $is_check = false;
 // 알림
 if(!sql_query(" DESC {$g5['na_noti']} ", false)) {
 	sql_query(" CREATE TABLE IF NOT EXISTS `{$g5['na_noti']}` (
-				  `ph_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-				  `ph_to_case` varchar(50) NOT NULL DEFAULT '',
-				  `ph_from_case` varchar(50) NOT NULL DEFAULT '',
-				  `bo_table` varchar(20) NOT NULL DEFAULT '',
-				  `rel_bo_table` varchar(20) NOT NULL DEFAULT '',
-				  `wr_id` int(11) NOT NULL DEFAULT 0,
-				  `rel_wr_id` int(11) NOT NULL DEFAULT 0,
-				  `mb_id` varchar(255) NOT NULL DEFAULT '',
-				  `rel_mb_id` varchar(255) NOT NULL DEFAULT '',
-				  `rel_mb_nick` varchar(255) DEFAULT NULL,
-				  `rel_msg` varchar(255) NOT NULL DEFAULT '',
-				  `rel_url` varchar(200) NOT NULL DEFAULT '',
-				  `ph_readed` char(1) NOT NULL DEFAULT 'N',
-				  `ph_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-				  `parent_subject` varchar(255) NOT NULL,
-				  `wr_parent` int(11) DEFAULT 0,
-				  PRIMARY KEY (`ph_id`)
-			) ".$na_db_set."; ", true);
+		`ph_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+		`ph_to_case` varchar(50) NOT NULL DEFAULT '',
+		`ph_from_case` varchar(50) NOT NULL DEFAULT '',
+		`bo_table` varchar(20) NOT NULL DEFAULT '',
+		`rel_bo_table` varchar(20) NOT NULL DEFAULT '',
+		`wr_id` int(11) NOT NULL DEFAULT 0,
+		`rel_wr_id` int(11) NOT NULL DEFAULT 0,
+		`mb_id` varchar(255) NOT NULL DEFAULT '',
+		`rel_mb_id` varchar(255) NOT NULL DEFAULT '',
+		`rel_mb_nick` varchar(255) DEFAULT NULL,
+		`rel_msg` varchar(255) NOT NULL DEFAULT '',
+		`rel_url` varchar(200) NOT NULL DEFAULT '',
+		`ph_readed` char(1) NOT NULL DEFAULT 'N',
+		`ph_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+		`parent_subject` varchar(255) NOT NULL,
+		`wr_parent` int(11) DEFAULT 0,
+		PRIMARY KEY (`ph_id`)
+		KEY `idx_update_readed` (`bo_table`,`mb_id`,`wr_parent`,`ph_readed`) USING BTREE
+	) ".$na_db_set."; ", true);
 
+	$is_check = true;
+}
+
+if (!sql_fetch("SHOW INDEX FROM g5_na_noti where `Key_name` = 'idx_update_readed';")) {
+	sql_query(" ALTER TABLE `{$g5['na_noti']}` ADD INDEX `idx_update_readed` (`bo_table`,`mb_id`,`wr_parent`,`ph_readed`) ", true);
 	$is_check = true;
 }
 

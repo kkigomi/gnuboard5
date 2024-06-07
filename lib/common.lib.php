@@ -1397,31 +1397,36 @@ function get_sideview($mb_id, $name='', $email='', $homepage='')
     $menus = array();
 
     if ($mb_id) {
+        // $tmp_name = "<a href=\"".G5_BBS_URL."/profile.php?mb_id=".$mb_id."\" class=\"sv_member\" title=\"$name 자기소개\" rel="nofollow" target=\"_blank\" onclick=\"return false;\">$name</a>";
         $name_tag_open = '<a href="' . G5_BBS_URL . '/profile.php?mb_id=' . $mb_id . '" class="sv_member" title="' . $name . ' 자기소개" target="_blank" rel="nofollow" onclick="return false;">';
 
         if ($config['cf_use_member_icon']) {
             $mb_dir = substr($mb_id, 0, 2);
-            $width = $config['cf_member_icon_width'];
-            $height = $config['cf_member_icon_height'];
-            $icon_file_url = G5_DATA_URL . "/member/{$mb_dir}/" . get_mb_icon_name($mb_id) . '.gif';
-            $icon_file_url = run_replace('s3_replace_url', $icon_file_url);
-            
-            if(isset($member['mb_3'])) {
-                $icon_file_url .= "?v={$member['mb_3']}";//회원이미지 변경날짜 필드
+            $icon_file = G5_DATA_PATH . '/member/' . $mb_dir . '/' . get_mb_icon_name($mb_id) . '.gif';
+
+            if (file_exists($icon_file)) {
+                $icon_filemtile = (defined('G5_USE_MEMBER_IMAGE_FILETIME') && G5_USE_MEMBER_IMAGE_FILETIME) ? '?' . filemtime($icon_file) : '';
+                $width = $config['cf_member_icon_width'];
+                $height = $config['cf_member_icon_height'];
+                $icon_file_url = G5_DATA_URL . '/member/' . $mb_dir . '/' . get_mb_icon_name($mb_id) . '.gif' . $icon_filemtile;
+                $name_tag['profile_image'] = '<span class="profile_img"><img src="' . $icon_file_url . '" width="' . $width . '" height="' . $height . '" alt=""></span>';
+
+                // 회원아이콘+이름
+                if ($config['cf_use_member_icon'] == 2) {
+                    $name_tag['name'] = $name;
+                }
+            } else {
+                if (defined('G5_THEME_NO_PROFILE_IMG')) {
+                    $name_tag['profile_image'] = G5_THEME_NO_PROFILE_IMG;
+                } else if (defined('G5_NO_PROFILE_IMG')) {
+                    $name_tag['profile_image'] = G5_NO_PROFILE_IMG;
+                }
+
+                // 회원아이콘+이름
+                if ($config['cf_use_member_icon'] == 2) {
+                    $name_tag['name'] = $name;
+                }
             }
-
-            $no_profile_path = G5_IMG_URL . '/no_profile.gif';
-            $name_tag['profile_image'] = "<span class='profile_img'>
-            <img src='{$icon_file_url}' width='{$width}' height='{$height}' 
-            onerror=\"this.onerror=null; this.src='{$no_profile_path}';\"    
-            />
-            </span>";
-
-            // 회원아이콘+이름
-            if ($config['cf_use_member_icon'] == 2) {
-                $name_tag['name'] = $name;
-            }
-
         } else {
             $name_tag['name'] = $name;
         }
@@ -2583,21 +2588,18 @@ function delete_editor_thumbnail($contents)
     if(!$matchs)
         return;
 
-    //s3 플러그인으로 대체.
-    if (!$_ENV['is_use_s3']) {
-        for($i=0; $i<count($matchs[1]); $i++) {
-            // 이미지 path 구함
-            $imgurl = @parse_url($matchs[1][$i]);
-            // $srcfile = dirname(G5_PATH).$imgurl['path'];
-            $srcfile = (G5_PATH).$imgurl['path'];
-            if(!preg_match('/(\.jpe?g|\.gif|\.png|\.webp)$/i', $srcfile)) continue;
-            $filename = preg_replace("/\.[^\.]+$/i", "", basename($srcfile));
-            $filepath = dirname($srcfile);
-            $files = glob($filepath.'/thumb-'.$filename.'*');
-            if (is_array($files)) {
-                foreach($files as $filename)
-                    unlink($filename);
-            }
+    for($i=0; $i<count($matchs[1]); $i++) {
+        // 이미지 path 구함
+        $imgurl = @parse_url($matchs[1][$i]);
+        // $srcfile = dirname(G5_PATH).$imgurl['path'];
+        $srcfile = (G5_PATH).$imgurl['path'];
+        if(!preg_match('/(\.jpe?g|\.gif|\.png|\.webp)$/i', $srcfile)) continue;
+        $filename = preg_replace("/\.[^\.]+$/i", "", basename($srcfile));
+        $filepath = dirname($srcfile);
+        $files = glob($filepath.'/thumb-'.$filename.'*');
+        if (is_array($files)) {
+            foreach($files as $filename)
+                unlink($filename);
         }
     }
 

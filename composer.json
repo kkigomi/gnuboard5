@@ -10,8 +10,12 @@
     "require": {
         "php": "^7.3",
         "ext-gd": "*",
-        "ext-curl": "*",
-        "aws/aws-sdk-php": "^3.306",
-        "symfony/dotenv": "^5.4"
+        "symfony/dotenv": "^5.4",
+        "symfony/polyfill-php80": "^1.29"
+    },
+    "autoload": {
+        "psr-4": {
+            "Damoang\\Lib\\": "lib/damoang/src"
+        }
     }
 }
