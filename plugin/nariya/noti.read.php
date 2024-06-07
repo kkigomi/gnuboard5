@@ -21,7 +21,7 @@ if($result) {
 	while($row=sql_fetch_array($result)){
 
 		if ($row['mb_id'] && $member['mb_id'] == $row['mb_id']){
-			array_push($tmp_ph_id , $row['ph_id']);
+			array_push($tmp_ph_id , (int) $row['ph_id']);
 		} else {
 			alert("자신의 알림이 아니므로 리다이렉트 할 수 없습니다.", G5_BBS_URL.'/noti.php');
 		}
@@ -33,13 +33,19 @@ if($result) {
 }
 
 if(count($tmp_ph_id) > 0){
+	$tmp_add_sql = '';
 	$group_ph_id = implode(",", $tmp_ph_id);
 	if($tmp_bo_table && $tmp_wr_parent){
-		$tmp_add_sql = "OR ( bo_table = '$tmp_bo_table' AND wr_parent = '$tmp_wr_parent' AND mb_id = '{$member['mb_id']}' )";
+		$tmp_add_sql = "OR ( bo_table = '$tmp_bo_table' AND mb_id = '{$member['mb_id']}' AND wr_parent = '$tmp_wr_parent' )";
 	}
 
 	//알림데이터 해당 행 읽음으로 업데이트	
-	sql_query(" update ".$g5['na_noti']." set ph_readed = 'Y' where ph_id in (".$group_ph_id.") $tmp_add_sql ");
+	sql_query(" UPDATE {$g5['na_noti']}
+		SET ph_readed = 'Y'
+		WHERE ph_id IN ({$group_ph_id})
+			{$tmp_add_sql}
+			AND ph_readed = 'N'
+	");
 
 	na_noti_update($member['mb_id']);
 
