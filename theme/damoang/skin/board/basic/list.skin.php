@@ -182,8 +182,8 @@ function showRollingNoti(key) {
   rollingNotiContainer.style.display = 'none';
 
   Promise.all([
-    fetch('theme/damoang/skin/board/basic/getRollingMessages.php?group=all_board').then(response => response.json()),
-    fetch(`theme/damoang/skin/board/basic/getRollingMessages.php?group=${key}`).then(response => response.json())
+    fetch(g5_url + '/theme/damoang/skin/board/basic/getRollingMessages.php?group=all_board').then(response => response.json()),
+    fetch(`${g5_url}/theme/damoang/skin/board/basic/getRollingMessages.php?group=${key}`).then(response => response.json())
   ])
   .then(([allBoardData, keyData]) => {
     const allBoardMessages = (allBoardData.data || []).filter(message => message.charAt(0) !== '#');
