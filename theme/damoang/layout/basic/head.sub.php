@@ -54,7 +54,7 @@ if (!preg_match('/macintosh|mac os x/i', $agent)) {
 <link rel="apple-touch-icon" sizes="180x180" href="<?= G5_THEME_URL ?>/img/favicon/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="<?= G5_THEME_URL ?>/img/favicon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="<?= G5_THEME_URL ?>/img/favicon/favicon-16x16.png">
-<link rel="manifest" href="<?= G5_THEME_URL ?>/img/favicon/site.webmanifest">
+<link rel="manifest" href="<?= G5_THEME_URL ?>/img/favicon/site.webmanifest?1">
 <link rel="shortcut icon" href="<?= G5_THEME_URL ?>/img/favicon/favicon.ico">
 <meta name="msapplication-config" content="<?= G5_THEME_URL ?>/img/favicon/browserconfig.xml">
 
