@@ -40,8 +40,8 @@ if ($config['cf_add_meta'])
 <title><?php echo $g5_head_title; ?></title>
 <link rel="stylesheet" href="<?php echo G5_THEME_URL ?>/css/bootstrap.min.css">
 <?php
-add_stylesheet('<link rel="stylesheet" href="' . G5_THEME_URL . '/css/' . (G5_IS_MOBILE ? 'mobile' : 'default') . '.css">', 0);
-add_stylesheet('<link rel="stylesheet" href="' . G5_THEME_URL . '/css/nariya.css">', 0);
+add_stylesheet('<link rel="stylesheet" href="' . G5_THEME_URL . '/css/' . (G5_IS_MOBILE ? 'mobile' : 'default') . '.css?CACHEBUST">', 0);
+add_stylesheet('<link rel="stylesheet" href="' . G5_THEME_URL . '/css/nariya.css?CACHEBUST">', 0);
 add_stylesheet('<link rel="stylesheet" href="' . LAYOUT_URL . '/css/style.css?CACHEBUST">', 0);
 add_stylesheet('<link rel="stylesheet" href="' . G5_THEME_URL . '/css/bootstrap-icons.min.css">', 0);
 add_stylesheet('<link rel="stylesheet" href="' . G5_JS_URL . '/font-awesome/css/font-awesome.min.css">', 0);
@@ -54,7 +54,7 @@ if (!preg_match('/macintosh|mac os x/i', $agent)) {
 <link rel="apple-touch-icon" sizes="180x180" href="<?= G5_THEME_URL ?>/img/favicon/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="<?= G5_THEME_URL ?>/img/favicon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="<?= G5_THEME_URL ?>/img/favicon/favicon-16x16.png">
-<link rel="manifest" href="<?= G5_THEME_URL ?>/img/favicon/site.webmanifest">
+<link rel="manifest" href="<?= G5_THEME_URL ?>/img/favicon/site.webmanifest?1">
 <link rel="shortcut icon" href="<?= G5_THEME_URL ?>/img/favicon/favicon.ico">
 <meta name="msapplication-config" content="<?= G5_THEME_URL ?>/img/favicon/browserconfig.xml">
 
@@ -164,10 +164,10 @@ add_javascript('<script src="' . G5_THEME_URL . '/js/common.js"></script>');
 add_javascript('<script src="' . G5_THEME_URL . '/js/wrest.js"></script>');
 add_javascript('<script src="' . G5_THEME_URL . '/js/bootstrap.bundle.min.js"></script>');
 add_javascript('<script src="' . G5_THEME_URL . '/js/clipboard.min.js"></script>');
-add_javascript('<script src="' . G5_THEME_URL . '/js/nariya.js"></script>');
+add_javascript('<script src="' . G5_THEME_URL . '/js/nariya.js?CACHEBUST"></script>');
 add_javascript('<script src="' . LAYOUT_URL . '/js/darkmode.js"></script>');
 add_javascript('<script src="' . LAYOUT_URL . '/js/customui.js?CACHEBUST"></script>');
-add_javascript('<script src="' . LAYOUT_URL . '/js/custom_features.js"></script>');
+add_javascript('<script src="' . LAYOUT_URL . '/js/custom_features.js?CACHEBUST"></script>');
 
 // 레이아웃 스크립트
 add_javascript('<script src="' . LAYOUT_URL . '/js/layout.js?CACHEBUST"></script>');
