@@ -3040,7 +3040,7 @@ function insert_cert_history($mb_id, $company, $method)
 }
 
 // 본인확인 변경내역 기록
-function insert_member_cert_history($mb_id, $name, $hp, $birth, $type)
+function insert_member_cert_history($mb_id, $name, $hp, $birth, $type, string $ci)
 {
     global $g5;
 
@@ -3058,18 +3058,21 @@ function insert_member_cert_history($mb_id, $name, $hp, $birth, $type)
                         `ch_hp` varchar(255) NOT NULL DEFAULT '',
                         `ch_birth` varchar(255) NOT NULL DEFAULT '',
                         `ch_type` varchar(20) NOT NULL DEFAULT '',
+                        `ch_ci` VARCHAR(255) NOT NULL DEFAULT '',
                         `ch_datetime` datetime NOT NULL default '0000-00-00 00:00:00',
                         PRIMARY KEY (`ch_id`),
-                        KEY `mb_id` (`mb_id`)
+                        KEY `mb_id` (`mb_id`),
+                        KEY `idx_ci` (`ch_ci`)
                     ) ", true);
     }
 
-    $sql = " insert into {$g5['member_cert_history_table']}
+    $sql = " INSERT into {$g5['member_cert_history_table']}
                 set mb_id = '{$mb_id}',
                     ch_name = '{$name}',
                     ch_hp = '{$hp}',
                     ch_birth = '{$birth}',
                     ch_type = '{$type}',
+                    ch_ci = '{$ci}',
                     ch_datetime = '".G5_TIME_YMD." ".G5_TIME_HIS."'";
     sql_query($sql);
 }

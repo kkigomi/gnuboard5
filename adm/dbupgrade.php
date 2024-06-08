@@ -269,6 +269,16 @@ while ($row = sql_fetch_array($result)){
     }
 }
 
+// CI 저장 컬럼 추가
+$sql = "SHOW COLUMNS FROM `{$g5['member_cert_history_table']}` LIKE 'ch_ci'";
+if (!$row = sql_fetch($sql)) {
+    sql_query("ALTER TABLE `{$g5['member_cert_history_table']}`
+        ADD COLUMN `ch_ci` VARCHAR(255) NOT NULL DEFAULT '' AFTER `ch_type`,
+        ADD INDEX `idx_ci` (`ch_ci`)
+    ", true);
+    $is_check = true;
+}
+
 $is_check = run_replace('admin_dbupgrade', $is_check);
 
 $db_upgrade_msg = $is_check ? 'DB 업그레이드가 완료되었습니다.' : '더 이상 업그레이드 할 내용이 없습니다.<br>현재 DB 업그레이드가 완료된 상태입니다.';

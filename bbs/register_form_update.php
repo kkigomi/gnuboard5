@@ -187,7 +187,7 @@ if ($config['cf_cert_use'] && $cert_type && $md5_cert_no) {
         // NOTE: 개인정보 저장 부분 최소화를 위한 변경
         $sql_certify .= " , mb_certify  = '{$cert_type}' ";
         $sql_certify .= " , mb_dupinfo = '".get_session('ss_cert_dupinfo')."' ";
-    } else if($cert_type != 'ipin' && get_session('ss_cert_hash') == md5($mb_name.$cert_type.get_session('ss_cert_birth').$mb_hp.$md5_cert_no)) {
+    } else if($cert_type != 'ipin' && get_session('ss_cert_hash') == sha1($cert_type.get_session('ss_cert_birth').get_session('ss_cert_dupinfo').$md5_cert_no)) {
         // 간편인증, 휴대폰일때 hash 값 체크 hp포함
         // NOTE: 개인정보 저장 부분 최소화를 위한 변경
         $sql_certify .= " , mb_certify  = '{$cert_type}' ";
@@ -310,14 +310,14 @@ if ($w == '') {
     set_session('ss_mb_reg', $mb_id);
 
     // NOTE: 개인정보 저장 부분 최소화를 위한 변경
-    if ($cert_type == 'ipin' && get_session('ss_cert_hash') == md5($mb_name . $cert_type . get_session('ss_cert_birth') . $md5_cert_no)) {
+    if ($cert_type == 'ipin' && get_session('ss_cert_hash') == sha1($mb_name . $cert_type . get_session('ss_cert_birth') . $md5_cert_no)) {
         // 아이핀일때 hash 값 체크 hp미포함)
         // 본인인증 후 정보 수정 시 내역 기록
-        insert_member_cert_history($mb_id, '', '', '', get_session('ss_cert_type'));
-    } else if ($cert_type != 'ipin' && get_session('ss_cert_hash') == md5($mb_name . $cert_type . get_session('ss_cert_birth') . $mb_hp . $md5_cert_no)) {
+        insert_member_cert_history($mb_id, '', '', '', get_session('ss_cert_type'), get_session('ss_cert_dupinfo'));
+    } else if ($cert_type != 'ipin' && get_session('ss_cert_hash') == sha1($cert_type . get_session('ss_cert_birth') . get_session('ss_cert_dupinfo') . $md5_cert_no)) {
         // 간편인증, 휴대폰일때 hash 값 체크 hp포함
         // 본인인증 후 정보 수정 시 내역 기록
-        insert_member_cert_history($mb_id, '', '', '', get_session('ss_cert_type'));
+        insert_member_cert_history($mb_id, '', '', '', get_session('ss_cert_type'), get_session('ss_cert_dupinfo'));
     }
 
 } else if ($w == 'u') {
@@ -379,14 +379,14 @@ if ($w == '') {
     sql_query($sql);
 
     // NOTE: 개인정보 저장 부분 최소화를 위한 변경
-    if ($cert_type == 'ipin' && get_session('ss_cert_hash') == md5($mb_name . $cert_type . get_session('ss_cert_birth') . $md5_cert_no)) { 
+    if ($cert_type == 'ipin' && get_session('ss_cert_hash') == sha1($mb_name . $cert_type . get_session('ss_cert_birth') . $md5_cert_no)) { 
         // 아이핀일때 hash 값 체크 hp미포함)
         // 본인인증 후 정보 수정 시 내역 기록
-        insert_member_cert_history($mb_id, '', '', '', get_session('ss_cert_type')); 
-    } else if ($cert_type != 'ipin' && get_session('ss_cert_hash') == md5($mb_name . $cert_type . get_session('ss_cert_birth') . $mb_hp . $md5_cert_no)) {
+        insert_member_cert_history($mb_id, '', '', '', get_session('ss_cert_type'), get_session('ss_cert_dupinfo')); 
+    } else if ($cert_type != 'ipin' && get_session('ss_cert_hash') == sha1($cert_type . get_session('ss_cert_birth') . get_session('ss_cert_dupinfo') . $md5_cert_no)) {
         // 간편인증, 휴대폰일때 hash 값 체크 hp포함
         // 본인인증 후 정보 수정 시 내역 기록
-        insert_member_cert_history($mb_id, '', '', '', get_session('ss_cert_type')); 
+        insert_member_cert_history($mb_id, '', '', '', get_session('ss_cert_type'), get_session('ss_cert_dupinfo')); 
     }
 }
 

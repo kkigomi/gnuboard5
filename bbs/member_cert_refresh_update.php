@@ -66,11 +66,11 @@ if($result){
     if($cert_type == 'ipin' && get_session('ss_cert_hash') == sha1($cert_type.get_session('ss_cert_birth').get_session('ss_cert_dupinfo').$md5_cert_no)) {
         // 아이핀일때 hash 값 체크 hp미포함)
         // 본인인증 후 정보 수정 시 내역 기록
-        insert_member_cert_history($mb_id, '', '', '', get_session('ss_cert_type') );
+        insert_member_cert_history($mb_id, '', '', '', get_session('ss_cert_type'), get_session('ss_cert_dupinfo') );
     }else if($cert_type != 'ipin' && get_session('ss_cert_hash') == sha1($cert_type.get_session('ss_cert_birth').get_session('ss_cert_dupinfo').$md5_cert_no)) {
         // 간편인증, 휴대폰일때 hash 값 체크 hp포함
         // 본인인증 후 정보 수정 시 내역 기록
-        insert_member_cert_history($mb_id, '', '', '', get_session('ss_cert_type') );
+        insert_member_cert_history($mb_id, '', '', '', get_session('ss_cert_type'), get_session('ss_cert_dupinfo') );
     }
 }
 
