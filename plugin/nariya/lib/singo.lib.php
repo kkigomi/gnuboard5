@@ -19,6 +19,7 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
 // 신고 타입
 $singo_type = array();
+$singo_type[0] = '다중계정';
 $singo_type[1] = '스팸홍보/도배글';
 $singo_type[2] = '영리목적/홍보성';
 $singo_type[3] = '불법정보/불법촬영물';
