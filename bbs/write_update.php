@@ -230,8 +230,11 @@ if ($w == '' || $w == 'r') {
         $mb_id = $member['mb_id'];
         $wr_name = addslashes(clean_xss_tags($board['bo_use_name'] ? $member['mb_name'] : $member['mb_nick']));
         $wr_password = '';
-        $wr_email = addslashes($member['mb_email']);
-        $wr_homepage = addslashes(clean_xss_tags($member['mb_homepage']));
+        // NOTE: 개인정보 저장 최소화
+        // $wr_email = addslashes($member['mb_email']);
+        // $wr_homepage = addslashes(clean_xss_tags($member['mb_homepage']));
+        $wr_email = '';
+        $wr_homepage = '';
     } else {
         $mb_id = '';
         // 비회원의 경우 이름이 누락되는 경우가 있음
@@ -352,8 +355,11 @@ if ($w == '' || $w == 'r') {
         if ($member['mb_id'] === $wr['mb_id']) {
             $mb_id = $member['mb_id'];
             $wr_name = addslashes(clean_xss_tags($board['bo_use_name'] ? $member['mb_name'] : $member['mb_nick']));
-            $wr_email = addslashes($member['mb_email']);
-            $wr_homepage = addslashes(clean_xss_tags($member['mb_homepage']));
+            // NOTE: 개인정보 저장 최소화
+            // $wr_email = addslashes($member['mb_email']);
+            // $wr_homepage = addslashes(clean_xss_tags($member['mb_homepage']));
+            $wr_email = '';
+            $wr_homepage = '';
         } else {
             $mb_id = $wr['mb_id'];
             if(isset($_POST['wr_name']) && $_POST['wr_name'])

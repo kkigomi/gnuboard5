@@ -72,6 +72,23 @@ if ($sca || $stx || $stx === '0') {     //검색이면
 
         $sql_search .= " and (wr_num between {$spt} and ({$spt} + {$config['cf_search_part']})) ";
 
+        /**
+         * 특정 날짜의 게시물을 검색하는 쿼리 최적화를 위한 임시 수정
+         */
+        $datePattern = "/INSTR\(wr_datetime, '(\d{4}-\d{2}-\d{2})'\)/";
+        $numPattern = "/wr_num between (-?\d+) and \(-?\d+ \+ \d+\)/";
+
+        if (preg_match($datePattern, $sql_search, $dateMatches) && preg_match($numPattern, $sql_search)) {
+            $date = $dateMatches[1];
+            $startDate = $date . " 00:00:00";
+            $endDate = date('Y-m-d', strtotime($date . ' +1 day')) . " 00:00:00";
+
+            $dateCondition = "wr_datetime >= '$startDate' AND wr_datetime < '$endDate'";
+
+            $sql_search = $dateCondition;
+            $stx = '';
+        }
+
         // 나리야
         if($na_sql_where)
             $sql_search .= $na_sql_where;

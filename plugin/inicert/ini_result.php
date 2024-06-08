@@ -81,6 +81,15 @@ if ($txId && isset($_POST["resultCode"]) && $_POST["resultCode"] === "0000") {
             alert_close("입력하신 본인확인 정보로 이미 가입된 내역이 존재합니다.\\n회원아이디 : ".$row['mb_id']);
         }
 
+        // history 테이블에서도 체크
+        $row = sql_fetch("SELECT count(*) as cnt from {$g5['member_cert_history_table']}
+            where mb_id <> '{$member['mb_id']}'
+                and ch_ci = '{$mb_dupinfo}'
+        ");
+        if (!empty($row['cnt'])) {
+            alert_close("이미 본인인증에 사용된 정보입니다. 가입된 회원계정이 있거나 탈퇴된 계정일 수 있습니다.");
+        }
+
         // hash 데이터
         $md5_cert_no = sha1($cert_no);
         $hash_data   = sha1($cert_type.$birth_day.$mb_dupinfo.$md5_cert_no);

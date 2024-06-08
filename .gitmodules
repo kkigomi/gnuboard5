@@ -1,7 +1,3 @@
-[submodule "plugin/da_member_memo"]
-	path = plugin/da_member_memo
-	url = https://github.com/damoang/da_member_memo.git
-	branch = main
 [submodule "plugin/editor/suneditor_damoang"]
 	path = plugin/editor/suneditor_damoang
 	url = https://github.com/damoang/suneditor_damoang.git

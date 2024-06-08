@@ -26,6 +26,7 @@ pma/
 *.bak
 *.swp
 .DS_Store
+<<<<<<< HEAD
 
 # .gitignore 파일
 
@@ -36,3 +37,6 @@ pma/
 # 무시할 파일
 adm/memo_list.php
 
+=======
+phpstan.neon
+>>>>>>> 3dc8d3402e73c03d5f8cb0bc1f951cfbca076d1e

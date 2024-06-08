@@ -1,0 +1,91 @@
+includes:
+	- phpstan-baseline.neon
+parameters:
+	level: 0
+	phpVersion: 70333
+	bootstrapFiles:
+		- phpstan-bootstrap.php
+	paths:
+		- .
+	scanFiles:
+		- common.php
+	scanDirectories:
+		- lib
+		- plugin/Nariya/lib
+		- vendor
+	excludePaths:
+		analyseAndScan:
+			- ._ide_helper.php
+			- data
+		analyse:
+			- */*shop*
+			- */shop*
+			- adm/shop_admin
+			- adm/sms_admin
+			- lib/Excel
+			- lib/icode.*
+			- lib/iteminfo.lib.php
+			- lib/naver_syndi.lib.php
+			- lib/naverpay.lib.php
+			- lib/PHPExcel
+			- lib/PHPExcel.php
+			- plugin/browscap
+			- plugin/htmlpurifier
+			- plugin/kcpcert
+			- plugin/lgxpay
+			- plugin/okname
+			- plugin/PHPMailer
+			- plugin/sms5
+			- plugin/syndi
+			- vendor
+	dynamicConstantNames:
+		- _GNUBOARD_
+	ignoreErrors:
+		- '#Function mysql_connect not found#'
+		- '#Function mysql_data_seek not found#'
+		- '#Function mysql_errno not found#'
+		- '#Function mysql_error not found#'
+		- '#Function mysql_fetch_assoc not found#'
+		- '#Function mysql_fetch_field not found#'
+		- '#Function mysql_free_result not found#'
+		- '#Function mysql_insert_id not found#'
+		- '#Function mysql_num_fields not found#'
+		- '#Function mysql_num_rows not found#'
+		- '#Function mysql_query not found#'
+		- '#Function mysql_real_escape_string not found#'
+		- '#Function mysql_select_db not found#'
+		- '#Function mysqli_free_result not found#'
+		- '#Function session_register not found#'
+		- '#Variable \$g5 might not be defined#'
+		- '#Variable \$config might not be defined#'
+		- '#Variable \$member might not be defined#'
+		- '#Variable \$board might not be defined#'
+		- '#Variable \$group might not be defined#'
+		- '#Variable \$qaconfig might not be defined#'
+		- '#Variable \$g5_debug might not be defined#'
+		- '#Variable \$g5_object might not be defined#'
+		- '#Variable \$qstr might not be defined#'
+		- '#Variable \$is_admin might not be defined#'
+		- '#Variable \$is_member might not be defined#'
+		- '#Variable \$is_guest might not be defined#'
+		- '#Variable \$sca might not be defined#'
+		- '#Variable \$sfl might not be defined#'
+		- '#Variable \$stx might not be defined#'
+		- '#Variable \$sst might not be defined#'
+		- '#Variable \$sod might not be defined#'
+		- '#Variable \$sop might not be defined#'
+		- '#Variable \$spt might not be defined#'
+		- '#Variable \$page might not be defined#'
+		- '#Variable \$w might not be defined#'
+		- '#Variable \$wr_id might not be defined#'
+		- '#Variable \$bo_table might not be defined#'
+		- '#Variable \$url might not be defined#'
+		- '#Variable \$urlencode might not be defined#'
+		- '#Variable \$gr_id might not be defined#'
+		- '#Variable \$page might not be defined#'
+		- '#Variable \$w might not be defined#'
+		- '#Variable \$wr_id might not be defined#'
+		- '#Variable \$bo_table might not be defined#'
+		- '#Variable \$url might not be defined#'
+		- '#Variable \$urlencode might not be defined#'
+		- '#Variable \$gr_id might not be defined#'
