@@ -106,13 +106,13 @@ if ($config['cf_cert_use'] && ($config['cf_cert_simple'] || $config['cf_cert_ipi
                 <div class="row mb-2">
                     <label for="reg_mb_password" class="col-sm-3 col-form-label">비밀번호<strong class="visually-hidden"> 필수</strong></label>
                     <div class="col-sm-9">
-                        <input type="password" name="mb_password" id="reg_mb_password" <?php echo $required ?> class="form-control <?php echo $required ?>" minlength="3" maxlength="20">
+                        <input type="password" autocomplete="new-password" name="mb_password" id="reg_mb_password" <?php echo $required ?> class="form-control <?php echo $required ?>" minlength="3" maxlength="20">
                     </div>
                 </div>
                 <div class="row">
                     <label for="reg_mb_password_re" class="col-sm-3 col-form-label">비밀번호 확인<strong class="visually-hidden"> 필수</strong></label>
                     <div class="col-sm-9">
-                        <input type="password" name="mb_password_re" id="reg_mb_password_re" <?php echo $required ?> class="form-control <?php echo $required ?>" minlength="3" maxlength="20">
+                        <input type="password" autocomplete="new-password" name="mb_password_re" id="reg_mb_password_re" <?php echo $required ?> class="form-control <?php echo $required ?>" minlength="3" maxlength="20">
                     </div>
                 </div>
             </li>
@@ -392,156 +392,12 @@ if ($config['cf_cert_use'] && ($config['cf_cert_simple'] || $config['cf_cert_ipi
                     </div>
                 </div>
             </li>
-
-            <li class="list-group-item">
-                <div class="row align-items-center">
-                    <label for="reg_ui_custom" class="col-form-label" style="width:100%;text-align:center;margin-top:40px;">개인화면설정</label>
-                </div>
-            </li>
-
-            <li class="list-group-item">
-                <div class="row align-items-center">
-                    <label for="reg_ui_custom" class="col-sm-3 col-form-label">UI 커스텀</label>
-                    <div class="col-sm-9">
-                        <div class="form-check form-switch form-check-inline">
-                            <input class="form-check-input ui_custom_items" type="checkbox" name="ui_custom" value="1" role="switch" id="reg_ui_custom" data-gtm-form-interact-field-id="0">
-
-                            <label class="form-check-label" for="reg_ui_custom">현재 브라우저에만 저장됩니다.</label></div>
-                    </div>
-                </div>
-            </li>
-
-            <li class="list-group-item ui-custon-item">
-                <div class="row">
-                    <label for="reg_show_width" class="col-sm-3 col-form-label">화면너비(px)</label>
-                    <div class="col-sm-9">
-                        <input type="number" id="reg_show_width" name="show_width" placeholder="1200" class="form-control ui_custom_items" data-gtm-form-interact-field-id="1" value="1200" min="1000">
-                    </div>
-                </div>
-            </li>
-
-            <li class="list-group-item ui-custon-item">
-                <div class="row">
-                    <label for="reg_font_family" class="col-sm-3 col-form-label">글씨체</label>
-                    <div class="col-sm-9">
-                        <input type="text" id="reg_font_family" name="font_family" value="" class="form-control ui_custom_items ">
-                    </div>
-                </div>
-            </li>
-
-            <li class="list-group-item ui-custon-item">
-                <div class="row">
-                    <label for="reg_font_size" class="col-sm-3 col-form-label">글씨 크기(em)</label>
-                    <div class="col-sm-9">
-                        <input type="number" id="reg_font_size" name="font_size" class="form-control ui_custom_items" step="0.1" data-gtm-form-interact-field-id="0" placeholder="1" value="1" min="0.3">
-                    </div>
-                </div>
-            </li>
-            <li class="list-group-item ui-custon-item">
-                <div class="row">
-                    <label for="reg_line_height" class="col-sm-3 col-form-label">줄높이</label>
-                    <div class="col-sm-9">
-                        <input type="number" id="reg_line_height" name="line_height" class="form-control ui_custom_items" step="0.1" placeholder="1.5" value="1.5" min="0.1">
-                    </div>
-                </div>
-            </li>
-            <li class="list-group-item ui-custon-item">
-                <div class="row">
-                    <label for="reg_menu_width" class="col-sm-3 col-form-label">메뉴너비(%)</label>
-                    <div class="col-sm-9">
-                        <input type="number" id="reg_menu_width" name="menu_width" class="form-control ui_custom_items " step="0.1" placeholder="25" value="25" data-gtm-form-interact-field-id="2" min="10" max="50">
-                    </div>
-                </div>
-            </li>
-            <li class="list-group-item ui-custon-item">
-                <div class="row align-items-center">
-                    <label for="reg_left_menu" class="col-sm-3 col-form-label">좌측 메뉴</label>
-                    <div class="col-sm-9">
-                        <div class="form-check form-switch form-check-inline">
-                            <input class="form-check-input ui_custom_items" type="checkbox" name="left_menu" value="1" role="switch" id="reg_left_menu" data-gtm-form-interact-field-id="0">
-
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li class="list-group-item ui-custon-item">
-                <div class="row align-items-center">
-                    <label for="reg_menu_scroll" class="col-sm-3 col-form-label">메뉴 스크롤</label>
-                    <div class="col-sm-9">
-                        <div class="form-check form-switch form-check-inline">
-                            <input class="form-check-input ui_custom_items" type="checkbox" name="menu_scroll" value="1" role="switch" id="reg_menu_scroll" data-gtm-form-interact-field-id="0">
-
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li class="list-group-item ui-custon-item">
-                <div class="row align-items-center">
-                    <label for="reg_list_search" class="col-sm-3 col-form-label">목록 검색창</label>
-                    <div class="col-sm-9">
-                        <div class="form-check form-switch form-check-inline">
-                            <input class="form-check-input ui_custom_items" type="checkbox" name="list_search" value="1" role="switch" id="reg_list_search" data-gtm-form-interact-field-id="0">
-
-                        </div>
-                    </div>
-                </div>
-            </li>
-
-            <li class="list-group-item ui-custon-item">
-                <div class="row align-items-center">
-                    <label for="reg_hide_nick" class="col-sm-3 col-form-label">닉감추기</label>
-                    <div class="col-sm-9">
-                        <div class="form-check form-switch form-check-inline">
-                            <input class="form-check-input ui_custom_items" type="checkbox" name="hide_nick" value="1" role="switch" id="reg_hide_nick" data-gtm-form-interact-field-id="0">
-
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li class="list-group-item pt-3">
-                <div class="row g-3 justify-content-center">
-                    <textarea id="ui_custom_json" style="display:none;"></textarea>
-                    <div class="col-6 col-sm-5 md-4 order-2">
-                        <button type="button" id="btn_ui_apply" accesskey="s" class="btn btn-primary btn-lg w-100">적용</button>
-                    </div>
-                </div>
-            </li>
         </ul>
     </form>
 </div>
 
 
 <script>
-function get_ui_custom_values(){
-    var ui_custom_storage_str = localStorage.getItem("ui_custom");
-    if (ui_custom_storage_str !=null && ui_custom_storage_str != "") {
-        var ui_custom_obj = JSON.parse(ui_custom_storage_str);
-        var ui_custom_keys = Object.keys(ui_custom_obj);
-        ui_custom_keys.forEach(function(reg){
-            var temp_input = $("#reg_"+reg)[0];
-            if (temp_input != null) {
-                if (temp_input.type=="checkbox") {
-                    if (ui_custom_obj[reg] == true) {
-                        temp_input.checked = true;
-                    } else {
-                        temp_input.checked = false;
-                    }
-                } else {
-                    temp_input.value = ui_custom_obj[reg];
-                }
-            }
-        })
-        $("#ui_custom_json").val(ui_custom_storage_str);
-    }
-}
-
-jQuery(function($){
-    $("#btn_ui_apply").on("click", function(e){
-        ui_custom_apply();
-    });
-    get_ui_custom_values();
-})
-
 $(function() {
 
     $("#reg_zip_find").css("display", "inline-block");

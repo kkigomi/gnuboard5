@@ -188,7 +188,7 @@ $email_msg = $is_exists_email ? '등록할 이메일이 중복되었습니다.�
                 <label for="login_id" class="login_id">아이디 (필수)</label>
                 <span class="lg_id"><input type="text" name="mb_id" id="login_id" class="frm_input required" size="20" maxLength="20"></span>
                 <label for="login_pw" class="login_pw">비밀번호 (필수)</label>
-                <span class="lg_pw"><input type="password" name="mb_password" id="login_pw" class="frm_input required" size="20" maxLength="20"></span>
+                <span class="lg_pw"><input type="password" autocomplete="current-password" name="mb_password" id="login_pw" class="frm_input required" size="20" maxLength="20"></span>
                 <br>
                 <input type="submit" value="연결하기" class="login_submit btn_submit">
             </div>
