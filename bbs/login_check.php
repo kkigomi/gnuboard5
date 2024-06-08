@@ -139,27 +139,6 @@ if(function_exists('social_login_success_after')){
     social_login_session_clear(1);
 }
 
-//영카트 회원 장바구니 처리
-if(function_exists('set_cart_id')){
-    $member = $mb;
-
-    // 보관기간이 지난 상품 삭제
-    cart_item_clean();
-    set_cart_id('');
-    $s_cart_id = get_session('ss_cart_id');
-
-    $add_cart_where = '';
-
-    // 장바구니에서 주문하기를 하는 경우
-    if (strpos($link, 'orderform.php') !== false) {
-        $add_cart_where = " and ct_select_time < '".date('Y-m-d H:i:s', strtotime('-1 hour', G5_SERVER_TIME))."' ";
-    }
-
-    // 선택필드 초기화
-    $sql = " update {$g5['g5_shop_cart_table']} set ct_select = '0' where od_id = '$s_cart_id' $add_cart_where ";
-    sql_query($sql);
-}
-
 run_event('member_login_check', $mb, $link, $is_social_login);
 
 // 관리자로 로그인시 DATA 폴더의 쓰기 권한이 있는지 체크합니다. 쓰기 권한이 없으면 로그인을 못합니다.

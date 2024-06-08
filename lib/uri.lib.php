@@ -286,17 +286,6 @@ function check_case_exist_title($data, $case=G5_BBS_DIR, $is_redirect=false) {
             g5_delete_cache_by_prefix('content-' . $data['co_id'] . '-');
             $redirect_url = get_pretty_url($case, $data['co_id']);
         }
-    } else if (defined('G5_SHOP_DIR') && $case == G5_SHOP_DIR && isset($data['it_seo_title'])) {
-        $db_table = $g5['g5_shop_item_table'];
-
-        if (shop_exist_check_seo_title($data['it_seo_title'], $case, $db_table, $data['it_id'])) {
-            $seo_title = $data['it_seo_title'].'-'.substr(get_random_token_string(4), 4);
-            $sql = " update `{$db_table}` set it_seo_title = '".sql_real_escape_string($seo_title)."' where it_id = '{$data['it_id']}' ";
-            sql_query($sql, false);
-
-            get_shop_item($data['it_id'], false);
-            $redirect_url = get_pretty_url($case, $data['it_id']);
-        }
     }
 
     if ($is_redirect && $seo_title && $redirect_url) {
