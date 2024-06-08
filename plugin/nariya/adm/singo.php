@@ -27,7 +27,7 @@ $count_sql = sql_fetch(" SELECT count(*) AS count FROM {$g5['na_singo']}".$sql_w
 $count = isset($count_sql["count"]) ? (int) $count_sql["count"] : 0;
 
 // 한 페이지당 보여지는 항목 수
-$list_count = 10;
+$list_count = 500;
 
 $offset = $list_count * $page;
 $sql = " SELECT * FROM {$g5['na_singo']}" .$sql_where."
@@ -82,6 +82,7 @@ $pagination = $pg->getPagination();
             <colgroup>
                 <col style="width:2%">
                 <col style="width:8%">
+                <col style="width:8%">
                 <col style="width:5%">
                 <col>
                 <col style="width:10%">
@@ -90,6 +91,7 @@ $pagination = $pg->getPagination();
                 <col style="width:10%">
                 <col style="width:6%">
                 <col style="width:6%">
+                <col style="width:10%"> <!-- Add width for the new date column -->
             </colgroup>
             <thead>
                 <tr>
@@ -97,6 +99,7 @@ $pagination = $pg->getPagination();
                         <label for="chkall" class="sound_only">게시판 전체</label>
                         <input type="checkbox" name="chkall" value="1" id="chkall" onclick="check_all(this.form)">
                     </th>
+                    <th scope="col">날짜</th> <!-- New date column header -->
                     <th scope="col">게시판</th>
                     <th scope="col">유형</th>
                     <th scope="col">제목(내용)</th>
@@ -122,7 +125,7 @@ $pagination = $pg->getPagination();
                         <label for="chk_<?php echo $row['id']; ?>" class="sound_only"><?php echo $row['id']; ?>번 항목 체크</label>
                         <input type="checkbox" name="chk[]" value="<?php echo $row['id']; ?>" id="chk_<?php echo $row['id']; ?>">
                     </td>
-                    <td colspan="9" class="td_left">삭제 또는 이동된 게시물입니다.</td>
+                    <td colspan="10" class="td_left">삭제 또는 이동된 게시물입니다.</td>
                 </tr>
                 <?php continue; }
 
@@ -154,6 +157,7 @@ $pagination = $pg->getPagination();
                         <label for="chk_<?php echo $row['id']; ?>" class="sound_only"><?php echo $row['id']; ?>번 항목 체크</label>
                         <input type="checkbox" name="chk[]" value="<?php echo $row['id']; ?>" id="chk_<?php echo $row['id']; ?>">
                     </td>
+                    <td class="td_left"><?php echo date("y-m-d H:i", strtotime($row['sg_datetime'])); ?></td> <!-- New date column data -->
                     <td class="td_left"><?=$row_board['bo_subject']?></td>             <!-- 게시판 -->
                     <td class="td_left"><?=$post_type?></td>                           <!-- 게시물 타입 -->
                     <td class="td_left"><?php echo strip_tags($content); ?></td>        <!-- 제목 또는 댓글 내용 -->
@@ -250,3 +254,4 @@ $pagination = $pg->getPagination();
 
 <?php
 include_once (G5_ADMIN_PATH.'/admin.tail.php');
+?>
