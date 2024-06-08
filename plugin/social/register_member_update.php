@@ -165,9 +165,9 @@ if($result) {
   
     // NOTE: 개인정보 저장 부분 최소화를 위한 변경
     if($cert_type == 'ipin' && get_session('ss_cert_hash') == sha1($cert_type.get_session('ss_cert_birth').get_session('ss_cert_dupinfo').$md5_cert_no)) { // 아이핀일때 hash 값 체크 hp미포함)
-        insert_member_cert_history($mb_id, '', '', '', get_session('ss_cert_type') ); // 본인인증 후 정보 수정 시 내역 기록
+        insert_member_cert_history($mb_id, '', '', '', get_session('ss_cert_type'), get_session('ss_cert_dupinfo') ); // 본인인증 후 정보 수정 시 내역 기록
     }else if($cert_type != 'ipin' && get_session('ss_cert_hash') == sha1($cert_type.get_session('ss_cert_birth').get_session('ss_cert_dupinfo').$md5_cert_no)) { // 간편인증, 휴대폰일때 hash 값 체크 hp포함
-        insert_member_cert_history($mb_id, '', '', '', get_session('ss_cert_type') ); // 본인인증 후 정보 수정 시 내역 기록
+        insert_member_cert_history($mb_id, '', '', '', get_session('ss_cert_type'), get_session('ss_cert_dupinfo') ); // 본인인증 후 정보 수정 시 내역 기록
     }
     // 회원가입 포인트 부여
     insert_point($mb_id, $config['cf_register_point'], '회원가입 축하', '@member', $mb_id, '회원가입');
