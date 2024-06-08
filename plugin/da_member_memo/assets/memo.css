@@ -1,0 +1,112 @@
+:root {
+  --da-memo-bg-yellow: #ffe69c;
+  --da-memo-color-yellow: #664d03;
+
+  --da-memo-bg-red: #f8d7da;
+  --da-memo-color-red: #dc3545;
+
+  --da-memo-bg-purple: #e2d9f3;
+  --da-memo-color-purple: #432874;
+
+  --da-memo-bg-blue: #cfe2ff;
+  --da-memo-color-blue: #084298;
+
+  --da-memo-bg-green: #d1e7dd;
+  --da-memo-color-green: #0f5132;
+}
+
+.da-member-memo__memo {
+  max-width: 10em;
+  font-style: normal;
+}
+
+[class*="da-btn-color--"]::before {
+  font-family: bootstrap-icons !important;
+  content: '\f28a';
+  opacity: 0.3;
+  vertical-align: middle;
+}
+
+.btn-check:checked+[class*="da-btn-color--"]::before {
+  content: '\f26a';
+  opacity: 1;
+}
+
+.da-btn-color--yellow {
+  --bs-btn-bg: var(--da-memo-bg-yellow);
+  --bs-btn-active-bg: var(--da-memo-bg-yellow);
+  --bs-btn-color: var(--da-memo-color-yellow);
+  --bs-btn-active-color: var(--da-memo-color-yellow);
+}
+
+.da-btn-color--red {
+  --bs-btn-bg: var(--da-memo-bg-red);
+  --bs-btn-active-bg: var(--da-memo-bg-red);
+  --bs-btn-color: var(--da-memo-color-red);
+  --bs-btn-active-color: var(--da-memo-color-red);
+}
+
+.da-btn-color--purple {
+  --bs-btn-bg: var(--da-memo-bg-purple);
+  --bs-btn-active-bg: var(--da-memo-bg-purple);
+  --bs-btn-color: var(--da-memo-color-purple);
+  --bs-btn-active-color: var(--da-memo-color-purple);
+}
+
+.da-btn-color--blue {
+  --bs-btn-bg: var(--da-memo-bg-blue);
+  --bs-btn-active-bg: var(--da-memo-bg-blue);
+  --bs-btn-color: var(--da-memo-color-blue);
+  --bs-btn-active-color: var(--da-memo-color-blue);
+}
+
+.da-btn-color--green {
+  --bs-btn-bg: var(--da-memo-bg-green);
+  --bs-btn-active-bg: var(--da-memo-bg-green);
+  --bs-btn-color: var(--da-memo-color-green);
+  --bs-btn-active-color: var(--da-memo-color-green);
+}
+
+
+.da-memo-color--yellow {
+  color: var(--da-memo-color-yellow);
+  background-color: var(--da-memo-bg-yellow);
+}
+
+.da-memo-color--red {
+  color: var(--da-memo-color-red);
+  background-color: var(--da-memo-bg-red);
+  /* border-width: 1px;
+  border-style: solid;
+  --bs-border-color: var(--da-memo-color-red); */
+}
+
+.da-memo-color--purple {
+  color: var(--da-memo-color-purple);
+  background-color: var(--da-memo-bg-purple);
+}
+
+.da-memo-color--blue {
+  color: var(--da-memo-color-blue);
+  background-color: var(--da-memo-bg-blue);
+}
+
+.da-memo-color--green {
+  color: var(--da-memo-color-green);
+  background-color: var(--da-memo-bg-green);
+}
+
+.danger-popover {
+  --bs-popover-border-color: var(--bs-red);
+  --bs-popover-body-color: var(--bs-red);
+  --bs-popover-body-padding-x: 0.5rem;
+  --bs-popover-body-padding-y: 0.5rem;
+}
+
+/* 메모 popover 스타일 */
+.da-member-memo-popover {
+  --bs-popover-header-padding-x: 0.5rem;
+  --bs-popover-header-padding-y: 0.5rem;
+  --bs-popover-body-padding-x: 0.5rem;
+  --bs-popover-body-padding-y: 0.5rem;
+}
