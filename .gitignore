@@ -26,3 +26,4 @@ pma/
 *.bak
 *.swp
 .DS_Store
+phpstan.neon

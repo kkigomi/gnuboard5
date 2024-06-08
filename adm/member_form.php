@@ -188,9 +188,11 @@ if (isset($g5['member_cert_history_table']) && !sql_query(" DESC {$g5['member_ce
                     `ch_hp` varchar(255) NOT NULL DEFAULT '',
                     `ch_birth` varchar(255) NOT NULL DEFAULT '',
                     `ch_type` varchar(20) NOT NULL DEFAULT '',
+                    `ch_ci` VARCHAR(255) NOT NULL DEFAULT '',
                     `ch_datetime` datetime NOT NULL default '0000-00-00 00:00:00',
                     PRIMARY KEY (`ch_id`),
-                    KEY `mb_id` (`mb_id`)
+                    KEY `mb_id` (`mb_id`),
+                    KEY `idx_ci` (`ch_ci`)
                 ) ",
         true
     );
