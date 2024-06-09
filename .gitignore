@@ -26,6 +26,7 @@ pma/
 *.bak
 *.swp
 .DS_Store
+
 phpstan.neon
 
 # .gitignore 파일

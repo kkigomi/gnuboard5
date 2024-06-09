@@ -2,41 +2,34 @@
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
 // add_stylesheet('css 구문', 출력순서); 숫자가 작을 수록 먼저 출력됨
-add_stylesheet('<link rel="stylesheet" href="'.$member_skin_url.'/style.css">', 0);
+add_stylesheet('<link rel="stylesheet" href="' . $member_skin_url . '/style.css?CACHEBUST">', 0);
 ?>
 
 <ul class="list-group list-group-flush mb-4">
     <li class="list-group-item line-bottom">
-        <i class="bi bi-database"></i>
-        보유 포인트
-        <strong class="orangered"><?php echo number_format((int)$member['mb_point']) ?></strong> 점
+        <i class="bi bi-battery-half"></i>
+        누적 경험치
+        <strong class="orangered"><?php echo number_format((int)$member['as_exp']) ?></strong> 점
     </li>
     <li class="list-group-item small bg-body-tertiary">
         전체 <b><?php echo $total_count ?></b>건 / <?php echo $page ?>페이지
     </li>
     <?php
-    $i = 0;
+    $i=0;
     $result = sql_query(" select * {$sql_common} {$sql_order} limit {$from_record}, {$rows} ");
     if($result) {
         for ($i=0; $row=sql_fetch_array($result); $i++) {
-
-            $expired_txt = '';
-            if ($row['po_expired'] == 1) {
-                $expired_txt = '만료 : '.$row['po_expire_date'];
-            } else if($row['po_expire_date'] != '9999-12-31') {
-                $expired_txt = '만료 예정 : '.$row['po_expire_date'];
-            }
     ?>
         <li class="list-group-item">
             <div class="d-flex align-items-center">
                 <div class="flex-grow-1">
-                    <?php echo $row['po_content'] ?>
+                    <?php echo $row['xp_content'] ?>
                     <div class="form-text">
-                        <?php echo ($expired_txt) ? $expired_txt : $row['po_datetime'] ?>
+                        <?php echo $row['xp_datetime']; ?>
                     </div>
                 </div>
                 <div class="ps-3 small text-nowrap">
-                    <?php echo number_format($row['po_point']); ?>
+                    <?php echo number_format($row['xp_point']); ?>
                 </div>
             </div>
         </li>

@@ -28,14 +28,13 @@ return [
                 'shortcut' => 'Ｍ',
                 'icon' => 'bi-geo-alt-fill',
                 // bi-star-fill
-                // Ａ단축키는 알림 링크에 사용됨
             ],
             '사용기' => [
                 'url' => '/tutorial',
                 'icon' => 'bi-vector-pen',
                 'shortcut' => 'Ｔ',
             ],
-           '강좌/팁' => [
+            '강좌/팁' => [
                 'url' => '/lecture',
                 'shortcut' => 'Ｌ',
             ],
@@ -144,7 +143,7 @@ return [
                 'url' => '/angreport',
                 'shortcut' => 'Ｘ',
                 'icon' => 'bi-webcam-fill',
-                    'items' => [
+                'items' => [
                     // '신고게시판' => '/angreport',
                     '진실의 방' => '/truthroom',
                     '광고앙돼앙' => '/nope',
@@ -174,8 +173,8 @@ return [
                     // '릴리즈 노트' => '/release',
                     '유지관리' => '/bug',
                     // '광고앙' => get_pretty_url('content', 'advertiser'),
-                    '운영관리' => '/governance',
-                    '디스코드 입당 신청' => '/discord',
+                    '운영관리' => '/governance',
+                    '디스코드 입당 신청' => '/discord',
                     // '진실의 방' => '/truthroom',
                     // '광고앙돼앙' => '/nope',
                     // '레벨강등 열람' => '/disciplinelog',
