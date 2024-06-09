@@ -13,29 +13,6 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
         <div class="container h-100">
             <div class="row justify-content-center align-items-center h-100">
                 <div class="col-md-10 col-xl-8 col-xxl-6">
-                    <?php if (IS_SHOP) { ?>
-
-                        <form name="fsearchbox" method="get" action="<?php echo G5_SHOP_URL; ?>/search.php" onsubmit="return searchbox_submit(this);">
-                        <label for="sch_str" class="visually-hidden">검색어 필수</label>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control form-control-lg" name="q" value="<?php echo stripslashes(get_text(get_search_string($q))); ?>" id="sch_str" maxlength="20" placeholder="검색어를 입력해주세요">
-                            <button class="btn btn-lg btn-primary" type="submit" id="sch_submit"><i class="bi bi-search"></i><span class="visually-hidden">검색</span></button>
-                        </div>
-                        </form>
-                        <script>
-                        function search_submit(f) {
-                            if (f.q.value.length < 2) {
-                                na_alert('검색어는 두글자 이상 입력하십시오.', function() {
-                                    f.q.select();
-                                    f.q.focus();
-                                });
-                                return false;
-                            }
-                            return true;
-                        }
-                        </script>
-
-                    <?php } else { ?>
 
                         <form name="fsearchbox" method="get" action="<?php echo G5_BBS_URL ?>/search.php" onsubmit="return fsearchbox_submit(this);">
                         <input type="hidden" name="sfl" value="wr_subject||wr_content">
@@ -77,8 +54,6 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
                             return true;
                         }
                         </script>
-
-                    <?php } // end IS_SHOP ?>
                 </div>
             </div>
         </div>

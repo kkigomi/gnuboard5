@@ -1,6 +1,5 @@
 <?php
 include_once('./_common.php');
-include_once(G5_LIB_PATH.'/naver_syndi.lib.php');
 include_once(G5_CAPTCHA_PATH.'/captcha.lib.php');
 
 // 토큰체크
@@ -447,9 +446,9 @@ if ($w == '' || $w == 'r') {
 }
 
 // 게시판그룹접근사용을 하지 않아야 하고 비회원 글읽기가 가능해야 하며 비밀글이 아니어야 합니다.
-if (!$group['gr_use_access'] && $board['bo_read_level'] < 2 && !$secret) {
-    naver_syndi_ping($bo_table, $wr_id);
-}
+// if (!$group['gr_use_access'] && $board['bo_read_level'] < 2 && !$secret) {
+//     naver_syndi_ping($bo_table, $wr_id);
+// }
 
 // 파일개수 체크
 $file_count   = 0;
