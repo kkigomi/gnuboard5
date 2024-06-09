@@ -303,7 +303,7 @@ function na_xp_icon($mb_id, $level='', $mb=array()){
 		$xp_icon = 'special';
 	} else {
 		if(!isset($mb['as_level'])) {
-			$mb = get_member($mb_id, 'as_level');
+			$mb = get_member($mb_id, 'as_level', true);
 		}
 		$xp_icon = $mb['as_level'];	
 	}
