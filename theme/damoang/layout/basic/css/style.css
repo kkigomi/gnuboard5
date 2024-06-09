@@ -679,6 +679,9 @@ div a mark:hover {
 .list-group-item .d-inline-flex .count-plus {
   margin-right: 3px;
 }
+.list-group-item .d-inline-flex em {
+  flex-shrink: 0;
+}
 .list-group-item .wr-name .sv_wrap {
   position: inherit;
 }
