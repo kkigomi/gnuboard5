@@ -256,8 +256,6 @@ if($page_rows > 0) {
         }
     }
 
-    $result = sql_query($sql);
-
     $k = 0;
 
     foreach($wr_list as $row )
