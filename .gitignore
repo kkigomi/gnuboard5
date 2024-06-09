@@ -38,3 +38,6 @@ phpstan.neon
 # 무시할 파일
 adm/memo_list.php
 
+backup/
+
+
