@@ -2,7 +2,7 @@
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
 // add_stylesheet('css 구문', 출력순서); 숫자가 작을 수록 먼저 출력됨
-add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0);
+add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?CACHEBUST">', 0);
 
 // 멤버십
 na_membership('list', '멤버십 회원만 목록을 볼 수 있습니다.');
@@ -182,8 +182,8 @@ function showRollingNoti(key) {
   rollingNotiContainer.style.display = 'none';
 
   Promise.all([
-    fetch('theme/damoang/skin/board/basic/getRollingMessages.php?group=all_board').then(response => response.json()),
-    fetch(`theme/damoang/skin/board/basic/getRollingMessages.php?group=${key}`).then(response => response.json())
+    fetch(g5_url + '/theme/damoang/skin/board/basic/getRollingMessages.php?group=all_board').then(response => response.json()),
+    fetch(`${g5_url}/theme/damoang/skin/board/basic/getRollingMessages.php?group=${key}`).then(response => response.json())
   ])
   .then(([allBoardData, keyData]) => {
     const allBoardMessages = (allBoardData.data || []).filter(message => message.charAt(0) !== '#');
