@@ -1,16 +1,14 @@
 <?php
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
-if (!IS_YC) {
-    $default['de_admin_company_name'] = '다모앙'; // 회사명
-    $default['de_admin_company_owner'] = '김선도'; // 대표자명
-    $default['de_admin_company_addr'] = '서울특별시 강남구 테헤란로70길 12, 4층 402-J49호(대치동)'; // 주소
-    $default['de_admin_company_saupja_no'] = '276-13-02570'; // 사업자 등록번호
-    $default['de_admin_company_tel'] = '02-123-4567'; // 전화
-    $default['de_admin_company_fax'] = '02-123-4568'; // 팩스
-    $default['de_admin_tongsin_no'] = '제 OO구 - 123호'; // 통신판매업신고
-    $default['de_admin_info_name'] = '김선도'; //개인정보관리책임자
-}
+$default['de_admin_company_name'] = '다모앙'; // 회사명
+$default['de_admin_company_owner'] = '김선도'; // 대표자명
+$default['de_admin_company_addr'] = '서울특별시 강남구 테헤란로70길 12, 4층 402-J49호(대치동)'; // 주소
+$default['de_admin_company_saupja_no'] = '276-13-02570'; // 사업자 등록번호
+$default['de_admin_company_tel'] = '02-123-4567'; // 전화
+$default['de_admin_company_fax'] = '02-123-4568'; // 팩스
+$default['de_admin_tongsin_no'] = '제 OO구 - 123호'; // 통신판매업신고
+$default['de_admin_info_name'] = '김선도'; //개인정보관리책임자
 
 // 메인이 아닐 경우
 if (!IS_INDEX) {
@@ -140,19 +138,6 @@ if (!IS_INDEX) {
                 </div>
             </div>
         </div>
-        <?php if (IS_YC) { ?>
-            <?php if (IS_SHOP) { ?>
-                <a href="<?php echo G5_URL ?>" class="btn btn-basic btn-sm">
-                    <i class="bi bi-arrow-right-circle"></i>
-                    <?php echo $config['cf_title'] ?>
-                </a>
-            <?php } else { ?>
-                <a href="<?php echo G5_SHOP_URL ?>" class="btn btn-basic btn-sm">
-                    <i class="bi bi-arrow-right-circle"></i>
-                    <?php echo (isset($nariya['seo_shop_title']) && $nariya['seo_shop_title']) ? $nariya['seo_shop_title'] : '쇼핑몰'; ?>
-                </a>
-            <?php } ?>
-        <?php } ?>
     </div>
     <?php
     $offcanvas_buttons = ob_get_contents();

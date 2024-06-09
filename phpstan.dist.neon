@@ -18,25 +18,15 @@ parameters:
 			- ._ide_helper.php
 			- data
 		analyse:
-			- */*shop*
-			- */shop*
-			- adm/shop_admin
 			- adm/sms_admin
 			- lib/Excel
 			- lib/icode.*
-			- lib/iteminfo.lib.php
-			- lib/naver_syndi.lib.php
-			- lib/naverpay.lib.php
 			- lib/PHPExcel
 			- lib/PHPExcel.php
 			- plugin/browscap
 			- plugin/htmlpurifier
-			- plugin/kcpcert
-			- plugin/lgxpay
-			- plugin/okname
 			- plugin/PHPMailer
 			- plugin/sms5
-			- plugin/syndi
 			- vendor
 	dynamicConstantNames:
 		- _GNUBOARD_

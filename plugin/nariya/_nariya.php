@@ -145,9 +145,6 @@ if (isset($board['bo_table']) && $board['bo_table']) {
 }
 
 // 페이지 아이디 생성
-if(IS_YC) {
-	include_once(G5_LIB_PATH.'/shop.uri.lib.php');
-}
 $pset = na_pid();
 $file_id = $pset['fid']; //파일 아이디
 $page_id = $pset['pid']; //페이지 아이디
@@ -161,22 +158,6 @@ $replace_bbs_file = array(
 
 // 영카트 원본 대체 파일
 $replace_shop_file = array();
-if(IS_YC) {
-	$replace_shop_file = array(
-		G5_SHOP_DIR.'-shop-list', // 상품목록 페이지(PC)
-		G5_MOBILE_DIR.'-'.G5_SHOP_DIR.'-shop-list', // 상품목록 페이지(모바일)
-		G5_SHOP_DIR.'-shop-item', // 상품상세페이지(PC)
-		G5_MOBILE_DIR.'-'.G5_SHOP_DIR.'-shop-item', // 상품상세페이지(모바일)
-		G5_SHOP_DIR.'-page-itemuse', // 상품상세 페이지의 상품후기
-		G5_SHOP_DIR.'-page-itemuselist', // 상품후기(PC)
-		G5_MOBILE_DIR.'-'.G5_SHOP_DIR.'-page-itemuselist', // 상품후기(모바일)
-		G5_SHOP_DIR.'-page-itemqa', // 상품상세 페이지의 상품문의
-		G5_SHOP_DIR.'-page-itemqalist', // 상품문의(PC)
-		G5_MOBILE_DIR.'-'.G5_SHOP_DIR.'-page-itemqalist', // 상품문의(모바일)
-		G5_SHOP_DIR.'-page-orderform', // 주문폼
-		G5_SHOP_DIR.'-page-personalpayform', // 개인결제폼
-	);
-}
 
 // 관리자 원본 대체 파일
 if(IS_EXTEND) {

@@ -1,6 +1,9 @@
 <?php
 include_once('./_common.php');
 
+// 영카트 관련 코드
+return;
+
 // clean the output buffer
 ob_end_clean();
 
