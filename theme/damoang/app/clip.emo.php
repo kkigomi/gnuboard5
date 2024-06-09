@@ -80,13 +80,37 @@ include_once(G5_THEME_PATH.'/app/clipboard.php');
 
     <div id="emo_icon">
         <?php for($i=0; $i < count($emoticon); $i++) { ?>
-            <img src="<?php echo $emoticon[$i]['thumb'] ?>" onclick="clip_insert('<?php echo $emoticon[$i]['name'] ?>');" class="emo-img border m-1" alt="emo-<?php echo $i; ?>"
-                onmouseenter="this.timer=setTimeout(function(){this.src='<?php echo $emoticon[$i]['url'] ?>'}.bind(this),500)" onmouseleave="clearTimeout(this.timer);this.src='<?php echo $emoticon[$i]['thumb'] ?>'">
+            <img src="<?php echo $emoticon[$i]['thumb'] ?>" class="emo-img border m-1" alt="emo-<?php echo $i; ?>" 
+                id="emo-<?php echo $i; ?>" url="<?php echo $emoticon[$i]['url'] ?>" thumb="<?php echo $emoticon[$i]['thumb'] ?>"
+                ontouchend="this.isTouched = !this.isTouched;this.isTouched&&setFocus(this.id)" 
+                onclick="!this.isTouched && clip_insert('<?php echo $emoticon[$i]['name'] ?>');" 
+                onmouseenter="!this.isTouched&&setFocus(this.id);" onmouseleave="!this.isTouched&&unFocus(this.id);">
         <?php } ?>
     </div>
 </div>
 
 <script>
+var currentId = null;
+function setFocus(id) {
+    if(currentId) unFocus(currentId);
+    if(id) {
+        var newEle = document.getElementById(id);
+        if(newEle) {
+            currentId = id;
+            newEle.classList.add('border-primary','border-2');
+            newEle.timer = setTimeout(function(){newEle.src=newEle.getAttribute('url')},250)
+        }
+    }
+}
+function unFocus(id) {
+    var oldEle = document.getElementById(id);
+    if(oldEle) {
+        clearTimeout(oldEle.timer);
+        oldEle.isTouched = false;
+        oldEle.classList.remove('border-primary','border-2');
+        oldEle.src = oldEle.getAttribute('thumb');
+    }
+}
 function clip_insert(txt) {
     var clip = "{emo:" + txt + ":50}";
 
