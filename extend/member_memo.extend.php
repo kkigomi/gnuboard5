@@ -1,1 +1,0 @@
-../plugin/da_member_memo/_extend/member_memo.extend.php

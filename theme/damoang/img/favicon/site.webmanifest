@@ -1,6 +1,6 @@
 {
-    "name": "",
-    "short_name": "",
+    "name": "다모앙",
+    "short_name": "다뫙",
     "icons": [
         {
             "src": "/theme/damoang/img/favicon/android-chrome-192x192.png",
@@ -13,6 +13,5 @@
             "type": "image/png"
         }
     ],
-    "background_color": "#ffffff",
     "display": "standalone"
 }
