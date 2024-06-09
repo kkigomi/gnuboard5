@@ -155,6 +155,10 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_PLUGIN_URL.'/debugbar/style.cs
                                 } else {
                                     $print_function = $data['function'];
                                 }
+
+                                if ($print_function instanceof Closure) {
+                                    $print_function = 'Closure';
+                                }
                         ?>
                         <tr>
                             <?php if ($is_print){ ?>
@@ -247,6 +251,10 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_PLUGIN_URL.'/debugbar/style.cs
                                     }
                                 } else {
                                     $print_function = $data['function'];
+                                }
+
+                                if ($print_function instanceof Closure) {
+                                    $print_function = 'Closure';
                                 }
                         ?>
                         <tr>

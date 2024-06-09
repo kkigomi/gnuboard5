@@ -303,7 +303,7 @@ function na_xp_icon($mb_id, $level='', $mb=array()){
 		$xp_icon = 'special';
 	} else {
 		if(!isset($mb['as_level'])) {
-			$mb = get_member($mb_id, 'as_level');
+			$mb = get_member($mb_id, 'as_level', true);
 		}
 		$xp_icon = $mb['as_level'];	
 	}
@@ -511,12 +511,12 @@ function na_member($member) {
 	$member['noti_cnt'] = $member['as_noti'] + $member['mb_memo_cnt'];
 	$member['mb_grade'] = na_grade($member['mb_level']);
 
-    // 회원, 방문객 카운트
-    $sql = " select sum(IF(mb_id<>'',1,0)) as mb_cnt, count(*) as total_cnt from {$g5['login_table']}  where mb_id <> '{$config['cf_admin']}' ";
-    $row = sql_fetch($sql);
+	// 회원, 방문객 카운트
+    // $sql = " select sum(IF(mb_id<>'',1,0)) as mb_cnt, count(*) as total_cnt from {$g5['login_table']}  where mb_id <> '{$config['cf_admin']}' ";
+    // $row = sql_fetch($sql);
 
-	$member['connect_cnt'] = isset($row['total_cnt']) ? $row['total_cnt'] : 0;
-	$member['login_cnt'] = isset($row['mb_cnt']) ? $row['mb_cnt'] : 0;
+	// $member['connect_cnt'] = isset($row['total_cnt']) ? $row['total_cnt'] : 0;
+	// $member['login_cnt'] = isset($row['mb_cnt']) ? $row['mb_cnt'] : 0;
 
 	return $member;
 }
