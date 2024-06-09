@@ -80,9 +80,7 @@ if (!defined('_GNUBOARD_')) {
 function noti_count() {
     $.get('<?php echo LAYOUT_URL ?>/component/noti.offcanvas.php?cnt=1', function(data) {
         if (data.count > 0) {
-            $('.da-noti-indicator').removeClass('d-none');
-        } else {
-            $('.da-noti-indicator').addClass('d-none');
+            $('.da-noti-indicator').removeClass('d-none').siblings('i').toggleClass('bi-bell bi-bell-fill bell-animation');
         }
     }, "json");
     return false;
