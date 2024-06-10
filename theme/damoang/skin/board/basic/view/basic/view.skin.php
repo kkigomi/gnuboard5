@@ -655,7 +655,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?C
 </script>
 <script>
 // 롤링 공지 호출 함수
-let intervalId = null; // 전역 변수로 인터벌 ID를 저장
+let intervalId = null;
 
 function showRollingNoti(key) {
   const rollingNotiContainer = document.getElementById('rolling-noti-container');
@@ -700,7 +700,6 @@ function showRollingNoti(key) {
 
       rollingNoti.appendChild(nextElement);
 
-      // Force a reflow to ensure the transition will run
       nextElement.offsetHeight;
 
       nextElement.style.transform = 'translateY(0)';
@@ -713,35 +712,29 @@ function showRollingNoti(key) {
           rollingNoti.removeChild(currentElement);
         }
         index = nextIndex;
-      }, 1000); // Transition duration
+      }, 1000);
     }
 
-    // Initial setup
+    if (intervalId !== null) {
+      clearInterval(intervalId);
+      intervalId = null;
+    }
+
     rollingNoti.innerHTML = '';
     rollingNoti.appendChild(createRollingNotiElement(messages[index], false));
 
-    // Clear previous interval if it exists
-    if (intervalId !== null) {
-      clearInterval(intervalId);
-    }
-
-    // Set new interval
-    intervalId = setInterval(updateRollingNoti, 4000); // Change every 4 seconds
+    intervalId = setInterval(updateRollingNoti, 4000);
   })
   .catch(error => {
     console.error('Error:', error);
   });
 }
 
-// Clear interval when the page is unloaded to prevent memory leaks
 window.addEventListener('unload', () => {
   if (intervalId !== null) {
     clearInterval(intervalId);
   }
 });
-
-
-
 
 showRollingNoti('<?php echo $bo_table ?>');
 </script>
