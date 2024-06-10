@@ -69,6 +69,7 @@ return [
                     '개발한당' => '/development',
                     '게임한당' => '/game',
                     '경로당' => '/seniorcenter',
+                    '공부한당' => '/study',
                     '골프당' => '/golf',
                     '굴러간당' => '/car',
                     '그림그린당' => '/drawing',

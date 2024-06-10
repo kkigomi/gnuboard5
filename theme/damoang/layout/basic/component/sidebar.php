@@ -119,6 +119,10 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
                         <span class="nav-link-title"><?php echo (G5_IS_MOBILE) ? 'PC' : '모바일'; ?> 버전</span>
                     </a>
                 </div>
+                <!-- 배너 -->
+                <div class="d-none d-lg-block justify-content-center my-4">
+                    <?php echo na_widget('only-damoang-image-banner', 'side-banner'); ?>
+                </div>
 
                 <!-- 배너 -->
                 <div class="d-none d-lg-block justify-content-center my-4">

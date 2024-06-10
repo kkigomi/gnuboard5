@@ -206,8 +206,12 @@ function na_rank_start($rows, $page) {
 // Date & Time
 //function na_date($date, $class='', $day='H:i', $month='m.d H:i', $year='Y.m.d H:i') {
 //기여자 :이프로부족/풀스택/땅파기 2024-04-09
-function na_date(string $date, string $class = '', string $day = 'auto', string $month = 'auto', string $year = 'auto', string $yday = 'auto'): string
+function na_date($date = '', $class = '', $day = 'auto', $month = 'auto', $year = 'auto', $yday = 'auto'): string
 {
+	if (!$date) {
+		return '';
+	}
+
     $output = \Damoang\Lib\Helper\DateHelper::shorten(
         $date,
         ($day !== 'auto') ? $day : 'auto',
