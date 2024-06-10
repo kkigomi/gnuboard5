@@ -175,11 +175,15 @@ function select_copy(sw) {
 <?php } ?>
 <script>
 // 롤링 공지 호출 함수
+let intervalId = null;
+
 function showRollingNotiList(key) {
   const rollingNotiContainer = document.getElementById('rolling-noti-container-list');
   const rollingNoti = document.getElementById('rolling-noti-list');
 
   rollingNotiContainer.style.display = 'none';
+
+  let intervalId;
 
   Promise.all([
     fetch(g5_url + '/theme/damoang/skin/board/basic/getRollingMessages.php?group=all_board').then(response => response.json()),
@@ -230,14 +234,24 @@ function showRollingNotiList(key) {
       }, 1000);
     }
 
+    // Initial setup
     rollingNoti.appendChild(createRollingNotiElement(messages[index], false));
-
-    setInterval(updateRollingNoti, 4000);
+    index = 1;
+    intervalId = setInterval(updateRollingNoti, 4000);
   })
   .catch(error => {
     console.error('Error:', error);
   });
+
+  return () => clearInterval(intervalId);
 }
 
-showRollingNotiList('<?php echo $bo_table ?>');
+
+window.addEventListener('unload', () => {
+  if (intervalId !== null) {
+    clearInterval(intervalId);
+  }
+});
+
+try{showRollingNotiList('<?php echo $bo_table ?>')}catch(e){};
 </script>

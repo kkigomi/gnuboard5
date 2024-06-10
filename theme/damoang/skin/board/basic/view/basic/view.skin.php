@@ -655,11 +655,15 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?C
 </script>
 <script>
 // 롤링 공지 호출 함수
+let intervalId = null;
+
 function showRollingNotiView(key) {
   const rollingNotiContainer = document.getElementById('rolling-noti-container-view');
   const rollingNoti = document.getElementById('rolling-noti-view');
 
   rollingNotiContainer.style.display = 'none';
+
+  let intervalId;
 
   Promise.all([
     fetch(g5_url + '/theme/damoang/skin/board/basic/getRollingMessages.php?group=all_board').then(response => response.json()),
@@ -711,13 +715,22 @@ function showRollingNotiView(key) {
     }
 
     rollingNoti.appendChild(createRollingNotiElement(messages[index], false));
-
-    setInterval(updateRollingNoti, 4000);
+    index = 1;
+    intervalId = setInterval(updateRollingNoti, 4000);
   })
   .catch(error => {
     console.error('Error:', error);
   });
+
+  return () => clearInterval(intervalId);
 }
 
-showRollingNotiView('<?php echo $bo_table ?>');
+window.addEventListener('unload', () => {
+  if (intervalId !== null) {
+    clearInterval(intervalId);
+  }
+});
+
+
+try{showRollingNotiView('<?php echo $bo_table ?>')}catch(e){}
 </script>
