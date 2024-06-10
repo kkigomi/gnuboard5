@@ -41,12 +41,12 @@ $list_skin_path = $board_skin_path.'/list/'.$list_skin;
 <?php echo na_widget('damoang-image-banner', 'board-head'); ?>
 
 <?php echo $config['cf_10'];?>
-<div class="rolling-noti-container small" id="rolling-noti-container">
+<div class="rolling-noti-container-list small" id="rolling-noti-container-list">
   <div class="fixed-text">
     <span class="bi bi-bell"></span> 알림
   </div>
   <div class="divider">|</div>
-  <div class="rolling-noti" id="rolling-noti"></div>
+  <div class="rolling-noti-list" id="rolling-noti-list"></div>
 </div>
 <div id="bo_list_wrap">
     <?php
@@ -175,11 +175,9 @@ function select_copy(sw) {
 <?php } ?>
 <script>
 // 롤링 공지 호출 함수
-let intervalId = null;
-
-function showRollingNoti(key) {
-  const rollingNotiContainer = document.getElementById('rolling-noti-container');
-  const rollingNoti = document.getElementById('rolling-noti');
+function showRollingNoti(key, target) {
+  const rollingNotiContainer = document.getElementById('rolling-noti-container-' + target);
+  const rollingNoti = document.getElementById('rolling-noti-' + target);
 
   rollingNotiContainer.style.display = 'none';
 
@@ -201,24 +199,23 @@ function showRollingNoti(key) {
 
     let index = 0;
 
-    function createRollingNotiElement(text, id) {
+    function createRollingNotiElement(text, isNext) {
       const element = document.createElement('div');
       element.innerHTML = text;
-      element.id = id;
-      element.style.transition = 'transform 1s ease';
-      element.style.transform = 'translateY(100%)';
+      if (isNext) {
+        element.style.transform = 'translateY(100%)';
+      }
       return element;
     }
 
     function updateRollingNoti() {
       const currentElement = rollingNoti.firstChild;
       const nextIndex = (index + 1) % messages.length;
-      const nextElementId = `rolling-noti-${nextIndex}`;
-      const nextElement = createRollingNotiElement(messages[nextIndex], nextElementId);
+      const nextElement = createRollingNotiElement(messages[nextIndex], true);
 
       rollingNoti.appendChild(nextElement);
 
-      nextElement.offsetHeight; // Force reflow
+      nextElement.offsetHeight;
 
       nextElement.style.transform = 'translateY(0)';
       if (currentElement) {
@@ -226,34 +223,21 @@ function showRollingNoti(key) {
       }
 
       setTimeout(() => {
-        const elementToRemove = document.getElementById(`rolling-noti-${index}`);
-        if (elementToRemove) {
-          rollingNoti.removeChild(elementToRemove);
+        if (currentElement) {
+          rollingNoti.removeChild(currentElement);
         }
         index = nextIndex;
-      }, 1000); // Transition duration
+      }, 1000);
     }
 
-    if (intervalId !== null) {
-      clearInterval(intervalId);
-      intervalId = null;
-    }
+    rollingNoti.appendChild(createRollingNotiElement(messages[index], false));
 
-    rollingNoti.innerHTML = '';
-    rollingNoti.appendChild(createRollingNotiElement(messages[index], `rolling-noti-${index}`));
-
-    intervalId = setInterval(updateRollingNoti, 4000);
+    setInterval(updateRollingNoti, 4000);
   })
   .catch(error => {
     console.error('Error:', error);
   });
 }
 
-window.addEventListener('unload', () => {
-  if (intervalId !== null) {
-    clearInterval(intervalId);
-  }
-});
-
-showRollingNoti('<?php echo $bo_table ?>');
+showRollingNoti('<?php echo $bo_table ?>','list');
 </script>
