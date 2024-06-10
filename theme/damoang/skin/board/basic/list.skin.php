@@ -181,6 +181,8 @@ function showRollingNoti(key) {
 
   rollingNotiContainer.style.display = 'none';
 
+  let intervalId = null; // 인터벌 ID를 저장할 변수
+
   Promise.all([
     fetch(g5_url + '/theme/damoang/skin/board/basic/getRollingMessages.php?group=all_board').then(response => response.json()),
     fetch(`${g5_url}/theme/damoang/skin/board/basic/getRollingMessages.php?group=${key}`).then(response => response.json())
@@ -237,7 +239,13 @@ function showRollingNoti(key) {
     rollingNoti.innerHTML = '';
     rollingNoti.appendChild(createRollingNotiElement(messages[index], false));
 
-    setInterval(updateRollingNoti, 4000); // Change every 4 seconds
+    // Clear previous interval if it exists
+    if (intervalId !== null) {
+      clearInterval(intervalId);
+    }
+
+    // Set new interval
+    intervalId = setInterval(updateRollingNoti, 4000); // Change every 4 seconds
   })
   .catch(error => {
     console.error('Error:', error);
