@@ -681,26 +681,24 @@ function showRollingNoti(key) {
 
     let index = 0;
 
-    function createRollingNotiElement(text, isNext) {
+    function createRollingNotiElement(text, id) {
       const element = document.createElement('div');
       element.innerHTML = text;
+      element.id = id;
       element.style.transition = 'transform 1s ease';
-      if (isNext) {
-        element.style.transform = 'translateY(100%)';
-      } else {
-        element.style.transform = 'translateY(0)';
-      }
+      element.style.transform = 'translateY(100%)';
       return element;
     }
 
     function updateRollingNoti() {
       const currentElement = rollingNoti.firstChild;
       const nextIndex = (index + 1) % messages.length;
-      const nextElement = createRollingNotiElement(messages[nextIndex], true);
+      const nextElementId = `rolling-noti-${nextIndex}`;
+      const nextElement = createRollingNotiElement(messages[nextIndex], nextElementId);
 
       rollingNoti.appendChild(nextElement);
 
-      nextElement.offsetHeight;
+      nextElement.offsetHeight; // Force reflow
 
       nextElement.style.transform = 'translateY(0)';
       if (currentElement) {
@@ -708,11 +706,12 @@ function showRollingNoti(key) {
       }
 
       setTimeout(() => {
-        if (currentElement) {
-          rollingNoti.removeChild(currentElement);
+        const elementToRemove = document.getElementById(`rolling-noti-${index}`);
+        if (elementToRemove) {
+          rollingNoti.removeChild(elementToRemove);
         }
         index = nextIndex;
-      }, 1000);
+      }, 1000); // Transition duration
     }
 
     if (intervalId !== null) {
@@ -721,7 +720,7 @@ function showRollingNoti(key) {
     }
 
     rollingNoti.innerHTML = '';
-    rollingNoti.appendChild(createRollingNotiElement(messages[index], false));
+    rollingNoti.appendChild(createRollingNotiElement(messages[index], `rolling-noti-${index}`));
 
     intervalId = setInterval(updateRollingNoti, 4000);
   })
