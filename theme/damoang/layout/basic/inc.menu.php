@@ -60,6 +60,7 @@ return [
                 'shortcut' => 'Ｓ',
                 'items' => [
                     '모아보기' => G5_BBS_URL . '/group.php?gr_id=group',
+                    '소모임 신청' => '/newgroup',
                     'AI당' => '/ai',
                     'LOL당' => '/lol',
                     'OTT당' => '/ott',
