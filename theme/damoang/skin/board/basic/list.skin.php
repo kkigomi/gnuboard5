@@ -175,9 +175,9 @@ function select_copy(sw) {
 <?php } ?>
 <script>
 // 롤링 공지 호출 함수
-function showRollingNoti(key, target) {
-  const rollingNotiContainer = document.getElementById('rolling-noti-container-' + target);
-  const rollingNoti = document.getElementById('rolling-noti-' + target);
+function showRollingNotiList(key) {
+  const rollingNotiContainer = document.getElementById('rolling-noti-container-list');
+  const rollingNoti = document.getElementById('rolling-noti-list');
 
   rollingNotiContainer.style.display = 'none';
 
@@ -239,5 +239,5 @@ function showRollingNoti(key, target) {
   });
 }
 
-showRollingNoti('<?php echo $bo_table ?>','list');
+showRollingNotiList('<?php echo $bo_table ?>');
 </script>

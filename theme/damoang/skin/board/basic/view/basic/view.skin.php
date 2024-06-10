@@ -655,9 +655,9 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?C
 </script>
 <script>
 // 롤링 공지 호출 함수
-function showRollingNoti(key, target) {
-  const rollingNotiContainer = document.getElementById('rolling-noti-container-' + target);
-  const rollingNoti = document.getElementById('rolling-noti-' + target);
+function showRollingNotiView(key) {
+  const rollingNotiContainer = document.getElementById('rolling-noti-container-view');
+  const rollingNoti = document.getElementById('rolling-noti-view');
 
   rollingNotiContainer.style.display = 'none';
 
@@ -719,5 +719,5 @@ function showRollingNoti(key, target) {
   });
 }
 
-showRollingNoti('<?php echo $bo_table ?>','view');
+showRollingNotiView('<?php echo $bo_table ?>');
 </script>
