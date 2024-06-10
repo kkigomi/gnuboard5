@@ -655,13 +655,13 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?C
 </script>
 <script>
 // 롤링 공지 호출 함수
+let intervalId = null; // 전역 변수로 인터벌 ID를 저장
+
 function showRollingNoti(key) {
   const rollingNotiContainer = document.getElementById('rolling-noti-container');
   const rollingNoti = document.getElementById('rolling-noti');
 
   rollingNotiContainer.style.display = 'none';
-
-  let intervalId = null; // 인터벌 ID를 저장할 변수
 
   Promise.all([
     fetch(g5_url + '/theme/damoang/skin/board/basic/getRollingMessages.php?group=all_board').then(response => response.json()),
@@ -684,6 +684,7 @@ function showRollingNoti(key) {
     function createRollingNotiElement(text, isNext) {
       const element = document.createElement('div');
       element.innerHTML = text;
+      element.style.transition = 'transform 1s ease';
       if (isNext) {
         element.style.transform = 'translateY(100%)';
       } else {
@@ -731,6 +732,14 @@ function showRollingNoti(key) {
     console.error('Error:', error);
   });
 }
+
+// Clear interval when the page is unloaded to prevent memory leaks
+window.addEventListener('unload', () => {
+  if (intervalId !== null) {
+    clearInterval(intervalId);
+  }
+});
+
 
 
 
