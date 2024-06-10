@@ -227,7 +227,6 @@ function showRollingNotiList(key) {
       setTimeout(() => {
         if (currentElement && currentElement.parentNode === rollingNoti) {
           rollingNoti.removeChild(currentElement);
-          console.log("remove process in : "  + new Date());
         }
         index = nextIndex;
       }, 1000);
