@@ -684,6 +684,8 @@ function showRollingNoti(key) {
       element.innerHTML = text;
       if (isNext) {
         element.style.transform = 'translateY(100%)';
+      } else {
+        element.style.transform = 'translateY(0)';
       }
       return element;
     }
@@ -694,9 +696,11 @@ function showRollingNoti(key) {
       const nextElement = createRollingNotiElement(messages[nextIndex], true);
 
       rollingNoti.appendChild(nextElement);
-      nextElement.offsetHeight;
-      nextElement.style.transform = 'translateY(0)';
 
+      // Force a reflow to ensure the transition will run
+      nextElement.offsetHeight;
+
+      nextElement.style.transform = 'translateY(0)';
       if (currentElement) {
         currentElement.style.transform = 'translateY(-100%)';
       }
@@ -706,20 +710,20 @@ function showRollingNoti(key) {
           rollingNoti.removeChild(currentElement);
         }
         index = nextIndex;
-      }, 1000);
+      }, 1000); // Transition duration
     }
 
+    // Initial setup
+    rollingNoti.innerHTML = '';
     rollingNoti.appendChild(createRollingNotiElement(messages[index], false));
 
-    if (window.rollingNotiInterval) {
-      clearInterval(window.rollingNotiInterval);
-    }
-    window.rollingNotiInterval = setInterval(updateRollingNoti, 4000);
+    setInterval(updateRollingNoti, 4000); // Change every 4 seconds
   })
   .catch(error => {
     console.error('Error:', error);
   });
 }
+
 
 showRollingNoti('<?php echo $bo_table ?>');
 </script>
