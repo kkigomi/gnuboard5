@@ -214,10 +214,9 @@ function showRollingNoti(key) {
       const nextElement = createRollingNotiElement(messages[nextIndex], true);
 
       rollingNoti.appendChild(nextElement);
-
       nextElement.offsetHeight;
-
       nextElement.style.transform = 'translateY(0)';
+
       if (currentElement) {
         currentElement.style.transform = 'translateY(-100%)';
       }
@@ -232,7 +231,10 @@ function showRollingNoti(key) {
 
     rollingNoti.appendChild(createRollingNotiElement(messages[index], false));
 
-    setInterval(updateRollingNoti, 4000);
+    if (window.rollingNotiInterval) {
+      clearInterval(window.rollingNotiInterval);
+    }
+    window.rollingNotiInterval = setInterval(updateRollingNoti, 4000);
   })
   .catch(error => {
     console.error('Error:', error);
