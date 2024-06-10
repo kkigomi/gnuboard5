@@ -41,12 +41,12 @@ $list_skin_path = $board_skin_path.'/list/'.$list_skin;
 <?php echo na_widget('damoang-image-banner', 'board-head'); ?>
 
 <?php echo $config['cf_10'];?>
-<div class="rolling-noti-container small" id="rolling-noti-container">
+<div class="rolling-noti-container-list small" id="rolling-noti-container-list">
   <div class="fixed-text">
     <span class="bi bi-bell"></span> 알림
   </div>
   <div class="divider">|</div>
-  <div class="rolling-noti" id="rolling-noti"></div>
+  <div class="rolling-noti-list" id="rolling-noti-list"></div>
 </div>
 <div id="bo_list_wrap">
     <?php
@@ -175,11 +175,15 @@ function select_copy(sw) {
 <?php } ?>
 <script>
 // 롤링 공지 호출 함수
-function showRollingNoti(key) {
-  const rollingNotiContainer = document.getElementById('rolling-noti-container');
-  const rollingNoti = document.getElementById('rolling-noti');
+let intervalId = null;
+
+function showRollingNotiList(key) {
+  const rollingNotiContainer = document.getElementById('rolling-noti-container-list');
+  const rollingNoti = document.getElementById('rolling-noti-list');
 
   rollingNotiContainer.style.display = 'none';
+
+  let intervalId;
 
   Promise.all([
     fetch(g5_url + '/theme/damoang/skin/board/basic/getRollingMessages.php?group=all_board').then(response => response.json()),
@@ -214,9 +218,10 @@ function showRollingNoti(key) {
       const nextElement = createRollingNotiElement(messages[nextIndex], true);
 
       rollingNoti.appendChild(nextElement);
-      nextElement.offsetHeight;
-      nextElement.style.transform = 'translateY(0)';
 
+      nextElement.offsetHeight;
+
+      nextElement.style.transform = 'translateY(0)';
       if (currentElement) {
         currentElement.style.transform = 'translateY(-100%)';
       }
@@ -229,17 +234,24 @@ function showRollingNoti(key) {
       }, 1000);
     }
 
+    // Initial setup
     rollingNoti.appendChild(createRollingNotiElement(messages[index], false));
-
-    if (window.rollingNotiInterval) {
-      clearInterval(window.rollingNotiInterval);
-    }
-    window.rollingNotiInterval = setInterval(updateRollingNoti, 4000);
+    index = 1;
+    intervalId = setInterval(updateRollingNoti, 4000);
   })
   .catch(error => {
     console.error('Error:', error);
   });
+
+  return () => clearInterval(intervalId);
 }
 
-showRollingNoti('<?php echo $bo_table ?>');
+
+window.addEventListener('unload', () => {
+  if (intervalId !== null) {
+    clearInterval(intervalId);
+  }
+});
+
+try{showRollingNotiList('<?php echo $bo_table ?>')}catch(e){};
 </script>
