@@ -655,85 +655,13 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?C
 </script>
 <script>
 // 롤링 공지 호출 함수
-//let intervalId = null;
-
-function showRollingNotiView2(key) {
-  const rollingNotiContainer = document.getElementById('rolling-noti-container-view');
-  const rollingNoti = document.getElementById('rolling-noti-view');
-
-  rollingNotiContainer.style.display = 'none';
-
-  let intervalId;
-
-  Promise.all([
-    fetch(g5_url + '/theme/damoang/skin/board/basic/getRollingMessages.php?group=all_board').then(response => response.json()),
-    fetch(`${g5_url}/theme/damoang/skin/board/basic/getRollingMessages.php?group=${key}`).then(response => response.json())
-  ])
-  .then(([allBoardData, keyData]) => {
-    const allBoardMessages = (allBoardData.data || []).filter(message => message.charAt(0) !== '#');
-    const keyMessages = (keyData.data || []).filter(message => message.charAt(0) !== '#');
-    const messages = allBoardMessages.concat(keyMessages);
-
-    if (messages.length === 0) {
-      rollingNotiContainer.style.display = 'none';
-      return;
-    }
-
-    rollingNotiContainer.style.display = 'flex';
-
-    let index = 0;
-
-    function createRollingNotiElement(text, isNext) {
-      const element = document.createElement('div');
-      element.innerHTML = text;
-      if (isNext) {
-        element.style.transform = 'translateY(100%)';
-      }
-      return element;
-    }
-
-    function updateRollingNoti() {
-      const currentElement = rollingNoti.firstChild;
-      const nextIndex = (index + 1) % messages.length;
-      const nextElement = createRollingNotiElement(messages[nextIndex], true);
-
-      rollingNoti.appendChild(nextElement);
-
-      nextElement.offsetHeight; // Force reflow
-
-      nextElement.style.transform = 'translateY(0)';
-      if (currentElement) {
-        currentElement.style.transform = 'translateY(-100%)';
-      }
-
-      setTimeout(() => {
-        if (currentElement && currentElement.parentNode === rollingNoti) {
-          rollingNoti.removeChild(currentElement);
-        }
-        index = nextIndex;
-      }, 1000); // Transition duration
-    }
-
-    // Initial setup
-    rollingNoti.appendChild(createRollingNotiElement(messages[index], false));
-    index = 1; // Immediately prepare to show the second message
-
-    intervalId = setInterval(updateRollingNoti, 4000); // Change every 4 seconds
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
-
-  return () => clearInterval(intervalId); // Add a return function to clear interval if needed
-}
-
 function showRollingNotiView(key) {
   const rollingNotiContainer = document.getElementById('rolling-noti-container-view');
   const rollingNoti = document.getElementById('rolling-noti-view');
 
   rollingNotiContainer.style.display = 'none';
 
-  let intervalId = null;
+  let intervalId;
 
   Promise.all([
     fetch(g5_url + '/theme/damoang/skin/board/basic/getRollingMessages.php?group=all_board').then(response => response.json()),
@@ -777,13 +705,14 @@ function showRollingNotiView(key) {
       }
 
       setTimeout(() => {
-        if (currentElement && currentElement.parentNode === rollingNoti) {
-          rollingNoti.removeChild(currentElement);
+        if (rollingNoti.firstChild && rollingNoti.firstChild !== nextElement) {
+            rollingNoti.removeChild(rollingNoti.firstChild);
         }
         index = nextIndex;
       }, 1000);
     }
 
+    // Initial setup
     rollingNoti.appendChild(createRollingNotiElement(messages[index], false));
     index = 1;
 
@@ -796,13 +725,6 @@ function showRollingNotiView(key) {
   return () => clearInterval(intervalId);
 }
 
-function initializeRollingNotiView() {
-  const clearViewInterval = showRollingNotiView('<?php echo $bo_table ?>');
+try { showRollingNotiView('<?php echo $bo_table ?>') } catch (e) { console.error(e); }
 
-  window.addEventListener('unload', () => {
-    clearViewInterval();
-  });
-}
-
-try{initializeRollingNotiView();}catch(e){}
 </script>

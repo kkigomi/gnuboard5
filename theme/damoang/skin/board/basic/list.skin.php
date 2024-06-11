@@ -181,7 +181,7 @@ function showRollingNotiList(key) {
 
   rollingNotiContainer.style.display = 'none';
 
-  let intervalId = null;
+  let intervalId;
 
   Promise.all([
     fetch(g5_url + '/theme/damoang/skin/board/basic/getRollingMessages.php?group=all_board').then(response => response.json()),
@@ -225,13 +225,14 @@ function showRollingNotiList(key) {
       }
 
       setTimeout(() => {
-        if (currentElement && currentElement.parentNode === rollingNoti) {
-          rollingNoti.removeChild(currentElement);
+        if (rollingNoti.firstChild && rollingNoti.firstChild !== nextElement) {
+            rollingNoti.removeChild(rollingNoti.firstChild);
         }
         index = nextIndex;
       }, 1000);
     }
 
+    // Initial setup
     rollingNoti.appendChild(createRollingNotiElement(messages[index], false));
     index = 1;
 
@@ -244,13 +245,5 @@ function showRollingNotiList(key) {
   return () => clearInterval(intervalId);
 }
 
-function initializeRollingNotiList() {
-  const clearListInterval = showRollingNotiList('<?php echo $bo_table ?>');
-
-  window.addEventListener('unload', () => {
-    clearListInterval();
-  });
-}
-
-try{initializeRollingNotiList();}catch(e){}
+try { showRollingNotiList('<?php echo $bo_table ?>') } catch (e) { console.error(e); }
 </script>
