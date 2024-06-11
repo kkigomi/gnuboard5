@@ -45,7 +45,7 @@ global $is_member, $member, $is_admin;
             $member['as_max'] = (isset($member['as_max']) && $member['as_max'] > 0) ? $member['as_max'] : 1;
             $per = (int)(($member['as_exp'] / $member['as_max']) * 100);
         ?>
-        <!-- <div class="d-flex justify-content-between mb-1 small">
+        <div class="d-flex justify-content-between mb-1 small">
             <div>Lv.<?php echo $member['as_level'] ?></div>
             <div>
                 <a href="<?php echo G5_BBS_URL ?>/exp.php" target="_blank" class="win_point">
@@ -58,7 +58,7 @@ global $is_member, $member, $is_admin;
             <div class="progress" role="progressbar" aria-label="Exp" aria-valuenow="<?php echo $per ?>" aria-valuemin="0" aria-valuemax="100">
                 <div class="progress-bar progress-bar-striped progress-bar-animated small" style="width: <?php echo $per ?>%"><?php echo $per ?>%</div>
             </div>
-        </div> -->
+        </div>
 
         <div class="row gx-2 mt-2">
         <div class="col">
