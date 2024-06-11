@@ -62,6 +62,12 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
                                 $menuItem['page_id'] = G5_BBS_DIR . '-board-' . $matches[1];
                             }
                         }
+
+                        $menuItem['tooltip'] = $menuItem['tooltip'] ?? '';
+                        if ($menuItem['tooltip'] !== '') {
+                            $menuItem['tooltip'] = 'title="' . $menuItem['tooltip'] . '"';
+                        }
+
                         $menuItem['shortcut'] = $menuItem['shortcut'] ?? '';
                         $menuItem['icon'] = $menuItem['icon'] ?? '';
                         $menuItem['class'] = $menuItem['class'] ?? '';
@@ -87,6 +93,7 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
                             <a
                                 class="nav-link <?= ($menuItem['page_id'] === $page_id) ? ' active ' : ''; ?><?= ($hasSub) ? 'dropdown-toggle collapsed collapsed' : '' ?>"
                                 href="<?= $menuItem['url'] ?>"
+                                <?= $menuItem['tooltip'] ?>
                                 data-placement="left"
                                 <?= ($hasSub) ? 'role="button" data-bs-toggle="collapse" data-bs-target="#' . $menuToggleId . '" aria-expanded="false" aria-controls="' . $menuToggleId . '"' : '' ?>
                             >
@@ -103,7 +110,14 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
                             <?php if ($hasSub): ?>
                                 <div id="<?= $menuToggleId ?>" class="nav-collapse collapse" data-bs-parent="#sidebar-site-menu">
                                     <?php foreach ($subMenus as $subMenuTitle => $subMenuUrl): ?>
-                                        <a class="nav-link" href="<?= $subMenuUrl ?>">
+                                        <?php
+                                            $subMenuTooltip = '';
+                                            //4자리 초과된 소모임 메뉴는 툴팁으로 메뉴명을 보여주도록 함
+                                            if (mb_strlen(trim($subMenuTitle)) > 4) {
+                                                $subMenuTooltip = 'title="' . $subMenuTitle . '"';
+                                            }
+                                        ?>
+                                        <a class="nav-link" href="<?= $subMenuUrl ?>" <?= $subMenuTooltip ?>>
                                             <?= $subMenuTitle ?>
                                         </a>
                                     <?php endforeach; ?>

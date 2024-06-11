@@ -34,12 +34,12 @@ if ($is_admin === 'super') {
     $member_only_permit = true;
 }
 ?>
-<div class="rolling-noti-container small" id="rolling-noti-container">
-  <div class="fixed-text">
+<div class="rolling-noti-container-write small" id="rolling-noti-container-write">
+    <div class="fixed-text">
     <span class="bi bi-bell"></span> 알림
-  </div>
-  <div class="divider">|</div>
-  <div class="rolling-noti" id="rolling-noti"></div>
+    </div>
+    <div class="divider">|</div>
+    <div class="rolling-noti-write" id="rolling-noti-write"></div>
 </div>
 <section id="bo_w">
 
@@ -502,4 +502,80 @@ function fwrite_submit(f) {
 
     return true;
 }
+</script>
+
+<script>
+// 롤링 공지 호출 함수
+function showRollingNotiWrite(key) {
+  const rollingNotiContainer = document.getElementById('rolling-noti-container-write');
+  const rollingNoti = document.getElementById('rolling-noti-write');
+
+  rollingNotiContainer.style.display = 'none';
+
+  let intervalId;
+
+  Promise.all([
+    fetch(g5_url + '/theme/damoang/skin/board/basic/getRollingMessages.php?group=all_board').then(response => response.json()),
+    fetch(`${g5_url}/theme/damoang/skin/board/basic/getRollingMessages.php?group=${key}`).then(response => response.json())
+  ])
+  .then(([allBoardData, keyData]) => {
+    const allBoardMessages = (allBoardData.data || []).filter(message => message.charAt(0) !== '#');
+    const keyMessages = (keyData.data || []).filter(message => message.charAt(0) !== '#');
+    const messages = allBoardMessages.concat(keyMessages);
+
+    if (messages.length === 0) {
+      rollingNotiContainer.style.display = 'none';
+      return;
+    }
+
+    rollingNotiContainer.style.display = 'flex';
+
+    let index = 0;
+
+    function createRollingNotiElement(text, isNext) {
+      const element = document.createElement('div');
+      element.innerHTML = text;
+      if (isNext) {
+        element.style.transform = 'translateY(100%)';
+      }
+      return element;
+    }
+
+    function updateRollingNoti() {
+      const currentElement = rollingNoti.firstChild;
+      const nextIndex = (index + 1) % messages.length;
+      const nextElement = createRollingNotiElement(messages[nextIndex], true);
+
+      rollingNoti.appendChild(nextElement);
+
+      nextElement.offsetHeight;
+
+      nextElement.style.transform = 'translateY(0)';
+      if (currentElement) {
+        currentElement.style.transform = 'translateY(-100%)';
+      }
+
+      setTimeout(() => {
+        if (rollingNoti.firstChild && rollingNoti.firstChild !== nextElement) {
+            rollingNoti.removeChild(rollingNoti.firstChild);
+        }
+        index = nextIndex;
+      }, 1000);
+    }
+
+    // Initial setup
+    rollingNoti.appendChild(createRollingNotiElement(messages[index], false));
+    index = 1;
+
+    intervalId = setInterval(updateRollingNoti, 4000);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+
+  return () => clearInterval(intervalId);
+}
+
+try { showRollingNotiWrite('<?php echo $bo_table ?>') } catch (e) { console.error(e); }
+
 </script>
