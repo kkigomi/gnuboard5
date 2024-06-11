@@ -869,7 +869,8 @@ footer .container a {
 
 /* 게시판 목록 롤링 공지 */
 .rolling-noti-container-list,
-.rolling-noti-container-view {
+.rolling-noti-container-view,
+.rolling-noti-container-write {
   display: none;
   align-items: center;
   height: 40px;
@@ -891,14 +892,16 @@ footer .container a {
   color: #000;
 }
 .rolling-noti-list,
-.rolling-noti-view {
+.rolling-noti-view,
+.rolling-noti-write {
   overflow: hidden;
   height: 30px;
   position: relative;
   flex-grow: 1;
 }
 .rolling-noti-list div,
-.rolling-noti-view div {
+.rolling-noti-view div,
+.rolling-noti-write div {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -911,7 +914,8 @@ footer .container a {
 
 [data-bs-theme='dark'] {
   .rolling-noti-container-list,
-  .rolling-noti-container-view {
+  .rolling-noti-container-view,
+  .rolling-noti-container-write {
     background-color: #191e23; /*#22292f*/
     color: #f5f5f5;
     border-top: 1px solid #3a3c48;
@@ -921,7 +925,8 @@ footer .container a {
 
 @media (max-width: 768px) {
   .rolling-noti-container-list, .rolling-noti-list,
-  .rolling-noti-container-view, .rolling-noti-view {
+  .rolling-noti-container-view, .rolling-noti-view,
+  .rolling-noti-container-view, .rolling-noti-write, {
     height: 50px !important;
   }
 }
