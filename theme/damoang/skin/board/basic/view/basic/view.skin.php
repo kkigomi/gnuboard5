@@ -655,8 +655,6 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?C
 </script>
 <script>
 // 롤링 공지 호출 함수
-let intervalId = null;
-
 function showRollingNotiView(key) {
   const rollingNotiContainer = document.getElementById('rolling-noti-container-view');
   const rollingNoti = document.getElementById('rolling-noti-view');
@@ -707,15 +705,17 @@ function showRollingNotiView(key) {
       }
 
       setTimeout(() => {
-        if (currentElement) {
-          rollingNoti.removeChild(currentElement);
+        if (rollingNoti.firstChild && rollingNoti.firstChild !== nextElement) {
+            rollingNoti.removeChild(rollingNoti.firstChild);
         }
         index = nextIndex;
       }, 1000);
     }
 
+    // Initial setup
     rollingNoti.appendChild(createRollingNotiElement(messages[index], false));
     index = 1;
+
     intervalId = setInterval(updateRollingNoti, 4000);
   })
   .catch(error => {
@@ -725,12 +725,6 @@ function showRollingNotiView(key) {
   return () => clearInterval(intervalId);
 }
 
-window.addEventListener('unload', () => {
-  if (intervalId !== null) {
-    clearInterval(intervalId);
-  }
-});
+try { showRollingNotiView('<?php echo $bo_table ?>') } catch (e) { console.error(e); }
 
-
-try{showRollingNotiView('<?php echo $bo_table ?>')}catch(e){}
 </script>
