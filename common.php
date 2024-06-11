@@ -567,6 +567,7 @@ if (isset($_SESSION['ss_mb_id']) && $_SESSION['ss_mb_id']) { // 로그인중이�
                         (!$config['cf_use_email_certify'] || preg_match('/[1-9]/', $row['mb_email_certify'])) ) {
                         // 세션에 회원아이디를 저장하여 로그인으로 간주
                         set_session('ss_mb_id', $tmp_mb_id);
+                        set_session('ss_social_provider', get_cookie('ck_social_provider'));
                         if(function_exists('update_auth_session_token')) update_auth_session_token($row['mb_datetime']);
 
                         // 페이지를 재실행
