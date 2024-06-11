@@ -921,12 +921,16 @@ footer .container a {
     border-top: 1px solid #3a3c48;
     border-bottom: 1px solid #3a3c48;
   }
+  .divider {
+    margin: 0 10px;
+    color: #666;
+  }
 }
 
 @media (max-width: 768px) {
   .rolling-noti-container-list, .rolling-noti-list,
   .rolling-noti-container-view, .rolling-noti-view,
-  .rolling-noti-container-view, .rolling-noti-write, {
+  .rolling-noti-container-view, .rolling-noti-write {
     height: 50px !important;
   }
 }
