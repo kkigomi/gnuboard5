@@ -173,77 +173,97 @@ function select_copy(sw) {
 
 </script>
 <?php } ?>
+<?php
+//
+function getRollingNotiData($key) {
+    global $rollingNotiData;
+
+    foreach ($rollingNotiData as $noti) {
+        if ($noti['bo_table'] === $key) {
+            return $noti['msg'];
+        }
+    }
+
+    return [];
+}
+?>
 <script>
 // 롤링 공지 호출 함수
 function showRollingNotiList(key) {
-  const rollingNotiContainer = document.getElementById('rolling-noti-container-list');
-  const rollingNoti = document.getElementById('rolling-noti-list');
+    const rollingNotiContainer = document.getElementById('rolling-noti-container-list');
+    const rollingNoti = document.getElementById('rolling-noti-list');
 
-  rollingNotiContainer.style.display = 'none';
+    rollingNotiContainer.style.display = 'none';
 
-  let intervalId;
+    let allBoardMessages = <?=json_encode(getRollingNotiData('all_board'))?>;
+    let keyMessages = <?=json_encode(getRollingNotiData(key))?>;
 
-  Promise.all([
-    fetch(g5_url + '/theme/damoang/skin/board/basic/getRollingMessages.php?group=all_board').then(response => response.json()),
-    fetch(`${g5_url}/theme/damoang/skin/board/basic/getRollingMessages.php?group=${key}`).then(response => response.json())
-  ])
-  .then(([allBoardData, keyData]) => {
-    const allBoardMessages = (allBoardData.data || []).filter(message => message.charAt(0) !== '#');
-    const keyMessages = (keyData.data || []).filter(message => message.charAt(0) !== '#');
-    const messages = allBoardMessages.concat(keyMessages);
+    allBoardMessages = allBoardMessages.filter(function(message) {
+        return message.charAt(0) !== '#';
+    });
+
+    keyMessages = keyMessages.filter(function(message) {
+        return message.charAt(0) !== '#';
+    });
+
+    let messages = allBoardMessages.concat(keyMessages);
 
     if (messages.length === 0) {
-      rollingNotiContainer.style.display = 'none';
-      return;
+        rollingNotiContainer.style.display = 'none';
+        return;
     }
 
     rollingNotiContainer.style.display = 'flex';
 
     let index = 0;
+    let intervalId;
 
     function createRollingNotiElement(text, isNext) {
-      const element = document.createElement('div');
-      element.innerHTML = text;
-      if (isNext) {
-        element.style.transform = 'translateY(100%)';
-      }
-      return element;
+        const element = document.createElement('div');
+        element.innerHTML = text;
+        if (isNext) {
+            element.style.transform = 'translateY(100%)';
+        }
+        return element;
     }
 
     function updateRollingNoti() {
-      const currentElement = rollingNoti.firstChild;
-      const nextIndex = (index + 1) % messages.length;
-      const nextElement = createRollingNotiElement(messages[nextIndex], true);
+        const currentElement = rollingNoti.firstChild;
+        let nextIndex = index;
+        const nextElement = createRollingNotiElement(messages[nextIndex], true);
+        nextIndex = (index +1) % messages.length;
 
-      rollingNoti.appendChild(nextElement);
+        rollingNoti.appendChild(nextElement);
 
-      nextElement.offsetHeight;
+        nextElement.offsetHeight;
 
-      nextElement.style.transform = 'translateY(0)';
-      if (currentElement) {
-        currentElement.style.transform = 'translateY(-100%)';
-      }
-
-      setTimeout(() => {
-        if (rollingNoti.firstChild && rollingNoti.firstChild !== nextElement) {
-            rollingNoti.removeChild(rollingNoti.firstChild);
+        nextElement.style.transform = 'translateY(0)';
+        if (currentElement) {
+            currentElement.style.transform = 'translateY(-100%)';
         }
-        index = nextIndex;
-      }, 1000);
+
+        setTimeout(() => {
+            if (rollingNoti.firstChild && rollingNoti.firstChild !== nextElement) {
+                rollingNoti.removeChild(rollingNoti.firstChild);
+            }
+            index = nextIndex;
+        }, 1000);
     }
 
-    // Initial setup
     rollingNoti.appendChild(createRollingNotiElement(messages[index], false));
-    index = 1;
+
+    index = (messages.length === 1) ? 0 : 1;
 
     intervalId = setInterval(updateRollingNoti, 4000);
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
 
-  return () => clearInterval(intervalId);
+    return () => clearInterval(intervalId);
 }
 
-try { showRollingNotiList('<?php echo $bo_table ?>') } catch (e) { console.error(e); }
+if (!document.querySelector('.rolling-noti-container-view')) {
+    try {
+        showRollingNotiList('<?php echo $bo_table; ?>');
+    } catch (e) {
+        console.error(e);
+    }
+}
 </script>
