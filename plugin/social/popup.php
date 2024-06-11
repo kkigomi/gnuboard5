@@ -17,6 +17,8 @@ if( !$provider_name ){
     alert('서비스 이름이 넘어오지 않았습니다.');
 }
 
+set_session('ss_social_provider_name', $provider_name);
+
 if( isset( $_REQUEST["redirect_to_idp"] ) ){
     $content = social_check_login_before();
 
