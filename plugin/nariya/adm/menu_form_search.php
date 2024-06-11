@@ -75,9 +75,9 @@ if($sql) {
             case 'content':
                 $link = get_pretty_url(G5_CONTENT_DIR, $row['id']);
                 break;
-            case 'category':
-                $link = shop_category_url($row['id']);
-                break;
+            // case 'category':
+            //     $link = shop_category_url($row['id']);
+            //     break;
 			default:
                 $link = '';
                 break;

@@ -4,12 +4,6 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 // 사이트 메뉴
 $siteMenus = include 'inc.menu.php';
 
-if(IS_SHOP) {
-    $member['todayview_cnt'] = get_boxcart_datas_count();
-    $member['cart_cnt'] = get_view_today_items_count();
-    $member['wishlist_cnt'] = get_wishlist_datas_count();
-}
-
 // 메뉴 및 페이지 위치 생성
 list($menu, $nav) = na_menu();
 
@@ -62,7 +56,7 @@ if(IS_INDEX)
                         <a href="#notiOffcanvas" data-bs-toggle="offcanvas" data-bs-target="#notiOffcanvas" aria-controls="notiOffcanvas" class="site-icon">
                             <span class="position-relative" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="알림">
                                 <i class="bi bi-bell"></i>
-                                <span class="position-absolute top-0 start-100 translate-middle spinner-grow spinner-grow bg-primary d-none da-noti-indicator" style="--bs-spinner-width: 5px; --bs-spinner-height: 5px;">
+                                <span class="position-absolute top-0 start-100 translate-middle spinner-grow spinner-grow bg-primary d-none da-noti-indicator">
                                     <span class="visually-hidden">새 알림이 있습니다</span>
                                 </span>
                                 <span class="visually-hidden">알림 보기</span>

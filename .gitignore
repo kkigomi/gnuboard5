@@ -27,3 +27,16 @@ pma/
 *.swp
 .DS_Store
 phpstan.neon
+
+# .gitignore 파일
+
+# 이미 트래킹 중인 파일 무시
+!adm/admin.menu200.php
+!adm/css/admin.css
+
+# 무시할 파일
+adm/memo_list.php
+
+backup/
+
+

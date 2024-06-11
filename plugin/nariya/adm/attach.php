@@ -2,6 +2,9 @@
 $sub_menu = '400300';
 include_once('./_common.php');
 
+// 영카트 관련 코드
+return;
+
 $it_id = (isset($_REQUEST['it_id']) && $_REQUEST['it_id']) ? safe_replace_regex($_REQUEST['it_id'], 'it_id') : '';
 
 $it = get_shop_item($it_id);
