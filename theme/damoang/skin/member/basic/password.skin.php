@@ -42,7 +42,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $member_skin_url . '/style.css?
             <?php } ?>
             <div class="input-group mb-2">
                 <span class="input-group-text">비밀번호<strong class="visually-hidden"> 필수</strong></span>
-                <input type="password" name="wr_password" id="password_wr_password" required class="form-control required" maxLength="255">
+                <input type="password" autocomplete="current-password" name="wr_password" id="password_wr_password" required class="form-control required" maxLength="255">
                 <button type="submit" id="btn_sumbit" class="btn btn-primary">확인</button>
             </div>
         </li>

@@ -63,9 +63,9 @@ include_once(G5_PATH.'/head.sub.php');
 
         <input type="hidden" name="authHash" value="<?php echo $authHash ?>"> <!-- 필수 값 -->
         <input type="hidden" name="flgFixedUser" value="<?php echo $flgFixedUser ?>"> <!-- 필수 값 Y/N 특정사용자 인증 요청 여부 -->
-        <input type="hidden" name="userName" value="<?php echo $userName ?>">
-        <input type="hidden" name="userPhone" value="<?php echo $userPhone ?>">
-        <input type="hidden" name="userBirth" value="<?php echo $userBirth ?>">
+        <input type="hidden" name="userName" value="">
+        <input type="hidden" name="userPhone" value="">
+        <input type="hidden" name="userBirth" value="">
         <input type="hidden" name="userHash" value="<?php echo $userHash ?>">
         <input type="hidden" name="reservedMsg" value="<?php echo $reservedMsg; ?>">
         <input type="hidden" name="mbId" value="<?php echo $member['mb_id']; ?>">

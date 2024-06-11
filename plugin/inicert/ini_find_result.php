@@ -46,7 +46,7 @@ if ($txId && isset($_POST["resultCode"]) && $_POST["resultCode"] === "0000") {
         if(!$phone_no)
         alert_close("정상적인 인증이 아닙니다. 올바른 방법으로 이용해 주세요.");
 
-        $md5_ci = sha1($ci . $ci);
+        $md5_ci = hash('sha256', $ci . \G5_TOKEN_ENCRYPTION_KEY);
         $phone_no = hyphen_hp_number($phone_no);
         $mb_dupinfo = $md5_ci;
 

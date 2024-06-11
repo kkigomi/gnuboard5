@@ -4,7 +4,7 @@ include_once('./_common.php');
 
 if(!$is_member) { alert("잘못된 접근입니다.", G5_URL); }
 
-if (!empty($member['mb_certify']) && empty($member['mb_dupinfo'])) { // 본인인증 안된 계정이거나 ci로 인증된 계정일 경우
+if (!empty($member['mb_certify']) && empty($member['mb_dupinfo'])) { // 본인인증 안된 계정
     alert("잘못된 접근입니다.", G5_URL);
 }
 

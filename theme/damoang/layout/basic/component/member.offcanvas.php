@@ -162,7 +162,7 @@ display: none;
                         <i class="bi bi-shield-lock text-muted"></i>
                     </span>
                     <div class="form-floating">
-                        <input type="password" name="mb_password" id="memberPw" class="form-control required nofocus" placeholder="비밀번호">
+                        <input type="password" autocomplete="current-password" name="mb_password" id="memberPw" class="form-control required nofocus" placeholder="비밀번호">
                         <label for="mb_pw100">비밀번호</label>
                     </div>
                 </div>
