@@ -676,7 +676,7 @@ function showRollingNotiView(key) {
     rollingNotiContainer.style.display = 'none';
 
     let allBoardMessages = <?=json_encode(getRollingNotiDataView('all_board'))?>;
-    let keyMessages = <?=json_encode(getRollingNotiDataView(key))?>;
+    let keyMessages = <?=json_encode(getRollingNotiDataView($key))?>;
 
     allBoardMessages = allBoardMessages.filter(function(message) {
         return message.charAt(0) !== '#';
