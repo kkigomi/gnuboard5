@@ -150,6 +150,9 @@ function na_file_var_save($file, $data) {
 		$content = "<?php\nif (!defined('_GNUBOARD_')) exit;\n\$data=".var_export($data, true).";";
 		fwrite($handle, $content);
 		fclose($handle);
+		if (function_exists('opcache_invalidate')) {
+			opcache_invalidate($file, true);
+		}
 	}
 
 	return;
