@@ -505,7 +505,7 @@ function fwrite_submit(f) {
 </script>
 <?php
 //
-function getRollingNotiData($key) {
+function getRollingNotiDataWrite($key) {
     global $rollingNotiData;
 
     foreach ($rollingNotiData as $noti) {
@@ -525,8 +525,8 @@ function showRollingNotiWrite(key) {
 
     rollingNotiContainer.style.display = 'none';
 
-    let allBoardMessages = <?=json_encode(getRollingNotiData('all_board'))?>;
-    let keyMessages = <?=json_encode(getRollingNotiData(key))?>;
+    let allBoardMessages = <?=json_encode(getRollingNotiDataWrite('all_board'))?>;
+    let keyMessages = <?=json_encode(getRollingNotiDataWrite(key))?>;
 
     allBoardMessages = allBoardMessages.filter(function(message) {
         return message.charAt(0) !== '#';
