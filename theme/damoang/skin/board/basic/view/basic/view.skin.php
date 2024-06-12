@@ -669,14 +669,14 @@ function getRollingNotiDataView($key) {
 ?>
 <script>
 // 롤링 공지 호출 함수
-function showRollingNotiView(key) {
+function showRollingNotiView() {
     const rollingNotiContainer = document.getElementById('rolling-noti-container-view');
     const rollingNoti = document.getElementById('rolling-noti-view');
 
     rollingNotiContainer.style.display = 'none';
 
     let allBoardMessages = <?=json_encode(getRollingNotiDataView('all_board'))?>;
-    let keyMessages = <?=json_encode(getRollingNotiDataView($key))?>;
+    let keyMessages = <?=json_encode(getRollingNotiDataView($bo_table))?>;
 
     allBoardMessages = allBoardMessages.filter(function(message) {
         return message.charAt(0) !== '#';
@@ -740,7 +740,7 @@ function showRollingNotiView(key) {
 }
 
 try {
-    showRollingNotiView('<?php echo $bo_table; ?>');
+    showRollingNotiView();
 } catch (e) {
     console.error(e);
 }
