@@ -175,7 +175,7 @@ function select_copy(sw) {
 <?php } ?>
 <?php
 //
-function getRollingNotiData($key) {
+function getRollingNotiDataList($key) {
     global $rollingNotiData;
 
     foreach ($rollingNotiData as $noti) {
@@ -195,8 +195,8 @@ function showRollingNotiList(key) {
 
     rollingNotiContainer.style.display = 'none';
 
-    let allBoardMessages = <?=json_encode(getRollingNotiData('all_board'))?>;
-    let keyMessages = <?=json_encode(getRollingNotiData(key))?>;
+    let allBoardMessages = <?=json_encode(getRollingNotiDataList('all_board'))?>;
+    let keyMessages = <?=json_encode(getRollingNotiDataList($key))?>;
 
     allBoardMessages = allBoardMessages.filter(function(message) {
         return message.charAt(0) !== '#';
