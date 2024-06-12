@@ -83,7 +83,7 @@ function editor_html($id, $content, $is_dhtml_editor = true)
         minWidth : '200px',
         height : '450px',
         minHeight : '450px',
-        videoWidth : '80%',
+        videoWidth : '100%',
         youtubeQuery : 'autoplay=1&mute=1&enablejsapi=1',
         popupDisplay : 'local',
         resizingBar : true,
@@ -127,7 +127,8 @@ function editor_html($id, $content, $is_dhtml_editor = true)
         imageMultipleFile : true,
         charCounter : true,
         lineAttrReset : '*',
-        codeMirror: CodeMirror
+        codeMirror: CodeMirror,
+        pasteTagsBlacklist: 'span'
     });
 
     //var converter = new showdown.Converter();
