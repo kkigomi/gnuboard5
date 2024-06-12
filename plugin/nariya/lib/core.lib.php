@@ -45,15 +45,11 @@ function na_check_id($id) {
 // 태그 속성 분리
 function na_query($str) {
 
-	$arr = array();
+    $str = stripcslashes($str);
 
-    if (function_exists('array_combine')) {
-		$str = stripcslashes($str);
+    preg_match_all('@(?P<attribute>[^\s\'\"]+)\s*=\s*(\'|\")?(?P<value>[^\s\'\"]+)(\'|\")?@i', $str, $match);
 
-		preg_match_all('@(?P<attribute>[^\s\'\"]+)\s*=\s*(\'|\")?(?P<value>[^\s\'\"]+)(\'|\")?@i', $str, $match);
-
-		$arr = @array_change_key_case(array_combine($match['attribute'], $match['value']));
-	}
+    $arr = @array_change_key_case(array_combine($match['attribute'], $match['value']));
 
 	return $arr;
 }
