@@ -40,6 +40,11 @@ $list_skin_path = $board_skin_path.'/list/'.$list_skin;
 <!--   </div>-->
 <?php echo na_widget('damoang-image-banner', 'board-head'); ?>
 
+<?php
+/* 게시판 페이지 글목록 상단에 특수기능 출력. 구글캘린더등 소모임 대문에 특수기능을 출력할 수 있도록 하는 파일 */
+include_once 'list.skin.top-embed.php';
+?>
+
 <?php echo $config['cf_10'];?>
 <div class="rolling-noti-container-list small" id="rolling-noti-container-list">
   <div class="fixed-text">
