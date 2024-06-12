@@ -10,7 +10,7 @@ $notitle = array(
     G5_BBS_DIR.'-page-member_confirm', // 비밀번호 확인 페이지
 );
 
-if(in_array($file_id) || in_array($file_id, $notitle)) {
+if (in_array($file_id, $notitle)) {
     return;
 }
 
