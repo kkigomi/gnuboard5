@@ -199,7 +199,7 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                                 </button>
                             <?php } ?>
                             <?php if ($list[$i]['is_del']) { ?>
-                                <a href="<?php echo $list[$i]['del_link']; ?>" onclick="<?php echo (isset($list[$i]['del_back']) && $list[$i]['del_back']) ? "na_delete('viewcomment', '".$list[$i]['del_href']."','".$list[$i]['del_back']."'); return false;" : "return comment_delete(this.href);";?>" class="btn btn-basic" title="삭제">
+                                <a href="<?php echo $list[$i]['del_link']; ?>" rel="nofollow" onclick="<?php echo (isset($list[$i]['del_back']) && $list[$i]['del_back']) ? "na_delete('viewcomment', '".$list[$i]['del_href']."','".$list[$i]['del_back']."'); return false;" : "return comment_delete(this.href);";?>" class="btn btn-basic" title="삭제">
                                     <i class="bi bi-trash"></i>
                                     <span class="d-none d-sm-inline-block">삭제</span>
                                 </a>
@@ -450,7 +450,7 @@ if($is_ajax)
 <?php } else { ?>
     <div id="bo_vc_login" class="alert alert-light mb-3 py-4 text-center mx-3" role="alert">
         <?php if($is_guest) { ?>
-            <a href="<?php echo G5_BBS_URL ?>/login.php?wr_id=<?php echo $wr_id.$qstr ?>&amp;url=<?php echo urlencode(get_pretty_url($bo_table, $wr_id, $qstr).'#bo_vc_w') ?>">로그인한 회원만 댓글 등록이 가능합니다.</a>
+            <a href="<?php echo G5_BBS_URL ?>/login.php?wr_id=<?php echo $wr_id.$qstr ?>&amp;url=<?php echo urlencode(get_pretty_url($bo_table, $wr_id, $qstr).'#bo_vc_w') ?>" rel="nofollow">로그인한 회원만 댓글 등록이 가능합니다.</a>
         <?php } else { ?>
             댓글을 등록할 수 있는 권한이 없습니다.
         <?php } ?>

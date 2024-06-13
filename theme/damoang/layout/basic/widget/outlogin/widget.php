@@ -78,20 +78,20 @@ global $is_member, $member, $is_admin;
 
 <?php } else { ?>
 
-    <a class="btn btn-primary w-100 py-2 mb-2" href="#memberOffcanvas" data-bs-toggle="offcanvas"
+    <a class="btn btn-primary w-100 py-2 mb-2" href="#memberOffcanvas" rel="nofollow" data-bs-toggle="offcanvas"
     data-bs-target="#memberOffcanvas" aria-controls="memberOffcanvas" role="button">
     로그인
     </a>
 
     <div class="row gx-2">
         <div class="col">
-            <a href="<?php echo G5_BBS_URL ?>/register.php" class="btn btn-basic btn-sm w-100">
+            <a href="<?php echo G5_BBS_URL ?>/register.php" rel="nofollow" class="btn btn-basic btn-sm w-100">
             <i class="bi bi-person-plus"></i>
             회원가입
             </a>
         </div>
         <div class="col">
-            <a href="<?php echo G5_BBS_URL ?>/password_lost.php" class="btn btn-basic btn-sm w-100">
+            <a href="<?php echo G5_BBS_URL ?>/password_lost.php" rel="nofollow" class="btn btn-basic btn-sm w-100">
             <i class="bi bi-search"></i>
             정보찾기
             </a>

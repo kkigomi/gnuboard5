@@ -137,19 +137,19 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
     </div>
     <?php if ($write_href && !$wr_id) { ?>
         <div class="order-last">
-            <a href="/<?php echo $bo_table;?>?sfl=mb_id%2C1&stx=<?php echo $member['mb_id'];?>" class="btn btn-basic btn-sm">
+            <a href="/<?php echo $bo_table;?>?sfl=mb_id%2C1&stx=<?php echo $member['mb_id'];?>" rel="nofollow" class="btn btn-basic btn-sm">
                 <i class="bi bi-chat-square-text"></i>
                 <span class="d-none d-sm-inline-block">내 글</span>
             </a>
         </div>
         <div class="order-last">
-            <a href="/<?php echo $bo_table;?>?sfl=mb_id%2C0&stx=<?php echo $member['mb_id'];?>" class="btn btn-basic btn-sm">
+            <a href="/<?php echo $bo_table;?>?sfl=mb_id%2C0&stx=<?php echo $member['mb_id'];?>" rel="nofollow" class="btn btn-basic btn-sm">
                 <i class="bi bi-chat"></i>
                 <span class="d-none d-sm-inline-block">내 댓글</span>
             </a>
         </div>
         <div class="order-last">
-            <a href="<?php echo $write_href ?>" class="btn btn-primary btn-sm">
+            <a href="<?php echo $write_href ?>" rel="nofollow" class="btn btn-primary btn-sm">
                 <i class="bi bi-pencil"></i>
                 쓰기
             </a>
@@ -180,7 +180,7 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
                     <label for="bo_stx" class="visually-hidden">검색어 필수</label>
                     <div class="input-group input-group-sm">
                         <input type="text" class="form-control" name="stx" id="bo_stx" value="<?php echo stripslashes($stx) ?>" required placeholder="검색어 입력">
-                        <a href="<?php echo get_pretty_url($bo_table) ?>" class="btn btn-basic" title="초기화">
+                        <a href="<?php echo get_pretty_url($bo_table) ?>" rel="nofollow" class="btn btn-basic" title="초기화">
                             <i class="bi bi-arrow-clockwise"></i>
                             <span class="visually-hidden">초기화</span>
                         </a>
@@ -231,7 +231,7 @@ if ($is_category) {
     <nav id="bo_category" class="border-top py-2">
         <ul class="nav row row-cols-3 row-cols-sm-4 row-cols-md-5 row-cols-lg-6 g-1 small">
             <li class="nav-item col">
-                <a class="nav-link text-truncate py-0<?php echo $sca ? '' : ' active fw-bold" aria-current="page'; ?>" href="<?php echo get_pretty_url($bo_table) ?>">
+                <a class="nav-link text-truncate py-0<?php echo $sca ? '' : ' active fw-bold" aria-current="page'; ?>" href="<?php echo get_pretty_url($bo_table) ?>" rel="nofollow">
                     전체(<?php echo isset($catecnt['all']) ? $catecnt['all'] : 0; ?><?php echo isset($catecnt['all']) && (int)$catenew['all'] > 0 ? '<span class="orangered">+'.$catenew['all'].'</span>' : '';?>)
                 </a>
             </li>

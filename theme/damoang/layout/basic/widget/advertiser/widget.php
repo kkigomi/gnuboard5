@@ -10,8 +10,8 @@ $sideBN_widget_file = NA_DATA_PATH . '/widget/w-damoang-image-banner-side-banner
 
 
 /* setting the data sets of damoang-image-banner widget */
-$wset_headBN = array(); // damoang-image-banner 위젯 설정파일 
-$wset_sideBN = array(); // damoang-image-banner 위젯 설정파일 
+$wset_headBN = array(); // damoang-image-banner 위젯 설정파일
+$wset_sideBN = array(); // damoang-image-banner 위젯 설정파일
 $wset = array(); //현재 위젯 설정파일
 if (is_file($headBN_widget_file))
     $wset_headBN = na_file_var_load($headBN_widget_file);
@@ -36,7 +36,7 @@ function GetHeadBnHTML($wset_headBN)
             $action_name = isset($wset_headBN['action_name']) ? ' data-dd-action-name="' . htmlspecialchars($wset_headBN['action_name']) . '"' : '';
 
             $banner_items .= '<li class="list-group-item border-0">';
-            $banner_items .= '<a href="' . htmlspecialchars($link) . '" target="' . htmlspecialchars($target) . '"' . $action_name . '>';
+            $banner_items .= '<a href="' . htmlspecialchars($link) . '" rel="nofollow noopenner" target="' . htmlspecialchars($target) . '"' . $action_name . '>';
             $banner_items .= '<img src="' . htmlspecialchars($img) . '" alt="' . htmlspecialchars($alt) . '" class="mw-100">';
             $banner_items .= '</a>';
             $banner_items .= '</li>';
@@ -71,7 +71,7 @@ function GetSideBnHTML($wset_sideBN)
             $action_name = isset($wset_sideBN['action_name']) ? ' data-dd-action-name="' . $wset_sideBN['action_name'] . '"' : '';
 
             $banner_items .= '<li class="col list-group-item border-0">';
-            $banner_items .= '<a href="' . htmlspecialchars($link) . '" target="' . htmlspecialchars($target) . '"' . $action_name . '>';
+            $banner_items .= '<a href="' . htmlspecialchars($link) . '" rel="nofollow noopenner" target="' . htmlspecialchars($target) . '"' . $action_name . '>';
             $banner_items .= '<img src="' . htmlspecialchars($img) . '" alt="' . htmlspecialchars($alt) . '" class="mw-100">';
             $banner_items .= '</a>';
             $banner_items .= '</li>';

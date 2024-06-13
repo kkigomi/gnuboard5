@@ -184,7 +184,7 @@ function na_paging($write_pages, $cur_page, $total_page, $url, $add='') {
 
 	if($last) {
 		if ($cur_page < $total_page) {
-			$str .= '<li class="page-last page-item"><a class="page-link" href="'.$url.($total_page).$add.'" title="마지막 페이지">'.$last.'<span class="visually-hidden">마지막 페이지/span></a></li>'.PHP_EOL;
+			$str .= '<li class="page-last page-item"><a class="page-link" href="'.$url.($total_page).$add.'" rel="nofollow" title="마지막 페이지">'.$last.'<span class="visually-hidden">마지막 페이지/span></a></li>'.PHP_EOL;
 		} else {
 			//$str .= '<li class="page-last page-item disabled"><a class="page-link">'.$last.'</a></li>'.PHP_EOL;
 		}

@@ -23,37 +23,37 @@ add_stylesheet('<link rel="stylesheet" href="' . get_social_skin_url() . '/style
     <h3 class="visually-hidden">소셜계정으로 로그인</h3>
     <div class="sns-wrap">
         <?php if (social_service_check('naver')) { // 네이버 로그인을 사용한다면 ?>
-            <a href="<?php echo $self_url; ?>?provider=naver&amp;url=<?php echo $urlencode; ?>" class="sns-icon social_link_win sns-naver my-2" title="네이버">
+            <a href="<?php echo $self_url; ?>?provider=naver&amp;url=<?php echo $urlencode; ?>" rel="nofollow" class="sns-icon social_link_win sns-naver my-2" title="네이버">
                 <span class="ico"></span>
                 <span class="txt">네이버<i> 로그인</i></span>
             </a>
         <?php } // end if ?>
         <?php if (social_service_check('kakao')) { // 카카오 로그인을 사용한다면 ?>
-            <a href="<?php echo $self_url; ?>?provider=kakao&amp;url=<?php echo $urlencode; ?>" class="sns-icon social_link_win sns-kakao my-2" title="카카오">
+            <a href="<?php echo $self_url; ?>?provider=kakao&amp;url=<?php echo $urlencode; ?>" rel="nofollow" class="sns-icon social_link_win sns-kakao my-2" title="카카오">
                 <span class="ico"></span>
                 <span class="txt">카카오<i> 로그인</i></span>
             </a>
         <?php } // end if ?>
         <?php if (social_service_check('facebook')) { // 페이스북 로그인을 사용한다면 ?>
-            <a href="<?php echo $self_url; ?>?provider=facebook&amp;url=<?php echo $urlencode; ?>" class="sns-icon social_link_win sns-facebook my-2" title="페이스북">
+            <a href="<?php echo $self_url; ?>?provider=facebook&amp;url=<?php echo $urlencode; ?>" rel="nofollow" class="sns-icon social_link_win sns-facebook my-2" title="페이스북">
                 <span class="ico"></span>
                 <span class="txt">페이스북<i> 로그인</i></span>
             </a>
         <?php } // end if ?>
         <?php if (social_service_check('google')) { // 구글 로그인을 사용한다면 ?>
-            <a href="<?php echo $self_url; ?>?provider=google&amp;url=<?php echo $urlencode; ?>" class="sns-icon social_link_win sns-google my-2" title="구글">
+            <a href="<?php echo $self_url; ?>?provider=google&amp;url=<?php echo $urlencode; ?>" rel="nofollow" class="sns-icon social_link_win sns-google my-2" title="구글">
                 <span class="ico"></span>
                 <span class="txt">구글<i> 로그인</i></span>
             </a>
         <?php } // end if ?>
         <?php if (social_service_check('twitter')) { // 트위터 로그인을 사용한다면 ?>
-            <a href="<?php echo $self_url; ?>?provider=twitter&amp;url=<?php echo $urlencode; ?>" class="sns-icon social_link_win sns-twitter my-2" title="트위터">
+            <a href="<?php echo $self_url; ?>?provider=twitter&amp;url=<?php echo $urlencode; ?>" rel="nofollow" class="sns-icon social_link_win sns-twitter my-2" title="트위터">
                 <span class="ico"></span>
                 <span class="txt">트위터<i> 로그인</i></span>
             </a>
         <?php } // end if ?>
         <?php if (social_service_check('payco')) { // 페이코 로그인을 사용한다면 ?>
-            <a href="<?php echo $self_url; ?>?provider=payco&amp;url=<?php echo $urlencode; ?>" class="sns-icon social_link_win sns-payco my-2" title="페이코">
+            <a href="<?php echo $self_url; ?>?provider=payco&amp;url=<?php echo $urlencode; ?>" rel="nofollow" class="sns-icon social_link_win sns-payco my-2" title="페이코">
                 <span class="ico"></span>
                 <span class="txt">페이코<i> 로그인</i></span>
             </a>
