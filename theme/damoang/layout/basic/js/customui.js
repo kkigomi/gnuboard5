@@ -102,7 +102,7 @@
     , "shortcut_9"
     , "shortcut_0"
   ];
-  var ui_custom_default = { show_width: 1200, font_size: 1, line_height: 1.5, menu_width: 25, expand_quick_size: 2.5 , expand_gesture_swipe_minx : 50, expand_gesture_swipe_maxy : 30, expand_gesture_start_term : 400, expand_gesture_click_term : 250};
+  var ui_custom_default = { show_width: 1200, font_size: 1, line_height: 1.5, menu_width: 25, expand_quick_size: 2.5, expand_gesture_swipe_minx: 50, expand_gesture_swipe_maxy: 30, expand_gesture_start_term: 400, expand_gesture_click_term: 250 };
 
 
   function set_body_op_start() {
@@ -201,7 +201,7 @@
             ui_custom_style += "div.order-1 ul.list-group li.list-group-item.da-link-block:hover .rcmd-box.step4 {animation-iteration-count: infinite;}\n";
           }
           //ui_media768_style += "#bo_list .list-group-item div.ms-md-auto > div > div:nth-child(3) {position:absolute;left:5px;width:2.3em;}\n";
-          //ui_media768_style += "#bo_list .list-group-item div.wr-num.order-3 {position:absolute;left:5px;height: 2em;width: 2.3em;margin-top: -0.4em;padding-top: 0.4em;padding-left:0em;padding-right:0em;border-radius: 40%;}\n";          
+          //ui_media768_style += "#bo_list .list-group-item div.wr-num.order-3 {position:absolute;left:5px;height: 2em;width: 2.3em;margin-top: -0.4em;padding-top: 0.4em;padding-left:0em;padding-right:0em;border-radius: 40%;}\n";
         }
 
 
@@ -228,7 +228,7 @@
         }
         if (ui_obj.expand_quick != null && ui_obj.expand_quick) {
           ui_custom_style += "div#toTop a {font-size: " + (ui_obj.expand_quick_size ?? 2.5) + "em !important;}\n";
-          
+
           //"div#toTop a.ui-custom-expand-hidden.d-block {transition: all 0.5s;height: 100%;}\n" +
           //"div#toTop a.ui-custom-expand-hidden.d-none {display: block !important;transition: all 0.3s;opacity: 0;transform: scale(0.5) rotate(0deg) translateY(200%);border-radius: 100%;}\n" +
           ui_custom_style += "div#toTop a.ui-custom-expand-hidden.d-none-start {display: block !important;opacity: 0;transform: scale(0.5) rotate(0deg) translateY(200%);border-radius: 100%;}\n" +
@@ -419,7 +419,7 @@
       });
     }
   }
-  
+
   function set_ui_custom_input_clear() {
     ui_custom_input.forEach(function (reg) {
       var temp_input = $("#reg_" + reg)[0]
@@ -666,18 +666,18 @@
     var cv_2 = Number(ui_obj.rcmd_color_step2_value ?? 6);
     var cv_3 = Number(ui_obj.rcmd_color_step3_value ?? 11);
     var cv_4 = Number(ui_obj.rcmd_color_step4_value ?? 51);
-    var change_step_value = ((ui_obj.rcmd_color_step1_value !=null)) || (ui_obj.rcmd_color_step2_value != null) || (ui_obj.rcmd_color_step3_valu != null) || (ui_obj.rcmd_color_step4_value != null);
+    var change_step_value = ((ui_obj.rcmd_color_step1_value != null)) || (ui_obj.rcmd_color_step2_value != null) || (ui_obj.rcmd_color_step3_valu != null) || (ui_obj.rcmd_color_step4_value != null);
     if (change_step_value) {
       if (cv_2 < cv_1) cv2 = cv_1;
       if (cv_3 < cv_2) cv3 = cv_2;
       if (cv_4 < cv_3) cv4 = cv_3;
-      console.debug(cv_1,cv_2,cv_3,cv_4);
+      console.debug(cv_1, cv_2, cv_3, cv_4);
     }
     var rv_1 = 500, rv_2 = 1000, rv_3 = 5000;
     //var option_class = ["bg-danger","bg-success","bg-primary","bg-info","bg-secondary","bg-opacity-25","bg-opacity-10","bg-gradient","fw-bold","cu_rv_1","cu_rv_2","cu_rv_3"];
     var option_class = ["cu_rv_1", "cu_rv_2", "cu_rv_3", "cu_rv_4", "cu_rv_5"];
     var custom_class = ["gray", "forest", "yellow", "colorful", "none", "self"];
-    var step_class = ["step0","step1", "step2", "step3", "step4"];
+    var step_class = ["step0", "step1", "step2", "step3", "step4"];
     var color_set = ui_obj.rcmd_color_set ?? "";
     if (color_set != "") {
       color_set = "rcmd-box-" + color_set;
@@ -3103,7 +3103,7 @@
       } else {
         tges.maxTap = 0;
       }
-      set_touch_event();  
+      set_touch_event();
     }
   }
   var stt = null
@@ -3113,21 +3113,21 @@
       window.removeEventListener(touch, get_touch_event, false);
     });
     if (term != null) {
-      if (stt!=null) {
+      if (stt != null) {
         clearTimeout(stt);
       }
-      stt = setTimeout(function(){
+      stt = setTimeout(function () {
         touch_list.forEach((touch) => {
           window.addEventListener(touch, get_touch_event, false);
         });
-      },term);
+      }, term);
     } else {
       touch_list.forEach((touch) => {
         window.addEventListener(touch, get_touch_event, false);
       });
-  
+
     }
-}
+  }
   function get_touch_event(e, parent_name) {
     var now = Date.now();
     var term = null;
@@ -3184,7 +3184,7 @@
         tlog.summary.move++;
         tlog.list.push(e);
         //if (tlog.summary.start_term < 300) {
-          //e.preventDefault();
+        //e.preventDefault();
         //}
         break;
 
@@ -3192,11 +3192,11 @@
       case "touchcancle":
         tlog.summary.end++;
         tlog.list.push(e);
-        if ( !(isShortCutInputElement(e.target)) && tlog.summary.move < 3 && tlog.summary.end < tges.maxTap && (tlog.summary.start_term < (tlog.summary.end + 1) * tges.click_term)) {
+        if (!(isShortCutInputElement(e.target)) && tlog.summary.move < 3 && tlog.summary.end < tges.maxTap && (tlog.summary.start_term < (tlog.summary.end + 1) * tges.click_term)) {
           e.preventDefault();
           tsev = setTimeout(check_touch_event, tges.click_term);
         } else if (tlog.summary.start_term < tges.start_term || tlog.summary.move > 5) {
-            check_touch_event();
+          check_touch_event();
         } else {
           clearTimeout(tsev);
           tlog = null;
@@ -3219,7 +3219,7 @@
       if (m) {
         ax = Math.abs(tlog.summary.totalX)
         ay = Math.abs(tlog.summary.totalY);
-        if (((tges.swipe ?? "") != "") && ax > (tges.swipe_minx ?? 50) && ay < (tges.swipe_maxy ?? 30) && (ax/ay) >= 3) {
+        if (((tges.swipe ?? "") != "") && ax > (tges.swipe_minx ?? 50) && ay < (tges.swipe_maxy ?? 30) && (ax / ay) >= 3) {
           t_type = tges?.swipe;
           if (tlog.summary.totalX > 0) {
             t_value = "r";
@@ -3238,7 +3238,7 @@
             break;
           case 1:
             //set_touch_event(500)
-            tlog.summary.target.dispatchEvent(tlog.list[tlog.list.length-1]);
+            tlog.summary.target.dispatchEvent(tlog.list[tlog.list.length - 1]);
             tlog.summary.target.click();
             break;
         }
@@ -3318,16 +3318,16 @@
           var sh = screen.height;
           var hn = document.getElementById('header-navbar');
           if (bc == null) {
-            if ( sy <= (bl.offsetTop + 100)) {
-              window.scrollTo(0,bl.offsetTop + bl.offsetHeight - sh + hn.offsetHeight + 60);
+            if (sy <= (bl.offsetTop + 100)) {
+              window.scrollTo(0, bl.offsetTop + bl.offsetHeight - sh + hn.offsetHeight + 60);
             } else {
               window.location.replace("#bo_list_wrap");
             }
           } else {
-            if ( sy <= (bc.offsetTop + 100)) {
+            if (sy <= (bc.offsetTop + 100)) {
               window.location.replace("#bo_list_wrap");
-            } else if ( sy <= (bl.offsetTop + 100)) {
-              window.scrollTo(0,bl.offsetTop + bl.offsetHeight - sh + hn.offsetHeight + 60);
+            } else if (sy <= (bl.offsetTop + 100)) {
+              window.scrollTo(0, bl.offsetTop + bl.offsetHeight - sh + hn.offsetHeight + 60);
             } else {
               window.location.replace("#bo_v");
             }
@@ -3358,14 +3358,14 @@
           //term = close_offcanvas();
           history.back();
           break;
-        case "goForward": //앞으로이동  
+        case "goForward": //앞으로이동
           //term = close_offcanvas();
           history.forward();
           break;
-    }
+      }
     }
   }
-  function close_offcanvas(){
+  function close_offcanvas() {
     var term = 10;
     if (document.getElementById("menuOffcanvas") != null && document.getElementById("menuOffcanvas").classList.contains("show")) {
       document.querySelector("a[data-bs-target='#menuOffcanvas']").click();
@@ -3382,37 +3382,37 @@
   //터치 이벤트 기록용 끝
 
   //소모임 추천 및 단축키 등록 유도 시작
-  function set_bbs_group_recommend(ui_obj, reload){
+  function set_bbs_group_recommend(ui_obj, reload) {
     if (reload) {
       var removes = document.querySelectorAll('div.nav-item.bbs_group_recommend');
-      removes.forEach((item)=>{
+      removes.forEach((item) => {
         item.remove();
-      });  
+      });
     }
     var board_obj = null;
     if (!(ui_obj?.bbs_shortcut_recommend_off ?? false)) {
       board_obj = get_board_mb_id();
     }
     var user_regs = [];
-    for(var i=0;i<10;i++) {
+    for (var i = 0; i < 10; i++) {
       var temp_short = (ui_obj["shortcut_" + i] ?? "");
 
       if (temp_short != "") {
-        user_regs.push(temp_short);        
+        user_regs.push(temp_short);
       }
     }
     var bbs_group = [];
     var menu_div = document.querySelectorAll("div.na-menu div.nav");
-    menu_div.forEach((item)=>{
+    menu_div.forEach((item) => {
       var dropdown = item.querySelector("div.nav-item div.nav-item:has(a.nav-link.dropdown-toggle)");
-      if (dropdown!=null) {
+      if (dropdown != null) {
         bbs_group.push(dropdown);
       }
     });
     //var bbs_group = document.querySelectorAll("div.na-menu div.nav div.nav-item div.nav-item:has(a.nav-link.dropdown-toggle)");
     var link_list = [];
     var links = document.querySelectorAll("#sidebar-site-menu .da-menu--bbs-group-group div >  a");
-    links.forEach((temp)=> {
+    links.forEach((temp) => {
       var regex = /^[a-zA-Z]+$/;
       var temp_link_obj = temp;
       var temp_name = temp_link_obj.innerHTML.trim();
@@ -3439,47 +3439,47 @@
     if (ui_obj?.bbs_group_recommend_off ?? false) {
       return;
     }
-   
+
     var recommend_count = 3;
     var recommend_group = [];
     console.trace();
-    for(var i=0;i<recommend_count;i++) {
-      if (link_list.length>0) {
+    for (var i = 0; i < recommend_count; i++) {
+      if (link_list.length > 0) {
         var temp = Math.floor(Math.random() * link_list.length);
         recommend_group.push(link_list[temp]);
-        link_list.splice(temp,1);
+        link_list.splice(temp, 1);
       } else {
         break;
       }
     }
-    recommend_group.push({ link: "recommend_off", org: "#recommend_off", name: "소모임 추천끄기"});
-    
-    bbs_group.forEach((group)=>{
+    recommend_group.push({ link: "recommend_off", org: "#recommend_off", name: "소모임 추천끄기" });
+
+    bbs_group.forEach((group) => {
       var parent = group.parentNode;
       var nextSibling = group.nextSibling;
       var header = document.createElement("div");
       header.className = "dropdown-header bbs_group_recommend fst-italic";
       header.innerHTML = "소모임 추천";
-      parent.insertBefore(header, nextSibling);  
+      parent.insertBefore(header, nextSibling);
 
-      recommend_group.forEach((link)=>{
+      recommend_group.forEach((link) => {
         var shortcut_div = document.createElement("div");
         shortcut_div.className = "nav-item bbs_group_recommend opacity-75 fst-italic";
         var shortcut_link = document.createElement("a");
         shortcut_link.className = "nav-link bbs_group_recommend";
         shortcut_link.href = link.org;
         shortcut_link.innerHTML = '<span class="d-flex align-items-center gap-2 nav-link-title"><span class="badge p-1 text-bg-secondary">·</span>' + link.name + "</span>";//<i class="bi-list-stars nav-icon">//
-        if (link.org=="#recommend_off") {
-          shortcut_link.addEventListener('click',set_bbs_group_recommend_off);
+        if (link.org == "#recommend_off") {
+          shortcut_link.addEventListener('click', set_bbs_group_recommend_off);
         }
         shortcut_div.appendChild(shortcut_link);
-        parent.insertBefore(shortcut_div, nextSibling);  
+        parent.insertBefore(shortcut_div, nextSibling);
       });
     });
   }
 
-  function set_bbs_group_recommend_off(){
-    if (confirm("소모임 추천을 하지 않겠습니까?\n마이메뉴 -> 개인화면설정 -> 추천에서 설정을 바꾸실 수 있습니다.")){
+  function set_bbs_group_recommend_off() {
+    if (confirm("소모임 추천을 하지 않겠습니까?\n마이메뉴 -> 개인화면설정 -> 추천에서 설정을 바꾸실 수 있습니다.")) {
       remove_bbs_group_recommend();
       var ui_obj = get_ui_obj(true);
       ui_obj.bbs_group_recommend_off = true;
@@ -3489,14 +3489,14 @@
     }
   }
 
-  function remove_bbs_group_recommend(){
+  function remove_bbs_group_recommend() {
     var removes = document.querySelectorAll('div.nav-item.bbs_group_recommend');
-    removes.forEach((item)=>{
+    removes.forEach((item) => {
       item.remove();
-    });    
+    });
   }
 
-  function set_bbs_shortcut_recommend(ui_obj, board_obj, reload){
+  function set_bbs_shortcut_recommend(ui_obj, board_obj, reload) {
     if (reload) {
       remove_bbs_shortcut_reg();
     }
@@ -3506,35 +3506,35 @@
       if (board_obj != null && board_obj.board_name != null) {
         var reged = false;
         var fulled = true;
-        for(var i=1;i<11;i++) {
-          var check_i = i<10 ? i : i-10;
+        for (var i = 1; i < 11; i++) {
+          var check_i = i < 10 ? i : i - 10;
           var temp_short = (ui_obj["shortcut_" + check_i] ?? "");
           if (temp_short == board_obj.board) {
             reged = true;
             break;
-          } else if (temp_short == ""){
+          } else if (temp_short == "") {
             fulled = false;
           }
         }
         if (reged || fulled) {
           return;
         }
-      }  
+      }
     }
     var title_a = document.querySelector("div.page-title a");
     var button = document.createElement('button');
-    button.setAttribute("type","button");
+    button.setAttribute("type", "button");
     button.className = "btn btn-link btn-lg p-0 bbs_shortcut_recommend";
     button.style = "font-size: 1.3em;margin: -0.5em 0em -0.3em;";
     button.title = "소모임 단축키를 등록해 봅시다.";
     button.innerHTML = '<i class="bi bi-keyboard ms-3"></i>';
-    button.addEventListener('click',set_bbs_shortcut_reg);
-    title_a.parentNode.insertBefore(button,title_a.nextSibling);
+    button.addEventListener('click', set_bbs_shortcut_reg);
+    title_a.parentNode.insertBefore(button, title_a.nextSibling);
   }
 
-  function set_bbs_shortcut_reg(){
+  function set_bbs_shortcut_reg() {
     var board_obj = get_board_mb_id();
-    if ((board_obj?.board ?? "") == "" ) {
+    if ((board_obj?.board ?? "") == "") {
       remove_bbs_shortcut_reg();
       return;
     }
@@ -3545,8 +3545,8 @@
     var first_num = null;
     var check_board = false;
     if (ui_obj != null) {
-      for(var i=1;i<11;i++) {
-        var check_i = i<10 ? i : i-10;
+      for (var i = 1; i < 11; i++) {
+        var check_i = i < 10 ? i : i - 10;
         var temp_short = (ui_obj["shortcut_" + check_i] ?? "");
         if (temp_short == "") {
           if (first_num == null) {
@@ -3559,47 +3559,47 @@
           shortcut_arr.push(check_i);
         }
       }
-    }    
+    }
     if (first_num == null) {
       alert("단축키가 모두 등록되어 있습니다.");
     } else if (check_board) {
       alert("이미 등록된 단축키 입니다.");
-    }else {
-      if (confirm(board_title + "의 단축키를 " + first_num + "번으로 등록하시겠습니까?")){
+    } else {
+      if (confirm(board_title + "의 단축키를 " + first_num + "번으로 등록하시겠습니까?")) {
         ui_obj.shortcut_use = true;
-        ui_obj["shortcut_"+first_num] = board_obj.board;
+        ui_obj["shortcut_" + first_num] = board_obj.board;
         set_ui_obj(ui_obj);
-        alert(board_title+"의 단축키가 " + first_num + "번으로 등록되었습니다.");
+        alert(board_title + "의 단축키가 " + first_num + "번으로 등록되었습니다.");
         set_ui_custom_values();
       } else {
         if (shortcut_arr.length > 2) {
-          setTimeout(function(){
-            if (confirm("소모임의 단축키 등록 표시를 그만 보시겠습니까?\n마이메뉴 -> 개인화면설정 -> 추천에서 설정을 바꾸실 수 있습니다.")) {  
+          setTimeout(function () {
+            if (confirm("소모임의 단축키 등록 표시를 그만 보시겠습니까?\n마이메뉴 -> 개인화면설정 -> 추천에서 설정을 바꾸실 수 있습니다.")) {
               ui_obj.bbs_shortcut_recommend_off = true;
               set_ui_obj(ui_obj);
               set_ui_custom_values();
               alert("앞으로 소모임의 단축키 등록 버튼을 표시하지 않습니다.");
-            }  
-          },700);  
+            }
+          }, 700);
         }
       }
     }
   }
 
-  function remove_bbs_shortcut_reg(){
+  function remove_bbs_shortcut_reg() {
     var removes = document.querySelectorAll('button.bbs_shortcut_recommend');
-      removes.forEach((item)=>{
-        item.remove();
-      });  
+    removes.forEach((item) => {
+      item.remove();
+    });
   }
- 
-  function get_ui_obj(not_null){
+
+  function get_ui_obj(not_null) {
     var ui_custom_storage_str = localStorage.getItem("ui_custom");
     var ui_obj = null;
     if (ui_custom_storage_str != null && ui_custom_storage_str != "") {
       try {
         ui_obj = JSON.parse(ui_custom_storage_str);
-      } catch(e) {
+      } catch (e) {
       }
     }
     if (ui_obj == null && (not_null ?? false)) {
@@ -3607,7 +3607,7 @@
     }
     return ui_obj;
   }
-  function set_ui_obj(ui_obj){
+  function set_ui_obj(ui_obj) {
     var json_str = "";
     if (ui_obj == null) {
       json_str = "";
@@ -3616,7 +3616,7 @@
     } else {
       try {
         json_str = JSON.stringify(ui_obj);
-      } catch(e) {
+      } catch (e) {
         json_str = "";
       }
     }
@@ -3625,7 +3625,7 @@
       localStorage.setItem("ui_custom", json_str);
     } else {
       localStorage.removeItem("ui_custom")
-    }    
+    }
   }
   //소모임 추천 및 단축키 등록 유도 끝
 
@@ -3676,19 +3676,19 @@
       //reg_expand_shortcut
       $("#reg_show_detail").change(function () {
         var container = document.querySelector("#user-ui-custom div.ui-custom-container");
-        if (container!=null){
+        if (container != null) {
           if ($("#reg_show_detail").is(":checked")) {
             container.classList.add("show-detail");
           } else {
-            container.classList.remove("show-detail");  
-          }  
+            container.classList.remove("show-detail");
+          }
         }
         $("#reg_ui_custom").trigger('change');
 
         $("#reg_title_filtering").trigger('change');
         $("#reg_content_blur").trigger('change');
-        $("#reg_shortcut_use").trigger('change');  
-      });      
+        $("#reg_shortcut_use").trigger('change');
+      });
 
       //reg_expand_shortcut
       $("#reg_expand_shortcut").change(function () {
@@ -3771,7 +3771,7 @@
       //console.error('Failed to initialize custom UI settings:', error);
     }
   }
-  function set_ui_rcmd_steps_class(){
+  function set_ui_rcmd_steps_class() {
     if ($("#reg_rcmd_color_set").val() == "self" || $("#reg_rcmd_font_color").val()) {
       $(".ui-custom-rcmd-steps").removeClass("ui-custom-detail");
     } else {
@@ -3874,7 +3874,7 @@
   }
   function set_page_hide(event) {
     //console.debug("hide_page");
-    //set_expand_button_hide();  
+    //set_expand_button_hide();
     is_set_expand_button = false;
   }
   document.addEventListener("DOMContentLoaded", set_ui_custom_onload, { once: true });
