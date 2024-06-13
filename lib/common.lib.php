@@ -1383,7 +1383,7 @@ function get_sideview($mb_id, $name='', $email='', $homepage='')
 {
     global $config;
     global $g5;
-    global $bo_table, $sca, $is_admin, $member;
+    global $bo_table, $sca, $is_admin, $member, $is_member;
 
     static $cache = array();
 
@@ -1411,7 +1411,6 @@ function get_sideview($mb_id, $name='', $email='', $homepage='')
     $menus = array();
 
     if ($mb_id) {
-        // $tmp_name = "<a href=\"".G5_BBS_URL."/profile.php?mb_id=".$mb_id."\" class=\"sv_member\" title=\"$name 자기소개\" rel="nofollow" target=\"_blank\" onclick=\"return false;\">$name</a>";
         $name_tag_open = '<a href="' . G5_BBS_URL . '/profile.php?mb_id=' . $mb_id . '" class="sv_member sideview sideview--member d-flex align-items-center gap-1" data-member-id="' . $mb_id . '" title="' . $name . ' 자기소개" target="_blank" rel="nofollow" onclick="return false;">';
 
         if ($config['cf_use_member_icon']) {
@@ -1453,32 +1452,34 @@ function get_sideview($mb_id, $name='', $email='', $homepage='')
         $name_tag['name'] = '<span class="sv_name text-truncate">' . $name . '</span>';
     }
 
-    if ($mb_id) {
-        $menus['memo'] = '<a href="' . G5_BBS_URL . '/memo_form.php?me_recv_mb_id=' . $mb_id . '" rel="nofollow" onclick="win_memo(this.href); return false;">쪽지보내기</a>';
-    }
-
-    if ($homepage) {
-        $menus['homepage'] = '<a href="' . $homepage . '" rel="nofollow noopener" target="_blank">홈페이지</a>';
-    }
-
-    if ($mb_id) {
-        $menus['profile'] = '<a href="' . G5_BBS_URL . '/profile.php?mb_id=' . $mb_id . '" onclick="win_profile(this.href); return false;" rel="nofollow">자기소개</a>';
-    }
-
-    if ($bo_table) {
+    if ($is_member) {
         if ($mb_id) {
-            $menus['search_id'] = '<a href="' . get_pretty_url($bo_table, '', 'sca=' . $sca . '&amp;sfl=mb_id,1&amp;stx=' . $en_mb_id) . '" rel="nofollow">아이디로 검색</a>';
-        } else {
-            $menus['search_name'] = '<a href="' . get_pretty_url($bo_table, '', 'sca=' . $sca . '&amp;sfl=wr_name,1&amp;stx=' . $name) . '" rel="nofollow">이름으로 검색</a>';
+            $menus['memo'] = '<a href="' . G5_BBS_URL . '/memo_form.php?me_recv_mb_id=' . $mb_id . '" rel="nofollow" onclick="win_memo(this.href); return false;">쪽지보내기</a>';
         }
-    }
-
-    if ($mb_id) {
-        $menus['search_all'] = '<a href="' . G5_BBS_URL . '/new.php?mb_id=' . $mb_id . '" class="link_new_page" onclick="check_goto_new(this.href, event);" rel="nofollow">전체게시물</a>';
-
-        if ($is_admin == 'super') {
-            $menus['admin_member_modify'] = '<a href="' . G5_ADMIN_URL . '/member_form.php?w=u&amp;mb_id=' . $mb_id . '" target="_blank" rel="nofollow">회원정보변경</a>';
-            $menus['admin_member_point'] = '<a href="' . G5_ADMIN_URL . '/point_list.php?sfl=mb_id&amp;stx=' . $mb_id . '" target="_blank" rel="nofollow">포인트내역</a>';
+    
+        if ($homepage) {
+            $menus['homepage'] = '<a href="' . $homepage . '" rel="nofollow noopener" target="_blank">홈페이지</a>';
+        }
+    
+        if ($mb_id) {
+            $menus['profile'] = '<a href="' . G5_BBS_URL . '/profile.php?mb_id=' . $mb_id . '" onclick="win_profile(this.href); return false;" rel="nofollow">자기소개</a>';
+        }
+    
+        if ($bo_table) {
+            if ($mb_id) {
+                $menus['search_id'] = '<a href="' . get_pretty_url($bo_table, '', 'sca=' . $sca . '&amp;sfl=mb_id,1&amp;stx=' . $en_mb_id) . '" rel="nofollow">아이디로 검색</a>';
+            } else {
+                $menus['search_name'] = '<a href="' . get_pretty_url($bo_table, '', 'sca=' . $sca . '&amp;sfl=wr_name,1&amp;stx=' . $name) . '" rel="nofollow">이름으로 검색</a>';
+            }
+        }
+    
+        if ($mb_id) {
+            $menus['search_all'] = '<a href="' . G5_BBS_URL . '/new.php?mb_id=' . $mb_id . '" class="link_new_page" onclick="check_goto_new(this.href, event);" rel="nofollow">전체게시물</a>';
+    
+            if ($is_admin == 'super') {
+                $menus['admin_member_modify'] = '<a href="' . G5_ADMIN_URL . '/member_form.php?w=u&amp;mb_id=' . $mb_id . '" target="_blank" rel="nofollow">회원정보변경</a>';
+                $menus['admin_member_point'] = '<a href="' . G5_ADMIN_URL . '/point_list.php?sfl=mb_id&amp;stx=' . $mb_id . '" target="_blank" rel="nofollow">포인트내역</a>';
+            }
         }
     }
 
