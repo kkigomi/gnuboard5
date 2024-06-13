@@ -2722,11 +2722,11 @@
                 }
                 var diff = cnt - result.reply;
                 if (diff > 0) {
-                  var float_end = parent_node.querySelector("span.float-end");
+                  var comment_count = parent_node.querySelector("span.count-plus");
                   var diff_span = document.createElement("span");
                   diff_span.className = "count-plus ui-custom-read-reply-cnt text-primary ml-0"
                   diff_span.innerHTML = diff;
-                  parent_node.insertBefore(diff_span, float_end);
+                  comment_count.after(diff_span);
 
                   if (ui_custom_animation) {
                     cnt_node.style = "opacity:0.5;transform: translateX(40%);";
