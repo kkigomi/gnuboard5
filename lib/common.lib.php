@@ -1412,7 +1412,7 @@ function get_sideview($mb_id, $name='', $email='', $homepage='')
 
     if ($mb_id) {
         // $tmp_name = "<a href=\"".G5_BBS_URL."/profile.php?mb_id=".$mb_id."\" class=\"sv_member\" title=\"$name 자기소개\" rel="nofollow" target=\"_blank\" onclick=\"return false;\">$name</a>";
-        $name_tag_open = '<a href="' . G5_BBS_URL . '/profile.php?mb_id=' . $mb_id . '" class="sv_member" title="' . $name . ' 자기소개" target="_blank" rel="nofollow" onclick="return false;">';
+        $name_tag_open = '<a href="' . G5_BBS_URL . '/profile.php?mb_id=' . $mb_id . '" class="sv_member sideview sideview--member d-flex align-items-center gap-1" title="' . $name . ' 자기소개" target="_blank" rel="nofollow" onclick="return false;">';
 
         if ($config['cf_use_member_icon']) {
             $mb_dir = substr($mb_id, 0, 2);
@@ -1427,7 +1427,7 @@ function get_sideview($mb_id, $name='', $email='', $homepage='')
 
                 // 회원아이콘+이름
                 if ($config['cf_use_member_icon'] == 2) {
-                    $name_tag['name'] = $name;
+                    $name_tag['name'] = '<span class="sv_name text-truncate">' . $name . '</span>';
                 }
             } else {
                 if (defined('G5_THEME_NO_PROFILE_IMG')) {
@@ -1438,19 +1438,19 @@ function get_sideview($mb_id, $name='', $email='', $homepage='')
 
                 // 회원아이콘+이름
                 if ($config['cf_use_member_icon'] == 2) {
-                    $name_tag['name'] = $name;
+                    $name_tag['name'] = '<span class="sv_name text-truncate">' . $name . '</span>';
                 }
             }
         } else {
-            $name_tag['name'] = $name;
+            $name_tag['name'] = '<span class="sv_name text-truncate">' . $name . '</span>';
         }
     } else {
         if (!$bo_table) {
             return $name;
         }
 
-        $name_tag_open = '<a href="' . get_pretty_url($bo_table, '', 'sca=' . $sca . '&amp;sfl=wr_name,1&amp;stx=' . $name) . '" title="' . $name . ' 이름으로 검색" class="sv_guest" rel="nofollow" onclick="return false;">';
-        $name_tag['name'] = $name;
+        $name_tag_open = '<a href="' . get_pretty_url($bo_table, '', 'sca=' . $sca . '&amp;sfl=wr_name,1&amp;stx=' . $name) . '" title="' . $name . ' 이름으로 검색" class="sv_guest gap-1 d-flex sideview sideview--guest" rel="nofollow" onclick="return false;">';
+        $name_tag['name'] = '<span class="sv_name text-truncate">' . $name . '</span>';
     }
 
     if ($mb_id) {
