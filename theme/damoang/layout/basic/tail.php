@@ -50,7 +50,7 @@ if (!IS_INDEX) {
                 소명 게시판
                 <i class="bar">&nbsp;</i>
             </a>
-            <a href="<?php echo get_device_change_url(); ?>">
+            <a href="<?php echo get_device_change_url(); ?>" rel="nofollow">
                 <?php echo (G5_IS_MOBILE) ? 'PC' : '모바일'; ?> 버전
             </a>
         </div>

@@ -169,7 +169,7 @@ display: none;
 
                 <div class="d-flex gap-3 mb-3">
                     <div>
-                        <a href="<?php echo G5_BBS_URL ?>/register.php" class="btn btn-basic py-2">
+                        <a href="<?php echo G5_BBS_URL ?>/register.php" rel="nofollow" class="btn btn-basic py-2">
                             <i class="bi bi-person-plus"></i>
                             회원가입
                         </a>
@@ -189,7 +189,7 @@ display: none;
                         </div>
                     </div>
                     <div>
-                        <a href="<?php echo G5_BBS_URL ?>/password_lost.php">
+                        <a href="<?php echo G5_BBS_URL ?>/password_lost.php" rel="nofollow">
                             <i class="bi bi-search"></i>
                             아이디/비밀번호 찾기
                         </a>

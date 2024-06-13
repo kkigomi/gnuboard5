@@ -74,7 +74,7 @@ for ($i=0; $row=sql_fetch_array($result); $i++) {
             $list[$i]['content'] = conv_content($row['wr_content'], 0, 'wr_content');
             $list[$i]['content'] = search_font($stx, $list[$i]['content']);
 		} else {
-            $list[$i]['content'] = '<a href="'.G5_BBS_URL.'/password.php?w=sc&amp;bo_table='.$bo_table.'&amp;wr_id='.$list[$i]['wr_id'].$qstr.'" class="s_cmt">댓글내용 확인</a>';
+            $list[$i]['content'] = '<a href="'.G5_BBS_URL.'/password.php?w=sc&amp;bo_table='.$bo_table.'&amp;wr_id='.$list[$i]['wr_id'].$qstr.'" rel="nofollow" class="s_cmt">댓글내용 확인</a>';
         }
     }
 

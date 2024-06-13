@@ -94,13 +94,13 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?C
                 </button>
                 <ul class="dropdown-menu">
                     <?php if ($update_href) { ?>
-                        <li><a href="<?php echo $update_href ?>" class="dropdown-item">
+                        <li><a href="<?php echo $update_href ?>" rel="nofollow" class="dropdown-item">
                                 <i class="bi bi-pencil-square"></i>
                                 수정하기
                             </a></li>
                     <?php } ?>
                     <?php if ($delete_href) { ?>
-                        <li><a href="<?php echo $delete_href ?>" onclick="del(this.href); return false;"
+                        <li><a href="<?php echo $delete_href ?>" rel="nofollow" onclick="del(this.href); return false;"
                             class="dropdown-item">
                                 <i class="bi bi-trash"></i>
                                 삭제하기
@@ -112,14 +112,14 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?C
                         </li>
                     <?php } ?>
                     <?php if ($copy_href) { ?>
-                        <li><a href="<?php echo $copy_href ?>" onclick="board_move(this.href); return false;"
+                        <li><a href="<?php echo $copy_href ?>" rel="nofollow" onclick="board_move(this.href); return false;"
                             class="dropdown-item">
                                 <i class="bi bi-stickies"></i>
                                 복사하기
                             </a></li>
                     <?php } ?>
                     <?php if ($move_href) { ?>
-                        <li><a href="<?php echo $move_href ?>" onclick="board_move(this.href); return false;"
+                        <li><a href="<?php echo $move_href ?>" rel="nofollow" onclick="board_move(this.href); return false;"
                             class="dropdown-item">
                                 <i class="bi bi-arrows-move"></i>
                                 이동하기

@@ -128,7 +128,7 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
                 <?php } // endforeach $siteMenus ?>
 
                 <div class="nav-item da-menu--device-mode">
-                    <a class="nav-link" href="<?php echo get_device_change_url() ?>" data-placement="left">
+                    <a class="nav-link" href="<?php echo get_device_change_url() ?>" rel="nofollow" data-placement="left">
 <!--                        <i class="--><?php //echo (G5_IS_MOBILE) ? 'bi-pc-display' : 'bi-tablet'; ?><!-- nav-icon"></i>-->
                         <span class="nav-link-title"><?php echo (G5_IS_MOBILE) ? 'PC' : '모바일'; ?> 버전</span>
                     </a>
