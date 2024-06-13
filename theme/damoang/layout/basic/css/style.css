@@ -932,6 +932,15 @@ footer .container a {
   .rolling-noti-container-write, .rolling-noti-write {
     height: 50px !important;
   }
+
+  .sideview .profile_img,
+  .sideview .mb-photo {
+    order: 6 !important;
+  }
+}
+
+.da-member-memo {
+  font-size: 0.875rem;
 }
 
 /* 알림 indicator */

@@ -136,7 +136,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
                                 <?php } ?>
                                 <?php if ($row['da_member_memo'] ?? '') { ?>
                                     <!-- 다모앙 회원 메모 -->
-                                    <span class="float-end"><?= $row['da_member_memo'] ?></span>
+                                    <span class="ms-auto"><?= $row['da_member_memo'] ?></span>
                                 <?php } ?>
                             </div>
                             <div class="">
@@ -147,7 +147,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
                                             echo na_name_photo($row['mb_id'], $wr_name);
                                         ?>
                                     </div>
-                                    <div class="wr-date ms-auto text-nowrap order-last order-md-2">
+                                    <div class="wr-date ms-auto text-nowrap order-last order-md-2 text-truncate">
                                         <?php echo na_date($row['wr_datetime'], 'orangered') ?>
                                         <span class="visually-hidden">등록</span>
                                     </div>

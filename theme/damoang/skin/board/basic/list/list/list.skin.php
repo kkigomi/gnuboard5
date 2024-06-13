@@ -6,7 +6,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
 ?>
 
 <section id="bo_list" class="line-top mb-3">
-    
+
     <ul class="list-group list-group-flush border-bottom">
         <li class="list-group-item d-none d-md-block hd-wrap">
             <div class="d-flex flex-md-row align-items-md-center gap-1 fw-bold">
@@ -170,12 +170,12 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
                                 <?php } ?>
                                 <?php if ($row['da_member_memo'] ?? '') { ?>
                                     <!-- 다모앙 회원 메모 -->
-                                    <span class="float-end"><?= $row['da_member_memo'] ?></span>
+                                    <span class="ms-auto"><?= $row['da_member_memo'] ?></span>
                                 <?php } ?>
                             </div>
                             <div class="da-list-meta">
                                 <div class="d-flex gap-2">
-                                    <div class="wr-name ms-auto order-last order-md-1">
+                                    <div class="wr-name ms-auto order-last order-md-1 text-truncate">
                                         <?php
                                             $wr_name = ($row['mb_id']) ? str_replace('sv_member', 'sv_member text-truncate d-block', $row['name']) : str_replace('sv_guest', 'sv_guest text-truncate d-block', $row['name']);
                                             echo na_name_photo($row['mb_id'], $wr_name);
