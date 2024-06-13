@@ -22,40 +22,37 @@ if (
     return;
 }
 
-// DB 마이그레이션
-add_replace('admin_dbupgrade', function ($is_check = false) {
-    $tableName = \DamoangMemberMemo::tableName();
-
-    // 테이블 생성
-    sql_query("CREATE TABLE IF NOT EXISTS `{$tableName}` (
-        `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-        -- member_uid: 메모를 한 회원의 `mb_no`
-        -- 사용되지 않으나 마이그레이션을 대비하여 데이터 축적 중
-        `member_uid` int(11) DEFAULT NULL,
-        `member_id` varchar(20) CHARACTER SET ascii NOT NULL,
-        -- target_member_uid: 메모 대상 회원의 `mb_no`
-        -- 사용되지 않으나 마이그레이션을 대비하여 데이터 축적 중
-        `target_member_uid` int(11) DEFAULT NULL,
-        `target_member_id` varchar(20) CHARACTER SET ascii NOT NULL,
-        `color` varchar(20) CHARACTER SET ascii DEFAULT NULL,
-        `memo` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL,
-        `memo_detail` text COLLATE utf8mb4_unicode_ci,
-        `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        `updated_at` datetime DEFAULT NULL,
-        PRIMARY KEY (`id`),
-        UNIQUE KEY `unique_keys` (`member_id`,`target_member_id`)
-    );", true);
-
-    // DB 마이그레이션 결과를 캐시에 저장
-    // 캐시는 삭제될 수 있으므로, 마이그레이션 코드가 반복 실행될 수 있으므로 주의해야 함
-    g5_set_cache('da-installed-member-memo', \DA_PLUGIN_MEMO_VERSION);
-
-    return $is_check;
-}, \G5_HOOK_DEFAULT_PRIORITY, 1);
-
-
 // 설치, 마이그레이션이 완료되지 았았다면 동작을 멈춤
 if (!\DamoangMemberMemo::installed()) {
+    // 관리자 계정에서 DB 마이그레이션
+    if ($is_admin === 'super') {
+        $tableName = \DamoangMemberMemo::tableName();
+
+        // 테이블 생성
+        sql_query("CREATE TABLE IF NOT EXISTS `{$tableName}` (
+            `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+            -- member_uid: 메모를 한 회원의 `mb_no`
+            -- 사용되지 않으나 마이그레이션을 대비하여 데이터 축적 중
+            `member_uid` int(11) DEFAULT NULL,
+            `member_id` varchar(20) CHARACTER SET ascii NOT NULL,
+            -- target_member_uid: 메모 대상 회원의 `mb_no`
+            -- 사용되지 않으나 마이그레이션을 대비하여 데이터 축적 중
+            `target_member_uid` int(11) DEFAULT NULL,
+            `target_member_id` varchar(20) CHARACTER SET ascii NOT NULL,
+            `color` varchar(20) CHARACTER SET ascii DEFAULT NULL,
+            `memo` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL,
+            `memo_detail` text COLLATE utf8mb4_unicode_ci,
+            `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            `updated_at` datetime DEFAULT NULL,
+            PRIMARY KEY (`id`),
+            UNIQUE KEY `unique_keys` (`member_id`,`target_member_id`)
+        );", true);
+
+        // DB 마이그레이션 결과를 캐시에 저장
+        // 캐시는 삭제될 수 있으므로, 마이그레이션 코드가 반복 실행될 수 있으므로 주의해야 함
+        g5_set_cache('da-installed-member-memo', \DA_PLUGIN_MEMO_VERSION);
+    }
+
     return;
 }
 

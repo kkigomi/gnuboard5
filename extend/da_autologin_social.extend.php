@@ -9,5 +9,6 @@ add_event('login_session_before', function ($mb = [], $is_social_login = false) 
     ) {
         // 로그인 유지
         $GLOBALS['auto_login'] = 'on';
+        set_cookie('ck_social_provider', get_session('ss_social_provider_name'), 86400 * 31);
     }
 }, G5_HOOK_DEFAULT_PRIORITY, 2);

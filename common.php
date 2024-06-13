@@ -566,6 +566,7 @@ if (isset($_SESSION['ss_mb_id']) && $_SESSION['ss_mb_id']) { // 로그인중이�
                         (!$config['cf_use_email_certify'] || preg_match('/[1-9]/', $row['mb_email_certify'])) ) {
                         // 세션에 회원아이디를 저장하여 로그인으로 간주
                         set_session('ss_mb_id', $tmp_mb_id);
+                        set_session('ss_social_provider', get_cookie('ck_social_provider'));
                         if(function_exists('update_auth_session_token')) update_auth_session_token($row['mb_datetime']);
 
                         // 페이지를 재실행
@@ -832,7 +833,7 @@ if(!empty($extend_file) && is_array($extend_file)) {
 unset($extend_file);
 
 if($is_member && !$is_admin && (!defined("G5_CERT_IN_PROG") || !G5_CERT_IN_PROG) && $config['cf_cert_use'] <> 0 && $config['cf_cert_req']) { // 본인인증이 필수일때
-    if ((empty($member['mb_certify']) || (!empty($member['mb_certify']) && strlen($member['mb_dupinfo']) == 64))) { // di로 인증되어 있거나 본인인증이 안된 계정일때
+    if (empty($member['mb_certify'])) { // 본인인증이 안된 계정일때
         goto_url(G5_BBS_URL."/member_cert_refresh.php");
     }
 }

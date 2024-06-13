@@ -19,7 +19,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $member_skin_url . '/style.css"
                 <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fa fa-lock text-muted"></i></span>
                 </div>
-                <input type="password" name="mb_password" id="mb_pw" required class="form-control required" placeholder="새 비밀번호">
+                <input type="password" autocomplete="new-password" name="mb_password" id="mb_pw" required class="form-control required" placeholder="새 비밀번호">
             </div>
         </div>
         <div class="form-group">
@@ -28,7 +28,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $member_skin_url . '/style.css"
                 <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fa fa-lock text-muted"></i></span>
                 </div>
-                <input type="password" name="mb_password_re" id="mb_pw2" required class="form-control required" placeholder="새 비밀번호 확인">
+                <input type="password" autocomplete="new-password" name="mb_password_re" id="mb_pw2" required class="form-control required" placeholder="새 비밀번호 확인">
             </div>
         </div>
         <p class="text-center">

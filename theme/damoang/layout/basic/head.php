@@ -3,6 +3,7 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
 // 사이트 메뉴
 $siteMenus = include 'inc.menu.php';
+$rollingNotiData = include 'inc.rolling.noti.php';
 
 // 메뉴 및 페이지 위치 생성
 list($menu, $nav) = na_menu();

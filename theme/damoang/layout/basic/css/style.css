@@ -929,7 +929,7 @@ footer .container a {
 @media (max-width: 768px) {
   .rolling-noti-container-list, .rolling-noti-list,
   .rolling-noti-container-view, .rolling-noti-view,
-  .rolling-noti-container-view, .rolling-noti-write {
+  .rolling-noti-container-write, .rolling-noti-write {
     height: 50px !important;
   }
 }

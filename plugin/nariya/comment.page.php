@@ -48,10 +48,10 @@ if (!defined('_GNUBOARD_')) {
 			die('이 게시판은 본인확인 하신 회원님만 글읽기가 가능합니다.'.PHP_EOL.PHP_EOL.'회원이시라면 로그인 후 이용해 보십시오.');
         }
 
-        if (strlen($member['mb_dupinfo']) == 64 && $member['mb_certify']) { // 본인 인증 된 계정 중에서 di로 저장 되었을 경우에만
-            //goto_url(G5_BBS_URL."/member_cert_refresh.php?url=".urlencode(get_pretty_url($bo_table, $wr_id, $qstr)));
-			die('이 게시판은 본인확인 하신 회원님만 글읽기가 가능합니다.'.PHP_EOL.PHP_EOL.'본인인증을 다시 해주세요.');
-        }
+        // if (strlen($member['mb_dupinfo']) == 64 && $member['mb_certify']) { // 본인 인증 된 계정 중에서 di로 저장 되었을 경우에만
+        //     //goto_url(G5_BBS_URL."/member_cert_refresh.php?url=".urlencode(get_pretty_url($bo_table, $wr_id, $qstr)));
+		// 	die('이 게시판은 본인확인 하신 회원님만 글읽기가 가능합니다.'.PHP_EOL.PHP_EOL.'본인인증을 다시 해주세요.');
+        // }
 
         if ($board['bo_use_cert'] == 'cert' && !$member['mb_certify']) {            
 			die('이 게시판은 본인확인 하신 회원님만 글읽기가 가능합니다.'.PHP_EOL.PHP_EOL.'회원정보 수정에서 본인확인을 해주시기 바랍니다.');
