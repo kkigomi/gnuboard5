@@ -12,16 +12,16 @@ return [
                 'icon' => 'bi-chat',
                 'shortcut' => 'Ｆ',
             ],
+            '새로운 소식' => [
+                'url' => '/new',
+                'icon' => 'bi-newspaper',
+                'shortcut' => 'Ｎ',
+            ],
             '질문과 답변' => [
                 'url' => '/qa',
                 // 'icon' => 'bi-question-circle',
                 'shortcut' => 'Ｑ',
                 'icon' => 'bi-question-circle',
-            ],
-            '새로운 소식' => [
-                'url' => '/new',
-                'icon' => 'bi-newspaper',
-                'shortcut' => 'Ｎ',
             ],
             '앙지도' => [
                 'url' => '/angmap',
