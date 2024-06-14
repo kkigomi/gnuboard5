@@ -41,9 +41,8 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?C
             class="d-flex justify-content-end align-items-center line-top border-bottom bg-body-tertiary py-2 px-3 small">
             <div class="me-auto">
                 <span class="visually-hidden">작성자</span>
+                <span class="d-inline-block"><?= na_name_photo($view['mb_id'], $view['name']); ?></span>
                 <?php
-                $wr_name = ($view['mb_id']) ? str_replace('sv_member', 'sv_member text-truncate', $view['name']) : str_replace('sv_guest', 'sv_guest text-truncate', $view['name']);
-                echo na_name_photo($view['mb_id'], $wr_name);
                 // 회원 메모
                 echo $view['da_member_memo'] ?? '';
                 ?>
@@ -109,13 +108,13 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?C
                         </button>
                         <ul class="dropdown-menu">
                             <?php if ($update_href) { ?>
-                                <li><a href="<?php echo $update_href ?>" class="dropdown-item">
+                                <li><a href="<?php echo $update_href ?>" rel="nofollow" class="dropdown-item">
                                         <i class="bi bi-pencil-square"></i>
                                         수정하기
                                     </a></li>
                             <?php } ?>
                             <?php if ($delete_href) { ?>
-                                <li><a href="<?php echo $delete_href ?>" onclick="del(this.href); return false;" class="dropdown-item">
+                                <li><a href="<?php echo $delete_href ?>" rel="nofollow" onclick="del(this.href); return false;" class="dropdown-item">
                                         <i class="bi bi-trash"></i>
                                         삭제하기
                                     </a></li>
@@ -126,13 +125,13 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?C
                                 </li>
                             <?php } ?>
                             <?php if ($copy_href) { ?>
-                                <li><a href="<?php echo $copy_href ?>" onclick="board_move(this.href); return false;" class="dropdown-item">
+                                <li><a href="<?php echo $copy_href ?>" rel="nofollow" onclick="board_move(this.href); return false;" class="dropdown-item">
                                         <i class="bi bi-stickies"></i>
                                         복사하기
                                     </a></li>
                             <?php } ?>
                             <?php if ($move_href) { ?>
-                                <li><a href="<?php echo $move_href ?>" onclick="board_move(this.href); return false;" class="dropdown-item">
+                                <li><a href="<?php echo $move_href ?>" rel="nofollow" onclick="board_move(this.href); return false;" class="dropdown-item">
                                         <i class="bi bi-arrows-move"></i>
                                         이동하기
                                     </a></li>
@@ -388,7 +387,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?C
                 </div>
                 <div class="col-sm-7 col-md-8">
                     <ul class="na-list">
-                        <p><?php echo $signature ?></p>
+                        <p class="na-mb-sign"><?php echo $signature ?></p>
                         <?php
                         // 리스트
                         for ($i = 0; $i < $list_cnt; $i++) {

@@ -32,8 +32,8 @@ add_stylesheet('<link rel="stylesheet" href="'.$member_skin_url.'/style.css">', 
     <section class="mb_login_join">
         <h2>회원로그인 안내</h2>
         <div>
-            <a href="<?php echo G5_BBS_URL ?>/password_lost.php">아이디/비밀번호 찾기</a>
-            <a href="<?php echo G5_BBS_URL ?>/register.php">회원 가입</a>
+            <a href="<?php echo G5_BBS_URL ?>/password_lost.php" rel="nofollow">아이디/비밀번호 찾기</a>
+            <a href="<?php echo G5_BBS_URL ?>/register.php" rel="nofollow">회원 가입</a>
         </div>
     </section>
     </form>

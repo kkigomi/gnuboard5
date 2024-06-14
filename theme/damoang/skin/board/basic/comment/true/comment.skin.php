@@ -103,7 +103,7 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                                 <span class="visually-hidden">대댓글</span>
                             <?php } ?>
                             <span class="visually-hidden">작성자</span>
-                            <?php echo na_name_photo($list[$i]['mb_id'], $list[$i]['name']); ?>
+                            <span class="d-inline-block"><?php echo na_name_photo($list[$i]['mb_id'], $list[$i]['name']); ?></span>
                             <?php
                             // 회원 메모
                             echo $list[$i]['da_member_memo'] ?? '';
@@ -168,7 +168,7 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                                 </button>
                             <?php } ?>
                             <?php if ($list[$i]['is_del']) { ?>
-                                <a href="<?php echo $list[$i]['del_link']; ?>" onclick="<?php echo (isset($list[$i]['del_back']) && $list[$i]['del_back']) ? "na_delete('viewcomment', '".$list[$i]['del_href']."','".$list[$i]['del_back']."'); return false;" : "return comment_delete(this.href);";?>" class="btn btn-basic" title="삭제">
+                                <a href="<?php echo $list[$i]['del_link']; ?>" rel="nofollow" onclick="<?php echo (isset($list[$i]['del_back']) && $list[$i]['del_back']) ? "na_delete('viewcomment', '".$list[$i]['del_href']."','".$list[$i]['del_back']."'); return false;" : "return comment_delete(this.href);";?>" class="btn btn-basic" title="삭제">
                                     <i class="bi bi-trash"></i>
                                     <span class="d-none d-sm-inline-block">삭제</span>
                                 </a>

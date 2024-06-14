@@ -52,11 +52,13 @@ display: none;
             </span>
             </div>
         </div>
+
+        <!-- 경험치 -->
         <?php
             $member['as_max'] = (isset($member['as_max']) && $member['as_max'] > 0) ? $member['as_max'] : 1;
             $per = (int)(($member['as_exp'] / $member['as_max']) * 100);
         ?>
-        <!-- <div class="d-flex justify-content-between mb-1 small">
+        <div class="d-flex justify-content-between mb-1 small">
             <div>Lv.<?php echo $member['as_level'] ?></div>
             <div>
                 <a href="<?php echo G5_BBS_URL ?>/exp.php" target="_blank" class="win_point">
@@ -65,16 +67,11 @@ display: none;
             </div>
         </div>
 
-        <div data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Next <?php echo number_format($member['as_max'] - $member['as_exp']) ?>">
+        <div class="mb-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Next <?php echo number_format($member['as_max'] - $member['as_exp']) ?>">
             <div class="progress" role="progressbar" aria-label="Exp" aria-valuenow="<?php echo $per ?>" aria-valuemin="0" aria-valuemax="100">
                 <div class="progress-bar progress-bar-striped progress-bar-animated small" style="width: <?php echo $per ?>%"><?php echo $per ?>%</div>
             </div>
-        </div> -->
-
-        <a href="<?php echo G5_BBS_URL ?>/logout.php" class="btn btn-primary btn-lg w-100 my-2" role="button">
-            <i class="bi bi-power"></i>
-            로그아웃
-        </a>
+        </div>
 
         <?php if($config['cf_use_point']) { ?>
         <a href="<?php echo G5_BBS_URL ?>/point.php" target="_blank" class="win_point btn btn-basic w-100 py-2 mb-2">
@@ -131,6 +128,11 @@ display: none;
                 </a>
             </div>
         <?php } ?>
+
+        <a href="<?php echo G5_BBS_URL ?>/logout.php" class="btn btn-primary btn-lg w-100 my-2" role="button">
+            <i class="bi bi-power"></i>
+            로그아웃
+        </a>
     </div>
 
     <?php
@@ -169,7 +171,7 @@ display: none;
 
                 <div class="d-flex gap-3 mb-3">
                     <div>
-                        <a href="<?php echo G5_BBS_URL ?>/register.php" class="btn btn-basic py-2">
+                        <a href="<?php echo G5_BBS_URL ?>/register.php" rel="nofollow" class="btn btn-basic py-2">
                             <i class="bi bi-person-plus"></i>
                             회원가입
                         </a>
@@ -189,7 +191,7 @@ display: none;
                         </div>
                     </div>
                     <div>
-                        <a href="<?php echo G5_BBS_URL ?>/password_lost.php">
+                        <a href="<?php echo G5_BBS_URL ?>/password_lost.php" rel="nofollow">
                             <i class="bi bi-search"></i>
                             아이디/비밀번호 찾기
                         </a>
