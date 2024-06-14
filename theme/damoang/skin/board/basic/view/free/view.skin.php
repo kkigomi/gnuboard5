@@ -346,7 +346,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?C
                 </div>
                 <div class="col-sm-7 col-md-8">
                     <ul class="na-list">
-                        <p><?php echo $signature ?></p>
+                        <p class="na-mb-sign"><?php echo $signature ?></p>
                         <?php
                         // 리스트
                         for ($i = 0; $i < $list_cnt; $i++) {
