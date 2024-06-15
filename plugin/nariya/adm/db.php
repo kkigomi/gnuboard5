@@ -36,8 +36,19 @@ if(!sql_query(" DESC {$g5['na_noti']} ", false)) {
 	$is_check = true;
 }
 
-if (!sql_fetch("SHOW INDEX FROM g5_na_noti where `Key_name` = 'idx_update_readed';")) {
+// 알림 테이블
+if (!sql_fetch("SHOW INDEX FROM {$g5['na_noti']} where `Key_name` = 'idx_update_readed';")) {
 	sql_query(" ALTER TABLE `{$g5['na_noti']}` ADD INDEX `idx_update_readed` (`bo_table`,`mb_id`,`wr_parent`,`ph_readed`) ", true);
+	$is_check = true;
+}
+
+// 새글 테이블 인덱스
+if (!sql_fetch("SHOW INDEX FROM {$g5['board_new_table']} where `Key_name` = 'idx_ip';")) {
+	sql_query(" ALTER TABLE `{$g5['board_new_table']}` ADD INDEX `idx_ip` (`wr_ip`) ", true);
+	$is_check = true;
+}
+if (!sql_fetch("SHOW INDEX FROM {$g5['board_new_table']} where `Key_name` = 'idx_date';")) {
+	sql_query(" ALTER TABLE `{$g5['board_new_table']}` ADD INDEX `idx_date` (`bn_datetime`) ", true);
 	$is_check = true;
 }
 

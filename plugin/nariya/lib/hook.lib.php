@@ -664,6 +664,7 @@ class NARIYA_STANDARD {
 								wr_singo = '{$wr['wr_7']}',
 								wr_image = '{$wr_10}',
 								wr_video = '{$wr_9}',
+								wr_ip = '{$_SERVER['REMOTE_ADDR']}'
 							where bo_table = '{$bo_table}' and wr_id = '{$wr_id}' ";
 			sql_query($sql, false);
 		}
@@ -834,7 +835,8 @@ class NARIYA_STANDARD {
 			$sql = " update {$g5['board_new_table']}
 							set wr_is_comment = '1',
 								wr_is_secret = '{$wr_is_secret}',
-								wr_singo = '{$wr['wr_7']}'
+								wr_singo = '{$wr['wr_7']}',
+								wr_ip = '{$_SERVER['REMOTE_ADDR']}'
 							where bo_table = '{$bo_table}' and wr_id = '{$comment_id}' ";
 			sql_query($sql);
 		} 
