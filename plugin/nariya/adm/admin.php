@@ -36,11 +36,13 @@ if(isset($_POST['post_action']) && isset($_POST['token'])){
 
 		// 레벨 아이콘 확장자
 		if(isset($_POST['na']['lvl_skin']) && $_POST['na']['lvl_skin']) {
-			$lvl_skin_path = G5_THEME_PATH.'/skin/level/'.$_POST['na']['lvl_skin'];
+			$lvl_skin_path = NA_PATH.'/skin/level/'.$_POST['na']['lvl_skin'];
 			if(is_file($lvl_skin_path.'/1.png')) {
 				$_POST['na']['lvl_ext'] = 'png';
 			} else if(is_file($lvl_skin_path.'/1.jpg')) {
 				$_POST['na']['lvl_ext'] = 'jpg';
+			} else if(is_file($lvl_skin_path.'/1.svg')) {
+				$_POST['na']['lvl_ext'] = 'svg';
 			}
 		}
 
@@ -485,7 +487,7 @@ include_once (G5_ADMIN_PATH.'/admin.head.php');
 				레벨 아이콘
 			</th>
 			<td colspan="3">
-				<?php echo help('/plugin/nariya/skin/level 폴더. gif, png, jpg 아이콘 모두 사용 가능. ※ 주의 : 회원수에 따라 서버 부하가 많이 발생할 수도 있음') ?>
+				<?php echo help('/plugin/nariya/skin/level 폴더. gif, png, jpg, svg 아이콘 모두 사용 가능. ※ 주의 : 회원수에 따라 서버 부하가 많이 발생할 수도 있음') ?>
 				<select name="na[lvl_skin]">
 					<option value="">사용안함</option>
 					<?php 

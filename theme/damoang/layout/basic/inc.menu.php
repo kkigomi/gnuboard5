@@ -12,16 +12,16 @@ return [
                 'icon' => 'bi-chat',
                 'shortcut' => 'Ｆ',
             ],
+            '새로운 소식' => [
+                'url' => '/new',
+                'icon' => 'bi-newspaper',
+                'shortcut' => 'Ｎ',
+            ],
             '질문과 답변' => [
                 'url' => '/qa',
                 // 'icon' => 'bi-question-circle',
                 'shortcut' => 'Ｑ',
                 'icon' => 'bi-question-circle',
-            ],
-            '새로운 소식' => [
-                'url' => '/new',
-                'icon' => 'bi-newspaper',
-                'shortcut' => 'Ｎ',
             ],
             '앙지도' => [
                 'url' => '/angmap',
@@ -75,6 +75,7 @@ return [
                     '골프당' => '/golf',
                     '굴러간당' => '/car',
                     '그림그린당' => '/drawing',
+                    '글쓰기 모임' => '/writing',
                     '나스당' => '/nas',
                     '낚시당' => '/fishing',
                     '날아간당' => '/fly',
