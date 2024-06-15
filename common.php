@@ -179,9 +179,10 @@ if (file_exists($dbconfig_file)) {
     sql_set_charset(G5_DB_CHARSET, $connect_db);
     if(defined('G5_MYSQL_SET_MODE') && G5_MYSQL_SET_MODE) sql_query("SET SESSION sql_mode = ''");
     if (defined('G5_TIMEZONE')) sql_query(" set time_zone = '".G5_TIMEZONE."'");
+
+    include_once G5_LIB_PATH . '/damoang/bootstrap-installed.php';
 } else {
 ?>
-
 <!doctype html>
 <html lang="ko">
 <head>
