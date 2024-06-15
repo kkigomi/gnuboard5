@@ -14,6 +14,11 @@ add_stylesheet('<link rel="stylesheet" href="' . $member_skin_url . '/style.css?
             <div>
                 <h3 class="mb-1 pb-0 fs-5">
                     <strong style="letter-spacing:-1px;"><?php echo get_text($mb['mb_nick']) ?></strong>
+                    <?php if (isset($mb['mb_certify']) && $mb['mb_certify']) { ?>
+                        <span>
+                            <i class="bi bi-check-circle-fill text-body-tertiary fs-6" data-bs-content="본인확인 완료" data-bs-toggle="popover" data-bs-trigger="focus hover"></i>
+                        </span>
+                    <?php } ?>
                 </h3>
                 <div class="small">
                     <?php echo na_grade($mb['mb_level']); ?>
