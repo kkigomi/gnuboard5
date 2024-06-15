@@ -410,8 +410,20 @@ function get_dirsize($dir)
 function get_list($write_row, $board, $skin_url, $subject_len=40)
 {
     global $g5, $config, $g5_object;
-    global $qstr, $page;
-
+    global $qstr;
+    
+    $decode_qstr = htmlspecialchars_decode($qstr);
+    $parsed_url = parse_url($decode_qstr);
+    if (strpos($decode_qstr, '?page') !== false) {
+        parse_str($parsed_url['query'], $query_params);
+        unset($query_params['page']);
+        $qstr = htmlspecialchars(http_build_query($query_params));
+    } else if (strpos($decode_qstr, '&page') !== false) {
+        parse_str($parsed_url['path'], $query_params);
+        unset($query_params['page']);
+        $qstr = htmlspecialchars(http_build_query($query_params));
+    }
+    
     //$t = get_microtime();
 
     $g5_object->set('bbs', $write_row['wr_id'], $write_row, $board['bo_table']);
@@ -486,7 +498,7 @@ function get_list($write_row, $board, $skin_url, $subject_len=40)
 
     // 분류명 링크
     $list['ca_name_href'] = get_pretty_url($board['bo_table'], '', 'sca='.urlencode($list['ca_name']));
-
+    
     $list['href'] = get_pretty_url($board['bo_table'], $list['wr_id'], $qstr);
     $list['comment_href'] = $list['href'];
 
