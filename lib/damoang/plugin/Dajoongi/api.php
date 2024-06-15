@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-include_once __DIR__ . '/../../common.php';
+include_once __DIR__ . '/../../../../common.php';
 
 $_ENV['DAMOANG_API_TOKEN'] = $_ENV['DAMOANG_API_TOKEN'] ?? null;
 
