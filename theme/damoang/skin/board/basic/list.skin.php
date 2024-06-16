@@ -53,6 +53,18 @@ include_once 'list.skin.top-embed.php';
   <div class="divider">|</div>
   <div class="rolling-noti-list" id="rolling-noti-list"></div>
 </div>
+
+<?php 
+/********** 
+ * PAI 위젯 설정 버튼: (관리자) 현재 게시판이 직접홍보 게시판에서 위젯설정을 눌렀을때 promotion-ad-insertion 위젯 데이터 설정을 여는 버튼 표시.
+ * 이 위젯이 별도로 출력하는 HTML은 없음.
+*/
+if ($bo_table == 'promotion')
+{
+    echo na_widget('promotion-ad-insertion', 'pai');
+}
+?>
+
 <div id="bo_list_wrap">
     <?php
         // 분류 스킨
