@@ -143,6 +143,21 @@ return [
                 // 'icon' => 'bi-cart-plus-fill',
                 'shortcut' => 'Ｗ',
             ],
+            '수익링크' => [
+                'url' => '/referral',
+                // 'icon' => 'bi-cart-plus-fill',
+                'shortcut' => 'Ｏ',
+            ],
+        ]
+    ],
+    [
+        'title' => '운영 게시판',
+        'items' => [
+            '공지사항' => [
+                'url' => '/notice',
+                'shortcut' => 'K',
+                'icon' => 'bi-geo-alt-fill',
+            ],
             '삐앙삐앙🚨' => [
                 'url' => '/angreport',
                 'shortcut' => 'Ｘ',
@@ -156,17 +171,6 @@ return [
                 ],
 
                 // Ａ단축키는 알림 링크에 사용됨
-            ],
-            '수익링크' => [
-                'url' => '/referral',
-                // 'icon' => 'bi-cart-plus-fill',
-                'shortcut' => 'Ｏ',
-            ],
-
-            '공지사항' => [
-                'url' => '/notice',
-                'shortcut' => 'K',
-                'icon' => 'bi-geo-alt-fill',
             ],
             '운영게시판' => [
                 'url' => G5_BBS_URL . '/group.php?gr_id=admin',
@@ -195,7 +199,7 @@ return [
                 'shortcut' => '·',
                 'icon' => 'bi-geo-alt-fill',
             ],
-        ]
+        ],
     ],
     // [
     //     'title' => '소모임',
