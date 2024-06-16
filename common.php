@@ -833,11 +833,11 @@ if(!empty($extend_file) && is_array($extend_file)) {
 }
 unset($extend_file);
 
-if($is_member && !$is_admin && (!defined("G5_CERT_IN_PROG") || !G5_CERT_IN_PROG) && $config['cf_cert_use'] <> 0 && $config['cf_cert_req']) { // 본인인증이 필수일때
-    if (empty($member['mb_certify'])) { // 본인인증이 안된 계정일때
-        goto_url(G5_BBS_URL."/member_cert_refresh.php");
-    }
-}
+// if($is_member && !$is_admin && (!defined("G5_CERT_IN_PROG") || !G5_CERT_IN_PROG) && $config['cf_cert_use'] <> 0 && $config['cf_cert_req']) { // 본인인증이 필수일때
+//     if (empty($member['mb_certify'])) { // 본인인증이 안된 계정일때
+//         goto_url(G5_BBS_URL."/member_cert_refresh.php");
+//     }
+// }
 
 ob_start();
 
