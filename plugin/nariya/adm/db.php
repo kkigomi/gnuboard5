@@ -42,16 +42,6 @@ if (!sql_fetch("SHOW INDEX FROM {$g5['na_noti']} where `Key_name` = 'idx_update_
 	$is_check = true;
 }
 
-// 새글 테이블 인덱스
-if (!sql_fetch("SHOW INDEX FROM {$g5['board_new_table']} where `Key_name` = 'idx_ip';")) {
-	sql_query(" ALTER TABLE `{$g5['board_new_table']}` ADD INDEX `idx_ip` (`wr_ip`) ", true);
-	$is_check = true;
-}
-if (!sql_fetch("SHOW INDEX FROM {$g5['board_new_table']} where `Key_name` = 'idx_date';")) {
-	sql_query(" ALTER TABLE `{$g5['board_new_table']}` ADD INDEX `idx_date` (`bn_datetime`) ", true);
-	$is_check = true;
-}
-
 //---------------------------------------------------------------------------------------------
 // 게시판
 // 태그
@@ -184,6 +174,17 @@ if(!sql_fetch(" SHOW COLUMNS FROM `{$g5['board_new_table']}` LIKE 'wr_hit' ")) {
 					ADD `wr_image` varchar(255) NOT NULL DEFAULT '' AFTER `wr_singo`,
 					ADD `wr_video` varchar(255) NOT NULL DEFAULT '' AFTER `wr_image`
 			", true);
+
+	$is_check = true;
+}
+
+// 새글 테이블의 IP 컬럼 추가
+if(!sql_fetch(" SHOW COLUMNS FROM `{$g5['board_new_table']}` LIKE 'wr_ip' ")) {
+	sql_query(" ALTER TABLE `{$g5['board_new_table']}` 
+		ADD `wr_ip` varchar(100) NOT NULL DEFAULT '',
+		ADD INDEX `idx_ip` (`wr_ip`),
+		ADD INDEX `idx_date` (`bn_datetime`),
+	", true);
 
 	$is_check = true;
 }
