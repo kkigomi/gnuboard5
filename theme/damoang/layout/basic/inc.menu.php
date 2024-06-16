@@ -161,7 +161,11 @@ return [
                 'url' => '/referral',
                 // 'icon' => 'bi-cart-plus-fill',
                 'shortcut' => 'Ｏ',
-            ],
+            ]
+    ],
+    [
+        'title' => '운영게시판',
+        'items' => [
             '공지사항' => [
                 'url' => '/notice',
                 'shortcut' => 'K',
