@@ -162,7 +162,11 @@ return [
                 // 'icon' => 'bi-cart-plus-fill',
                 'shortcut' => 'Ｏ',
             ],
-
+        ]
+    ],
+    [
+        'title' => '운영 게시판',
+        'items' => [
             '공지사항' => [
                 'url' => '/notice',
                 'shortcut' => 'K',
@@ -195,7 +199,7 @@ return [
                 'shortcut' => '·',
                 'icon' => 'bi-geo-alt-fill',
             ],
-        ]
+        ],
     ],
     // [
     //     'title' => '소모임',
