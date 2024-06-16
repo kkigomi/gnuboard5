@@ -389,9 +389,12 @@ include_once($board_skin_path.'/list.skin.php');
  */
 function get_promotion_posts_pai($advertisers, $limit = 1) {
     $latest_posts = array();
+    $tableName = get_write_table_name('promotion');
     foreach ($advertisers as $advertiser) {
-        $sql = "SELECT * FROM g5_write_promotion
-                WHERE wr_name = '{$advertiser}' 
+        $sql = "SELECT * FROM {$tableName}
+                WHERE
+                    wr_name = '{$advertiser}'
+                    AND wr_is_comment = 0
                 ORDER BY wr_datetime DESC LIMIT 1";
         $result = sql_query($sql);
         while ($row = sql_fetch_array($result)) {
