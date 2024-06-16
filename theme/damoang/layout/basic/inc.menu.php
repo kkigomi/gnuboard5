@@ -143,20 +143,6 @@ return [
                 // 'icon' => 'bi-cart-plus-fill',
                 'shortcut' => 'Ｗ',
             ],
-            '삐앙삐앙🚨' => [
-                'url' => '/angreport',
-                'shortcut' => 'Ｘ',
-                'icon' => 'bi-webcam-fill',
-                'items' => [
-                    // '신고게시판' => '/angreport',
-                    '진실의 방' => '/truthroom',
-                    '광고앙돼앙' => '/nope',
-                    '강등열람' => '/disciplinelog',
-                    '소명게시판' => '/claim',
-                ],
-
-                // Ａ단축키는 알림 링크에 사용됨
-            ],
             '수익링크' => [
                 'url' => '/referral',
                 // 'icon' => 'bi-cart-plus-fill',
@@ -171,6 +157,20 @@ return [
                 'url' => '/notice',
                 'shortcut' => 'K',
                 'icon' => 'bi-geo-alt-fill',
+            ],
+            '삐앙삐앙🚨' => [
+                'url' => '/angreport',
+                'shortcut' => 'Ｘ',
+                'icon' => 'bi-webcam-fill',
+                'items' => [
+                    // '신고게시판' => '/angreport',
+                    '진실의 방' => '/truthroom',
+                    '광고앙돼앙' => '/nope',
+                    '강등열람' => '/disciplinelog',
+                    '소명게시판' => '/claim',
+                ],
+
+                // Ａ단축키는 알림 링크에 사용됨
             ],
             '운영게시판' => [
                 'url' => G5_BBS_URL . '/group.php?gr_id=admin',
