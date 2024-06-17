@@ -40,8 +40,8 @@ $ratio = na_img_ratio($thumb_w, $thumb_h, 75);
             * 공지 나열 시작
             *****************/
         for ($i=0; $i < $list_cnt; $i++) {
-
-            if (!$list[$i]['is_notice'])
+            // 공지글도 직홍게 홍보글도 아니라면 패스.
+            if (!$list[$i]['is_notice'] && !$list[$i]['is_advertiser_post'] )
                 continue;
 
             $row = $list[$i];
@@ -134,8 +134,8 @@ $ratio = na_img_ratio($thumb_w, $thumb_h, 75);
             * 그리드 나열 시작 
             *******************/
             for ($i=0; $i < $list_cnt; $i++) {
-                // 공지글은 제외
-                if ($list[$i]['is_notice'])
+                // 공지, 홍보글은 제외
+                if ($list[$i]['is_notice'] || $list[$i]['is_advertiser_post'] )
                     continue;
 
                 $row = $list[$i];
