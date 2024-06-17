@@ -42,7 +42,7 @@ $ratio = na_img_ratio($thumb_w, $thumb_h, 75);
         for ($i=0; $i < $list_cnt; $i++) {
 
             if (!$list[$i]['is_notice'])
-                break;
+                continue;
 
             $row = $list[$i];
         ?>
