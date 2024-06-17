@@ -310,12 +310,13 @@ if (!in_array($bo_table, $board_exception)) {
     // 직홍게글 삽입 인덱스 계산. 
     $notice_count = ($page == 1) ? count($notice_array) : 0; // 공지글 수 (첫 페이지에만 고려)
     $non_notice_count = count($list) - $notice_count; // 공지 제외 다른 글 수
-    $positionIndex = $non_notice_count < $min_cnt_for_insert_index ? 0 : $notice_count + $insert_index; //다른 글이 (최소글 수)min_cnt_for_insert_index 미만일 때는 포지션을 0으로 고정.
+    $positionIndex = $non_notice_count < $min_cnt_for_insert_index ? $notice_count : $notice_count + $insert_index; //다른 글이 (최소글 수)min_cnt_for_insert_index 미만일 때는 포지션을 0으로 고정.
 
     //글목록에 직홍게글 추가 (설정에 따라 1개 이상일 수 있음)
     foreach ($promotion_posts as $post) {
         $post_list = get_list($post, $board, $board_skin_url, G5_IS_MOBILE ? $board['bo_mobile_subject_len'] : $board['bo_subject_len']);
-        $post_list['is_advertiser_post'] = true; // 광고주 글임을 표시
+        $post_list['is_notice'] = false; // 공지글은 아닌걸로 마크
+        $post_list['is_advertiser_post'] = true; // 광고주 글임을 마크
         $post_list['num'] = $positionIndex; // 지정된 위치에 삽입
         $post_list['href'] = '/promotion/'.$post['wr_id']; // 링크
         // 지정된 위치에 게시물을 삽입합니다.
