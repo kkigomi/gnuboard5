@@ -53,11 +53,15 @@ if(IS_INDEX)
                     </a>
                 </div>
                 <?php if ($is_member) { ?>
+                    <?php
+                    $noti_cnt = intval($member['as_noti'] + $member['mb_memo_cnt']);
+                    $notiIconClass = $noti_cnt ? 'bi-bell-fill bell-animation' : 'bi-bell';
+                    ?>
                     <div>
                         <a href="#notiOffcanvas" data-bs-toggle="offcanvas" data-bs-target="#notiOffcanvas" aria-controls="notiOffcanvas" class="site-icon">
                             <span class="position-relative" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="알림">
-                                <i class="bi bi-bell"></i>
-                                <span class="position-absolute top-0 start-100 translate-middle spinner-grow spinner-grow bg-primary d-none da-noti-indicator">
+                                <i class="bi <?= $notiIconClass ?>"></i>
+                                <span class="position-absolute top-0 start-100 translate-middle spinner-grow spinner-grow bg-primary <?= $noti_cnt ? '' : 'd-none'?> da-noti-indicator">
                                     <span class="visually-hidden">새 알림이 있습니다</span>
                                 </span>
                                 <span class="visually-hidden">알림 보기</span>
