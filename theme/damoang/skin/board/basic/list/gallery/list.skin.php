@@ -50,10 +50,20 @@ $ratio = na_img_ratio($thumb_w, $thumb_h, 75);
             <li class="list-group-item <?php echo get_wr_class_and_set_row_f20240617($row, $wr_id); ?>">
                 <div class="d-flex align-items-center gap-1">
 
-                    <?php /******** '공지' 표식 *******/ ?>
-                    <div class="wr-num text-nowrap pe-2">
-                        <?php echo $row['num']; ?>
-                    </div>
+                    <?php /******** '공지','홍보' 표식 *******/ 
+                    echo '<div class="wr-num text-nowrap text-center rcmd-pc">';
+                    if ($list[$i]['is_notice']) { 
+                        echo $row['num']; 
+                    }
+                    else if ($list[$i]['is_advertiser_post']) { 
+                        echo <<<EOT
+                                <div class="rcmd-box step-pai">
+                                    <span>홍보</span>
+                                </div>
+                        EOT;
+                    } 
+                    echo '</div>';
+                    ?>
 
                     <?php /******** (관리자) 체크박스 *******/
                     if ($is_checkbox) { ?>
@@ -67,16 +77,40 @@ $ratio = na_img_ratio($thumb_w, $thumb_h, 75);
 
                     <?php /******** 제목 칼럼 (회원만보기 + 답변글 표식 + 제목 + 첨부아이콘 + 메모)   *******/ ?>
                     <div class="flex-grow-1">
-                        <?php // 회원만 보기
+
+                        <?php /* 모바일 전용 : 제목앞에 '공지','홍보' 글자추가 (pc에서는 .pai-mb 숨겨짐) */ ?>
+                        <div class="pai-mb d-inline-block" >
+                            <?php if($list[$i]['is_notice']){
+                                        echo <<<EOT
+                                            <div class="rcmd-box">
+                                                {$row['num']}
+                                            </div>
+                                        EOT;
+                                    }
+                                    else if ($list[$i]['is_advertiser_post']) { 
+                                        echo <<<EOT
+                                                <div class="rcmd-box step-pai">
+                                                    <span>홍보</span>
+                                                </div>
+                                        EOT;
+                                    }
+                            ?>
+                        </div>
+
+
+                        <?php
+                        // 회원만 보기
                         echo $row['da_member_only'] ?? ''; ?>
 
                         <!-- 답변글 표식 + 제목 링크-->
                         <a href="<?php echo $row['href'] ?>">
                             <?php if($row['icon_reply']) { ?>
-                                <i class="bi bi-arrow-return-right"></i>
-                                <span class="visually-hidden">답변</span>
-                            <?php } ?>
-                            <?php echo $row['subject']; // 제목 ?>
+                                    <i class="bi bi-arrow-return-right"></i>
+                                    <span class="visually-hidden">답변</span>
+                            <?php } 
+
+                                    //제목
+                                    echo $row['subject']; ?>
                         </a>
 
                         
