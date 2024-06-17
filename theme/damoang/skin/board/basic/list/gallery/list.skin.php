@@ -31,7 +31,7 @@ $ratio = na_img_ratio($thumb_w, $thumb_h, 75);
     /***********************************************
     * 공지 (목록형으로 표시)
     ************************************************/
-    if($notice_count > 0) { 
+    if($notice_count > 0 || count($promotion_posts ) > 0) { 
     ?>
         <ul class="list-group list-group-flush border-bottom">
         
@@ -40,8 +40,11 @@ $ratio = na_img_ratio($thumb_w, $thumb_h, 75);
             * 공지 나열 시작
             *****************/
         for ($i=0; $i < $list_cnt; $i++) {
+            $isNotice = $list[$i]['is_notice'];
+            $isPromotion = $list[$i]['is_advertiser_post']; //직홍게글
+
             // 공지글도 직홍게 홍보글도 아니라면 패스.
-            if (!$list[$i]['is_notice'] && !$list[$i]['is_advertiser_post'] )
+            if (!$isNotice && !$isPromotion )
                 continue;
 
             $row = $list[$i];
@@ -52,10 +55,10 @@ $ratio = na_img_ratio($thumb_w, $thumb_h, 75);
 
                     <?php /******** '공지','홍보' 표식 *******/ 
                     echo '<div class="wr-num text-nowrap text-center rcmd-pc">';
-                    if ($list[$i]['is_notice']) { 
+                    if ($isNotice) { 
                         echo $row['num']; 
                     }
-                    else if ($list[$i]['is_advertiser_post']) { 
+                    else if ($isPromotion) { 
                         echo <<<EOT
                                 <div class="rcmd-box step-pai">
                                     <span>홍보</span>
@@ -80,14 +83,14 @@ $ratio = na_img_ratio($thumb_w, $thumb_h, 75);
 
                         <?php /* 모바일 전용 : 제목앞에 '공지','홍보' 글자추가 (pc에서는 .pai-mb 숨겨짐) */ ?>
                         <div class="pai-mb d-inline-block" >
-                            <?php if($list[$i]['is_notice']){
+                            <?php if($isNotice){
                                         echo <<<EOT
                                             <div class="rcmd-box">
                                                 {$row['num']}
                                             </div>
                                         EOT;
                                     }
-                                    else if ($list[$i]['is_advertiser_post']) { 
+                                    else if ($isPromotion) { 
                                         echo <<<EOT
                                                 <div class="rcmd-box step-pai">
                                                     <span>홍보</span>
