@@ -863,7 +863,7 @@ div a mark:hover {
   }
 
   .pai-mb {
-    display: block !important;
+    display: inline-block !important;
     margin: inherit;
     min-width: 45px;
   }
