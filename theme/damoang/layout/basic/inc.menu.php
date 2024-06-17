@@ -120,7 +120,7 @@ return [
                     '책읽는당' => '/readingbooks',
                     '우주본당' => '/space',
                     '축구당' => '/soccer',
-                    '칭찬한당' => '/compliment',
+                    '칭차앙' => '/compliment',
                     '캠핑간당' => '/camping',
                     '콘솔한당' => '/console',
                     '다바앙' => '/coffee',
