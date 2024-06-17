@@ -120,6 +120,7 @@ return [
                     '책읽는당' => '/readingbooks',
                     '우주본당' => '/space',
                     '축구당' => '/soccer',
+                    '칭찬한당' => '/compliment',
                     '캠핑간당' => '/camping',
                     '콘솔한당' => '/console',
                     '다바앙' => '/coffee',
@@ -148,12 +149,7 @@ return [
                 // 'icon' => 'bi-cart-plus-fill',
                 'shortcut' => 'Ｏ',
             ],
-        ]
-    ],
-    [
-        'title' => '운영 게시판',
-        'items' => [
-            '공지사항' => [
+           '공지사항' => [
                 'url' => '/notice',
                 'shortcut' => 'K',
                 'icon' => 'bi-geo-alt-fill',
@@ -199,8 +195,9 @@ return [
                 'shortcut' => '·',
                 'icon' => 'bi-geo-alt-fill',
             ],
-        ],
+        ]
     ],
+    
     // [
     //     'title' => '소모임',
     //     'items' => [
