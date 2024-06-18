@@ -1470,7 +1470,7 @@ function get_sideview($mb_id, $name='', $email='', $homepage='')
             return $name;
         }
 
-        $name_tag_open = '<a href="' . get_pretty_url($bo_table, '', 'sca=' . $sca . '&amp;sfl=wr_name,1&amp;stx=' . $name) . '" title="' . $name . ' 이름으로 검색" class="sv_guest gap-1 d-flex sideview sideview--guest" rel="nofollow" onclick="return false;">';
+        $name_tag_open = '<a href="' . get_pretty_url($bo_table, '', 'sca=' . $sca . '&amp;sfl=wr_name,1&amp;stx=' . $name) . '" title="' . $name . ' 이름으로 검색" class="sv_guest gap-1 d-flex align-items-center sideview sideview--guest" rel="nofollow" onclick="return false;">';
         $name_tag['name'] = '<span class="sv_name text-truncate">' . $name . '</span>';
     }
 

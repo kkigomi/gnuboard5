@@ -55,6 +55,7 @@ textarea.required {
 .sv_wrap {
   position: relative;
   font-weight: normal;
+  line-height: 1;
 }
 
 .sv_wrap .sv {
@@ -151,6 +152,9 @@ textarea.required {
 }
 
 /* 레벨 아이콘 */
+.xp-icon {
+  line-height: 0;
+}
 .xp-icon img {
   display: inline !important;
   vertical-align: baseline !important;
