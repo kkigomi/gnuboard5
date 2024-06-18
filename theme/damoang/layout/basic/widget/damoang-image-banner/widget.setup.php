@@ -72,6 +72,19 @@ add_stylesheet('<link href="' . \LAYOUT_URL . '/js/jquery-ui/jquery-ui.theme.min
                                     </select>
                                 </div>
                             </div>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col">
+                                        <label class="form-label">대체 텍스트</label>
+                                        <input type="text" id="alt_<?php echo $n ?>" name="wset[d][alt][]" value="<?php echo $d_alt ?>" class="form-control">
+                                    </div>
+                                    <div class="col">
+                                        <label class="form-label">관리용 메모</label>
+                                        <input type="text" id="memo_<?php echo $n ?>" name="wset[d][memo][]" value="<?php echo $d_memo ?>" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="text-center">
                                 <?php if ($i > 0) { ?>
                                     <a href="javascript:;" class="ibtnDel"><i class="fa fa-times-circle fa-2x text-muted"></i></a>
@@ -124,6 +137,18 @@ add_stylesheet('<link href="' . \LAYOUT_URL . '/js/jquery-ui/jquery-ui.theme.min
                             <option value="_blank">새 창</option>
                             <option value="_self">현재 창</option>
                         </select>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="row">
+                        <div class="col">
+                            <label class="form-label">대체 텍스트</label>
+                            <input type="text" id="alt_${counter}" name="wset[d][alt][]" value="" class="form-control">
+                        </div>
+                        <div class="col">
+                            <label class="form-label">관리용 메모</label>
+                            <input type="text" id="memo_${counter}" name="wset[d][memo][]" value="" class="form-control">
+                        </div>
                     </div>
                 </div>
                 <div class="text-center">
