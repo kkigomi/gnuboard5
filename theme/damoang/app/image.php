@@ -224,6 +224,7 @@ $(document).ready(function() {
 
     $('.sel-img').click(function() {
         $("#<?php echo $fid ?>", opener.document).val($(this).find('img').attr('src'));
+        $("#<?php echo $fid ?>_preview", opener.document).attr('src', $(this).find('img').attr('src'));
         window.close();
         return false;
     });

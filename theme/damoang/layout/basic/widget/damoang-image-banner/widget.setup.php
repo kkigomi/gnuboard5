@@ -61,6 +61,7 @@ add_stylesheet('<link href="' . \LAYOUT_URL . '/js/jquery-ui/jquery-ui.theme.min
                                     </span>
                                     <input type="text" id="img_<?php echo $n ?>" name="wset[d][img][]" value="<?php echo $d_img ?>" class="form-control" placeholder="https://...">
                                 </div>
+                                <div><img id="img_<?php echo $n ?>_preview" src="<?php echo $d_img ?>" style="max-width: 100%; max-height: 150px;" /></div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">링크</label>
@@ -128,6 +129,7 @@ add_stylesheet('<link href="' . \LAYOUT_URL . '/js/jquery-ui/jquery-ui.theme.min
                         </span>
                         <input type="text" id="img_${counter}" name="wset[d][img][]" value="" class="form-control" placeholder="https://...">
                     </div>
+                    <div><img id="img_${counter}_preview" src="" style="max-width: 100%; max-height: 150px;" /></div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">링크</label>
