@@ -285,7 +285,6 @@ if($page_rows > 0) {
 }
 
 
-
 /****** PAI 위젯: 직홍게 게시글 추가 시작: ******/
 // PAI 위젯 설정 데이터 파일에서 데이터 가져오기
 $widget_data_path = G5_DATA_PATH . '/nariya/widget/w-promotion-ad-insertion-pai-pc.php';
@@ -295,33 +294,40 @@ if (file_exists($widget_data_path)) {
         $wset_pai = $data;
     } 
 } 
-//삽입 예외 게시판 ID를 배열로 변환
+// 삽입 예외 게시판 ID 목록
 $board_exception = isset($wset_pai['d']['board_exception']) ? explode(',', $wset_pai['d']['board_exception']) : [];
 
-// 현재 게시판이 예외 게시판 목록에 포함되지 않은 경우에만 실행
+//현재 게시판이 예외 게시판 목록에 포함되지 않은 경우에만 실행
+/** 랜덤 광고주의 홍보글 목록 */
+$promotion_posts = array();  // 주의: 초기화를 배열로 설정하지 않으면 gellery/list.skin.php에서 에러남
 if (!in_array($bo_table, $board_exception)) {
     $advertisers = isset($wset_pai['d']['advertisers']) ? $wset_pai['d']['advertisers'] : [];
     $how_many_to_display = isset($wset_pai['d']['how_many_to_display']) ? $wset_pai['d']['how_many_to_display'] : 1;
     $insert_index = isset($wset_pai['d']['insert_index']) ? (int)$wset_pai['d']['insert_index'] : 0;
     $min_cnt_for_insert_index = isset($wset_pai['d']['min_cnt_for_insert_index']) ? (int)$wset_pai['d']['min_cnt_for_insert_index'] : 5;
 
-    $promotion_posts = get_promotion_posts_pai($advertisers, $how_many_to_display); 
+    if (!empty($advertisers) && $how_many_to_display > 0) {
+        // 광고주 목록을 섞고, 설정된 노출갯수 만큼의 이름만 선택해서 DB 조회
+        shuffle($advertisers);
+        $selected_advertisers = array_slice($advertisers, 0, $how_many_to_display);
+        $promotion_posts = get_promotion_posts_pai($selected_advertisers);
 
-    // 직홍게글 삽입 인덱스 계산. 
-    $notice_count = ($page == 1) ? count($notice_array) : 0; // 공지글 수 (첫 페이지에만 고려)
-    $non_notice_count = count($list) - $notice_count; // 공지 제외 다른 글 수
-    $positionIndex = $non_notice_count < $min_cnt_for_insert_index ? $notice_count : $notice_count + $insert_index; //다른 글이 (최소글 수)min_cnt_for_insert_index 미만일 때는 포지션을 0으로 고정.
+        // 직홍게글 삽입 인덱스 계산. 
+        $notice_count = ($page == 1) ? count($notice_array) : 0; // 공지글 수 (첫 페이지에만 고려)
+        $non_notice_count = count($list) - $notice_count; // 공지 제외 다른 글 수
+        $positionIndex = $non_notice_count < $min_cnt_for_insert_index ? $notice_count : $notice_count + $insert_index; //다른 글이 (최소글 수)min_cnt_for_insert_index 미만일 때는 포지션을 0으로 고정.
 
-    //글목록에 직홍게글 추가 (설정에 따라 1개 이상일 수 있음)
-    foreach ($promotion_posts as $post) {
-        $post_list = get_list($post, $board, $board_skin_url, G5_IS_MOBILE ? $board['bo_mobile_subject_len'] : $board['bo_subject_len']);
-        $post_list['is_notice'] = false; // 공지글은 아닌걸로 마크
-        $post_list['is_advertiser_post'] = true; // 광고주 글임을 마크
-        $post_list['num'] = $positionIndex; // 지정된 위치에 삽입
-        $post_list['href'] = '/promotion/'.$post['wr_id']; // 링크
-        // 지정된 위치에 게시물을 삽입합니다.
-        array_splice($list, $positionIndex, 0, array($post_list));
-        $positionIndex++; // 다음 삽입 위치를 증가시킵니다.
+        // 글 목록에 직홍게글 추가 (설정에 따라 1개 이상일 수 있음)
+        foreach ($promotion_posts as $post) {
+            $post_list = get_list($post, $board, $board_skin_url, G5_IS_MOBILE ? $board['bo_mobile_subject_len'] : $board['bo_subject_len']);
+            $post_list['is_notice'] = false; // 공지글은 아닌걸로 마크
+            $post_list['is_advertiser_post'] = true; // 광고주 글임을 마크
+            $post_list['num'] = $positionIndex; // 지정된 위치에 삽입
+            $post_list['href'] = '/promotion/'.$post['wr_id']; // 링크
+            // 지정된 위치에 게시물을 삽입
+            array_splice($list, $positionIndex, 0, array($post_list));
+            $positionIndex++; // 다음 삽입 위치를 증가
+        }
     }
 }
 /****** : PAI 위젯. 직홍게 게시글 추가 끝 ******/
@@ -382,16 +388,25 @@ include_once($board_skin_path.'/list.skin.php');
  **********/
 /****** PAI 위젯 직홍게 글 함수 시작:   ******/
 /**
- * g5_write_promotion 테이블(직접홍보 게시판)에서 각 광고주 별 최신글들 중에서 limit 만큼의 글만 랜덤으로 반환한다.
- *
- * @param array $advertisers 광고주 이름 목록
- * @param int $limit 삽입 갯수
- * @return array 출력대상 중 삽입갯수 만큼의 직홍게 글(랜덤)
+ * g5_write_promotion 테이블(직접홍보 게시판)에서 요청된 광고주들의 최신글 하나씩을 반환한다. 
+ * 광고주 목록에 이름이 많아도 최대 3명의 글만 반환한다
+ * @param array $advertisers 직홍게에 글을 작성한 광고주 이름 목록
+ * @return array 선별된 직홍게 글 목록
  */
-function get_promotion_posts_pai($advertisers, $limit = 1) {
+function get_promotion_posts_pai($advertisers) {
     $latest_posts = array();
     $tableName = get_write_table_name('promotion');
+
+    //쿼리조회성능문제개선: db 조회가 $advertisers 만큼 반복될 수 있지만
+    //애초에 이함수를 호출할때 위젯에서 설정한 갯수만큼만의 광고주만 $advertisers로 넘어오도록 하므로 필요이상으로 반복되지 않음.
+    //(그렇다곤 해도 최대 3명의 글로 로직 제한)
+    $iteration_count = 0;
     foreach ($advertisers as $advertiser) {
+        //반복 횟수를 최대 3로 설정
+        if ($iteration_count >= 3) {
+            break;
+        }
+
         $sql = "SELECT * FROM {$tableName}
                 WHERE
                     wr_name = '{$advertiser}'
@@ -401,10 +416,11 @@ function get_promotion_posts_pai($advertisers, $limit = 1) {
         while ($row = sql_fetch_array($result)) {
             $latest_posts[] = $row;
         }
+
+        $iteration_count++;
     }
 
-    // 최신글 목록을 랜덤으로 섞고, limit 갯수만큼 잘라서 반환
-    shuffle($latest_posts);
-    return array_slice($latest_posts, 0, $limit);
+    // 광고주 별 최신글 모음 목록을 반환
+    return $latest_posts;
 }
 /****** : PAI 위젯 직홍게 끝   ******/
