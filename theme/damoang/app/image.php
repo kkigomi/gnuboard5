@@ -31,26 +31,17 @@ if($mode == 'upload') {
         alert('파일이 정상적으로 업로드 되지 않았습니다.');
     }
 
+    $path_parts = pathinfo($_FILES['imgFile']['name']);
+
     $_FILES['imgFile']['name'] = isset($_FILES['imgFile']['name']) ? $_FILES['imgFile']['name'] : '';
 
-    if(!preg_match("/(\.(jpg|jpeg|gif|png))$/i", $_FILES['imgFile']['name']))
-        alert('JPG, JPEG, GIF, PNG 파일만 등록이 가능합니다.');
-
-    if(strlen($_FILES['imgFile']['name']) > 40)
-        alert('확장자 포함해서 파일명을 40자 이내로 등록할 수 있습니다.');
-
-    if(!preg_match("/([-A-Za-z0-9_])$/", $_FILES['imgFile']['name']))
-        alert('파일명은 공백없이 영문자, 숫자, -, _ 만 사용 가능합니다.');
-
-    list($thumb) = explode('-', $_FILES['imgFile']['name']);
-
-    if($thumb == 'thumb')
-        alert('파일명이 thumb- 일 경우 썸네일 파일로 인식되기 때문에 등록할 수 없습니다.');
+    if(!preg_match("/(\.(jpg|jpeg|gif|png|webp))$/i", $_FILES['imgFile']['name']))
+        alert('JPG, JPEG, GIF, PNG, WEBP 파일만 등록이 가능합니다.');
 
     $spot = '';
     if(is_uploaded_file($_FILES['imgFile']['tmp_name'])) {
 
-        $filename = $type.'-'.$_FILES['imgFile']['name'];
+        $filename = $type . '-' . sha1($path_parts['filename']) . '.' . $path_parts['extension'];
 
         $dest_file = NA_DATA_PATH.'/image/'.$filename;
 
@@ -81,7 +72,7 @@ if($mode == 'upload') {
     if(!preg_match("/([-A-Za-z0-9_])$/", basename($img)))
         alert('파일명은 공백없이 영문자, 숫자, -, _ 만 사용 가능합니다.');
 
-    if (!preg_match("/(\.(jpg|jpeg|gif|png))$/i", $img))
+    if (!preg_match("/(\.(jpg|jpeg|gif|png|webp))$/i", $img))
         alert('삭제 가능한 파일이 아닙니다.');
 
     // 이미지 주소
@@ -111,7 +102,7 @@ if($mode == 'upload') {
         if(!$tmp)
             continue;
 
-        if(!preg_match("/(\.(jpg|jpeg|gif|png))$/i", $tmp))
+        if(!preg_match("/(\.(jpg|jpeg|gif|png|webp))$/i", $tmp))
             continue;
 
         list($head) = explode('-', $tmp);
@@ -170,7 +161,7 @@ for($j=0; $j < $arr_cnt; $j++) {
     if(!$img)
         continue;
 
-    if (!preg_match("/(\.(jpg|jpeg|gif|png))$/i", $img))
+    if (!preg_match("/(\.(jpg|jpeg|gif|png|webp))$/i", $img))
         continue;
 
     list($head) = explode('-', $img);
@@ -232,7 +223,8 @@ $(document).ready(function() {
     });
 
     $('.sel-img').click(function() {
-        $("#<?php echo $fid ?>", opener.document).val(this.title);
+        $("#<?php echo $fid ?>", opener.document).val($(this).find('img').attr('src'));
+        $("#<?php echo $fid ?>_preview", opener.document).attr('src', $(this).find('img').attr('src'));
         window.close();
         return false;
     });
