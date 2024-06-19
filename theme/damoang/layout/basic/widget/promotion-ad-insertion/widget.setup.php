@@ -36,15 +36,15 @@ for ($i = 0; $i < $advertiser_cnt; $i++) {
 
 echo <<<EOT
 <ul class="list-group">
-    <p>'직홍게 광고 삽입(PAI)' 위젯 설정: 직접홍보 게시판(promotion)의 글을 여러 게시판에서 글목록 일부로 삽입하기 위한 규칙을 설정합니다. 데이터 저장 위치: /data/nariya/widget/w-promotion-ad-insertion-pai-{}.php</p>
+    <p>'직홍게 홍보글 삽입 위젯(PAI) 데이터 설정: 직접홍보 게시판(promotion)의 글을 여러 게시판에서 글목록에 '홍보'글로 삽입하기 위한 규칙을 설정합니다. 데이터 저장 위치: /data/nariya/widget/w-promotion-ad-insertion-pai-{}.php</p>
     <li class="list-group-item">
         <div class="form-group row mb-0">
-            <label class="col-sm-2 col-form-label">삽입대상 광고주</label>
+            <label class="col-sm-2 col-form-label">계약중인 광고주</label>
             <div class="col-sm-10">
                 <div class="table-responsive">
                     <table id="widgetData" class="table table-bordered order-list mb-0">
-                        <p>광고주 목록에 등록된 회원의 각자의 최신 게시물 하나씩 종합하여 출력(삽입)대상 목록이 되며, 아래의 '삽입갯수' 만큼 랜덤순서로 삽입 됩니다. </p>
-                        <p>직접홍보 게시판에 글을 작성한 광고주 이름을 <strong>정확히</strong> 입력해주세요. 이름이 중복되지 않게 주의해주세요. 순서는 상관 없습니다.</p>
+                        <p>현재 계약중이며 직접홍보 게시판에 글을 작성한 광고주 이름을 <strong>정확히</strong> 입력해주세요. 이름이 중복되지 않게 주의해주세요. 순서는 상관 없습니다.</p>
+                        <p>광고주 목록 중 아래의 '삽입 개수' 만큼의 광고주가 랜덤으로 선택되어 해당 광고주 각자의 가장 최근 게시물이 '홍보'글로 게시판 목록에 삽입됩니다.</p>
                         <thead>
                             <tr class="bg-light">
                                 <th class="text-center nw-20">광고주 이름</th>
@@ -93,7 +93,7 @@ echo <<<EOT
             <label class="col-sm-2 col-form-label">삽입갯수</label>
             <div class="col-sm-10">
                 <input type="number" name="wset[d][how_many_to_display]" value="{$how_many_to_display}" class="form-control" placeholder="직홍게 글 삽입갯수">
-                <p>출력대상 직홍게 글 중 몇개의 글이 게시판 글목록에 삽입될지 결정. 예: 2를 입력하면 램덤으로 두개의 직홍게글이 삽입됩니다. 광고주 이름 목록의 갯수보다 많이 입력하지 마십시오</p>
+                <p>출력대상 직홍게 글 중 몇개의 글이 게시판 글목록에 삽입될지 결정. 예: 2를 입력하면 램덤으로 두개의 직홍게글이 삽입됩니다. 최대 3개 초과 출력되지 않습니다.</p>
             </div>
         </div>
     </li>
