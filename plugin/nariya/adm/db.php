@@ -98,14 +98,21 @@ if(!sql_query(" DESC {$g5['na_singo']} ", false)) {
 	$is_check = true;
 }
 
+// 내용관리 - 쇼핑몰 레이아웃
+if (!sql_fetch(" SHOW COLUMNS FROM {$g5['content_table']} LIKE 'co_shop' ")) {
+	sql_query(" ALTER TABLE `{$g5['content_table']}` ADD `co_shop` tinyint(4) NOT NULL DEFAULT '0' AFTER `co_html` ", true);
+
+	$is_check = true;
+}
+
+// 내용관리 - 접근레벨
+if (!sql_fetch(" SHOW COLUMNS FROM {$g5['content_table']} LIKE 'co_level' ")) {
+	sql_query(" ALTER TABLE `{$g5['content_table']}` ADD `co_level` tinyint(4) NOT NULL DEFAULT '0' AFTER `co_shop` ", true);
+
+	$is_check = true;
+}
+
 if(IS_YC) {
-
-	// 내용관리에 쇼핑몰 레이아웃 사용 추가
-	if (!sql_fetch(" SHOW COLUMNS FROM {$g5['content_table']} LIKE 'co_shop' ")) {
-		sql_query(" ALTER TABLE `{$g5['content_table']}` ADD `co_shop` tinyint(4) NOT NULL DEFAULT '0' AFTER `co_html` ", true);
-
-		$is_check = true;
-	}
 
 	if(IS_EXTEND || (isset($is_extend) && $is_extend)) {
 

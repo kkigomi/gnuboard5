@@ -17,7 +17,7 @@ $one_cols = array(
 );
 
 // 1단 체크
-(in_array($page_id, $one_cols)) ? define('IS_ONECOL', true) : define('IS_ONECOL', false);
+$is_onecolum = (in_array($page_id, $one_cols)) ? true : false;
 
 ?>
 <!doctype html>

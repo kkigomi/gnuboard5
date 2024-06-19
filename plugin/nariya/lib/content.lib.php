@@ -6,7 +6,8 @@ function na_pid($link='') {
 	global $bo_table, $wr_id, $sca, $wr_seo_title, $gr_id, $co_id, $co_seo_title, $qstr;
 	global $ca_id, $it_id, $it_seo_title, $type;
 
-	$link = G5_URL.str_replace(G5_PATH, '', $_SERVER['SCRIPT_FILENAME']);
+	$script_name = str_replace('\\', '/', $_SERVER['SCRIPT_FILENAME']); 
+	$link = G5_URL.str_replace(G5_PATH, '', $script_name);
 
 	$url = @parse_url(str_replace(G5_URL.'/', '', $link));
 	$url['path'] = isset($url['path']) ? $url['path'] : '';
@@ -139,6 +140,8 @@ function na_paging($write_pages, $cur_page, $total_page, $url, $add='') {
 
     $url = preg_replace('#(&amp;)?page=[0-9]*#', '', $url);
 	$url .= substr($url, -1) === '?' ? 'page=' : '&amp;page=';
+	$url = preg_replace('|[^\w\-~+_.?#=!&;,/:%@$\|*\'()\[\]\\x80-\\xff]|i', '', clean_xss_tags($url));
+	$url = filter_var($url, FILTER_VALIDATE_URL);
 
 	if(!$cur_page) $cur_page = 1;
 	if(!$total_page) $total_page = 1;
@@ -202,6 +205,8 @@ function na_ajax_paging($id, $write_pages, $cur_page, $total_page, $url, $add=''
 
     $url = preg_replace('#(&amp;)?page=[0-9]*#', '', $url);
 	$url .= substr($url, -1) === '?' ? 'page=' : '&amp;page=';
+	$url = preg_replace('|[^\w\-~+_.?#=!&;,/:%@$\|*\'()\[\]\\x80-\\xff]|i', '', clean_xss_tags($url));
+	$url = filter_var($url, FILTER_VALIDATE_URL);
 
 	if(!$cur_page) $cur_page = 1;
 	if(!$total_page) $total_page = 1;

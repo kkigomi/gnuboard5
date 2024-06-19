@@ -86,8 +86,8 @@ if(IS_INDEX)
 if(!IS_INDEX) {
 ?>
     <div id="main-wrap" class="bg-body">
-        <div class="container px-0 px-sm-3<?php echo (IS_ONECOL) ? ' py-3' : ''; ?>">
-        <?php if(IS_ONECOL) { // 1단 일 때
+        <div class="container px-0 px-sm-3 <?php echo ($is_onecolumn) ? 'py-3' : ''; ?>">
+        <?php if($is_onecolumn) { // 1단 일 때
             // 페이지 타이틀
             include_once LAYOUT_PATH.'/component/title.php';
         } else { // 2단 일 때

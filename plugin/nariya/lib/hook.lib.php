@@ -787,8 +787,8 @@ class NARIYA_STANDARD {
 		$is_lucky = 0;
 		if($is_member  && $comment_id && $w === 'c') {
 
-			$lucky_point = isset($boset['na_lucky_point']) ? (int)$boset['na_lucky_point'] : 0;
-			$lucky_dice = isset($boset['na_lucky_dice']) ? (int)$boset['na_lucky_dice'] : 0;
+			$lucky_point = isset($boset['lucky_point']) ? (int)$boset['lucky_point'] : 0;
+			$lucky_dice = isset($boset['lucky_dice']) ? (int)$boset['lucky_dice'] : 0;
 
 			if($lucky_point > 0 && $lucky_dice > 0) {
 				// 주사위 굴림

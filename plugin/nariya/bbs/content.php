@@ -18,8 +18,9 @@ if($co_seo_title){
     $co = get_content_db($co_id);
 }
 
-if( ! (isset($co['co_seo_title']) && $co['co_seo_title']) && isset($co['co_id']) && $co['co_id'] ){
-    seo_title_update($g5['content_table'], $co['co_id'], 'content');
+// 접근등급
+if(isset($co['co_level']) && $member['mb_level'] < $co['co_level']) {
+    alert('접근할 권한이 없습니다.', G5_URL);
 }
 
 // 레이아웃
@@ -27,6 +28,10 @@ if(isset($co['co_shop']) && $co['co_shop']) {
 	if(IS_YC && (!defined('G5_COMMUNITY_USE') || G5_COMMUNITY_USE !== false)) {
 		define('_SHOP_', true);
 	}
+}
+
+if( ! (isset($co['co_seo_title']) && $co['co_seo_title']) && isset($co['co_id']) && $co['co_id'] ){
+    seo_title_update($g5['content_table'], $co['co_id'], 'content');
 }
 
 // 페이지 아이디
