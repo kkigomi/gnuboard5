@@ -112,7 +112,7 @@ if (!is_array($star)) {
             $cmt_sv = $cmt_amt - $i + 1; // 댓글 헤더 z-index 재설정 ie8 이하 사이드뷰 겹침 문제 해결
             $c_reply_href = $comment_common_url.'&amp;c_id='.$comment_id.'&amp;w=c#bo_vc_w';
             $c_edit_href = $comment_common_url.'&amp;c_id='.$comment_id.'&amp;w=cu#bo_vc_w';
-            $is_comment_reply_edit = ($list[$i]['is_reply'] || $list[$i]['is_edit'] || $list[$i]['is_del']) ? 1 : 0;
+            $is_comment_reply_edit = 0 ;// ($list[$i]['is_reply'] || $list[$i]['is_edit'] || $list[$i]['is_del']) ? 1 : 0;
 
             // Ensure IS_NA_BBS is defined
             if (!defined('IS_NA_BBS')) {
@@ -194,7 +194,7 @@ if (!is_array($star)) {
                         <div class="cmt-btn clearfix font-weight-normal px-3">
                             <ul class="float-right">
                                 <?php if ($list[$i]['is_reply']) { ?>
-<!--                                    <li><a href="javascript:;" onclick="comment_box('--><?php //echo $comment_id ?>//','c'); return false;">답글</a></li>
+                                    <li><a href="javascript:;" onclick="comment_box('<?php echo $comment_id ?>//','c'); return false;">답글</a></li>
                                 <?php } ?>
                                 <?php if ($list[$i]['is_edit']) { ?>
                                     <li><a href="javascript:;" onclick="comment_box('<?php echo $comment_id ?>','cu'); return false;">수정</a></li>
