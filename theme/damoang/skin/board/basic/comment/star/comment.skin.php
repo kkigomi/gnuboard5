@@ -33,7 +33,54 @@ if (!is_array($star)) {
         // 글자수 제한
         var char_min = parseInt(<?php echo $comment_min ?>); // 최소
         var char_max = parseInt(<?php echo $comment_max ?>); // 최대
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var stars = document.querySelectorAll('.star-rating span');
+            var ratingInput = document.getElementById('wr_star');
+
+            stars.forEach(function(star) {
+                star.addEventListener('click', setRating);
+                star.addEventListener('mouseover', hoverRating);
+                star.addEventListener('mouseout', resetRating);
+            });
+
+            function setRating(e) {
+                var rating = this.getAttribute('data-rating');
+                ratingInput.value = rating / 2;
+                stars.forEach(function(star) {
+                    star.classList.remove('selected');
+                });
+                this.classList.add('selected');
+                var prev = this.previousElementSibling;
+                while (prev) {
+                    prev.classList.add('selected');
+                    prev = prev.previousElementSibling;
+                }
+            }
+
+            function hoverRating(e) {
+                var rating = this.getAttribute('data-rating');
+                stars.forEach(function(star) {
+                    star.classList.remove('hovered');
+                });
+                this.classList.add('hovered');
+                var prev = this.previousElementSibling;
+                while (prev) {
+                    prev.classList.add('hovered');
+                    prev = prev.previousElementSibling;
+                }
+            }
+
+            function resetRating(e) {
+                stars.forEach(function(star) {
+                    star.classList.remove('hovered');
+                });
+            }
+        });
+
     </script>
+
+
 
 <!-- 댓글 시작 { -->
 <div id="viewcomment">
@@ -312,6 +359,7 @@ if (!is_array($star)) {
                 <?php } ?>
 
                 <div class="row">
+
                     <div id="bo_vc_star" class="col-sm-3">
                         <select name="wr_star" id="wr_star" class="custom-select mb-2">
                             <option value="5">★★★★★</option>
@@ -320,6 +368,21 @@ if (!is_array($star)) {
                             <option value="2">★★☆☆☆</option>
                             <option value="1">★☆☆☆☆</option>
                         </select>
+                        <!-- Add this inside the form where the comment is being posted -->
+                        <div id="star-rating" class="star-rating">
+                            <span class="fa fa-star-o" data-rating="1"></span>
+                            <span class="fa fa-star-o" data-rating="2"></span>
+                            <span class="fa fa-star-o" data-rating="3"></span>
+                            <span class="fa fa-star-o" data-rating="4"></span>
+                            <span class="fa fa-star-o" data-rating="5"></span>
+                            <span class="fa fa-star-o" data-rating="6"></span>
+                            <span class="fa fa-star-o" data-rating="7"></span>
+                            <span class="fa fa-star-o" data-rating="8"></span>
+                            <span class="fa fa-star-o" data-rating="9"></span>
+                            <span class="fa fa-star-o" data-rating="10"></span>
+                        </div>
+                        <input type="hidden" name="wr_star" id="wr_star" value="5">
+
                     </div>
                     <?php if ($comment_min || $comment_max) { ?>
                         <div class="col-sm-9">
