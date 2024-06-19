@@ -105,6 +105,7 @@ return [
                     '서피스당' => '/MSSurface',
                     '소셜게임한당' => '/socialgame',
                     '시계당' => '/watches',
+                    '스쿠버당' => '/scuba',
                     '싸줄한당' => '/soccerline',
                     '안드로메당' => '/android',
                     '애플모앙' => '/applemoang',
@@ -140,6 +141,11 @@ return [
                     '필기도구당' => '/stationery',
                 ]
             ],
+            '추천음악' => [
+                'url' => '/music',
+                'icon' => 'bi-cash-coin',
+                'shortcut' => 'D',
+            ],
             '알뜰구매' => [
                 'url' => '/economy',
                 'icon' => 'bi-cash-coin',
@@ -153,7 +159,7 @@ return [
             '수익링크' => [
                 'url' => '/referral',
                 // 'icon' => 'bi-cart-plus-fill',
-                'shortcut' => 'D',
+                'shortcut' => '·',
             ],
            '공지사항' => [
                 'url' => '/notice',

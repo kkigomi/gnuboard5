@@ -12,7 +12,7 @@ function alert_no_cert() {
     if (!empty($config['cf_7'])) {
         foreach ($certify_required as $val) {
             if (trim($val) === $bo_table) { // 실명인증 필수 설정한 게시판일때
-                if (empty($member['mb_certify'])) { // 본인인증이 안된 계정일때
+                if ($is_admin != 'super' && empty($member['mb_certify'])) { // 본인인증이 안된 계정일때
                     goto_url(G5_BBS_URL."/member_cert_refresh.php");
                     break;
                 }
