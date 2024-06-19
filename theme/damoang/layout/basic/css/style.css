@@ -952,8 +952,8 @@ footer .container a {
     height: 50px !important;
   }
 
-  .sideview .profile_img,
-  .sideview .mb-photo {
+  #bo_list .sideview .profile_img,
+  #bo_list .sideview .mb-photo {
     order: 6 !important;
   }
 }
