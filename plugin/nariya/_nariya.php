@@ -4,7 +4,7 @@ if (!defined('_GNUBOARD_'))
 	exit;
 
 // 버전
-define('NA_VER', 'Nariya 0.1');
+define('NA_VER', 'Nariya 0.2');
 
 // 변수 초기화
 $phref = ''; // 페이지 아이디 체크 차단용

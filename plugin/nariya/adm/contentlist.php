@@ -63,11 +63,14 @@ if (!sql_query(" DESCRIBE {$g5['content_table']} ", false)) {
     }
 }
 
-if(IS_YC) {
-	// 쇼핑몰 레이아웃 사용 추가
-	if (!sql_fetch(" SHOW COLUMNS FROM {$g5['content_table']} LIKE 'co_shop' ")) {
-		sql_query(" ALTER TABLE `{$g5['content_table']}` ADD `co_shop` tinyint(4) NOT NULL DEFAULT '0' AFTER `co_html` ", true);
-	}
+// 쇼핑몰 레이아웃
+if (!sql_fetch(" SHOW COLUMNS FROM {$g5['content_table']} LIKE 'co_shop' ")) {
+	sql_query(" ALTER TABLE `{$g5['content_table']}` ADD `co_shop` tinyint(4) NOT NULL DEFAULT '0' AFTER `co_html` ", true);
+}
+
+// 접근레벨
+if (!sql_fetch(" SHOW COLUMNS FROM {$g5['content_table']} LIKE 'co_level' ")) {
+	sql_query(" ALTER TABLE `{$g5['content_table']}` ADD `co_level` tinyint(4) NOT NULL DEFAULT '0' AFTER `co_shop` ", true);
 }
 
 $g5['title'] = '내용관리';
@@ -112,6 +115,7 @@ $result = sql_query($sql);
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">제목</th>
+                <th scope="col">접근등급</th>
 				<?php if(IS_YC) { ?>
 	                <th scope="col">레이아웃</th>
 				<?php } ?>
@@ -125,6 +129,7 @@ $result = sql_query($sql);
                 <tr class="<?php echo $bg; ?>">
                     <td class="td_id"><?php echo $row['co_id']; ?></td>
                     <td class="td_left"><?php echo htmlspecialchars2($row['co_subject']); ?></td>
+                    <td class="td_mng"><?php echo get_member_level_select('co_level['.$i.']', 1, 10, $row['co_level']) ?></td>
 					<?php if(IS_YC) { ?>
 						<?php $row['co_shop'] = isset($row['co_shop']) ? $row['co_shop'] : 0; ?>
 						<td class="td_mng">
@@ -147,7 +152,7 @@ $result = sql_query($sql);
             }
 
             if ($i == 0) {
-				$colspan = IS_YC ? 4 : 3;
+				$colspan = IS_YC ? 5 : 4;
                 echo '<tr><td colspan="'.$colspan.'" class="empty_table">자료가 한건도 없습니다.</td></tr>';
             }
             ?>
