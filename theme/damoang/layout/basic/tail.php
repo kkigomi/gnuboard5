@@ -13,7 +13,7 @@ $default['de_admin_info_name'] = '김선도'; //개인정보관리책임자
 // 메인이 아닐 경우
 if (!IS_INDEX) {
     ?>
-    <?php if (!IS_ONECOL) { // 2단 일 때 ?>
+    <?php if (!$is_onecolum) { // 2단 일 때 ?>
         </div>
         </div>
         <div class="order-2 col-md-4 col-lg-3">
