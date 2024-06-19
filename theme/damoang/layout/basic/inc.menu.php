@@ -23,7 +23,7 @@ return [
                 'shortcut' => 'Ｑ',
                 'icon' => 'bi-question-circle',
             ],
-            '미디어 평점' => [
+            '미디어 평점 🎥 BETA 📼🍿🍿🍿' => [
                 'url' => '/angtt',
                 // 'icon' => 'bi-question-circle',
                 'shortcut' => 'O',
