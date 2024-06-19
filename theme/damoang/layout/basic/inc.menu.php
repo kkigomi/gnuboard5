@@ -23,6 +23,12 @@ return [
                 'shortcut' => 'Ｑ',
                 'icon' => 'bi-question-circle',
             ],
+            '미디어 평점' => [
+                'url' => '#',
+                // 'icon' => 'bi-question-circle',
+                'shortcut' => 'Ｑ',
+                'icon' => 'bi-question-circle',
+            ],
             '앙지도' => [
                 'url' => '/angmap',
                 'shortcut' => 'Ｍ',
