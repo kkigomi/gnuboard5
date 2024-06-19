@@ -35,7 +35,7 @@ if ($config['cf_add_meta'])
     echo $config['cf_add_meta'] . PHP_EOL;
 ?>
 <title><?php echo $g5_head_title; ?></title>
-<link rel="stylesheet" href="<?php echo G5_THEME_URL ?>/css/bootstrap.min.css">
+<link rel="stylesheet" href="<?php echo G5_THEME_URL ?>/css/bootstrap.min.css?v50303">
 <?php
 add_stylesheet('<link rel="stylesheet" href="' . G5_THEME_URL . '/css/' . (G5_IS_MOBILE ? 'mobile' : 'default') . '.css?CACHEBUST">', 0);
 add_stylesheet('<link rel="stylesheet" href="' . G5_THEME_URL . '/css/nariya.css?CACHEBUST">', 0);
@@ -156,7 +156,7 @@ add_javascript('<script src="' . G5_THEME_URL . '/js/jquery-3.5.1.min.js"></scri
 add_javascript('<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>');
 add_javascript('<script src="' . G5_THEME_URL . '/js/common.js"></script>');
 add_javascript('<script src="' . G5_THEME_URL . '/js/wrest.js"></script>');
-add_javascript('<script src="' . G5_THEME_URL . '/js/bootstrap.bundle.min.js"></script>');
+add_javascript('<script src="' . G5_THEME_URL . '/js/bootstrap.bundle.min.js?v50303"></script>');
 add_javascript('<script src="' . G5_THEME_URL . '/js/clipboard.min.js"></script>');
 add_javascript('<script src="' . G5_THEME_URL . '/js/nariya.js?CACHEBUST"></script>');
 add_javascript('<script src="' . LAYOUT_URL . '/js/darkmode.js"></script>');
