@@ -194,7 +194,7 @@ if (!is_array($star)) {
                         <div class="cmt-btn clearfix font-weight-normal px-3">
                             <ul class="float-right">
                                 <?php if ($list[$i]['is_reply']) { ?>
-                                    <li><a href="javascript:;" onclick="comment_box('<?php echo $comment_id ?>','c'); return false;">답글</a></li>
+<!--                                    <li><a href="javascript:;" onclick="comment_box('--><?php //echo $comment_id ?>//','c'); return false;">답글</a></li>
                                 <?php } ?>
                                 <?php if ($list[$i]['is_edit']) { ?>
                                     <li><a href="javascript:;" onclick="comment_box('<?php echo $comment_id ?>','cu'); return false;">수정</a></li>
