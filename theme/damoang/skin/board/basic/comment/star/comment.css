@@ -27,3 +27,31 @@
 .fa-star, .fa-star-o, .fa-star-half-o {
   color: #FFD700; /* Gold color for the stars */
 }
+
+.star-rating {
+  direction: rtl;
+  font-size: 24px;
+  unicode-bidi: bidi-override;
+}
+.star-rating span {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+}
+.star-rating span:before {
+  content: "\f005";
+  font-family: FontAwesome;
+  position: absolute;
+}
+.star-rating span:hover:before,
+.star-rating span:hover ~ span:before,
+.star-rating .selected:before,
+.star-rating .selected ~ span:before {
+  content: "\f005";
+  color: #FFD700; /* Gold color */
+}
+.star-rating span.half:before {
+  content: "\f089";
+  position: absolute;
+  color: #FFD700; /* Gold color */
+}
