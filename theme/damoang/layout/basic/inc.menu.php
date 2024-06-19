@@ -24,9 +24,9 @@ return [
                 'icon' => 'bi-question-circle',
             ],
             '미디어 평점' => [
-                'url' => '#',
+                'url' => '/angtt',
                 // 'icon' => 'bi-question-circle',
-                'shortcut' => 'Ｑ',
+                'shortcut' => 'O',
                 'icon' => 'bi-question-circle',
             ],
             '앙지도' => [
@@ -153,7 +153,7 @@ return [
             '수익링크' => [
                 'url' => '/referral',
                 // 'icon' => 'bi-cart-plus-fill',
-                'shortcut' => 'Ｏ',
+                'shortcut' => 'D',
             ],
            '공지사항' => [
                 'url' => '/notice',
@@ -203,7 +203,7 @@ return [
             ],
         ]
     ],
-    
+
     // [
     //     'title' => '소모임',
     //     'items' => [

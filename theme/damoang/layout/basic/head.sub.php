@@ -65,6 +65,7 @@ if (!preg_match('/macintosh|mac os x/i', $agent)) {
     'KeyB': '/bug',
     'KeyC': '/bbs/group.php?gr_id=community',
     'KeyE': '/economy',
+    'KeyO': '/angtt',
     'KeyF': '/free',
     'KeyG': '/gallery',
     'KeyH': '/',
@@ -74,7 +75,7 @@ if (!preg_match('/macintosh|mac os x/i', $agent)) {
     'KeyL': '/lecture',
     'KeyN': '/new',
     'KeyM': '/angmap',
-    'KeyO': '/referral',
+    'KeyD': '/referral',
     'KeyP': '/pds',
     'KeyQ': '/qa',
     // Refresh the page when 'R' is pressed
