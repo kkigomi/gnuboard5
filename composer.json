@@ -8,7 +8,7 @@
         "prepend-autoloader": true
     },
     "require": {
-        "php": "^7.3",
+        "php": "^7.3 || ^8.0",
         "ext-gd": "*",
         "ext-curl": "*",
         "symfony/dotenv": "^5.4",
