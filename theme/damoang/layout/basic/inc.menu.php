@@ -34,6 +34,10 @@ return [
                 'icon' => 'bi-cash-coin',
                 'shortcut' => 'D',
             ],
+            '대나무숲' => [
+                'url' => '/lecture',
+                'shortcut' => '·',
+            ],
             '앙지도' => [
                 'url' => '/angmap',
                 'shortcut' => 'Ｍ',
