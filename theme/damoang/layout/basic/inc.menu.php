@@ -12,11 +12,6 @@ return [
                 'icon' => 'bi-chat',
                 'shortcut' => 'Ｆ',
             ],
-            '음악게시판' => [
-                'url' => '/music',
-                'icon' => 'bi-cash-coin',
-                'shortcut' => 'D',
-            ],
             '새로운 소식' => [
                 'url' => '/new',
                 'icon' => 'bi-newspaper',
@@ -33,6 +28,11 @@ return [
                 // 'icon' => 'bi-question-circle',
                 'shortcut' => 'O',
                 'icon' => 'bi-question-circle',
+            ],
+            '음악게시판' => [
+                'url' => '/music',
+                'icon' => 'bi-cash-coin',
+                'shortcut' => 'D',
             ],
             '앙지도' => [
                 'url' => '/angmap',
