@@ -18,7 +18,7 @@ add_replace('get_cachemanage_instance', function () {
         return $instance;
     }
 
-    if ($_ENV['CACHE_REDIS_USE'] === true) {
+    if ($_ENV['CACHE_REDIS_USE'] === 'true') {
         $config = [
             'host' => $_ENV['CACHE_REDIS_HOST'],
             'port' => intval($_ENV['CACHE_REDIS_PORT']),
