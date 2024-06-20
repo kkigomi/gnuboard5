@@ -5,8 +5,7 @@ return [
         'bo_table' => 'all_board',
         'name' => '전체공지',
         'msg' => [
-            "<a href='/makeang/2'>내가 만드는 다모앙 신설</a>",
-            "<a href='/free/967328'>초치기 이벤트 - 다모앙 굿즈 증정</a>",
+            "<a href='/free/967328'>굿즈 증정 이벤트 - 초치기</a>",
         ],
     ],
     [
