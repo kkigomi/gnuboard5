@@ -277,8 +277,19 @@ if($is_ajax)
     return;
 ?>
 </div><!-- #viewcomment 닫기 -->
-
-<?php if ($is_comment_write) { $w = ($w == '') ? 'c' : $w; ?>
+<?php
+    $certify_required = explode(',', $config['cf_7']);
+    if (!empty($config['cf_7'])) {
+        foreach ($certify_required as $val) {
+            if (trim($val) === $bo_table) { // 실명인증 필수 설정한 게시판일때
+                if ($is_member && $is_admin != 'super' && empty($member['mb_certify'])) { // 본인인증이 안된 계정일때
+                    $is_no_certified = true;
+                }
+            }
+        }
+    }
+?>
+<?php if ($is_comment_write && !isset($is_no_certified)) { $w = ($w == '') ? 'c' : $w; ?>
 
     <aside id="bo_vc_w">
         <h3 class="visually-hidden">댓글쓰기</h3>
@@ -447,6 +458,10 @@ if($is_ajax)
         </div>
         </form>
     </aside>
+<?php } else if (isset($is_no_certified)) { ?>
+    <div id="bo_vc_login" class="alert alert-light mb-3 py-4 text-center mx-3" role="alert">
+        <a href="<?php echo G5_BBS_URL ?>/member_cert_refresh.php">본인인증을 완료한 회원만 댓글 등록이 가능합니다.</a>
+    </div>
 <?php } else { ?>
     <div id="bo_vc_login" class="alert alert-light mb-3 py-4 text-center mx-3" role="alert">
         <?php if($is_guest) { ?>
