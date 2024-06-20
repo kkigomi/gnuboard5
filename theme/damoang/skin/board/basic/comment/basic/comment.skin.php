@@ -150,6 +150,63 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                     </div>
                 </header>
                 <div class="comment-content p-3">
+                    <?php if (isset($boset['check_star_rating']) && $boset['check_star_rating']) { ?>
+                        <!-- 별점 표시 { -->
+                        <?php
+                            $star_rate = $list[$i]['wr_6'];
+
+                            switch ($star_rate) {
+                                case '1':
+                                    $star_rated_text = '0.5';
+                                    break;
+                                case '2':
+                                    $star_rated_text = '1';
+                                    break;
+                                case '3':
+                                    $star_rated_text = '1.5';
+                                    break;
+                                case '4':
+                                    $star_rated_text = '2';
+                                    break;
+                                case '5':
+                                    $star_rated_text = '2.5';
+                                    break;
+                                case '6':
+                                    $star_rated_text = '3';
+                                    break;
+                                case '7':
+                                    $star_rated_text = '3.5';
+                                    break;
+                                case '8':
+                                    $star_rated_text = '4';
+                                    break;
+                                case '9':
+                                    $star_rated_text = '4.5';
+                                    break;
+                                case '10':
+                                    $star_rated_text = '5';
+                                    break;
+                                default:
+                                    $star_rated_text = '평가 없음';
+                                    break;
+                            }
+                        ?>
+                        <div class="star-rated d-flex bg-secondary-subtle p-2 mb-2 align-items-center">
+                            <span class="me-2 small">별점:</span>
+                            <div class="da-star star-l<?php if ((int)$star_rate >= 1) echo ' star-fill'; ?>"></div>
+                            <div class="da-star star-r<?php if ((int)$star_rate >= 2) echo ' star-fill'; ?>"></div>
+                            <div class="da-star star-l<?php if ((int)$star_rate >= 3) echo ' star-fill'; ?>"></div>
+                            <div class="da-star star-r<?php if ((int)$star_rate >= 4) echo ' star-fill'; ?>"></div>
+                            <div class="da-star star-l<?php if ((int)$star_rate >= 5) echo ' star-fill'; ?>"></div>
+                            <div class="da-star star-r<?php if ((int)$star_rate >= 6) echo ' star-fill'; ?>"></div>
+                            <div class="da-star star-l<?php if ((int)$star_rate >= 7) echo ' star-fill'; ?>"></div>
+                            <div class="da-star star-r<?php if ((int)$star_rate >= 8) echo ' star-fill'; ?>"></div>
+                            <div class="da-star star-l<?php if ((int)$star_rate >= 9) echo ' star-fill'; ?>"></div>
+                            <div class="da-star star-r<?php if ((int)$star_rate >= 10) echo ' star-fill'; ?>"></div>
+                            <span class="ms-1 small"><?=$star_rated_text?></span>
+                        </div>
+                        <!-- } 별점 표시 -->
+                    <?php } ?>
                     <div class="<?php echo $is_convert ?>">
                         <?php if ($comment_depth) { ?>
                             <?php if ($parent_wr_name) { ?>
@@ -345,6 +402,41 @@ if($is_ajax)
                     <?php } ?>
                     등록 가능
                 </div>
+            <?php } ?>
+
+            <?php if (isset($boset['check_star_rating']) && $boset['check_star_rating']) { ?>
+                <!-- 별점 기능 { -->
+                <div class="mb-2">
+                    <div id="bo_vc_star" class="col-sm-3">
+                        <select name="wr_6" id="wr_star" style="width:120px" class="form-select form-select-sm mb-2">
+                            <option value="0">평가</option>
+                            <option value="1">0.5점</option>
+                            <option value="2">1점</option>
+                            <option value="3">1.5점</option>
+                            <option value="4">2점</option>
+                            <option value="5">2.5점</option>
+                            <option value="6">3점</option>
+                            <option value="7">3.5점</option>
+                            <option value="8">4점</option>
+                            <option value="9">4.5점</option>
+                            <option value="10">5점</option>
+                        </select>
+                        <!-- Add this inside the form where the comment is being posted -->
+                        <div id="star-rating" class="star-rating d-flex">
+                            <div class="da-star star-l"></div>
+                            <div class="da-star star-r"></div>
+                            <div class="da-star star-l"></div>
+                            <div class="da-star star-r"></div>
+                            <div class="da-star star-l"></div>
+                            <div class="da-star star-r"></div>
+                            <div class="da-star star-l"></div>
+                            <div class="da-star star-r"></div>
+                            <div class="da-star star-l"></div>
+                            <div class="da-star star-r"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- } 별점 기능 -->
             <?php } ?>
 
             <style>

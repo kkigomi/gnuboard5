@@ -202,6 +202,48 @@ if ($is_admin === 'super') {
         </li>
     <?php } ?>
 
+    <?php if (isset($boset['check_star_rating']) && $boset['check_star_rating']) { ?>
+        <li class="list-group-item">
+            <div class="row">
+                <label for="wr_star" class="col-sm-2 col-form-label">평가</label>
+                <div class="col-sm-10">
+                    <!-- 별점 기능 { -->
+                    <div class="mb-2">
+                        <div id="bo_vc_star" class="col-sm-3">
+                            <select name="wr_6" id="wr_star" style="width:120px" class="form-select form-select-sm mb-2">
+                                <option value="0">평가</option>
+                                <option value="1">0.5점</option>
+                                <option value="2">1점</option>
+                                <option value="3">1.5점</option>
+                                <option value="4">2점</option>
+                                <option value="5">2.5점</option>
+                                <option value="6">3점</option>
+                                <option value="7">3.5점</option>
+                                <option value="8">4점</option>
+                                <option value="9">4.5점</option>
+                                <option value="10">5점</option>
+                            </select>
+                            <!-- Add this inside the form where the comment is being posted -->
+                            <div id="star-rating" class="star-rating d-flex">
+                                <div class="da-star star-l"></div>
+                                <div class="da-star star-r"></div>
+                                <div class="da-star star-l"></div>
+                                <div class="da-star star-r"></div>
+                                <div class="da-star star-l"></div>
+                                <div class="da-star star-r"></div>
+                                <div class="da-star star-l"></div>
+                                <div class="da-star star-r"></div>
+                                <div class="da-star star-l"></div>
+                                <div class="da-star star-r"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- } 별점 기능 -->
+                </div>
+            </div>
+        </li>
+    <?php } ?>
+
     <li class="list-group-item">
         <label class="visually-hidden">내용<strong> 필수</strong></label>
         <?php if($write_min || $write_max) { ?>

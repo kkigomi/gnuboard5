@@ -633,4 +633,44 @@ $(function(){
   document.getElementById('naClip').addEventListener('hide.bs.offcanvas', event => {
     $("#naclipView").html('');
   });
+
+  /* Star rating for New Nariya */
+  var stars = document.querySelectorAll('.star-rating .da-star');
+  var wrStar = document.getElementById('wr_star');
+  var starsLength = stars.length;
+  var filledRate = (idx) => {
+    if (idx <= starsLength) {
+      for (let i = 0; i <= idx; i++) {
+        stars[i].classList.add('star-fill');
+      }
+    }
+  };
+  var initStars = () => {
+    for (let i = 0; i < stars.length; i++) {
+      stars[i].classList.remove('star-fill');
+    }
+  };
+  var setRate = (num) => {
+    wrStar.value = num;
+  }
+
+  wrStar.addEventListener('change', () => {
+    initStars();
+    filledRate(wrStar.value - 1);
+  });
+  stars.forEach((el, i) => {
+    el.addEventListener('mouseenter', () => {
+      initStars();
+      filledRate(i);
+    });
+
+    el.addEventListener('click', () => {
+      setRate(i + 1);
+    });
+
+    el.addEventListener('mouseleave', () => {
+      initStars();
+      filledRate(wrStar.value - 1);
+    });
+  });
 });
