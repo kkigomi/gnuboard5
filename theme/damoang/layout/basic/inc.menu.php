@@ -12,6 +12,11 @@ return [
                 'icon' => 'bi-chat',
                 'shortcut' => 'Ｆ',
             ],
+            '음악게시판' => [
+                'url' => '/music',
+                'icon' => 'bi-cash-coin',
+                'shortcut' => 'D',
+            ],
             '새로운 소식' => [
                 'url' => '/new',
                 'icon' => 'bi-newspaper',
@@ -141,11 +146,7 @@ return [
                     '필기도구당' => '/stationery',
                 ]
             ],
-            '추천음악' => [
-                'url' => '/music',
-                'icon' => 'bi-cash-coin',
-                'shortcut' => 'D',
-            ],
+
             '알뜰구매' => [
                 'url' => '/economy',
                 'icon' => 'bi-cash-coin',
