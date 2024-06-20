@@ -41,10 +41,6 @@ return [
                 'icon' => 'bi-cash-coin',
                 'shortcut' => 'D',
             ],
-            '익명 게시판' => [
-                'url' => '/lecture',
-                'shortcut' => '·',
-            ],
             '사용기' => [
                 'url' => '/tutorial',
                 'icon' => 'bi-vector-pen',
