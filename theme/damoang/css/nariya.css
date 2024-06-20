@@ -522,3 +522,70 @@ textarea.required {
 .upload-file-area .icon-upload {
   margin-right: .4rem;
 }
+
+/* star rating */
+.da-star {
+  width: 12px;
+  height: 24px;
+  background: url(../img/star/stars.svg);
+  cursor: pointer;
+}
+
+.star-rated .da-star {
+  width: 8px;
+  height: 16px;
+  background-size: 48px;
+  cursor: auto;
+}
+
+.star-rating .da-star.star-l {
+  background-position-x: 0;
+}
+
+.star-rating .da-star.star-r {
+  background-position-x: -12px;
+}
+
+.star-rating .da-star.star-l.star-fill {
+  background-position-x: -48px;
+}
+
+.star-rating .da-star.star-r.star-fill {
+  background-position-x: -60px;
+}
+
+.star-rating .da-star.star-l,
+.star-rating .da-star.star-r {
+  background-position-y: 0;
+}
+
+[data-bs-theme='dark'] .star-rating .da-star.star-l,
+[data-bs-theme='dark'] .star-rating .da-star.star-r {
+  background-position-y: 24px;
+}
+
+.star-rated .da-star.star-l {
+  background-position-x: 0;
+}
+
+.star-rated .da-star.star-r {
+  background-position-x: -8px;
+}
+
+.star-rated .da-star.star-l.star-fill {
+  background-position-x: -32px;
+}
+
+.star-rated .da-star.star-r.star-fill {
+  background-position-x: -40px;
+}
+
+.star-rated .da-star.star-l,
+.star-rated .da-star.star-r {
+  background-position-y: 0;
+}
+
+[data-bs-theme='dark'] .star-rated .da-star.star-l,
+[data-bs-theme='dark'] .star-rated .da-star.star-r {
+  background-position-y: 16px;
+}
