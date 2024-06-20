@@ -41,7 +41,7 @@ return [
                 'icon' => 'bi-cash-coin',
                 'shortcut' => 'D',
             ],
-            '대나무숲' => [
+            '익명 게시판' => [
                 'url' => '/lecture',
                 'shortcut' => '·',
             ],
