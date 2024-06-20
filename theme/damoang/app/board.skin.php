@@ -196,6 +196,16 @@ if(is_file($board_skin_path.'/setup.skin.php'))
                         권한이 있는 사용자만 카테고리를 이동할 수 있도록 제한하는 옵션 제공
                     </div>
                 </div>
+
+                <!-- 별점 기능 -->
+                <div class="form-check form-switch">
+                    <?php $boset['check_star_rating'] = isset($boset['check_star_rating']) ? $boset['check_star_rating'] : ''; ?>
+                    <input type="checkbox" name="boset[check_star_rating]" id="idCheck<?php echo $idn ?>" value="1"<?php echo get_checked('1', $boset['check_star_rating'])?> class="form-check-input" role="switch">
+                    <label class="form-check-label" for="idCheck<?php echo $idn; $idn++; ?>">별점 기능</label>
+                    <div class="form-text">
+                        게시물/댓글에 별점 기능을 활성화
+                    </div>
+                </div>
             </div>
         </div>
     </li>

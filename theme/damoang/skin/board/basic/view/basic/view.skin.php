@@ -241,6 +241,63 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?C
 
     <section id="bo_v_atc" class="border-bottom p-3">
         <h3 class="visually-hidden">본문</h3>
+        <?php if (isset($boset['check_star_rating']) && $boset['check_star_rating']) { ?>
+            <!-- 별점 표시 { -->
+            <?php
+                $star_rate = $view['wr_6'];
+
+                switch ($star_rate) {
+                    case '1':
+                        $star_rated_text = '0.5';
+                        break;
+                    case '2':
+                        $star_rated_text = '1';
+                        break;
+                    case '3':
+                        $star_rated_text = '1.5';
+                        break;
+                    case '4':
+                        $star_rated_text = '2';
+                        break;
+                    case '5':
+                        $star_rated_text = '2.5';
+                        break;
+                    case '6':
+                        $star_rated_text = '3';
+                        break;
+                    case '7':
+                        $star_rated_text = '3.5';
+                        break;
+                    case '8':
+                        $star_rated_text = '4';
+                        break;
+                    case '9':
+                        $star_rated_text = '4.5';
+                        break;
+                    case '10':
+                        $star_rated_text = '5';
+                        break;
+                    default:
+                        $star_rated_text = '평가 없음';
+                        break;
+                }
+            ?>
+            <div class="star-rated d-flex bg-secondary-subtle p-2 mb-2 align-items-center">
+                <span class="me-2 small">별점:</span>
+                <div class="da-star star-l<?php if ((int)$star_rate >= 1) echo ' star-fill'; ?>"></div>
+                <div class="da-star star-r<?php if ((int)$star_rate >= 2) echo ' star-fill'; ?>"></div>
+                <div class="da-star star-l<?php if ((int)$star_rate >= 3) echo ' star-fill'; ?>"></div>
+                <div class="da-star star-r<?php if ((int)$star_rate >= 4) echo ' star-fill'; ?>"></div>
+                <div class="da-star star-l<?php if ((int)$star_rate >= 5) echo ' star-fill'; ?>"></div>
+                <div class="da-star star-r<?php if ((int)$star_rate >= 6) echo ' star-fill'; ?>"></div>
+                <div class="da-star star-l<?php if ((int)$star_rate >= 7) echo ' star-fill'; ?>"></div>
+                <div class="da-star star-r<?php if ((int)$star_rate >= 8) echo ' star-fill'; ?>"></div>
+                <div class="da-star star-l<?php if ((int)$star_rate >= 9) echo ' star-fill'; ?>"></div>
+                <div class="da-star star-r<?php if ((int)$star_rate >= 10) echo ' star-fill'; ?>"></div>
+                <span class="ms-1 small"><?=$star_rated_text?></span>
+            </div>
+            <!-- } 별점 표시 -->
+        <?php } ?>
         <div id="bo_v_con">
             <?php
             // 첨부 동영상 출력 - 이미지출력보다 위에 있어야 함
