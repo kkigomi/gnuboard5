@@ -23,27 +23,27 @@ return [
                 'shortcut' => 'Ｑ',
                 'icon' => 'bi-question-circle',
             ],
-            '미디어 평점 🎥 BETA 📼🍿🍿🍿' => [
+            '다모앙 평점 🎥 BETA 📼🍿🍿🍿' => [
                 'url' => '/angtt',
                 // 'icon' => 'bi-question-circle',
                 'shortcut' => 'O',
                 'icon' => 'bi-question-circle',
             ],
-            '음악게시판' => [
-                'url' => '/music',
-                'icon' => 'bi-cash-coin',
-                'shortcut' => 'D',
-            ],
-            '대나무숲' => [
-                'url' => '/lecture',
-                'shortcut' => '·',
-            ],
-            '앙지도' => [
+            '다모앙 지도' => [
                 'url' => '/angmap',
                 'shortcut' => 'Ｍ',
                 'icon' => 'bi-geo-alt-fill',
                 'tooltip' => '전세계 글로벌 지역별 관광지, 상점, 병원, 학교, 정치인 등 모든 것에 대한 평가',
                 // bi-star-fill
+            ],
+            '다모앙 음악' => [
+                'url' => '/music',
+                'icon' => 'bi-cash-coin',
+                'shortcut' => 'D',
+            ],
+            '익명 게시판' => [
+                'url' => '/lecture',
+                'shortcut' => '·',
             ],
             '사용기' => [
                 'url' => '/tutorial',
