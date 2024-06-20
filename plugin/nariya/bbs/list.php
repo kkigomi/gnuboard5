@@ -3,6 +3,17 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
 include_once(G5_PLUGIN_PATH.'/sphinxsearch/SphinxSearch.php');
 
+
+$current_page_count = $page;
+if(isset($wr_id) && !empty($wr_id)) {
+    $wr_id = (int)$wr_id;
+    $count_query = 'SELECT count(*) as cnt FROM '. $g5['write_prefix'].$bo_table . " WHERE wr_id > $wr_id AND wr_is_comment = 0";
+    $result = sql_fetch($count_query);
+    if($result) {
+        $current_page_count = $result['cnt'];
+    }
+}
+
 // 분류 사용 여부
 $is_category = false;
 $category_option = '';
@@ -166,6 +177,10 @@ if (!$is_search_bbs) {
         if($notice_count >= $list_page_rows)
             break;
     }
+}
+
+if ($wr_id) {
+    $page = ceil(($current_page_count + 1) / $page_rows);
 }
 
 $total_page  = ceil($total_count / $page_rows);  // 전체 페이지 계산
