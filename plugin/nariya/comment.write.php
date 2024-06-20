@@ -62,7 +62,7 @@ if (isset($_POST['wr_email']) && !empty($_POST['wr_email']))
 	$wr_email = get_email_address(trim($_POST['wr_email']));
 
 @include_once($board_skin_path.'/write_comment_update.head.skin.php');
-
+run_event('comment_update_before', $board, $wr_id, $w, $qstr);
 // 비회원의 경우 이름이 누락되는 경우가 있음
 if ($is_guest) {
     if ($wr_name == '')
