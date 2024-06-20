@@ -23,20 +23,20 @@ return [
                 'shortcut' => 'Ｑ',
                 'icon' => 'bi-question-circle',
             ],
-            '다모앙 평점 🎥 BETA 📼🍿🍿🍿' => [
+            '다모앙 평점🍿' => [
                 'url' => '/angtt',
                 // 'icon' => 'bi-question-circle',
                 'shortcut' => 'O',
                 'icon' => 'bi-question-circle',
             ],
-            '다모앙 지도' => [
+            '다모앙 지도 🗺️' => [
                 'url' => '/angmap',
                 'shortcut' => 'Ｍ',
                 'icon' => 'bi-geo-alt-fill',
                 'tooltip' => '전세계 글로벌 지역별 관광지, 상점, 병원, 학교, 정치인 등 모든 것에 대한 평가',
                 // bi-star-fill
             ],
-            '다모앙 음악' => [
+            '다모앙 음악 🎧' => [
                 'url' => '/music',
                 'icon' => 'bi-cash-coin',
                 'shortcut' => 'D',
