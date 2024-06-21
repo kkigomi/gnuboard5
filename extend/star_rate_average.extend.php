@@ -7,9 +7,10 @@ if( !isset($g5['board_rate_average_table']) ){
 
 add_event('comment_update_after', 'star_rate_average');
 add_event('view_skin_before', 'star_rate_average');
+add_event('bbs_delete_comment', 'star_rate_average');
 
 function star_rate_average() {
-    global $g5, $boset, $bo_table, $write_table, $wr_id, $wr_6;
+    global $g5, $boset, $bo_table, $write_table, $wr_id, $wr_6, $w;
 
     if (!$boset['check_star_rating']) return;
 
@@ -27,6 +28,7 @@ function star_rate_average() {
 
     if ($row) {
         if (!isset($wr_6)) return;
+        if (isset($w) && $w == 'cu') return;
 
         for ($i=0; $i<=9; $i++) {
             $count_split[$i] = $row['rate_count_'.($i + 1)];
@@ -42,6 +44,8 @@ function star_rate_average() {
             $count_split[(int) $wr_6 - 1]++;
         }
     } else {
+        if (isset($w) && $w == 'cu') return;
+
         $sql_where = " WHERE wr_parent = {$wr_id} AND wr_is_comment = '1' ";
         $sql_comments = " SELECT * FROM {$write_table}".$sql_where;
         $result = sql_query($sql_comments);
