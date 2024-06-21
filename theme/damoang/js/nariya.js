@@ -292,6 +292,9 @@ function na_page(id, url, opt) {
     if(typeof is_SyntaxHighlighter != 'undefined'){
       Prism.highlightAll();
     }
+    // 별점 등록 후 별점 선택요소 초기화
+    $("#wr_star option[value='0']").prop("selected", true);
+    $("#star-rating .da-star").removeClass("star-fill");
 
     $(".na-convert").naGnuView();
   });
