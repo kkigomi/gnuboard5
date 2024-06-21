@@ -150,62 +150,16 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                     </div>
                 </header>
                 <div class="comment-content p-3">
-                    <?php if (isset($boset['check_star_rating']) && $boset['check_star_rating']) { ?>
-                        <!-- 별점 표시 { -->
-                        <?php
-                            $star_rate = $list[$i]['wr_6'];
-
-                            switch ($star_rate) {
-                                case '1':
-                                    $star_rated_text = '0.5';
-                                    break;
-                                case '2':
-                                    $star_rated_text = '1';
-                                    break;
-                                case '3':
-                                    $star_rated_text = '1.5';
-                                    break;
-                                case '4':
-                                    $star_rated_text = '2';
-                                    break;
-                                case '5':
-                                    $star_rated_text = '2.5';
-                                    break;
-                                case '6':
-                                    $star_rated_text = '3';
-                                    break;
-                                case '7':
-                                    $star_rated_text = '3.5';
-                                    break;
-                                case '8':
-                                    $star_rated_text = '4';
-                                    break;
-                                case '9':
-                                    $star_rated_text = '4.5';
-                                    break;
-                                case '10':
-                                    $star_rated_text = '5';
-                                    break;
-                                default:
-                                    $star_rated_text = '평가 없음';
-                                    break;
-                            }
+                    <?php if (isset($boset['check_star_rating']) && $boset['check_star_rating']) {
+                        $star_rate = $list[$i]['wr_6'];
+                        $star_rated_text = na_convert_star_rating($star_rate);
+                        $star_html = na_generate_star_rating($star_rate);
                         ?>
                         <div class="star-rated d-flex bg-secondary-subtle p-2 mb-2 align-items-center">
                             <span class="me-2 small">별점:</span>
-                            <div class="da-star star-l<?php if ((int)$star_rate >= 1) echo ' star-fill'; ?>"></div>
-                            <div class="da-star star-r<?php if ((int)$star_rate >= 2) echo ' star-fill'; ?>"></div>
-                            <div class="da-star star-l<?php if ((int)$star_rate >= 3) echo ' star-fill'; ?>"></div>
-                            <div class="da-star star-r<?php if ((int)$star_rate >= 4) echo ' star-fill'; ?>"></div>
-                            <div class="da-star star-l<?php if ((int)$star_rate >= 5) echo ' star-fill'; ?>"></div>
-                            <div class="da-star star-r<?php if ((int)$star_rate >= 6) echo ' star-fill'; ?>"></div>
-                            <div class="da-star star-l<?php if ((int)$star_rate >= 7) echo ' star-fill'; ?>"></div>
-                            <div class="da-star star-r<?php if ((int)$star_rate >= 8) echo ' star-fill'; ?>"></div>
-                            <div class="da-star star-l<?php if ((int)$star_rate >= 9) echo ' star-fill'; ?>"></div>
-                            <div class="da-star star-r<?php if ((int)$star_rate >= 10) echo ' star-fill'; ?>"></div>
-                            <span class="ms-1 small"><?=$star_rated_text?></span>
+                            <?php echo $star_html; ?>
+                            <span class="ms-1 small"><?php echo $star_rated_text; ?></span>
                         </div>
-                        <!-- } 별점 표시 -->
                     <?php } ?>
                     <div class="<?php echo $is_convert ?>">
                         <?php if ($comment_depth) { ?>
