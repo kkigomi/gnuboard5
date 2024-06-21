@@ -31,12 +31,12 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
             <div class="row">
                 <div class="col-5 col-md-3 d-flex justify-content-center align-items-center">
                     <div class="d-flex flex-column">
-                        <div class="fs-1 text-center"><?php echo $average_row['rate_average'] ? round((float) $average_row['rate_average'], 2) : 0.0; ?></div>
+                        <div class="fs-1 text-center"><?php echo $average_row['rate_average'] ? round((float) $average_row['rate_average'] / 2, 2) : 0.0; ?></div>
                         <div>
                             <div class="star-rated d-flex p-2 justify-content-center align-items-center">
                                 <?php
                                     $average = (float) $average_row['rate_average'] * 2;
-                                    echo na_generate_star_rating($average);
+                                    echo na_generate_star_rating($average / 2);
                                 ?>
                             </div>
                         </div>

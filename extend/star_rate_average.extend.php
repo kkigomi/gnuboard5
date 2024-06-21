@@ -36,7 +36,7 @@ function star_rate_average() {
         $count = (int) $row['rate_count'];
 
         if ((int) $wr_6 > 0) {
-            $sum = $sum + ((int) $wr_6 / 2);
+            $sum = $sum + (int) $wr_6;
             $count++;
 
             $count_split[(int) $wr_6 - 1]++;
@@ -49,7 +49,7 @@ function star_rate_average() {
             $star_rated = $comment['wr_6'];
 
             if ((int) $star_rated > 0) {
-                $sum = $sum + ((int) $star_rated / 2);
+                $sum = $sum + (int) $star_rated;
                 $count++;
 
                 $count_split[(int) $star_rated - 1]++;
