@@ -163,14 +163,14 @@ $formatted_dt = $dt->format('Y-m-d');
                         <div class="col">
                             <!-- 위젯 시작 { -->
                             <h3 class="fs-5 px-3 py-2 mb-0">
-                                <a href="<?php echo get_pretty_url('new') ?>">
+                                <a href="<?php echo get_pretty_url('angtt') ?>">
                                     <i class="bi bi-lightning-charge-fill"></i>
-                                    새로운 소식
+                                    다모앙 추천 리뷰
                                     <i class="bi bi-plus small float-end mt-1 text-body-tertiary"></i>
                                 </a>
                             </h3>
                             <div class="line-top mb-4">
-                                <?php echo na_widget('wr-list', 'idx-new', 'bo_list=new wr_notice=1 is_notice=1'); ?>
+                                <?php echo na_widget('wr-list', 'idx-angtt', 'bo_list=new wr_notice=1 is_notice=1'); ?>
 
                             </div>
                             <!-- } 위젯 끝 -->
