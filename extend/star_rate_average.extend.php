@@ -11,7 +11,8 @@ add_event('bbs_delete_comment', 'star_rate_average');
 add_event('bbs_delete', 'star_rate_average');
 
 function star_rate_average() {
-    global $g5, $boset, $bo_table, $write_table, $write, $wr_id, $wr_6, $w, $delete_comment_token;
+    global $g5, $boset, $bo_table, $write_table, $write, $wr_comment,
+            $wr_id, $wr_6, $w, $delete_comment_token;
 
     if (!isset($delete_comment_token) && !$boset['check_star_rating']) return;
 
@@ -36,7 +37,6 @@ function star_rate_average() {
         if (isset($delete_comment_token)) $wr_6 = $write['wr_6'];
 
         if (!isset($wr_6)) return;
-        if (isset($w) && $w == 'cu') return;
 
         for ($i=0; $i<=9; $i++) {
             $count_split[$i] = $row['rate_count_'.($i + 1)];
@@ -46,6 +46,13 @@ function star_rate_average() {
         $count = (int) $row['rate_count'];
 
         if ((int) $wr_6 > 0) {
+            if (isset($wr_comment) && $w == 'cu') {
+                $sum = $sum - (int) $wr_comment['wr_6'];
+                $count--;
+
+                $count_split[(int) $wr_comment['wr_6'] - 1]--;
+            }
+
             if (isset($delete_comment_token)) {
                 $sum = $sum - (int) $wr_6;
                 $count--;
@@ -63,8 +70,6 @@ function star_rate_average() {
             sql_query(" delete from {$average_table} where bo_table = '{$bo_table}' and wr_id = '{$wr_id}' ");
         }
     } else if (!isset($delete_comment_token)) {
-        if (isset($w) && $w == 'cu') return;
-
         $sql_where = " WHERE wr_parent = {$wr_id} AND wr_is_comment = '1' ";
         $sql_comments = " SELECT * FROM {$write_table}".$sql_where;
         $result = sql_query($sql_comments);
