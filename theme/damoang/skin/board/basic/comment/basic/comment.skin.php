@@ -198,7 +198,7 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                 </header>
                 <div class="comment-content p-3">
                     <?php if (isset($boset['check_star_rating']) && $boset['check_star_rating']) {
-                        $star_rate = $list[$i]['wr_6'];
+                        $star_rate = (int) $list[$i]['wr_6'];
                         $star_rated_text = na_convert_star_rating($star_rate);
                         $star_html = na_generate_star_rating($star_rate);
                         ?>
