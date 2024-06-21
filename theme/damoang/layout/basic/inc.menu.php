@@ -121,6 +121,7 @@ return [
                     '요리당' => '/cooking',
                     '위스키당' => '/whiskey',
                     '육아당' => '/parenting',
+                    '여행한당' => '/travel',    
                     '이륜차당' => '/mbike',
                     '일본산당' => '/japanlive',
                     '자전거당' => '/bicycle',
