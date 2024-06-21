@@ -18,6 +18,53 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
 </script>
 <div id="viewcomment" class="mt-4">
 <?php } ?>
+
+<?php if (isset($boset['check_star_rating']) && $boset['check_star_rating']) { ?>
+    <!-- 별점 평균 { -->
+    <?php
+    $average_row = sql_fetch(
+        " SELECT * FROM {$g5['board_rate_average_table']}
+            WHERE bo_table = '{$bo_table}' AND wr_id = '{$wr_id}' LIMIT 1 ");
+    ?>
+    <div class="card mb-2 border-0 border-bottom rounded-0">
+        <div class="card-body pt-0">
+            <div class="row">
+                <div class="col-5 col-md-3 d-flex justify-content-center align-items-center">
+                    <div class="d-flex flex-column">
+                        <div class="fs-1 text-center"><?php echo $average_row['rate_average'] ? round((float) $average_row['rate_average'] / 2, 2) : 0.0; ?></div>
+                        <div>
+                            <div class="star-rated d-flex p-2 justify-content-center align-items-center">
+                                <?php
+                                    $average = (float) $average_row['rate_average'] * 2;
+                                    echo na_generate_star_rating($average / 2);
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-7 col-md-9">
+                    <div class="flex-column">
+                        <?php for ($i = 10; $i >= 0; $i--) { $rated = $i / 2; ?>
+                            <div class="d-flex px-2 gap-2 align-items-center">
+                                <div class="text-ultra-sm text-end" style="width:15px"><?=$rated?></div>
+                                <div class="flex-fill">
+                                    <div class="progress da-star--rate-progress" role="progressbar">
+                                        <?php
+                                        $row_count = isset($average_row['rate_count_'.$i]) ? (int) $average_row['rate_count_'.$i] : 0;
+                                        $rate_count = isset($average_row['rate_count']) ? (int) $average_row['rate_count'] : 0;
+                                        ?>
+                                        <div class="progress-bar" style="width: <?php echo ($row_count > 0) ? $row_count * 100 / $rate_count : 0; ?>%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- } 별점 평균 -->
+<?php } ?>
     <div class="d-flex justify-content-between align-items-end px-3 mb-2">
         <div>
             댓글 <b><?php echo $write['wr_comment'] ?></b>
@@ -150,62 +197,16 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                     </div>
                 </header>
                 <div class="comment-content p-3">
-                    <?php if (isset($boset['check_star_rating']) && $boset['check_star_rating']) { ?>
-                        <!-- 별점 표시 { -->
-                        <?php
-                            $star_rate = $list[$i]['wr_6'];
-
-                            switch ($star_rate) {
-                                case '1':
-                                    $star_rated_text = '0.5';
-                                    break;
-                                case '2':
-                                    $star_rated_text = '1';
-                                    break;
-                                case '3':
-                                    $star_rated_text = '1.5';
-                                    break;
-                                case '4':
-                                    $star_rated_text = '2';
-                                    break;
-                                case '5':
-                                    $star_rated_text = '2.5';
-                                    break;
-                                case '6':
-                                    $star_rated_text = '3';
-                                    break;
-                                case '7':
-                                    $star_rated_text = '3.5';
-                                    break;
-                                case '8':
-                                    $star_rated_text = '4';
-                                    break;
-                                case '9':
-                                    $star_rated_text = '4.5';
-                                    break;
-                                case '10':
-                                    $star_rated_text = '5';
-                                    break;
-                                default:
-                                    $star_rated_text = '평가 없음';
-                                    break;
-                            }
+                    <?php if (isset($boset['check_star_rating']) && $boset['check_star_rating']) {
+                        $star_rate = (int) $list[$i]['wr_6'];
+                        $star_rated_text = na_convert_star_rating($star_rate);
+                        $star_html = na_generate_star_rating($star_rate);
                         ?>
                         <div class="star-rated d-flex bg-secondary-subtle p-2 mb-2 align-items-center">
                             <span class="me-2 small">별점:</span>
-                            <div class="da-star star-l<?php if ((int)$star_rate >= 1) echo ' star-fill'; ?>"></div>
-                            <div class="da-star star-r<?php if ((int)$star_rate >= 2) echo ' star-fill'; ?>"></div>
-                            <div class="da-star star-l<?php if ((int)$star_rate >= 3) echo ' star-fill'; ?>"></div>
-                            <div class="da-star star-r<?php if ((int)$star_rate >= 4) echo ' star-fill'; ?>"></div>
-                            <div class="da-star star-l<?php if ((int)$star_rate >= 5) echo ' star-fill'; ?>"></div>
-                            <div class="da-star star-r<?php if ((int)$star_rate >= 6) echo ' star-fill'; ?>"></div>
-                            <div class="da-star star-l<?php if ((int)$star_rate >= 7) echo ' star-fill'; ?>"></div>
-                            <div class="da-star star-r<?php if ((int)$star_rate >= 8) echo ' star-fill'; ?>"></div>
-                            <div class="da-star star-l<?php if ((int)$star_rate >= 9) echo ' star-fill'; ?>"></div>
-                            <div class="da-star star-r<?php if ((int)$star_rate >= 10) echo ' star-fill'; ?>"></div>
-                            <span class="ms-1 small"><?=$star_rated_text?></span>
+                            <?php echo $star_html; ?>
+                            <span class="ms-1 small"><?php echo $star_rated_text; ?></span>
                         </div>
-                        <!-- } 별점 표시 -->
                     <?php } ?>
                     <div class="<?php echo $is_convert ?>">
                         <?php if ($comment_depth) { ?>

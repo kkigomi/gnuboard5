@@ -524,6 +524,14 @@ textarea.required {
 }
 
 /* star rating */
+.text-ultra-sm {
+  font-size: .6em;
+}
+
+.da-star--rate-progress {
+  height: 4px !important;
+}
+
 .da-star {
   width: 12px;
   height: 24px;
