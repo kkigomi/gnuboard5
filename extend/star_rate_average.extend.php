@@ -14,12 +14,16 @@ function star_rate_average() {
     global $g5, $boset, $bo_table, $write_table, $write, $wr_comment,
             $wr_id, $wr_6, $w, $delete_comment_token;
 
+    // 평점 다모앙 기능 사용여부 체크
     if (!isset($delete_comment_token) && !$boset['check_star_rating']) return;
 
+    // 댓글 삭제하는 경우 삭제할 댓글의 원글을 wr_id로
     if (isset($delete_comment_token)) {
-        $parent = get_write($write_table, $write['wr_parent'], true);
-        $wr_id = $parent['wr_id'];
+        $wr_id = $write['wr_parent'];
     }
+
+    // 대댓글은 예외
+    if (isset($wr_comment) && $w == 'c') return;
 
     $average_table = $g5['board_rate_average_table'];
 
@@ -38,36 +42,25 @@ function star_rate_average() {
 
         if (!isset($wr_6)) return;
 
+        // 기존 값 가져오기
         for ($i=0; $i<=9; $i++) {
             $count_split[$i] = $row['rate_count_'.($i + 1)];
         }
 
-        $sum = (int) $row['rate_sum'];
-        $count = (int) $row['rate_count'];
-
-        if ((int) $wr_6 > 0) {
-            if (isset($wr_comment) && $w == 'cu') {
-                $sum = $sum - (int) $wr_comment['wr_6'];
-                $count--;
-
+        // 게시물 업데이트 시 업데이트 이전 별점 카운트에서 차감
+        if (isset($wr_comment) && $w == 'cu') {
+            if (!empty($wr_comment['wr_6'])) {
                 $count_split[(int) $wr_comment['wr_6'] - 1]--;
-            }
-
-            if (isset($delete_comment_token)) {
-                $sum = $sum - (int) $wr_6;
-                $count--;
-
-                $count_split[(int) $wr_6 - 1]--;
-            } else {
-                $sum = $sum + (int) $wr_6;
-                $count++;
-
-                $count_split[(int) $wr_6 - 1]++;
+                $is_subtract_previous = true;
             }
         }
 
-        if (isset($delete_comment_token) && $sum <= 0) {
-            sql_query(" delete from {$average_table} where bo_table = '{$bo_table}' and wr_id = '{$wr_id}' ");
+        if ((int) $wr_6 > 0) {
+            if (isset($delete_comment_token)) {
+                $count_split[(int) $wr_6 - 1]--;
+            } else {
+                $count_split[(int) $wr_6 - 1]++;
+            }
         }
     } else if (!isset($delete_comment_token)) {
         $sql_where = " WHERE wr_parent = {$wr_id} AND wr_is_comment = '1' ";
@@ -77,12 +70,21 @@ function star_rate_average() {
             $star_rated = $comment['wr_6'];
 
             if ((int) $star_rated > 0) {
-                $sum = $sum + (int) $star_rated;
-                $count++;
-
                 $count_split[(int) $star_rated - 1]++;
             }
         }
+    }
+
+    // 합계 계산
+    for ($i=0; $i<=9; $i++) {
+        if ($count_split[$i] > 0) {
+            $sum = $sum + (($i + 1) * $count_split[$i]);
+            $count = $count + $count_split[$i];
+        }
+    }
+
+    if ((isset($is_subtract_previous) || isset($delete_comment_token)) && $sum <= 0) {
+        sql_query(" delete from {$average_table} where bo_table = '{$bo_table}' and wr_id = '{$wr_id}' ");
     }
 
     if ($sum > 0) {
