@@ -310,6 +310,21 @@ if(!sql_query(" DESC {$g5['board_rate_average_table']} ", false)) {
     $is_check = true;
 }
 
+// 별점 평균 테이블의 UNIQUE KEY 재생성
+$result = sql_query("SHOW INDEX FROM `{$g5['board_rate_average_table']}` ");
+while ($row = sql_fetch_array($result)){
+    if (isset($row['Key_name']) && $row['Key_name'] == 'unique' && isset($row['Column_name']) && $row['Column_name'] == 'bo_table') {
+        $is_key_updated = true;
+        break;
+    }
+}
+if (!isset($is_key_updated)) {
+    sql_query(" ALTER TABLE `{$g5['board_rate_average_table']}`
+                DROP INDEX `unique`,
+                ADD UNIQUE `unique` (`bo_table`,`wr_id`) ", true);
+    $is_check = true;
+}
+
 $is_check = run_replace('admin_dbupgrade', $is_check);
 
 $db_upgrade_msg = $is_check ? 'DB 업그레이드가 완료되었습니다.' : '더 이상 업그레이드 할 내용이 없습니다.<br>현재 DB 업그레이드가 완료된 상태입니다.';
