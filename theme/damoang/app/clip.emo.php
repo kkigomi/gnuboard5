@@ -80,10 +80,10 @@ include_once(G5_THEME_PATH.'/app/clipboard.php');
 
     <div id="emo_icon">
         <?php for($i=0; $i < count($emoticon); $i++) { ?>
-            <img src="<?php echo $emoticon[$i]['thumb'] ?>" class="emo-img border m-1" alt="emo-<?php echo $i; ?>" 
+            <img src="<?php echo $emoticon[$i]['thumb'] ?>" class="emo-img border m-1" alt="emo-<?php echo $i; ?>"
                 id="emo-<?php echo $i; ?>" url="<?php echo $emoticon[$i]['url'] ?>" thumb="<?php echo $emoticon[$i]['thumb'] ?>"
-                ontouchend="this.isTouched = !this.isTouched;this.isTouched&&setFocus(this.id)" 
-                onclick="!this.isTouched && clip_insert('<?php echo $emoticon[$i]['name'] ?>');" 
+                ontouchend="this.isTouched = !this.isTouched;this.isTouched&&setFocus(this.id)"
+                onclick="!this.isTouched && clip_insert('<?php echo $emoticon[$i]['name'] ?>');"
                 onmouseenter="!this.isTouched&&setFocus(this.id);" onmouseleave="!this.isTouched&&unFocus(this.id);">
         <?php } ?>
     </div>
@@ -112,7 +112,7 @@ function unFocus(id) {
     }
 }
 function clip_insert(txt) {
-    var clip = "{emo:" + txt + ":50}";
+    var clip = "{emo:" + txt + ":150}";
 
     if(parent.document.suneditor) {
         parent.document.suneditor.insertHTML(clip);
