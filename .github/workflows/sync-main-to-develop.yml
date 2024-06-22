@@ -9,6 +9,15 @@ jobs:
   sync-branch:
     runs-on: ubuntu-latest
     steps:
+      - name: make deploy keys
+        env:
+          GH_DEPLOY_KEY: ${{ secrets.GH_DEPLOY_KEY }}
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$GH_DEPLOY_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
       - uses: actions/checkout@master
 
       - name: Merge main -> develop
