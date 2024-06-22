@@ -25,6 +25,9 @@ function star_rate_average() {
     // 대댓글은 예외
     if (isset($wr_comment) && $w == 'c') return;
 
+    // GET 파라미터에 해당 값이 있으면 안 됨
+    if (isset($_GET['wr_6'])) return;
+
     $average_table = $g5['board_rate_average_table'];
 
     $sql = " SELECT * FROM {$average_table}
