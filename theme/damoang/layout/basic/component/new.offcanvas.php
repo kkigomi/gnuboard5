@@ -13,7 +13,7 @@ if (!defined('_GNUBOARD_')) {
 
     // 게시물
     $wset['rows'] = 7;
-    $wset['bo_name'] = 2;
+    $wset['bo_name'] = 10;
     $post = na_board_rows($wset);
 
     // 댓글
