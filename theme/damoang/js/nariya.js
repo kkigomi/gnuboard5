@@ -640,40 +640,46 @@ $(function(){
   /* Star rating for New Nariya */
   var stars = document.querySelectorAll('.star-rating .da-star');
   var wrStar = document.getElementById('wr_star');
-  var starsLength = stars.length;
-  var filledRate = (idx) => {
-    if (idx <= starsLength) {
+  if (stars && wrStar) {
+    wrStar.addEventListener('change', () => {
+      starRating.initStars();
+      starRating.filledRate(wrStar.value - 1);
+    });
+    stars.forEach((el, i) => {
+      el.addEventListener('mouseenter', () => {
+        starRating.initStars();
+        starRating.filledRate(i);
+      });
+
+      el.addEventListener('click', () => {
+        starRating.setRate(i + 1);
+      });
+
+      el.addEventListener('mouseleave', () => {
+        starRating.initStars();
+        starRating.filledRate(wrStar.value - 1);
+      });
+    });
+  }
+});
+
+var starRating = {
+  filledRate: (idx) => {
+    var stars = document.querySelectorAll('.star-rating .da-star');
+    if (idx <= stars.length) {
       for (let i = 0; i <= idx; i++) {
         stars[i].classList.add('star-fill');
       }
     }
-  };
-  var initStars = () => {
+  },
+  initStars: () => {
+    var stars = document.querySelectorAll('.star-rating .da-star');
     for (let i = 0; i < stars.length; i++) {
       stars[i].classList.remove('star-fill');
     }
-  };
-  var setRate = (num) => {
+  },
+  setRate: (num) => {
+    var wrStar = document.getElementById('wr_star');
     wrStar.value = num;
   }
-
-  wrStar.addEventListener('change', () => {
-    initStars();
-    filledRate(wrStar.value - 1);
-  });
-  stars.forEach((el, i) => {
-    el.addEventListener('mouseenter', () => {
-      initStars();
-      filledRate(i);
-    });
-
-    el.addEventListener('click', () => {
-      setRate(i + 1);
-    });
-
-    el.addEventListener('mouseleave', () => {
-      initStars();
-      filledRate(wrStar.value - 1);
-    });
-  });
-});
+};

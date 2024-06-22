@@ -44,7 +44,7 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                 </div>
                 <div class="col-7 col-md-9">
                     <div class="flex-column">
-                        <?php for ($i = 10; $i >= 0; $i--) { $rated = $i / 2; ?>
+                        <?php for ($i = 10; $i > 0; $i--) { $rated = $i / 2; ?>
                             <div class="d-flex px-2 gap-2 align-items-center">
                                 <div class="text-ultra-sm text-end" style="width:15px"><?=$rated?></div>
                                 <div class="flex-fill">
@@ -197,7 +197,7 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                     </div>
                 </header>
                 <div class="comment-content p-3">
-                    <?php if (isset($boset['check_star_rating']) && $boset['check_star_rating']) {
+                    <?php if (isset($boset['check_star_rating']) && $boset['check_star_rating'] && !$comment_depth) {
                         $star_rate = (int) $list[$i]['wr_6'];
                         $star_rated_text = na_convert_star_rating($star_rate);
                         $star_html = na_generate_star_rating($star_rate);
@@ -301,8 +301,14 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                     </div>
                 </div>
                 <div class="clearfix">
-                    <span id="edit_<?php echo $comment_id ?>" class="bo_vc_w"></span><!-- 수정 -->
-                    <span id="reply_<?php echo $comment_id ?>" class="bo_vc_re"></span><!-- 답변 -->
+                    <?php // 현재 별점
+                        $wr_6 = (int) $list[$i]['wr_6'];
+                        if (!$comment_depth && !empty($list[$i]['wr_6'])) {
+                            $data_wr_6 = " data-star-rated=\"{$wr_6}\"";
+                        }
+                    ?>
+                    <span id="edit_<?php echo $comment_id ?>"<?php echo $data_wr_6 ?? ''; ?> class="bo_vc_w<?php echo $comment_depth ? ' is-deeper' : ''; ?>"></span><!-- 수정 -->
+                    <span id="reply_<?php echo $comment_id ?>" class="bo_vc_re<?php echo $comment_depth ? ' is-deeper' : ''; ?>"></span><!-- 답변 -->
                     <?php if($is_paging) { ?>
                         <input type="hidden" value="<?php echo $comment_url.'&amp;page='.$page; ?>" id="comment_url_<?php echo $comment_id ?>">
                         <input type="hidden" value="<?php echo $page; ?>" id="comment_page_<?php echo $comment_id ?>">
@@ -671,6 +677,26 @@ if($is_ajax)
                 el_id = 'edit_' + comment_id;
         } else
             el_id = 'bo_vc_w';
+
+        var star = document.getElementById('bo_vc_star');
+        if (comment_id && star) {
+            // 대댓글일때 별점 사용 안함
+            var target_el = document.getElementById(el_id);
+            if (target_el.classList.contains('is-deeper') || work == 'c') {
+                star.parentElement.style.display = 'none';
+            } else {
+                star.parentElement.style.display = 'block';
+            }
+
+            var starRate = target_el.dataset.starRated;
+            if (target_el.dataset.starRated) {
+                starRating.initStars();
+                starRating.setRate(starRate);
+                starRating.filledRate(starRate - 1);
+            } else {
+                starRating.initStars();
+            }
+        }
 
         if (save_before != el_id) {
             if (save_before) {

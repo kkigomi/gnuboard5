@@ -118,9 +118,7 @@ $author = na_htmlspecialchars($author);
 $desc = na_htmlspecialchars($desc);
 $keys = na_htmlspecialchars($keys);
 ?>
-<meta http-equiv="content-language" content="kr">
 <link rel="canonical" href="<?= $canonical ?>">
-<meta name="robots" content="index,follow">
 <meta name="title" content="<?php echo $title ?>">
 <meta name="author" content="<?php echo $author ?>">
 <meta name="description" content="<?php echo $desc ?>">
