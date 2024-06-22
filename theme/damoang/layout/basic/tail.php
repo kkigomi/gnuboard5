@@ -1,5 +1,7 @@
 <?php
-if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
+if (!defined('_GNUBOARD_')) {
+    exit;
+}
 
 $default['de_admin_company_name'] = '다모앙'; // 회사명
 $default['de_admin_company_owner'] = '김선도'; // 대표자명
@@ -12,7 +14,7 @@ $default['de_admin_info_name'] = '김선도'; //개인정보관리책임자
 
 // 메인이 아닐 경우
 if (!IS_INDEX) {
-    ?>
+?>
     <?php if (!$is_onecolum) { // 2단 일 때 ?>
         </div>
         </div>
@@ -61,18 +63,15 @@ if (!IS_INDEX) {
             대표 : <?php echo $default['de_admin_company_owner'] ?>
             <span class="bar-sm">&nbsp;</span>
             사업자 등록번호 : <?php echo $default['de_admin_company_saupja_no'] ?>
-
         </div>
         <div class="mb-2">
             주소 : <?php echo $default['de_admin_company_addr'] ?>
         </div>
-
-            <div>contact : contact@damoang.net</div>
-
+        <div>contact : contact@damoang.net</div>
         <div class="small">
-            Copyright &copy; <b><?php $host = @parse_url(G5_URL); echo $host['host'] ?></b>. All rights reserved.
+            Copyright &copy; <b><?php $host = @parse_url(G5_URL);
+            echo $host['host'] ?></b>. All rights reserved.
         </div>
-
     </div>
 </footer>
 </div>
@@ -93,18 +92,15 @@ if (!IS_INDEX) {
             <i class="bi bi-house-door"></i>
             <span class="visually-hidden">홈으로</span>
         </a>
-        <a href="#menuOffcanvas" class="btn-menu btn btn-basic btn-sm" data-bs-toggle="offcanvas"
-        data-bs-target="#menuOffcanvas" aria-controls="menuOffcanvas" title="전체메뉴">
+        <a href="#menuOffcanvas" class="btn-menu btn btn-basic btn-sm" data-bs-toggle="offcanvas" data-bs-target="#menuOffcanvas" aria-controls="menuOffcanvas" title="전체메뉴">
             <i class="bi bi-list"></i>
             <span class="visually-hidden">전체메뉴</span>
         </a>
-        <a href="#loginOffcanvas" class="btn-member btn btn-basic btn-sm" data-bs-toggle="offcanvas"
-        data-bs-target="#memberOffcanvas" aria-controls="memberOffcanvas" title="마이메뉴">
+        <a href="#loginOffcanvas" class="btn-member btn btn-basic btn-sm" data-bs-toggle="offcanvas" data-bs-target="#memberOffcanvas" aria-controls="memberOffcanvas" title="마이메뉴">
             <i class="bi bi-person-circle"></i>
             <span class="visually-hidden">마이메뉴</span>
         </a>
-        <a href="#newOffcanvas" class="btn-new btn btn-basic btn-sm" data-bs-toggle="offcanvas"
-        data-bs-target="#newOffcanvas" aria-controls="newOffcanvas" title="새글/새댓글">
+        <a href="#newOffcanvas" class="btn-new btn btn-basic btn-sm" data-bs-toggle="offcanvas" data-bs-target="#newOffcanvas" aria-controls="newOffcanvas" title="새글/새댓글">
             <i class="bi bi-lightning"></i>
             <span class="visually-hidden">새글/새댓글</span>
         </a>
@@ -117,22 +113,13 @@ if (!IS_INDEX) {
                 <div class="card position-relative border-0">
                     <div class="card-body p-1">
                         <button type="button" class="dropdown-item rounded-1" data-bs-theme-value="light">
-                            <span class="me-2 theme-icon">
-                                <i class="bi bi-sun"></i>
-                            </span>
-                            Light
+                            <span class="me-2 theme-icon"><i class="bi bi-sun"></i></span> Light
                         </button>
                         <button type="button" class="dropdown-item rounded-1 my-1" data-bs-theme-value="dark">
-                            <span class="me-2 theme-icon">
-                                <i class="bi bi-moon-stars"></i>
-                            </span>
-                            Dark
+                            <span class="me-2 theme-icon"><i class="bi bi-moon-stars"></i></span> Dark
                         </button>
                         <button type="button" class="dropdown-item rounded-1" data-bs-theme-value="auto">
-                            <span class="me-2 theme-icon">
-                                <i class="bi bi-circle-half"></i>
-                            </span>
-                            Auto
+                            <span class="me-2 theme-icon"><i class="bi bi-circle-half"></i></span> Auto
                         </button>
                     </div>
                 </div>
@@ -158,23 +145,24 @@ include_once LAYOUT_PATH . '/component/member.offcanvas.php';
 // 새글 오프캔버스
 include_once LAYOUT_PATH . '/component/new.offcanvas.php';
 
-// 알림 오프캔버스
-if ($is_member)
+if ($is_member) {
+    // 알림 오프캔버스
     include_once LAYOUT_PATH . '/component/noti.offcanvas.php';
 
-// 번역 오프캔버스
-//include_once LAYOUT_PATH.'/component/trans.offcanvas.php';
+    // 신고 모달
+    include_once LAYOUT_PATH . '/component/singo.modal.php';
+}
 
-
-
-// 신고 모달
-include_once LAYOUT_PATH . '/component/singo.modal.php';
-
-if ($config['cf_analytics'])
+// 환경설정 방문자분석 스크립트
+if ($config['cf_analytics']) {
     echo $config['cf_analytics'];
+}
 ?>
 
-<?php if (!G5_IS_MOBILE) { // PC에서만 실행 ?>
+<?php
+// FIXME 이걸 그냥 둬야 할까?
+if (!G5_IS_MOBILE) { // PC에서만 실행
+    ?>
     <script src="<?php echo LAYOUT_URL ?>/js/topbar.min.js"></script>
     <script src="<?php echo LAYOUT_URL ?>/js/topbar.load.js"></script>
 <?php } ?>

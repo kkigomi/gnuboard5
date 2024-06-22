@@ -19,28 +19,15 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
         ?>
         <li class="list-group-item d-none d-md-block hd-wrap">
             <div class="d-flex flex-md-row align-items-md-center gap-1 fw-bold">
-                <?php if($is_good) { ?>
-                    <div class="hd-num text-center">
-                        <?php echo subject_sort_link('wr_good', $qstr2, 1) ?>추천</a>
-                    </div>
+                <?php if ($is_good) { ?>
+                    <div class="hd-num text-center">추천</div>
                 <?php } ?>
-                <!-- <div class="col-1 text-center">
-                    번호
-                </div> -->
-                <div class="text-center flex-grow-1">
-                    제목
-                </div>
+                <div class="text-center flex-grow-1">제목</div>
                 <div class="ms-md-auto">
                     <div class="d-flex gap-2">
-                        <div class="hd-name text-center">
-                            이름
-                        </div>
-                        <div class="hd-date text-center">
-                            <?php echo subject_sort_link('wr_datetime', $qstr2, 1) ?>날짜</a>
-                        </div>
-                        <div class="hd-num text-center">
-                            <?php echo subject_sort_link('wr_hit', $qstr2, 1) ?>조회</a>
-                        </div>
+                        <div class="hd-name text-center">이름</div>
+                        <div class="hd-date text-center">날짜</div>
+                        <div class="hd-num text-center">조회</div>
                     </div>
                 </div>
             </div>
