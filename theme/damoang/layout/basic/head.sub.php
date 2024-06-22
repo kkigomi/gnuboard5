@@ -69,19 +69,19 @@ add_javascript('<script src="' . LAYOUT_URL . '/js/layout.js?CACHEBUST"></script
     <meta name="msapplication-config" content="<?= G5_THEME_URL ?>/img/favicon/browserconfig.xml">
 
     <script>
-        const g5_url = <?php var_export(G5_URL) ?>;
-        const g5_bbs_url = <?php var_export(G5_BBS_URL) ?>;
-        const g5_is_member = <?php var_export(($is_member ?? false) ? '1' : '') ?>;
-        const g5_is_admin = <?php var_export($is_admin ?? '') ?>;
-        const g5_is_mobile = <?php var_export(G5_IS_MOBILE ? '1' : '') ?>;
-        const g5_bo_table = <?php var_export($bo_table ?? '') ?>;
-        const g5_sca = <?php var_export($sca ?? '') ?>;
-        const g5_editor = <?php var_export(($config['cf_editor'] && isset($board['bo_use_dhtml_editor']) && $board['bo_use_dhtml_editor']) ? $config['cf_editor'] : '') ?>;
-        const g5_cookie_domain = <?php var_export(G5_COOKIE_DOMAIN) ?>;
+        var g5_url = <?php var_export(G5_URL) ?>;
+        var g5_bbs_url = <?php var_export(G5_BBS_URL) ?>;
+        var g5_is_member = <?php var_export(($is_member ?? false) ? '1' : '') ?>;
+        var g5_is_admin = <?php var_export($is_admin ?? '') ?>;
+        var g5_is_mobile = <?php var_export(G5_IS_MOBILE ? '1' : '') ?>;
+        var g5_bo_table = <?php var_export($bo_table ?? '') ?>;
+        var g5_sca = <?php var_export($sca ?? '') ?>;
+        var g5_editor = <?php var_export(($config['cf_editor'] && isset($board['bo_use_dhtml_editor']) && $board['bo_use_dhtml_editor']) ? $config['cf_editor'] : '') ?>;
+        var g5_cookie_domain = <?php var_export(G5_COOKIE_DOMAIN) ?>;
         <?php if (defined('G5_IS_ADMIN')) { ?>
-            const g5_admin_url = <?php var_export(G5_ADMIN_URL) ?>;
+            var g5_admin_url = <?php var_export(G5_ADMIN_URL) ?>;
         <?php } ?>
-        const na_url = <?php var_export(NA_URL) ?>;
+        var na_url = <?php var_export(NA_URL) ?>;
 
         (function () {
             'use strict';
