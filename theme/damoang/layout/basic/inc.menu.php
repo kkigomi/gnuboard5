@@ -110,6 +110,7 @@ return [
                     '서피스당' => '/MSSurface',
                     '소셜게임한당' => '/socialgame',
                     '시계당' => '/watches',
+                    '식집사 모임' => '/plant',
                     '스쿠버당' => '/scuba',
                     '싸줄한당' => '/soccerline',
                     '안드로메당' => '/android',
