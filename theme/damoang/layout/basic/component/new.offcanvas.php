@@ -42,10 +42,6 @@ if (!defined('_GNUBOARD_')) {
             // 유뷰트 동영상(wr_9)
             $vinfo = na_check_youtube($row['wr_9']);
 
-            // 이미지(wr_10)
-            $img = na_check_img($row['wr_10']);
-            $img = ($img) ? na_thumb($img, 60, 60) : na_member_photo($row['mb_id']);
-
             $wr_icon = '';
             if($row['icon_new'])
                 $wr_icon .= '<span class="na-icon na-new"></span>'.PHP_EOL;
@@ -72,13 +68,9 @@ if (!defined('_GNUBOARD_')) {
                     $row['subject'] = '['.$ca_name.'] '.$row['subject'];
                 }
             }
-
         ?>
             <li class="list-group-item">
                 <div class="d-flex align-items-center gap-2">
-                    <div>
-                        <img src="<?php echo $img ?>" class="rounded-circle" style="max-width:60px;">
-                    </div>
                     <div class="flex-grow-1">
                         <a href="<?php echo $row['href'] ?>" class="small ellipsis-2 mb-1">
                             <?php echo $wr_icon ?>
@@ -117,8 +109,6 @@ if (!defined('_GNUBOARD_')) {
 
             $row = $comment[$i];
 
-            $img = na_member_photo($row['mb_id']);
-
             $wr_icon = '';
             if($row['icon_new'])
                 $wr_icon .= '<span class="na-icon na-new"></span>'.PHP_EOL;
@@ -143,9 +133,6 @@ if (!defined('_GNUBOARD_')) {
         ?>
             <li class="list-group-item">
                 <div class="d-flex align-items-center gap-2">
-                    <div>
-                        <img src="<?php echo $img ?>" class="rounded-circle" style="max-width:60px;">
-                    </div>
                     <div class="flex-grow-1">
                         <p class="small text-secondary clearfix mb-1">
                             <i class="bi bi-person-circle"></i>
