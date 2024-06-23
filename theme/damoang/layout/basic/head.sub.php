@@ -39,11 +39,7 @@ add_javascript('<script src="' . G5_THEME_URL . '/js/wrest.js"></script>');
 add_javascript('<script src="' . G5_THEME_URL . '/js/bootstrap.bundle.min.js?v50303"></script>');
 add_javascript('<script src="' . G5_THEME_URL . '/js/clipboard.min.js"></script>');
 add_javascript('<script src="' . G5_THEME_URL . '/js/nariya.js?CACHEBUST"></script>');
-add_javascript('<script src="' . LAYOUT_URL . '/js/darkmode.js"></script>');
-add_javascript('<script src="' . LAYOUT_URL . '/js/customui.js?CACHEBUST"></script>');
-add_javascript('<script src="' . LAYOUT_URL . '/js/custom_features.js?CACHEBUST"></script>');
-// 레이아웃 스크립트
-add_javascript('<script src="' . LAYOUT_URL . '/js/layout.js?CACHEBUST"></script>');
+add_javascript('<script src="' . LAYOUT_URL . '/js/darkmode.js?CACHEBUST"></script>');
 ?>
 <!doctype html>
 <html lang="ko" data-bs-theme="light" class="<?php echo (G5_IS_MOBILE) ? 'is-mobile' : 'is-pc'; ?> is-bbs">
