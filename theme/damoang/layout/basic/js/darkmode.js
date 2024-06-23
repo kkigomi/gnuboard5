@@ -45,41 +45,21 @@
   // 페이지 로드 시 저장된 테마를 적용합니다.
   setTheme(getPreferredTheme());
 
-  const showActiveTheme = theme => {
-    const activeThemeIcon = document.querySelector('.theme-icon-active i');
-    const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`);
-    if (btnToActive) {
-      const svgOfActiveBtn = btnToActive.querySelector('span i').getAttribute('class');
-
-      document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
-        element.classList.remove('active');
-      });
-
-      btnToActive.classList.add('active');
-      activeThemeIcon.setAttribute('class', svgOfActiveBtn);
-    }
-  }
-
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
     // 'auto' 테마를 사용할 때 시스템 테마 변경을 적절히 처리합니다.
     if (storedTheme === 'auto') {
       const newTheme = getPreferredTheme();
       setTheme(newTheme);
-      showActiveTheme(newTheme);
     }
   })
 
   window.addEventListener('DOMContentLoaded', () => {
-    showActiveTheme(getPreferredTheme());
-    highlightTextInClass('#bo_list .list-group-item a', '투표');
-
 
     document.querySelectorAll('[data-bs-theme-value]').forEach(toggle => {
       toggle.addEventListener('click', () => {
         const theme = toggle.getAttribute('data-bs-theme-value');
         localStorage.setItem('theme', theme); // 따옴표를 제거하거나 추가하지 않도록 처리합니다.
         setTheme(theme);
-        showActiveTheme(theme);
       })
     })
   })
