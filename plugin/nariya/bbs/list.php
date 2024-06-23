@@ -234,7 +234,7 @@ if ($is_search_bbs) {
     }
 
 } else {
-    $sql = " select wr_id from {$write_table} where wr_is_comment = 0 {$na_sql_where} ";
+    $sql = " select wr_id from {$write_table} where wr_is_comment <= 0 {$na_sql_where} ";
     if(!empty($notice_array))
         $sql .= " and wr_id not in (".implode(', ', $notice_array).") ";
     $sql .= " {$sql_order} limit {$from_record}, $page_rows ";
