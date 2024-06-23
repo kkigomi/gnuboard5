@@ -5,7 +5,7 @@
 
 return [
     [
-        'title' => '다모앙',
+        'title' => '메인메뉴',
         'items' => [
             '자유게시판' => [
                 'url' => '/free',
@@ -19,27 +19,24 @@ return [
             ],
             '질문과 답변' => [
                 'url' => '/qa',
-                // 'icon' => 'bi-question-circle',
-                'shortcut' => 'Ｑ',
                 'icon' => 'bi-question-circle',
+                'shortcut' => 'Ｑ',
             ],
             '다모앙 평점🍿' => [
                 'url' => '/angtt',
-                // 'icon' => 'bi-question-circle',
-                'shortcut' => 'O',
                 'icon' => 'bi-question-circle',
+                'shortcut' => 'Ｏ',
             ],
             '다모앙 지도 🗺️' => [
                 'url' => '/angmap',
                 'shortcut' => 'Ｍ',
                 'icon' => 'bi-geo-alt-fill',
                 'tooltip' => '전세계 글로벌 지역별 관광지, 상점, 병원, 학교, 정치인 등 모든 것에 대한 평가',
-                // bi-star-fill
             ],
             '다모앙 음악 🎧' => [
                 'url' => '/music',
                 'icon' => 'bi-cash-coin',
-                'shortcut' => 'D',
+                'shortcut' => 'Ｄ',
             ],
             '사용기' => [
                 'url' => '/tutorial',
@@ -58,7 +55,7 @@ return [
             '자료실' => [
                 'url' => '/pds',
                 'icon' => 'bi-person-heart',
-                'shortcut' => 'P',
+                'shortcut' => 'Ｐ',
             ],
             '광고앙' => [
                 'url' => get_pretty_url('content', 'advertiser'),
@@ -122,7 +119,7 @@ return [
                     '요리당' => '/cooking',
                     '위스키당' => '/whiskey',
                     '육아당' => '/parenting',
-                    '여행한당' => '/travel',    
+                    '여행한당' => '/travel',
                     '이륜차당' => '/mbike',
                     '일본산당' => '/japanlive',
                     '자전거당' => '/bicycle',
@@ -148,7 +145,6 @@ return [
                     '필기도구당' => '/stationery',
                 ]
             ],
-
             '알뜰구매' => [
                 'url' => '/economy',
                 'icon' => 'bi-cash-coin',
@@ -156,144 +152,64 @@ return [
             ],
             '직접홍보🌻' => [
                 'url' => '/promotion',
-                // 'icon' => 'bi-cart-plus-fill',
                 'shortcut' => 'Ｗ',
             ],
             '수익링크' => [
                 'url' => '/referral',
-                // 'icon' => 'bi-cart-plus-fill',
                 'shortcut' => '·',
             ],
-           '공지사항' => [
+            '공지사항' => [
                 'url' => '/notice',
-                'shortcut' => 'K',
+                'shortcut' => 'Ｋ',
                 'icon' => 'bi-geo-alt-fill',
             ],
-            '삐앙삐앙🚨' => [
-                'url' => '/angreport',
-                'shortcut' => 'Ｘ',
-                'icon' => 'bi-webcam-fill',
-                'items' => [
-                    // '신고게시판' => '/angreport',
-                    '진실의 방' => '/truthroom',
-                    '광고앙돼앙' => '/nope',
-                    '강등열람' => '/disciplinelog',
-                    '소명게시판' => '/claim',
-                ],
-
-                // Ａ단축키는 알림 링크에 사용됨
+        ],
+    ],
+    [
+        'title' => '삐앙삐앙🚨',
+        'items' => [
+            '진실의 방' => [
+                'url' => '/truthroom',
+                'page_id' => G5_BBS_DIR . '-content-company',
+                'icon' => 'bi-balloon-heart',
             ],
-            '운영게시판' => [
-                'url' => G5_BBS_URL . '/group.php?gr_id=admin',
-                'page_id' => G5_BBS_DIR . '-group-group',
-                'icon' => 'bi-cart-plus-fill',
-                'shortcut' => '·',
-                'items' => [
-                    // '알림사앙 🆕' => '/notice',
-                    // '릴리즈 노트' => '/release',
-                    '유지관리' => '/bug',
-                    // '광고앙' => get_pretty_url('content', 'advertiser'),
-                    '운영관리' => '/governance',
-                    '디스코드 입당 신청' => '/discord',
-                    // '진실의 방' => '/truthroom',
-                    // '광고앙돼앙' => '/nope',
-                    // '레벨강등 열람' => '/disciplinelog',
-                ],
+            '광고 앙대요' => [
+                'url' => '/nope',
+                'page_id' => G5_BBS_DIR . '-content-provision',
+                'icon' => 'bi-check2-square',
             ],
-            '이벤트 제안' => [
-                'url' => '/event',
-                // 'icon' => 'bi-cart-plus-fill',
-                'shortcut' => 'A',
+            '신고처리 & 강등열람' => [
+                'url' => '/disciplinelog',
+                'page_id' => G5_BBS_DIR . '-content-privacy',
+                'icon' => 'bi-person-lock',
+            ],
+        ],
+    ],
+    [
+        'title' => '운영게시판',
+        'items' => [
+            '알림사항' => [
+                'url' => '/notice',
+                'icon' => 'bi-cash-coin',
+                'shortcut' => 'Ｋ',
+            ],
+            '유지관리(버그제보)' => [
+                'url' => '/bug',
+                'icon' => 'bi-cash-coin',
+                'shortcut' => 'Ｂ',
             ],
             '다모앙 만들기' => [
                 'url' => '/makeang',
                 'shortcut' => '·',
                 'icon' => 'bi-geo-alt-fill',
             ],
-        ]
+            '이벤트 제안' => [
+                'url' => '/event',
+                'icon' => 'bi-cart-plus-fill',
+                'shortcut' => 'Ａ',
+            ],
+        ],
     ],
-
-    // [
-    //     'title' => '소모임',
-    //     'items' => [
-    //         '소모임' => [
-    //             'url' => G5_BBS_URL . '/group.php?gr_id=group',
-    //             'page_id' => G5_BBS_DIR . '-group-group',
-    //             'icon' => 'bi-cart-plus-fill',
-    //             'shortcut' => 'Ｓ',
-    //             'items' => [
-    //                 '모아보기' => G5_BBS_URL . '/group.php?gr_id=group',
-    //                 'AI당' => '/ai',
-    //                 'LOL당' => '/lol',
-    //                 'OTT당' => '/ott',
-    //                 'VR당' => '/vr',
-    //                 'Youtube당' => '/youtube',
-    //                 '가상화폐당' => '/cryptocurrency',
-    //                 '개발한당' => '/development',
-    //                 '게임한당' => '/game',
-    //                 '경로당' => '/seniorcenter',
-    //                 '골프당' => '/golf',
-    //                 '굴러간당' => '/car',
-    //                 '그림그린당' => '/drawing',
-    //                 '나스당' => '/nas',
-    //                 '낚시당' => '/fishing',
-    //                 '날아간당' => '/fly',
-    //                 '냐옹이당' => '/cat',
-    //                 '달린당' => '/running',
-    //                 '대구당' => '/daegu',
-    //                 '동숲한당' => '/dongsup',
-    //                 '등산한당' => '/hike',
-    //                 '디아블로당' => '/diablo',
-    //                 '땀흘린당' => '/gym',
-    //                 '레고당' => '/lego',
-    //                 '리눅서당' => '/linux',
-    //                 '맥모앙' => '/macmoang',
-    //                 '밀리터리당' => '/military',
-    //                 '바다건너당' => '/overseas',
-    //                 '방탄소년당' => '/bts',
-    //                 '보드게임당' => '/boardgame',
-    //                 '보러간당' => '/see',
-    //                 '빵친당' => '/bread',
-    //                 '서버당' => '/server',
-    //                 '서피스당' => '/MSSurface',
-    //                 '소셜게임한당' => '/socialgame',
-    //                 '시계당' => '/watches',
-    //                 '싸줄한당' => '/soccerline',
-    //                 '안드로메당' => '/android',
-    //                 '애플모앙' => '/applemoang',
-    //                 '야구당' => '/baseball',
-    //                 '영화본당' => '/movie',
-    //                 '옵시디안당' => '/obsidang',
-    //                 '와인마신당' => '/wine',
-    //                 '요리당' => '/cooking',
-    //                 '위스키당' => '/whiskey',
-    //                 '육아당' => '/parenting',
-    //                 '이륜차당' => '/mbike',
-    //                 '일본산당' => '/japanlive',
-    //                 '자전거당' => '/bicycle',
-    //                 '재봉한당' => '/sewing',
-    //                 '주식한당' => '/stock',
-    //                 '지켜본당' => '/watchingyou',
-    //                 '집짓는당' => '/homebuilding',
-    //                 '찰칵찍당' => '/photo',
-    //                 '책읽는당' => '/readingbooks',
-    //                 '우주본당' => '/space',
-    //                 '축구당' => '/soccer',
-    //                 '캠핑간당' => '/camping',
-    //                 '콘솔한당' => '/console',
-    //                 '다바앙' => '/coffee',
-    //                 '키보드당' => '/keyboard',
-    //                 '탁구당' => '/tabletennis',
-    //                 '패스오브엑자일당' => '/pathofexile',
-    //                 '포뮬러당' => '/formula',
-    //                 '포토샵당' => '/photoshop',
-    //                 '퐁당퐁당' => '/swim',
-    //                 '플레이모빌당' => '/playmobil',
-    //                 '필기도구당' => '/stationery',
-    //             ]
-    //         ],
-    //     ],
-    // ],
     [
         'title' => '기타',
         'items' => ($member['mb_level'] >= 2) ? [
@@ -351,4 +267,3 @@ return [
         ],
     ],
 ];
-

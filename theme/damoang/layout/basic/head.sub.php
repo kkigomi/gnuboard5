@@ -91,7 +91,7 @@ add_javascript('<script src="' . LAYOUT_URL . '/js/layout.js?CACHEBUST"></script
                 'KeyA': '/event',
                 'KeyB': '/bug',
                 'KeyC': '/bbs/group.php?gr_id=community',
-                'KeyD': '/referral',
+                'KeyD': '/music',
                 'KeyE': '/economy',
                 'KeyF': '/free',
                 'KeyG': '/gallery',
@@ -105,14 +105,14 @@ add_javascript('<script src="' . LAYOUT_URL . '/js/layout.js?CACHEBUST"></script
                 'KeyO': '/angtt',
                 'KeyP': '/pds',
                 'KeyQ': '/qa',
-                // Refresh the page when 'R' is pressed
-                'KeyR': 'refresh',
+                'KeyR': 'refresh', // Refresh the page when 'R' is pressed
                 'KeyS': '/bbs/group.php?gr_id=group',
                 'KeyT': '/tutorial',
-                'KeyV': '/governance',
+                'KeyU': '/',
+                'KeyV': '/',
                 'KeyW': '/promotion',
                 'KeyX': '/angreport',
-                'KeyY': '/disciplinelog',
+                'KeyY': '/',
                 'KeyZ': '/bbs/noti.php',
             };
 

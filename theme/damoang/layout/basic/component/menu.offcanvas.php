@@ -16,6 +16,10 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
     <div class="offcanvas-body pt-0">
 
         <div class="na-menu">
+            <!-- 배너 -->
+            <div class="px-3 mb-4">
+                <?php echo na_widget('damoang-image-banner', 'dmg-banner'); ?>
+            </div>
             <div class="nav nav-pills nav-vertical">
                 <?php
                 if (!empty($config['cf_9'])) { ?>
