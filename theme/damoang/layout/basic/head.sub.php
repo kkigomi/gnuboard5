@@ -18,7 +18,7 @@ $one_cols = array(
 );
 
 // 1단 체크
-$is_onecolum = (in_array($page_id, $one_cols)) ? true : false;
+$is_onecolumn = (in_array($page_id, $one_cols)) ? true : false;
 
 // CSS -------------------------------------------------------------------------
 add_stylesheet('<link rel="stylesheet" href="' . G5_THEME_URL . '/css/' . (G5_IS_MOBILE ? 'mobile' : 'default') . '.css?CACHEBUST">', 0);
@@ -39,11 +39,7 @@ add_javascript('<script src="' . G5_THEME_URL . '/js/wrest.js"></script>');
 add_javascript('<script src="' . G5_THEME_URL . '/js/bootstrap.bundle.min.js?v50303"></script>');
 add_javascript('<script src="' . G5_THEME_URL . '/js/clipboard.min.js"></script>');
 add_javascript('<script src="' . G5_THEME_URL . '/js/nariya.js?CACHEBUST"></script>');
-add_javascript('<script src="' . LAYOUT_URL . '/js/darkmode.js"></script>');
-add_javascript('<script src="' . LAYOUT_URL . '/js/customui.js?CACHEBUST"></script>');
-add_javascript('<script src="' . LAYOUT_URL . '/js/custom_features.js?CACHEBUST"></script>');
-// 레이아웃 스크립트
-add_javascript('<script src="' . LAYOUT_URL . '/js/layout.js?CACHEBUST"></script>');
+add_javascript('<script src="' . LAYOUT_URL . '/js/darkmode.js?CACHEBUST"></script>');
 ?>
 <!doctype html>
 <html lang="ko" data-bs-theme="light" class="<?php echo (G5_IS_MOBILE) ? 'is-mobile' : 'is-pc'; ?> is-bbs">
