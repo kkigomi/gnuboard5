@@ -13,6 +13,12 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
 <div class="na-menu">
     <div class="nav nav-pills nav-vertical">
+        <div class="nav-item">
+            <a class="nav-link" href="/verification" data-placement="left">
+                <!--                        <i class="bi-youtube nav-icon"></i>-->
+                <span class="nav-link-title">해외앙님 실명인증</span>
+            </a>
+        </div>
         <div id="sidebar-site-menu" class="mb-3">
             <?php
             if (!empty($config['cf_9'])) {
