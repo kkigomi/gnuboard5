@@ -2,13 +2,13 @@
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 ?>
 
-<!-- 배너 -->
-<div class="d-flex d-block d-lg-none justify-content-center mb-4">
-    <?php echo na_widget('damoang-image-banner', 'side-banner'); ?>
-</div>
 
 <div class="px-3 mb-4">
     <?php echo na_widget('outlogin'); // 외부로그인 ?>
+</div>
+<!-- 배너 -->
+<div class="px-3 mb-4">
+    <?php echo na_widget('damoang-image-banner', 'dmg-banner'); ?>
 </div>
 
 <div class="na-menu">
