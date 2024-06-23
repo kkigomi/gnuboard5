@@ -18,7 +18,7 @@ $one_cols = array(
 );
 
 // 1단 체크
-$is_onecolum = (in_array($page_id, $one_cols)) ? true : false;
+$is_onecolumn = (in_array($page_id, $one_cols)) ? true : false;
 
 // CSS -------------------------------------------------------------------------
 add_stylesheet('<link rel="stylesheet" href="' . G5_THEME_URL . '/css/' . (G5_IS_MOBILE ? 'mobile' : 'default') . '.css?CACHEBUST">', 0);
