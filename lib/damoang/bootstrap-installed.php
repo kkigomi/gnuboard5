@@ -45,6 +45,15 @@ add_replace('get_cachemanage_instance', function () {
     return $instance;
 });
 
+// 회원 객체 반환
+// add_replace('get_member', function ($data = null, $mb_id, $fields, $is_cache) {
+//     if (!is_array($data) || $data instanceof Damoang\Lib\G5\Member\Member) {
+//         return $data;
+//     }
+
+//     return new Damoang\Lib\G5\Member\Member($data);
+// }, \G5_HOOK_DEFAULT_PRIORITY, 4);
+
 // 다중이
 add_event('console:register', function ($application) {
     // ... register commands
