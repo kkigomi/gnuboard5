@@ -63,20 +63,5 @@
       })
     })
   })
-
-
-  // 20240409 선거 투표 강조
-  function highlightTextInClass(className, text) {
-    const elements = document.querySelectorAll(className);
-
-    elements.forEach(function(element) {
-      const innerHTML = element.innerHTML;
-      const regex = new RegExp(text, "g");
-      const replacement = '<mark class="voting">' + text + '</mark>';
-      element.innerHTML = innerHTML.replace(regex, replacement);
-    });
-  }
-
-
 })();
 
