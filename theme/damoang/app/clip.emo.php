@@ -112,7 +112,7 @@ function unFocus(id) {
     }
 }
 function clip_insert(txt) {
-    var clip = "{emo:" + txt + ":110}";
+    var clip = "{emo:" + txt + ":100}";
 
     if(parent.document.suneditor) {
         parent.document.suneditor.insertHTML(clip);
