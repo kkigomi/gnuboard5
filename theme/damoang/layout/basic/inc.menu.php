@@ -158,11 +158,6 @@ return [
                 'url' => '/referral',
                 'shortcut' => '·',
             ],
-            '공지사항' => [
-                'url' => '/notice',
-                'shortcut' => 'Ｋ',
-                'icon' => 'bi-geo-alt-fill',
-            ],
         ],
     ],
     [
