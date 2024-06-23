@@ -16,6 +16,10 @@ list($menu, $nav) = na_menu();
 if (IS_INDEX) {
     include G5_BBS_PATH . '/newwin.inc.php';
 }
+
+add_javascript('<script src="' . LAYOUT_URL . '/js/customui.js?CACHEBUST"></script>');
+add_javascript('<script src="' . LAYOUT_URL . '/js/custom_features.js?CACHEBUST"></script>');
+add_javascript('<script src="' . LAYOUT_URL . '/js/layout.js?CACHEBUST"></script>');
 ?>
 <div class="site-wrap w-100 h-100">
     <div id="header-copy" class="header-copy">&nbsp;<?php // FIXME 위치 확보를 위한 헤더 영역 복제 ?></div>
