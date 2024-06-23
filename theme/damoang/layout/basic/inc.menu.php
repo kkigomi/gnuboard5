@@ -5,7 +5,7 @@
 
 return [
     [
-        'title' => '메인메뉴',
+        'title' => '커뮤니티 & 포털',
         'items' => [
             '자유게시판' => [
                 'url' => '/free',
@@ -170,17 +170,17 @@ return [
         'items' => [
             '진실의 방' => [
                 'url' => '/truthroom',
-                'page_id' => G5_BBS_DIR . '-content-company',
+                'shortcut' => 'J',
                 'icon' => 'bi-balloon-heart',
             ],
             '광고 앙대요' => [
                 'url' => '/nope',
-                'page_id' => G5_BBS_DIR . '-content-provision',
+                'shortcut' => '·',
                 'icon' => 'bi-check2-square',
             ],
             '신고처리 & 강등열람' => [
                 'url' => '/disciplinelog',
-                'page_id' => G5_BBS_DIR . '-content-privacy',
+                'shortcut' => '·',
                 'icon' => 'bi-person-lock',
             ],
         ],
