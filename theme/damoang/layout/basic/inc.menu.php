@@ -203,6 +203,11 @@ return [
                 'icon' => 'bi-cart-plus-fill',
                 'shortcut' => 'Ａ',
             ],
+            '디스코드 입장 신청' => [
+                'url' => '/discord',
+                'icon' => 'bi-cart-plus-fill',
+                'shortcut' => '·',
+            ],
         ],
     ],
     [
