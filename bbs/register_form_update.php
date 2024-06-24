@@ -192,6 +192,7 @@ if ($config['cf_cert_use'] && $cert_type && $md5_cert_no) {
         // NOTE: 개인정보 저장 부분 최소화를 위한 변경
         $sql_certify .= " , mb_certify  = '{$cert_type}' ";
         $sql_certify .= " , mb_dupinfo = '".get_session('ss_cert_dupinfo')."' ";
+        $sql_certify .= " , mb_adult = '".get_session('ss_cert_adult')."' ";
     } else {
         alert('본인인증된 정보와 입력된 회원정보가 일치하지않습니다. 다시시도 해주세요');
     }
