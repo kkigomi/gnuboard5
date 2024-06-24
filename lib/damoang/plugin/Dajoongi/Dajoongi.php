@@ -144,9 +144,8 @@ class Dajoongi
             FROM
                 {$g5['board_new_table']}
             WHERE
-                wr_ip <> ''
-                AND mb_id NOT IN ('', 'admin')
-                AND bn_datetime >= DATE_SUB(CURDATE(), INTERVAL 3 DAY)
+                mb_id NOT IN ('', 'admin')
+                AND bn_datetime >= CONCAT(DATE_SUB(CURDATE(), INTERVAL 3 DAY), ' 00:00:00')
             GROUP BY
                 wr_ip
             HAVING

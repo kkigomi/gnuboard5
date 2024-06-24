@@ -659,12 +659,18 @@ class NARIYA_STANDARD {
 
 			$wr_is_secret = (strstr($wr['wr_option'], 'secret')) ? 1 : 0;
 
+			// 새 글 작성 시 IP 업데이트
+			$sql_ip = '';
+			if ($w === '') {
+				$sql_ip = " , wr_ip = '{$_SERVER['REMOTE_ADDR']}' ";
+			}
+
 			$sql = " update {$g5['board_new_table']}
 							set wr_is_secret = '{$wr_is_secret}',
 								wr_singo = '{$wr['wr_7']}',
 								wr_image = '{$wr_10}',
-								wr_video = '{$wr_9}',
-								wr_ip = '{$_SERVER['REMOTE_ADDR']}'
+								wr_video = '{$wr_9}'
+								{$sql_ip}
 							where bo_table = '{$bo_table}' and wr_id = '{$wr_id}' ";
 			sql_query($sql, false);
 		}
@@ -832,11 +838,17 @@ class NARIYA_STANDARD {
 
 			$wr_is_secret = (strstr($wr['wr_option'], 'secret')) ? 1 : 0;
 
+			// 새 댓글 작성 시 IP 업데이트
+			$sql_ip = '';
+			if ($w === 'c') {
+				$sql_ip = " , wr_ip = '{$_SERVER['REMOTE_ADDR']}' ";
+			}
+
 			$sql = " update {$g5['board_new_table']}
 							set wr_is_comment = '1',
 								wr_is_secret = '{$wr_is_secret}',
-								wr_singo = '{$wr['wr_7']}',
-								wr_ip = '{$_SERVER['REMOTE_ADDR']}'
+								wr_singo = '{$wr['wr_7']}'
+								{$sql_ip}
 							where bo_table = '{$bo_table}' and wr_id = '{$comment_id}' ";
 			sql_query($sql);
 		} 
