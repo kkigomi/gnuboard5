@@ -840,14 +840,14 @@ class NARIYA_STANDARD {
 
 			// 새 댓글 작성 시 IP 업데이트
 			$sql_ip = '';
-			if ($w === '') {
+			if ($w === 'c') {
 				$sql_ip = " , wr_ip = '{$_SERVER['REMOTE_ADDR']}' ";
 			}
 
 			$sql = " update {$g5['board_new_table']}
 							set wr_is_comment = '1',
 								wr_is_secret = '{$wr_is_secret}',
-								wr_singo = '{$wr['wr_7']}',
+								wr_singo = '{$wr['wr_7']}'
 								{$sql_ip}
 							where bo_table = '{$bo_table}' and wr_id = '{$comment_id}' ";
 			sql_query($sql);
