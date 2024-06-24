@@ -148,8 +148,9 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
                 <div class="d-none d-lg-block justify-content-center my-4">
                     <?php echo na_widget('damoang-image-banner', 'side-banner'); ?>
                 </div>
-
-                애드센스 제거 후 파랑색 검색 바가 제거 되는 지 TEST
+<!--TODO: -->
+<!--                애드센스 제거 후 파랑색 검색 바가 제거 되는 지 TEST-->
+                앙님들 사랑합니다. ❤️
                 <!-- 배너 -->
                 <div class="d-none d-lg-block justify-content-center my-4">
                     <?php echo na_widget('damoang-image-banner', 'side-banner'); ?>
