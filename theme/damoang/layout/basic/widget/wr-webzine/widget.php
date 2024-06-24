@@ -6,6 +6,9 @@ if (!defined('_GNUBOARD_')) exit; //개별 페이지 접근 불가
 
 // 게시물 추출
 $wset['rows_notice'] = false; // 추출수에 공지글 포함안함
+if (intval($wset['cache'] ?? 5) < 5) {
+    $wset['cache'] = 5;
+}
 $list = na_board_rows($wset);
 $list_cnt = count($list);
 
