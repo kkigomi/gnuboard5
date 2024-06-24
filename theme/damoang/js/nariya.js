@@ -660,6 +660,12 @@ $(function(){
         starRating.filledRate(wrStar.value - 1);
       });
     });
+
+    if (wrStar.value && wrStar.value > 0) {
+      starRating.initStars();
+      starRating.filledRate(wrStar.value - 1);
+      starRating.setRate(wrStar.value);
+    }
   }
 });
 
