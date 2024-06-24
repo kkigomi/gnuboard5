@@ -286,7 +286,7 @@ run_event('view_skin_before');
                         break;
                 }
             ?>
-            <div class="star-rated d-flex bg-secondary-subtle p-2 mb-2 align-items-center">
+            <div class="star-rated d-flex pb-2 px-0 mb-2 border-bottom align-items-center">
                 <span class="me-2 small">별점:</span>
                 <div class="da-star star-l<?php if ((int)$star_rate >= 1) echo ' star-fill'; ?>"></div>
                 <div class="da-star star-r<?php if ((int)$star_rate >= 2) echo ' star-fill'; ?>"></div>
