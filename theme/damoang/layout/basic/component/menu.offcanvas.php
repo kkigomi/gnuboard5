@@ -20,7 +20,14 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
             <div class="px-3 mb-4">
                 <?php echo na_widget('damoang-image-banner', 'dmg-banner'); ?>
             </div>
+
             <div class="nav nav-pills nav-vertical">
+                <div class="nav-item">
+                    <a class="nav-link" href="/verification" data-placement="left">
+                        <span class="nav-link-title">🎖️🎖️해외앙님 실명인증</span>
+                    </a>
+                </div>
+
                 <?php
                 if (!empty($config['cf_9'])) { ?>
                     <div class="nav-item">

@@ -111,7 +111,8 @@ if ($txId && isset($_POST["resultCode"]) && $_POST["resultCode"] === "0000") {
             sql_query("UPDATE `{$g5['member_table']}`
                 SET
                     mb_certify = '{$cert_type}',
-                    mb_dupinfo = '{$mb_dupinfo}'
+                    mb_dupinfo = '{$mb_dupinfo}',
+                    mb_adult = '{$adult}'
                 WHERE
                     mb_id = '{$member['mb_id']}'
             ");

@@ -41,45 +41,47 @@ if ($url == 'member_leave.php' && !$is_social_confirmed) {
 }
 
 /**** 원 본 ( 비밀번호 확인 버전 백업: 사용 안함)****/
-// $confirm_message = ($url == 'member_leave.php') ? '비밀번호를 입력하시면 회원탈퇴가 완료됩니다.' : '회원님의 정보를 안전하게 보호하기 위해 비밀번호를 한번 더 확인합니다.';
-// echo <<<EOT
-// <div id="mb_confirm" class="max-400 mx-auto py-md-5">
-//     <form name="fmemberconfirm" action="{$url}" onsubmit="return fmemberconfirm_submit(this);" method="post">
-//         <input type="hidden" name="mb_id" value="{$member['mb_id']}">
-//         <input type="hidden" name="w" value="u">
-//         <h3 class="px-3 py-2 mb-0 fs-5">
-//             <i class="bi bi-shield-lock"></i>
-//             비밀번호 확인
-//         </h3>
-//         <ul class="list-group list-group-flush line-top mb-4">
-//             <li class="list-group-item">
-//                 <strong>비밀번호를 한번 더 입력해주세요.</strong>
-//                 <p class="my-3">
-//                     {$confirm_message}
-//                 </p>
-//                 <div class="input-group mb-2">
-//                     <span class="input-group-text">비밀번호<strong class="visually-hidden"> 필수</strong></span>
-//                     <input type="password" autocomplete="current-password" name="mb_password" id="confirm_mb_password" required class="form-control required" maxLength="255">
-//                     <button type="submit" id="btn_submit" class="btn btn-primary">확인</button>
-//                 </div>
-//             </li>
-//             <li class="list-group-item text-center pt-3">
-//                 <a href="{$g5['url']}">
-//                     <i class="bi bi-house-fill"></i>
-//                     홈으로 돌아가기
-//                 </a>
-//             </li>
-//         </ul>
-//     </form>
-// </div>
-// <script>
-// function fmemberconfirm_submit(f) {
-//     document.getElementById("btn_submit").disabled = true;
-//     return true;
-// }
-// </script>
-// <!-- } 회원 비밀번호 확인 끝 -->
-// EOT;
+if (($_ENV['DA_ID_LOGIN'] ?? 'false') === 'true') {
+    $confirm_message = ($url == 'member_leave.php') ? '비밀번호를 입력하시면 회원탈퇴가 완료됩니다.' : '회원님의 정보를 안전하게 보호하기 위해 비밀번호를 한번 더 확인합니다.';
+    echo <<<EOT
+    <div id="mb_confirm" class="max-400 mx-auto py-md-5">
+        <form name="fmemberconfirm" action="{$url}" onsubmit="return fmemberconfirm_submit(this);" method="post">
+            <input type="hidden" name="mb_id" value="{$member['mb_id']}">
+            <input type="hidden" name="w" value="u">
+            <h3 class="px-3 py-2 mb-0 fs-5">
+                <i class="bi bi-shield-lock"></i>
+                비밀번호 확인
+            </h3>
+            <ul class="list-group list-group-flush line-top mb-4">
+                <li class="list-group-item">
+                    <strong>비밀번호를 한번 더 입력해주세요.</strong>
+                    <p class="my-3">
+                        {$confirm_message}
+                    </p>
+                    <div class="input-group mb-2">
+                        <span class="input-group-text">비밀번호<strong class="visually-hidden"> 필수</strong></span>
+                        <input type="password" autocomplete="current-password" name="mb_password" id="confirm_mb_password" required class="form-control required" maxLength="255">
+                        <button type="submit" id="btn_submit" class="btn btn-primary">확인</button>
+                    </div>
+                </li>
+                <li class="list-group-item text-center pt-3">
+                    <a href="{$g5['url']}">
+                        <i class="bi bi-house-fill"></i>
+                        홈으로 돌아가기
+                    </a>
+                </li>
+            </ul>
+        </form>
+    </div>
+    <script>
+    function fmemberconfirm_submit(f) {
+        document.getElementById("btn_submit").disabled = true;
+        return true;
+    }
+    </script>
+    <!-- } 회원 비밀번호 확인 끝 -->
+    EOT;
+}
 
 /**************** 수정본 (재로그인 안내로 변경) ********************/
 $confirm_text = '재로그인 안내';

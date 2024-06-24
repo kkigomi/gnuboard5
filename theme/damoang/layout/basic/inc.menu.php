@@ -158,11 +158,6 @@ return [
                 'url' => '/referral',
                 'shortcut' => '·',
             ],
-            '공지사항' => [
-                'url' => '/notice',
-                'shortcut' => 'Ｋ',
-                'icon' => 'bi-geo-alt-fill',
-            ],
         ],
     ],
     [
@@ -207,6 +202,11 @@ return [
                 'url' => '/event',
                 'icon' => 'bi-cart-plus-fill',
                 'shortcut' => 'Ａ',
+            ],
+            '디스코드 입장 신청' => [
+                'url' => '/discord',
+                'icon' => 'bi-cart-plus-fill',
+                'shortcut' => '·',
             ],
         ],
     ],
