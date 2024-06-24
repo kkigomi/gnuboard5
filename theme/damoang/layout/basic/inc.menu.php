@@ -88,6 +88,7 @@ return [
                     '낚시당' => '/fishing',
                     '날아간당' => '/fly',
                     '냐옹이당' => '/cat',
+                    '녹음한당' => '/recording',
                     '달린당' => '/running',
                     '대구당' => '/daegu',
                     '동숲한당' => '/dongsup',
