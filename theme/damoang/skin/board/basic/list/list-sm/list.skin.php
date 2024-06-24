@@ -13,7 +13,9 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
                 <div class="text-center flex-grow-1">제목</div>
                 <div class="ms-md-auto">
                     <div class="d-flex gap-2">
-                        <div class="hd-name text-center">이름</div>
+                        <?php if (!isset($boset['check_list_hide_profile']) || (isset($boset['check_list_hide_profile']) && !$boset['check_list_hide_profile'])) { ?>
+                            <div class="hd-name text-center">이름</div>
+                        <?php } ?>
                         <div class="hd-date text-center">날짜</div>
                         <?php if ($is_good) { ?>
                             <div class="hd-num text-center">추천</div>
@@ -129,12 +131,14 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
                             </div>
                             <div class="">
                                 <div class="d-flex gap-2">
-                                    <div class="order-1 wr-name">
-                                        <?php
-                                            $wr_name = ($row['mb_id']) ? str_replace('sv_member', 'sv_member text-truncate d-block', $row['name']) : str_replace('sv_guest', 'sv_guest text-truncate d-block', $row['name']);
-                                            echo na_name_photo($row['mb_id'], $wr_name);
-                                        ?>
-                                    </div>
+                                    <?php if (!isset($boset['check_list_hide_profile']) || (isset($boset['check_list_hide_profile']) && !$boset['check_list_hide_profile'])) { ?>
+                                        <div class="order-1 wr-name">
+                                            <?php
+                                                $wr_name = ($row['mb_id']) ? str_replace('sv_member', 'sv_member text-truncate d-block', $row['name']) : str_replace('sv_guest', 'sv_guest text-truncate d-block', $row['name']);
+                                                echo na_name_photo($row['mb_id'], $wr_name);
+                                            ?>
+                                        </div>
+                                    <?php } ?>
                                     <div class="wr-date ms-auto text-nowrap order-last order-md-2 text-truncate">
                                         <?php echo na_date($row['wr_datetime'], 'orangered') ?>
                                         <span class="visually-hidden">등록</span>

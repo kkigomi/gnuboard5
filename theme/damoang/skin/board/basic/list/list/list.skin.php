@@ -25,7 +25,9 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
                 <div class="text-center flex-grow-1">제목</div>
                 <div class="ms-md-auto">
                     <div class="d-flex gap-2">
-                        <div class="hd-name text-center">이름</div>
+                        <?php if (!isset($boset['check_list_hide_profile']) || (isset($boset['check_list_hide_profile']) && !$boset['check_list_hide_profile'])) { ?>
+                            <div class="hd-name text-center">이름</div>
+                        <?php } ?>
                         <div class="hd-date text-center">날짜</div>
                         <div class="hd-num text-center">조회</div>
                     </div>
@@ -172,12 +174,14 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
                                 <div class="d-flex gap-2">
 
                                     <?php /******** 글쓴이 프사+이름 ********/ ?>
-                                    <div class="wr-name ms-auto order-last order-md-1 text-truncate">
-                                        <?php
-                                            $wr_name = ($row['mb_id']) ? str_replace('sv_member', 'sv_member text-truncate d-block', $row['name']) : str_replace('sv_guest', 'sv_guest text-truncate d-block', $row['name']);
-                                            echo na_name_photo($row['mb_id'], $wr_name);
-                                        ?>
-                                    </div>
+                                    <?php if (!isset($boset['check_list_hide_profile']) || (isset($boset['check_list_hide_profile']) && !$boset['check_list_hide_profile'])) { ?>
+                                        <div class="wr-name ms-auto order-last order-md-1 text-truncate">
+                                            <?php
+                                                $wr_name = ($row['mb_id']) ? str_replace('sv_member', 'sv_member text-truncate d-block', $row['name']) : str_replace('sv_guest', 'sv_guest text-truncate d-block', $row['name']);
+                                                echo na_name_photo($row['mb_id'], $wr_name);
+                                            ?>
+                                        </div>
+                                    <?php } ?>
 
 
                                     <?php /******** 글쓴 시간 ********/ ?>
