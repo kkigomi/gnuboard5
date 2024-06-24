@@ -660,7 +660,7 @@ class NARIYA_STANDARD {
 			$wr_is_secret = (strstr($wr['wr_option'], 'secret')) ? 1 : 0;
 
 			// 새 글 작성 시 IP 업데이트
-			$sql_ip = ',';
+			$sql_ip = '';
 			if ($w === '') {
 				$sql_ip = " , wr_ip = '{$_SERVER['REMOTE_ADDR']}' ";
 			}
@@ -839,7 +839,7 @@ class NARIYA_STANDARD {
 			$wr_is_secret = (strstr($wr['wr_option'], 'secret')) ? 1 : 0;
 
 			// 새 댓글 작성 시 IP 업데이트
-			$sql_ip = ',';
+			$sql_ip = '';
 			if ($w === '') {
 				$sql_ip = " , wr_ip = '{$_SERVER['REMOTE_ADDR']}' ";
 			}
