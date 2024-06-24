@@ -638,10 +638,12 @@ run_event('view_skin_before');
 <div class="mb-3">
     <?php if (is_mobile()) { ?>
         TODO : 애드센스 위젯 만들어야 함 <br>
-        태그 없어지는 것 확인 중
+        애드센스 제거 후 파랑색 검색 바가 제거 되는 지 TEST <br/>
+        삐앙삐앙 머그컵 없어져랏앙앙앙!!
     <?php } else { ?>
         TODO : 애드센스 위젯 만들어야 함 <br>
-        태그 없어지는 것 확인 중
+        애드센스 제거 후 파랑색 검색 바가 제거 되는 지 TEST <br/>
+        삐앙삐앙 머그컵 없어져랏앙앙앙!!
     <?php } ?>
 </div>
 
