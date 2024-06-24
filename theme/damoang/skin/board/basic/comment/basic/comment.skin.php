@@ -204,7 +204,7 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                         $star_rated_text = na_convert_star_rating($star_rate);
                         $star_html = na_generate_star_rating($star_rate);
                         ?>
-                        <div class="star-rated d-flex bg-secondary-subtle p-2 mb-2 align-items-center">
+                        <div class="star-rated d-flex pb-2 px-0 mb-2 align-items-center">
                             <span class="me-2 small">별점:</span>
                             <?php echo $star_html; ?>
                             <span class="ms-1 small"><?php echo $star_rated_text; ?></span>
