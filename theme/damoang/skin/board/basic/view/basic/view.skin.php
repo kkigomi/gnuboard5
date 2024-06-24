@@ -210,7 +210,10 @@ run_event('view_skin_before');
                         }
                     });
                 </script>
-
+                <a href="#" class="btn btn-basic btn-sm ms-2" style="white-space: nowrap;">
+                    <i class="bi bi-pencil-square"></i>
+                    글쓰기
+                </a>
                 <?php if ($update_href) { ?>
                     <a href="<?php echo $update_href ?>" class="btn btn-basic btn-sm ms-2" style="white-space: nowrap;">
                         <i class="bi bi-pencil-square"></i>
@@ -623,6 +626,10 @@ run_event('view_skin_before');
             </div>
         <?php } ?>
         <div>
+            <a href="#" class="btn btn-basic btn-sm ms-2" style="white-space: nowrap;">
+                <i class="bi bi-pencil-square"></i>
+                글쓰기
+            </a>
             <a href="<?php echo get_pretty_url($bo_table, '', $qstr) ?>" class="btn btn-basic btn-sm" title="목록보기">
                 <i class="bi bi-list-ul"></i>
                 <span class="d-none d-sm-inline-block">목록</span>
