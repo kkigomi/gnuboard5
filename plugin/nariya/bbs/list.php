@@ -219,6 +219,9 @@ if (!$sst) {
     }
 }
 
+if($sod == 'asc')
+    $sod = 'desc';
+
 if(!$sst)
     $sst  = "wr_num asc, wr_reply asc";
 
