@@ -39,8 +39,19 @@ include_once ($member_skin_path.'/memo_tab.skin.php');
                     </div>
                     <div class="clearfix small">
                         <?php echo na_name_photo($list[$i]['mb_id'], $list[$i]['name']) ?>
-                        <div class="float-end">
-                            <?php echo na_date($list[$i]['send_datetime'], 'orangered', 'full'); ?>
+                        <div class="float-end fw-lighter">
+                        <?php
+
+                            $read_datetime = $list[$i]['read_datetime'];
+
+                            if(is_valid_date($read_datetime)){ //확인
+                                echo '<span class="fw-normal">확인날짜</span>: '.na_date($read_datetime, 'orangered', 'full');
+                            } else { //미확인
+                                echo '<span class="fw-normal">확인날짜</span>: <span style="color:orange">'.$read_datetime.'</span>';
+                            }
+                        ?>
+
+                            <span class="fw-normal">보낸날짜</span>: <?php echo na_date($list[$i]['send_datetime'], 'orangered', 'full'); ?>
                         </div>
                     </div>
                 </div>
@@ -79,3 +90,13 @@ include_once ($member_skin_path.'/memo_tab.skin.php');
         </div>
     </li>
 </ul>
+<?php
+function is_valid_date($date) {
+    try {
+        new DateTime($date);
+        return true;
+    } catch (Exception $e) {
+        return false;
+    }
+}
+?>
