@@ -413,7 +413,7 @@ function na_board_rows($wset) {
 	global $g5;
 
 	$caches = false;
-	$is_cache = isset($wset['cache']) ? (int)$wset['cache'] : 0;
+	$is_cache = isset($wset['cache']) ? (int)$wset['cache'] : 5;
 	if($is_cache > 0) {
 		$caches = g5_get_cache($wset['cacheId'], $is_cache * 60);
 	}
