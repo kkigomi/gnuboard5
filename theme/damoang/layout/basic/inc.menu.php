@@ -7,6 +7,12 @@ return [
     [
         'title' => '커뮤니티 & 포털',
         'items' => [
+            '하.드.웨.어.!' => [
+                'url' => '/hardware',
+                'icon' => 'bi-chat',
+                'shortcut' => '.',
+            ],
+    
             '자유게시판' => [
                 'url' => '/free',
                 'icon' => 'bi-chat',
