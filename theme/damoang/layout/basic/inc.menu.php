@@ -115,7 +115,6 @@ return [
                     '서피스당' => '/MSSurface',
                     '소셜게임한당' => '/socialgame',
                     '시계당' => '/watches',
-                    '식집사 모임' => '/plant',
                     '스쿠버당' => '/scuba',
                     '싸줄한당' => '/soccerline',
                     '안드로메당' => '/android',
@@ -148,6 +147,7 @@ return [
                     '포뮬러당' => '/formula',
                     '포토샵당' => '/photoshop',
                     '퐁당퐁당' => '/swim',
+                    '푸르르당' => '/plant',
                     '플레이모빌당' => '/playmobil',
                     '필기도구당' => '/stationery',
                 ]
