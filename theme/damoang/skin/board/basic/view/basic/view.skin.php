@@ -210,7 +210,10 @@ run_event('view_skin_before');
                         }
                     });
                 </script>
-
+                <a href="#" class="btn btn-basic btn-sm ms-2" style="white-space: nowrap;">
+                    <i class="bi bi-pencil-square"></i>
+                    글쓰기
+                </a>
                 <?php if ($update_href) { ?>
                     <a href="<?php echo $update_href ?>" class="btn btn-basic btn-sm ms-2" style="white-space: nowrap;">
                         <i class="bi bi-pencil-square"></i>
@@ -283,7 +286,7 @@ run_event('view_skin_before');
                         break;
                 }
             ?>
-            <div class="star-rated d-flex bg-secondary-subtle p-2 mb-2 align-items-center">
+            <div class="star-rated d-flex pb-2 px-0 mb-2 border-bottom align-items-center">
                 <span class="me-2 small">별점:</span>
                 <div class="da-star star-l<?php if ((int)$star_rate >= 1) echo ' star-fill'; ?>"></div>
                 <div class="da-star star-r<?php if ((int)$star_rate >= 2) echo ' star-fill'; ?>"></div>
@@ -634,11 +637,15 @@ run_event('view_skin_before');
 
 <div class="mb-3">
     <?php if (is_mobile()) { ?>
-        TODO : 애드센스 위젯 만들어야 함 <br>
-        태그 없어지는 것 확인 중
+        앙님들 사랑합니다. ❤️
+<!--        TODO : 애드센스 위젯 만들어야 함 <br>-->
+<!--        애드센스 제거 후 파랑색 검색 바가 제거 되는 지 TEST <br/>-->
+<!--        삐앙삐앙 머그컵 없어져랏앙앙앙!!-->
     <?php } else { ?>
-        TODO : 애드센스 위젯 만들어야 함 <br>
-        태그 없어지는 것 확인 중
+        앙님들 사랑합니다. ❤️
+<!--        TODO : 애드센스 위젯 만들어야 함 <br>-->
+<!--        애드센스 제거 후 파랑색 검색 바가 제거 되는 지 TEST <br/>-->
+<!--        삐앙삐앙 머그컵 없어져랏앙앙앙!!-->
     <?php } ?>
 </div>
 

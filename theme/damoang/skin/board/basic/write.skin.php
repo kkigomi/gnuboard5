@@ -210,18 +210,17 @@ if ($is_admin === 'super') {
                     <!-- 별점 기능 { -->
                     <div class="mb-2">
                         <div id="bo_vc_star" class="col-sm-3">
-                            <select name="wr_6" id="wr_star" style="width:120px" class="form-select form-select-sm mb-2">
+                            <?php
+                                $option_values = '';
+                                for ($i=1; $i<=10; $i++) {
+                                    $option_selected = ((int) $write['wr_6'] == $i) ? ' selected="selected"' : '';
+                                    $half_point = $i / 2;
+                                    $option_values .= "<option value=\"{$i}\"{$option_selected}>{$half_point}점</option>";
+                                }
+                            ?>
+                            <select name="wr_6" value="<?=$write['wr_6']?>" id="wr_star" style="width:120px" class="form-select form-select-sm mb-2">
                                 <option value="0">평가</option>
-                                <option value="1">0.5점</option>
-                                <option value="2">1점</option>
-                                <option value="3">1.5점</option>
-                                <option value="4">2점</option>
-                                <option value="5">2.5점</option>
-                                <option value="6">3점</option>
-                                <option value="7">3.5점</option>
-                                <option value="8">4점</option>
-                                <option value="9">4.5점</option>
-                                <option value="10">5점</option>
+                                <?=$option_values?>
                             </select>
                             <!-- Add this inside the form where the comment is being posted -->
                             <div id="star-rating" class="star-rating d-flex">

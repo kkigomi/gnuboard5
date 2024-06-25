@@ -7,6 +7,12 @@ return [
     [
         'title' => '커뮤니티 & 포털',
         'items' => [
+            'PC•주변기기(하.드.웨.어!!&다모앙존)' => [
+                'url' => '/hardware',
+                'icon' => 'bi-chat',
+                'shortcut' => 'Z',
+            ],
+    
             '자유게시판' => [
                 'url' => '/free',
                 'icon' => 'bi-chat',
@@ -88,6 +94,8 @@ return [
                     '낚시당' => '/fishing',
                     '날아간당' => '/fly',
                     '냐옹이당' => '/cat',
+                    '녹음한당' => '/recording',
+                    '다바앙' => '/coffee',
                     '달린당' => '/running',
                     '대구당' => '/daegu',
                     '동숲한당' => '/dongsup',
@@ -107,7 +115,6 @@ return [
                     '서피스당' => '/MSSurface',
                     '소셜게임한당' => '/socialgame',
                     '시계당' => '/watches',
-                    '식집사 모임' => '/plant',
                     '스쿠버당' => '/scuba',
                     '싸줄한당' => '/soccerline',
                     '안드로메당' => '/android',
@@ -134,13 +141,13 @@ return [
                     '칭차앙' => '/compliment',
                     '캠핑간당' => '/camping',
                     '콘솔한당' => '/console',
-                    '다바앙' => '/coffee',
                     '키보드당' => '/keyboard',
                     '탁구당' => '/tabletennis',
                     '패스오브엑자일당' => '/pathofexile',
                     '포뮬러당' => '/formula',
                     '포토샵당' => '/photoshop',
                     '퐁당퐁당' => '/swim',
+                    '푸르르당' => '/plant',
                     '플레이모빌당' => '/playmobil',
                     '필기도구당' => '/stationery',
                 ]

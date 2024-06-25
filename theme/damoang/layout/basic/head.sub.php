@@ -108,8 +108,8 @@ add_javascript('<script src="' . LAYOUT_URL . '/js/darkmode.js?CACHEBUST"></scri
                 'KeyV': '/',
                 'KeyW': '/promotion',
                 'KeyX': '/angreport',
-                'KeyY': '/',
-                'KeyZ': '/bbs/noti.php',
+                'KeyY': '/bbs/noti.php',
+                'KeyZ': '/hardware',
             };
 
             function isInputElement(element) {
