@@ -337,11 +337,6 @@ run_event('view_skin_before');
                 echo $view_replaced; // 글내용 출력
                 ?>
             </div>
-            <?php // if ($is_signature) { // 서명 ?>
-
-            <?php echo na_widget('mb-sign') ?>
-            <p><?php // echo $signature ?></p>
-            <?php // } ?>
         </div>
         <?php
         // 추천/비추천 여부 확인
@@ -408,7 +403,6 @@ run_event('view_skin_before');
             </div>
         </div>
 
-
         <style>
             .sg-name .sv_wrap .profile_img {
                 display: none
@@ -419,86 +413,9 @@ run_event('view_skin_before');
                 max-height: 100%
             }
         </style>
-        <div class="border mx-3 mx-sm-0 mb-3 p-3">
-            <div class="row row-cols-1 row-cols-md-2 align-items-center">
-                <div class="col-sm-5 col-md-4 text-center">
-                    <div class="row row-cols-1 row-cols-md-2 align-items-center">
-                        <div class="col-sm-auto col-md-auto">
-                            <img src="<?php echo na_member_photo($view['mb_id']) ?>" class="rounded-circle">
-                        </div>
-                        <div class="col-sm-auto col-md-auto sg-name">
-                            <?php echo $view['name'] ?>
-                        </div>
-                    </div>
-                    <!-- <div class="clearfix f-sm text-center">
-                        <span class="float-left">
-                        <?php echo na_xp_icon($view['mb_id'], '', $view) ?>
-                        <?php echo $view['wr_name'] ?>
-                        </span>
-                        <span class="float-right">
-                        레벨 <?php echo $mbs['as_level'] ?>
-                        </span>
-                    </div> -->
-                    <!-- <div class="progress" title="레벨업까지 <?php echo number_format($mbs['as_max'] - $mbs['as_exp']); ?> 경험치 필요">
-                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<?php echo $per ?>"
-                        aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $per ?>%">
-                        <span class="sr-only"><?php echo $per ?>%</span>
-                        </div>
-                    </div> -->
-                </div>
-                <div class="col-sm-7 col-md-8">
-                    <ul class="na-list">
-                        <p class="na-mb-sign"><?php echo $signature ?></p>
-                        <?php
-                        // 리스트
-                        for ($i = 0; $i < $list_cnt; $i++) {
-
-                            // 아이콘 체크
-                            if (isset($list[$i]['icon_secret']) && $list[$i]['icon_secret']) {
-                                $is_lock = true;
-                                $wr_icon = '<span class="na-icon na-secret"></span> ';
-                            } else if (isset($list[$i]['icon_new']) && $list[$i]['icon_new']) {
-                                $wr_icon = '<span class="na-icon na-new"></span> ';
-                            } else {
-                                $wr_icon = '';
-                            }
-
-                            // 파일 아이콘
-                            $icon_file = '';
-                            if ($thumb || (isset($list[$i]['as_thumb']) && $list[$i]['as_thumb'])) {
-                                $icon_file = '<span class="na-ticon na-image"></span>';
-                            } else if (isset($list[$i]['icon_file']) && $list[$i]['icon_file']) {
-                                $icon_file = '<span class="na-ticon na-file"></span>';
-                            }
-                            ?>
-                            <li>
-                                <div class="na-title">
-                                    <div class="float-right text-muted f-sm font-weight-normal ml-2">
-                                        <span class="sr-only">등록일</span>
-                                        <?php echo na_date($list[$i]['wr_datetime'], 'orangered', 'long') ?>
-                                    </div>
-                                    <div class="na-item">
-                                        <a href="<?php echo $list[$i]['href'] ?>" class="na-subject">
-                                            <?php echo $wr_icon ?><?php echo $list[$i]['subject'] ?>
-                                        </a>
-                                        <?php echo $icon_file ?>
-                                        <?php if (isset($list[$i]['wr_comment']) && $list[$i]['wr_comment']) { ?>
-                                            <div class="na-info">
-                                                <span class="count-plus orangered">
-                                                <span class="sr-only">댓글</span>
-                                                <?php echo $list[$i]['wr_comment']; ?>
-                                                </span>
-                                            </div>
-                                        <?php } ?>
-                                    </div>
-                                </div>
-                            </li>
-                        <?php } ?>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
+        <?php if ($is_signature) { // 서명 ?>
+            <?php echo na_widget('mb-sign'); ?>
+        <?php } ?>
         <?php if ($view['wr_8']) { ?>
             <div class="d-flex mb-2">
                 <div class="me-2">
