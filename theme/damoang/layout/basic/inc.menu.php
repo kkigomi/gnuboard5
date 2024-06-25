@@ -7,7 +7,7 @@ return [
     [
         'title' => '커뮤니티 & 포털',
         'items' => [
-            '하.드.웨.어.! (다모앙존)' => [
+            'PC•주변기기(하드웨어,다모앙존)' => [
                 'url' => '/hardware',
                 'icon' => 'bi-chat',
                 'shortcut' => '.',
