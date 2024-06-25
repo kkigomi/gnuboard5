@@ -10,7 +10,7 @@ return [
             'PC•주변기기(하드웨어&다모앙존)' => [
                 'url' => '/hardware',
                 'icon' => 'bi-chat',
-                'shortcut' => '.',
+                'shortcut' => 'Z',
             ],
     
             '자유게시판' => [
