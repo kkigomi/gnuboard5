@@ -78,6 +78,23 @@ add_javascript('<script src="' . LAYOUT_URL . '/js/darkmode.js?CACHEBUST"></scri
             var g5_admin_url = <?php var_export(G5_ADMIN_URL) ?>;
         <?php } ?>
         var na_url = <?php var_export(NA_URL) ?>;
+        <?php
+        // FIXME: Member 객체 테스트
+        if (method_exists($member, 'id')) {
+        ?>
+            var _member = <?= json_encode([
+                'id' => $member->id(),
+                'certified' => $member->isCertified(),
+                'certifiedType' => $member['mb_certify'],
+                'point' => $member->point(),
+                'level' => $member->level(),
+                'isMember' => $member->isMember(),
+                'isGuest' => $member->isGuest(),
+                'isLogged' => $member->isLogged(),
+                'isAdmin' => $member->isAdmin(),
+                'adminType' => $member->adminType(),
+            ]); ?>;
+        <?php } ?>
 
         (function () {
             'use strict';
