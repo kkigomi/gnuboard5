@@ -210,7 +210,7 @@ run_event('view_skin_before');
                         }
                     });
                 </script>
-                <a href="#" class="btn btn-basic btn-sm ms-2" style="white-space: nowrap;">
+                <a href="<?php echo $write_href ?>" class="btn btn-basic btn-sm ms-2" style="white-space: nowrap;">
                     <i class="bi bi-pencil-square"></i>
                     글쓰기
                 </a>
