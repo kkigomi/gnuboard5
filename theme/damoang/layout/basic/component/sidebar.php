@@ -176,7 +176,8 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
                      data-full-width-responsive="true"></ins>
                 <script>
                     (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>                <!-- 배너
+                </script>
+                <!-- 배너 -->
 
             </div>
         </div>
