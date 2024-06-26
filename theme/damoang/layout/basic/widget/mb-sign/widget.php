@@ -45,6 +45,8 @@ $sign_list_cnt = count($sign_list);
         <div class="col-sm-5 col-md-4 pb-3">
 
             <?php echo na_widget('damoang-image-banner', 'sign-banner'); ?>
+            신규 광고 slot 발견 ❤️❤️ 일단은 저만 쓸게요. <br>
+            비싼 자리에 광고를 넣어보세요. <br>
         </div>
         <div class="col-md-8 col-sm-7 border-start" id="sign-content">
             <p class="mt-3"><?php echo $mb['mb_signature'] ?></p>
