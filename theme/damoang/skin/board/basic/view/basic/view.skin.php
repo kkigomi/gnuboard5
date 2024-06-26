@@ -570,31 +570,31 @@ run_event('view_skin_before');
     <?php if (is_mobile()) { ?>
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6922133409882969"
                 crossorigin="anonymous"></script>
-        <!-- post-in-viewer -->
+        <!-- mobile -->
         <ins class="adsbygoogle"
-             style="display:block"
+             style="display:inline-block;width:350px;height:350px"
              data-ad-client="ca-pub-6922133409882969"
-             data-ad-slot="2658262709"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
+             data-ad-slot="1919347366"></ins>
         <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script><!--        TODO : 애드센스 위젯 만들어야 함 <br>-->
+        </script>
+
+        <!--        TODO : 애드센스 위젯 만들어야 함 <br>-->
 <!--        애드센스 제거 후 파랑색 검색 바가 제거 되는 지 TEST <br/>-->
 <!--        삐앙삐앙 머그컵 없어져랏앙앙앙!!-->
     <?php } else { ?>
+
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6922133409882969"
                 crossorigin="anonymous"></script>
-        <!-- post-in-viewer -->
+        <!-- fix-down -->
         <ins class="adsbygoogle"
-             style="display:block"
+             style="display:inline-block;width:728px;height:90px"
              data-ad-client="ca-pub-6922133409882969"
-             data-ad-slot="2658262709"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
+             data-ad-slot="2430483259"></ins>
         <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script><!--        TODO : 애드센스 위젯 만들어야 함 <br>-->
+        </script>
+        <!--        TODO : 애드센스 위젯 만들어야 함 <br>-->
 <!--        애드센스 제거 후 파랑색 검색 바가 제거 되는 지 TEST <br/>-->
 <!--        삐앙삐앙 머그컵 없어져랏앙앙앙!!-->
     <?php } ?>
