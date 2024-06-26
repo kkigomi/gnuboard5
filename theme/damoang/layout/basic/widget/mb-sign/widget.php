@@ -51,7 +51,7 @@ $sign_list_cnt = count($sign_list);
                     <?php echo $view['name'] ?>
                 </span>
                 <span class="float-end">
-                    레벨 <?php echo $mb['as_level'] ?>
+                    Exp <?php echo number_format($mb['as_exp']) ?>
                 </span>
             </div>
             <div class="progress" title="레벨업까지 <?php echo number_format($mbs['as_max'] - $mbs['as_exp']);?> 경험치 필요">
