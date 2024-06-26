@@ -161,20 +161,11 @@ $replace_bbs_file = array(
 $replace_shop_file = array();
 
 // 관리자 원본 대체 파일
-if(IS_EXTEND) {
-	$replace_adm_file = array(
-		G5_ADMIN_DIR.'-page-menu_list', // 메뉴관리
-		G5_ADMIN_DIR.'-page-menu_form', // 메뉴등록
-		G5_ADMIN_DIR.'-page-menu_form_search', // 메뉴검색
-		G5_ADMIN_DIR.'-page-contentlist', // 내용관리
-		G5_ADMIN_DIR.'-shop_admin-page-itemlist', // 상품관리목록
-		G5_ADMIN_DIR.'-shop_admin-page-orderformcartupdate', // 주문상태 업데이트
-	);
-} else {
-	$replace_adm_file = array(
-		G5_ADMIN_DIR.'-page-menu_list', // 메뉴관리
-		G5_ADMIN_DIR.'-page-menu_form', // 메뉴등록
-		G5_ADMIN_DIR.'-page-menu_form_search', // 메뉴검색
-		G5_ADMIN_DIR.'-page-contentlist', // 내용관리
-	);
-}
+$replace_adm_file = array(
+	G5_ADMIN_DIR.'-page-menu_list', // 메뉴관리
+	G5_ADMIN_DIR.'-page-menu_form', // 메뉴등록
+	G5_ADMIN_DIR.'-page-menu_form_search', // 메뉴검색
+	G5_ADMIN_DIR.'-page-contentlist', // 내용관리
+	G5_ADMIN_DIR.'-page-member_list', // 회원목록
+	G5_ADMIN_DIR.'-page-member_form', // 회원 수정 폼
+);
