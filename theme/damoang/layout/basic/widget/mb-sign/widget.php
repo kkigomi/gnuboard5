@@ -30,7 +30,14 @@ $sign_list = na_board_rows($wset);
 $sign_list_cnt = count($sign_list);
 
 ?>
-
+<style>
+    .float-start .sv_wrap a .profile_img {
+        display: none !important;
+    }
+    .float-start .xp-icon {
+        margin-right: 2px;
+    }
+</style>
 <!-- ================= 서명 New Start=================  -->
 <div class="border mx-3 mx-sm-0 mb-3 p-3">
     <div class="row row-cols-1 row-cols-md-2 align-items-center">
@@ -39,12 +46,12 @@ $sign_list_cnt = count($sign_list);
                 <img src="<?php echo na_member_photo($mbs['mb_id']) ?>" class="rounded-circle">
             </div>
             <div class="clearfix f-sm">
-                <span class="float-start">
+                <span class="float-start d-flex">
                     <?php echo na_xp_icon($mbs['mb_id'], '', $mbs) ?>
-                    <?php echo $view['wr_name'] ?>
+                    <?php echo $view['name'] ?>
                 </span>
                 <span class="float-end">
-                    레벨 <?php echo $mb['as_level'] ?>
+                    Exp <?php echo number_format($mb['as_exp']) ?>
                 </span>
             </div>
             <div class="progress" title="레벨업까지 <?php echo number_format($mbs['as_max'] - $mbs['as_exp']);?> 경험치 필요">
