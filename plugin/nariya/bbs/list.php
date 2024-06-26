@@ -349,7 +349,8 @@ $write_pages = get_paging(G5_IS_MOBILE ? $config['cf_mobile_pages'] : $config['c
 $list_href = '';
 $prev_part_href = '';
 $next_part_href = '';
-if ($is_search_bbs) {
+
+if ($is_search_bbs && $spt) {
     $list_href = get_pretty_url($bo_table);
 
     $patterns = array('#&amp;page=[0-9]*#', '#&amp;spt=[0-9\-]*#');
