@@ -2,6 +2,8 @@
 // 코멘트 삭제
 include_once('./_common.php');
 
+use Damoang\Plugin\ContentManagement\ContentTracker;
+
 $comment_id = isset($_REQUEST['comment_id']) ? (int) $_REQUEST['comment_id'] : 0;
 
 $delete_comment_token = get_session('ss_delete_comment_'.$comment_id.'_token');
@@ -46,6 +48,15 @@ else if ($is_admin == 'group') { // 그룹관리자
         alert('비밀번호가 틀립니다.');
 }
 
+$latestHistory = ContentTracker::getLatestContentHistory($board['bo_table'], $write['wr_id']);
+
+if ($latestHistory && isset($latestHistory['operation']) && isset($latestHistory['mb_id']) && isset($write['mb_id'])) {
+    $deleted_by = ($write['mb_id'] == $latestHistory['mb_id']) ? 'member' : 'admin';
+    if ($latestHistory['operation'] === ContentTracker::OPERATION_DELETE) {
+        alert('이미 삭제된 게시물입니다.');
+    }
+}
+
 $len = strlen($write['wr_comment_reply']);
 if ($len < 0) $len = 0;
 $comment_reply = substr($write['wr_comment_reply'], 0, $len);
@@ -57,15 +68,55 @@ $sql = " select count(*) as cnt from {$write_table}
             and wr_comment = '{$write['wr_comment']}'
             and wr_is_comment = 1 ";
 $row = sql_fetch($sql);
-if ($row['cnt'] && !$is_admin)
-    alert('이 코멘트와 관련된 답변코멘트가 존재하므로 삭제 할 수 없습니다.');
+//if ($row['cnt'] && !$is_admin)
+//    alert('이 코멘트와 관련된 답변코멘트가 존재하므로 삭제 할 수 없습니다.');
 
 // 코멘트 포인트 삭제
 if (!delete_point($write['mb_id'], $bo_table, $comment_id, '댓글'))
     insert_point($write['mb_id'], $board['bo_comment_point'] * (-1), "{$board['bo_subject']} {$write['wr_parent']}-{$comment_id} 댓글삭제");
 
 // 코멘트 삭제
-sql_query(" delete from {$write_table} where wr_id = '{$comment_id}' ");
+//sql_query(" delete from {$write_table} where wr_id = '{$comment_id}' ");
+
+$sql_has_replies = " select EXISTS (
+                        select 1 from {$write_table}
+                        where wr_parent = '{$write['wr_parent']}'
+                        and wr_comment = '{$write['wr_comment']}'
+                        and wr_is_comment = 1
+                        and wr_comment_reply > '{$comment_reply}'
+                        and wr_id <> '{$comment_id}'
+                        limit 1
+                    ) as has_replies ";
+$row_has_replies = sql_fetch($sql_has_replies);
+$has_replies = $row_has_replies['has_replies'];
+
+try {
+    $DELETE_ERROR_MESSAGE = "댓글 삭제 중 오류가 발생했습니다.";
+    sql_query("START TRANSACTION");
+    
+    // softDelete 예외를 감추기 위한 임시방편
+    try {
+        $softDeleteResult = ContentTracker::softDelete($bo_table, $comment_id, $write);
+        if (!$softDeleteResult) {
+            throw new Exception($DELETE_ERROR_MESSAGE);
+        }
+    } catch (Exception $e) {
+        throw new Exception($DELETE_ERROR_MESSAGE);
+    }
+    
+    if (!$has_replies) {
+        // 대댓글이 없으면 게시물 삭제
+        $result = sql_query(" DELETE FROM $write_table WHERE wr_id = '{$comment_id}' ");
+        if (!$result) {
+            throw new Exception($DELETE_ERROR_MESSAGE);
+        }
+    }
+    
+    sql_query("COMMIT");
+} catch (Exception $e) {
+    alert($e->getMessage());
+    sql_query("ROLLBACK");
+}
 
 // 코멘트가 삭제되므로 해당 게시물에 대한 최근 시간을 다시 얻는다.
 $sql = " select max(wr_datetime) as wr_last from {$write_table} where wr_parent = '{$write['wr_parent']}' ";

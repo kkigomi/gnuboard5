@@ -226,7 +226,7 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                             <span class="na-icon na-secret"></span>
                         <?php } ?>
 
-                        <?php echo $comment ?>
+                        <?php if(empty($comment)) echo "[삭제된 댓글입니다]"; else echo $comment ?>
                     </div>
                     <?php if((int)$list[$i]['wr_10'] > 0) { // 럭키포인트 ?>
                         <div class="small mt-3">
@@ -258,7 +258,10 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                                     <span class="d-none d-sm-inline-block">수정</span>
                                 </button>
                             <?php } ?>
-                            <?php if ($list[$i]['is_del']) { ?>
+                            <?php
+                            // if ($list[$i]['is_del']) {
+                            if (true) {
+                            ?>
                                 <a href="<?php echo $list[$i]['del_link']; ?>" rel="nofollow" onclick="<?php echo (isset($list[$i]['del_back']) && $list[$i]['del_back']) ? "na_delete('viewcomment', '".$list[$i]['del_href']."','".$list[$i]['del_back']."'); return false;" : "return comment_delete(this.href);";?>" class="btn btn-basic" title="삭제">
                                     <i class="bi bi-trash"></i>
                                     <span class="d-none d-sm-inline-block">삭제</span>
