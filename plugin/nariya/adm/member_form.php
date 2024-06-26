@@ -1,6 +1,6 @@
 <?php
 $sub_menu = "200100";
-require_once './_common.php';
+include_once(NA_PATH.'/_adm.php');
 
 auth_check_menu($auth, $sub_menu, 'w');
 
@@ -287,6 +287,8 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
                         <label for="mb_certify_sa">간편인증</label>
                         <input type="radio" name="mb_certify_case" value="hp" id="mb_certify_hp" <?php if ($mb['mb_certify'] == 'hp') { echo 'checked="checked"'; } ?>>
                         <label for="mb_certify_hp">휴대폰</label>
+                        <input type="radio" name="mb_certify_case" value="abroad" id="mb_certify_abroad" <?php if ($mb['mb_certify'] == 'abroad') { echo 'checked="checked"'; } ?>>
+                        <label for="mb_certify_abroad">재외국민</label>
                         <input type="radio" name="mb_certify_case" value="ipin" id="mb_certify_ipin" <?php if ($mb['mb_certify'] == 'ipin') { echo 'checked="checked"'; } ?>>
                         <label for="mb_certify_ipin">아이핀</label>
                     </td>

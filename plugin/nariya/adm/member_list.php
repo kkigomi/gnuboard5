@@ -1,6 +1,6 @@
 <?php
 $sub_menu = "200100";
-require_once './_common.php';
+include_once(NA_PATH.'/_adm.php');
 
 auth_check_menu($auth, $sub_menu, 'r');
 
@@ -198,6 +198,10 @@ $colspan = 16;
                             $mb_certify_case = '아이핀';
                             $mb_certify_val = '';
                             break;
+                        case 'abroad':
+                            $mb_certify_case = '재외국민';
+                            $mb_certify_val = '';
+                            break;
                         case 'simple':
                             $mb_certify_case = '간편인증';
                             $mb_certify_val = '';
@@ -249,6 +253,8 @@ $colspan = 16;
                             <label for="mb_certify_sa_<?php echo $i; ?>">간편인증</label><br>
                             <input type="radio" name="mb_certify[<?php echo $i; ?>]" value="hp" id="mb_certify_hp_<?php echo $i; ?>" <?php echo $row['mb_certify'] == 'hp' ? 'checked' : ''; ?>>
                             <label for="mb_certify_hp_<?php echo $i; ?>">휴대폰</label><br>
+                            <input type="radio" name="mb_certify[<?php echo $i; ?>]" value="abroad" id="mb_certify_abroad_<?php echo $i; ?>" <?php echo $row['mb_certify'] == 'abroad' ? 'checked' : ''; ?>>
+                            <label for="mb_certify_abroad_<?php echo $i; ?>">재외국민</label><br>
                             <input type="radio" name="mb_certify[<?php echo $i; ?>]" value="ipin" id="mb_certify_ipin_<?php echo $i; ?>" <?php echo $row['mb_certify'] == 'ipin' ? 'checked' : ''; ?>>
                             <label for="mb_certify_ipin_<?php echo $i; ?>">아이핀</label>
                         </td>
