@@ -127,6 +127,7 @@ function na_sql_sort($type, $sort) {
 	} else if($type == 'bo') {
 		switch($sort) { 
 			case 'asc'			: $orderby = 'wr_id'; break;
+			case 'wr_num'		: $orderby = 'wr_num asc'; break;
 			case 'date'			: $orderby = 'wr_datetime desc'; break;
 			case 'hit'			: $orderby = 'wr_hit desc'; break;
 			case 'comment'		: $orderby = 'wr_comment desc'; break;
@@ -414,7 +415,7 @@ function na_board_rows($wset) {
 
 	$caches = false;
 	$is_cache = isset($wset['cache']) ? (int)$wset['cache'] : 5;
-	if($is_cache > 0) {
+	if ($is_cache > 0 && $wset['cacheId']) {
 		$caches = g5_get_cache($wset['cacheId'], $is_cache * 60);
 	}
 
@@ -644,7 +645,7 @@ function na_board_rows($wset) {
 	}
 
 	// 캐싱
-	if($is_cache > 0) {
+	if ($is_cache > 0 && $wset['cacheId']) {
 		$caches = array('list' => $list);
 		g5_set_cache($wset['cacheId'], $caches, $is_cache * 60);
 	}

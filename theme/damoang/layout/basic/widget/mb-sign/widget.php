@@ -24,6 +24,7 @@ $per = (int)(($mbs['as_exp'] / $mbs['as_max']) * 100);
 $wset['bo_list'] = $bo_table;
 $wset['mb_list'] = $view['mb_id'];
 $wset['rows'] = 10;
+$wset['sort'] = 'wr_num';
 
 $sign_list = array();
 $sign_list = na_board_rows($wset);
