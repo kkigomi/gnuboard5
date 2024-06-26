@@ -88,7 +88,8 @@ function na_board_rows_custom($wset)
 
                 $tmp_write_table = $g5['write_prefix'] . $row['bo_table'];
 
-                $result1 = sql_query(" select * from $tmp_write_table where find_in_set(wr_id, '{$row['bo_notice']}') ");
+                $notice_list = implode(',', array_map('intval', explode(',', $row['bo_notice'])));
+                $result1 = sql_query(" select * from $tmp_write_table where wr_id IN({$notice_list}) ");
                 if ($result1) {
                     for ($j = 0; $row1 = sql_fetch_array($result1); $j++) {
 
