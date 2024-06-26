@@ -414,7 +414,7 @@ run_event('view_skin_before');
             }
         </style>
 
-
+        <?php echo na_widget('damoang-image-banner', 'board-head'); ?>
         <?php if ($is_signature) { // 서명 ?>
             <?php echo na_widget('mb-sign'); ?>
         <?php } ?>
