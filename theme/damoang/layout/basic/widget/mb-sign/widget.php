@@ -40,18 +40,14 @@ $sign_list_cnt = count($sign_list);
     }
 </style>
 <!-- ================= 서명 New Start=================  -->
-<div class="border mx-3 mx-sm-0 mb-3 p-3">
+<div class="border mx-3 mx-sm-0 mb-3 p-3 rounded-3">
     <div class="row row-cols-1 row-cols-md-2 align-items-center">
-        <div class="col-sm-5 col-md-4 pb-3">
-
-            <?php echo na_widget('damoang-image-banner', 'sign-banner'); ?>
-            신규 광고 slot 발견 ❤️❤️ 일단은 저만 쓸게요. <br>
-            비싼 자리에 광고를 넣어보세요. <br>
-        </div>
-        <div class="col-md-8 col-sm-7 border-start" id="sign-content">
-            <p class="mt-3"><?php echo $mb['mb_signature'] ?></p>
-        </div>
-        <div class="col-md-4 col-sm-5 pb-3">
+        <div class="col-md-4 col-sm-5 pb-3" id="sign-profile">
+            <div class="pb-3">
+                <?php echo na_widget('damoang-image-banner', 'sign-banner'); ?>
+                신규 광고 slot 발견 ❤️❤️ 일단은 저만 쓸게요. <br>
+                비싼 자리에 광고를 넣어보세요. <br>
+            </div>
             <div class="text-center mb-2 mb-sm-0">
                 <img src="<?php echo na_member_photo($mbs['mb_id']) ?>" class="rounded-circle">
             </div>
@@ -70,10 +66,13 @@ $sign_list_cnt = count($sign_list);
                 </div>
             </div>
         </div>
+        <div class="col-md-8 col-sm-7 border-start" id="sign-content">
+            <p class="mt-3"><?php echo $mb['mb_signature'] ?></p>
+        </div>
     </div>
-    <div class="border-top" id="sign-recent-list-container">
+    <div class="border-top mt-3" id="sign-recent-list-container">
     <div id="sign-recent-list">
-            <ul class="list-group list-group-flush border-bottom" style="padding-left:0px;overflow-y:auto;max-height:205px">
+            <ul class="list-group list-group-flush border-bottom" style="padding-left:0px;overflow-y:auto;">
             <?php
             // 리스트
             for ($i=0; $i < $sign_list_cnt; $i++) {
@@ -123,7 +122,7 @@ $sign_list_cnt = count($sign_list);
                         <?php } ?>
                     </div>
 
-                    <div class="f-sm fw-normal ms-md-2">
+                    <div class="f-sm fw-normal ms-md-2" style="white-space:nowrap">
                         <span class="sr-only">등록일</span>
                         <?php echo na_date($sign_list[$i]['wr_datetime'], 'orangered') ?>
                     </div>
@@ -144,12 +143,23 @@ $sign_list_cnt = count($sign_list);
 <script>
 var signature = `<?=$mb['mb_signature']?>`;
 
+// 서명이 없을 경우
 if (signature === "" || signature === null || signature === undefined) {
+    console.debug("in");
     $("#sign-recent-list").hide();
+    // 게시글 목록을 프로플 우측으로 추가 후 기존 것 삭제
     var recentList = $("#sign-recent-list").html();
+    $("#sign-content").addClass("border-start");
     $("#sign-content").html(recentList);
     $("#sign-recent-list").remove();
-    $("#sign-recent-list-container").removeClass("border-top");
-}
 
+    $("#sign-recent-list-container").removeClass("border-top");
+    // 프로필 영역 높이 만큼 게시글 목록 최대 높이를 늘려줌
+    var strMaxHeight = $("#sign-profile").height();
+    $("#sign-content ul").css("max-height",strMaxHeight);
+} else { //서명 있을 경우
+    $("#sign-recent-list ul").css("max-height","205px")
+    $("#sign-profile").addClass("border-end");
+    $("#sign-content").removeClass("border-start");
+}
 </script>
