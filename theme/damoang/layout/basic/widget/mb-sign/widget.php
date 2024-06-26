@@ -120,7 +120,7 @@ $sign_list_cnt = count($sign_list);
                     </div>
                     <div class="f-sm fw-normal ms-md-2">
                         <span class="sr-only">등록일</span>
-                        <?php echo na_date($sign_list[$i]['wr_datetime'], 'orangered', 'H:i', 'm.d', 'Y.m.d') ?>
+                        <?php echo na_date($sign_list[$i]['wr_datetime'], 'orangered') ?>
                     </div>
                 </li>
             <?php } ?>
