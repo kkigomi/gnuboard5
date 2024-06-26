@@ -7,11 +7,7 @@ return [
     [
         'title' => '커뮤니티 & 포털',
         'items' => [
-            'PC•주변기기(하드웨어&다모앙존)' => [
-                'url' => '/hardware',
-                'icon' => 'bi-chat',
-                'shortcut' => 'Z',
-            ],
+
 
             '자유게시판' => [
                 'url' => '/free',
@@ -43,6 +39,11 @@ return [
                 'url' => '/music',
                 'icon' => 'bi-cash-coin',
                 'shortcut' => 'Ｄ',
+            ],
+            'PC•주변기기(하드웨어&다모앙존)' => [
+                'url' => '/hardware',
+                'icon' => 'bi-chat',
+                'shortcut' => 'Z',
             ],
             '사용기' => [
                 'url' => '/tutorial',
