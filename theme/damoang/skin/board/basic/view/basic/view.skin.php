@@ -415,28 +415,32 @@ run_event('view_skin_before');
         </style>
 
         <?php echo na_widget('damoang-image-banner', 'board-head'); ?>
-        <?php if ($is_signature) { // 서명 ?>
-            <?php echo na_widget('mb-sign'); ?>
-        <?php } ?>
-        <div class="row row-cols-1 row-cols-md-2 align-items-center">
-            <div class="text-center mb-2 mb-sm-0">
-                <img src="<?php echo na_member_photo($mbs['mb_id']) ?>" class="rounded-circle">
-            </div>
-            <div class="clearfix f-sm">
-                <span class="float-start d-flex">
-                    <?php echo na_xp_icon($mbs['mb_id'], '', $mbs) ?>
-                    <?php echo $view['name'] ?>
-                </span>
-                <span class="float-end">
-                    Exp <?php echo number_format($mb['as_exp']) ?>
-                </span>
-            </div>
-            <div class="progress" title="레벨업까지 <?php echo number_format($mbs['as_max'] - $mbs['as_exp']);?> 경험치 필요">
-                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<?php echo $per ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $per ?>%">
-                    <span class="sr-only"><?php echo $per ?>%</span>
+
+        <?php if ($is_signature && $view['mb_id']) { // 서명 ?>
+            <?php echo na_widget('mb-sign', "member-{$view['mb_id']}", 'cache=1'); ?>
+        <?php } else { ?>
+            <div class="row row-cols-1 row-cols-md-2 align-items-center">
+                <div class="text-center mb-2 mb-sm-0">
+                    <img src="<?php echo na_member_photo($mbs['mb_id']) ?>" class="rounded-circle">
+                </div>
+                <div class="clearfix f-sm">
+                    <span class="float-start d-flex">
+                        <?php echo na_xp_icon($mbs['mb_id'], '', $mbs) ?>
+                        <?php echo $view['name'] ?>
+                    </span>
+                    <span class="float-end">
+                        Exp <?php echo number_format($mb['as_exp']) ?>
+                    </span>
+                </div>
+                <div class="progress" title="레벨업까지 <?php echo number_format($mbs['as_max'] - $mbs['as_exp']);?> 경험치 필요">
+                    <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<?php echo $per ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $per ?>%">
+                        <span class="sr-only"><?php echo $per ?>%</span>
+                    </div>
                 </div>
             </div>
-        </div>
+        <?php } ?>
+
+        <!-- google -->
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6922133409882969"
                 crossorigin="anonymous"></script>
         <!-- post-in-viewer -->
@@ -449,6 +453,8 @@ run_event('view_skin_before');
         <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
         </script>
+        <!-- // google -->
+
         <?php if ($view['wr_8']) { ?>
             <div class="d-flex mb-2">
                 <div class="me-2">
@@ -475,7 +481,7 @@ run_event('view_skin_before');
     for ($i = 0; $i < count($view['file']); $i++) {
         if (isset($view['file'][$i]['source']) && $view['file'][$i]['source'] && !$view['file'][$i]['view'])
             $is_attach++;
-    }d
+    }
     ?>
 
     <?php if ($is_link || $is_attach) { ?>
