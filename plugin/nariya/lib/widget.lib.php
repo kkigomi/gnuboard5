@@ -364,7 +364,10 @@ function na_bo_list($gr_list, $gr_except, $bo_list, $bo_except) {
 		$gr = array();
 
 		// 지정그룹의 게시판 다 뽑기
-		$result = sql_query(" select bo_table from {$g5['board_table']} where find_in_set(gr_id, '{$gr_list}') ");
+		$group_list = implode(',', array_map(function($item) {
+			return "'" . trim($item) . "'";
+		}, explode(',', $gr_list)));
+		$result = sql_query(" select bo_table from {$g5['board_table']} where gr_id IN ({$group_list}) ");
 		if($result) {
 			for ($i=0; $row=sql_fetch_array($result); $i++) {
 				$gr[] = $row['bo_table'];
@@ -479,7 +482,8 @@ function na_board_rows($wset) {
 
 				$tmp_write_table = $g5['write_prefix'] . $row['bo_table']; 
 
-				$result1 = sql_query(" select * from $tmp_write_table where find_in_set(wr_id, '{$row['bo_notice']}') ");
+				$notice_list = implode(',', array_map('intval', explode(',', $row['bo_notice'])));
+                $result1 = sql_query(" select * from $tmp_write_table where wr_id IN({$notice_list}) ");
 				if($result1) {
 					for ($j=0; $row1=sql_fetch_array($result1); $j++) {
 
@@ -867,7 +871,10 @@ function na_tag_post_rows($wset) {
 	$start_rows = 0;
 
 	// 공통쿼리
-	$sql_common = " from {$g5['na_tag_log']} where bo_table <> '' and find_in_set(tag, '{$tag}') $sql_plus $sql_minus $sql_mb $sql_term group by bo_table, wr_id ";
+	$tag = implode(',', array_map(function($item) {
+		return "'" . trim($item) . "'";
+	}, explode(',', $tag)));
+	$sql_common = " from {$g5['na_tag_log']} where bo_table <> '' and tag IN ({$tag}) $sql_plus $sql_minus $sql_mb $sql_term group by bo_table, wr_id ";
 
 	if($page > 1) {
 		$total = sql_query(" select count(*) as cnt $sql_common ", false);
