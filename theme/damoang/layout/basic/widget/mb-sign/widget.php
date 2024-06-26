@@ -39,10 +39,16 @@ $sign_list_cnt = count($sign_list);
         margin-right: 2px;
     }
 </style>
-
 <!-- ================= 서명 New Start=================  -->
-<div class="border mx-3 mx-sm-0 mb-3 p-3 rounded-3" id="new-sign">
-    <div class="row row-cols-1 row-cols-md-2 align-items-center pb-3">
+<div class="border mx-3 mx-sm-0 mb-3 p-3">
+    <div class="row row-cols-1 row-cols-md-2 align-items-center">
+        <div class="col-sm-5 col-md-4 pb-3">
+
+            새로운 광고주님 타입 자리
+        </div>
+        <div class="col-md-8 col-sm-7 border-start" id="sign-content">
+            <p class="mt-3"><?php echo $mb['mb_signature'] ?></p>
+        </div>
         <div class="col-md-4 col-sm-5 pb-3">
             <div class="text-center mb-2 mb-sm-0">
                 <img src="<?php echo na_member_photo($mbs['mb_id']) ?>" class="rounded-circle">
@@ -61,9 +67,6 @@ $sign_list_cnt = count($sign_list);
                     <span class="sr-only"><?php echo $per ?>%</span>
                 </div>
             </div>
-        </div>
-        <div class="col-md-8 col-sm-7 border-start" id="sign-content">
-            <p class="mt-3"><?php echo $mb['mb_signature'] ?></p>
         </div>
     </div>
     <div class="border-top" id="sign-recent-list-container">
@@ -121,11 +124,12 @@ $sign_list_cnt = count($sign_list);
                     </div>
                     <div class="f-sm fw-normal ms-md-2">
                         <span class="sr-only">등록일</span>
-                        <?php echo na_date($sign_list[$i]['wr_datetime'], 'orangered') ?>
+                        <?php echo na_date($sign_list[$i]['wr_datetime'], 'orangered', 'H:i', 'm.d', 'Y.m.d') ?>
                     </div>
                 </li>
             <?php } ?>
             </ul>
+            <p class="mt-3"><?php echo $mb['mb_signature'] ?></p>
         </div>
     </div>
 </div>

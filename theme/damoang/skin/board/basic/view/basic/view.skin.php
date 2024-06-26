@@ -413,9 +413,30 @@ run_event('view_skin_before');
                 max-height: 100%
             }
         </style>
+
+
         <?php if ($is_signature) { // 서명 ?>
             <?php echo na_widget('mb-sign'); ?>
         <?php } ?>
+        <div class="row row-cols-1 row-cols-md-2 align-items-center">
+            <div class="text-center mb-2 mb-sm-0">
+                <img src="<?php echo na_member_photo($mbs['mb_id']) ?>" class="rounded-circle">
+            </div>
+            <div class="clearfix f-sm">
+                <span class="float-start d-flex">
+                    <?php echo na_xp_icon($mbs['mb_id'], '', $mbs) ?>
+                    <?php echo $view['name'] ?>
+                </span>
+                <span class="float-end">
+                    Exp <?php echo number_format($mb['as_exp']) ?>
+                </span>
+            </div>
+            <div class="progress" title="레벨업까지 <?php echo number_format($mbs['as_max'] - $mbs['as_exp']);?> 경험치 필요">
+                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<?php echo $per ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $per ?>%">
+                    <span class="sr-only"><?php echo $per ?>%</span>
+                </div>
+            </div>
+        </div>
         <?php if ($view['wr_8']) { ?>
             <div class="d-flex mb-2">
                 <div class="me-2">
