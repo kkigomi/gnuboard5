@@ -39,15 +39,16 @@ $sign_list_cnt = count($sign_list);
         margin-right: 2px;
     }
 </style>
+
 <!-- ================= 서명 New Start=================  -->
-<div class="border mx-3 mx-sm-0 mb-3 p-3">
-    <div class="row row-cols-1 row-cols-md-2 align-items-center">
-        <div class="col-sm-5 col-md-4 pb-3">
+<div class="border mx-3 mx-sm-0 mb-3 p-3 rounded-3" id="new-sign">
+    <div class="row row-cols-1 row-cols-md-2 align-items-center pb-3">
+        <div class="col-md-4 col-sm-5 pb-3">
             <div class="text-center mb-2 mb-sm-0">
                 <img src="<?php echo na_member_photo($mbs['mb_id']) ?>" class="rounded-circle">
             </div>
             <div class="clearfix f-sm">
-                <span class="float-start d-flex">
+                <span class="float-start d-flex pt-1">
                     <?php echo na_xp_icon($mbs['mb_id'], '', $mbs) ?>
                     <?php echo $view['name'] ?>
                 </span>
@@ -61,7 +62,12 @@ $sign_list_cnt = count($sign_list);
                 </div>
             </div>
         </div>
-        <div class="col-sm-7 col-md-8">
+        <div class="col-md-8 col-sm-7 border-start" id="sign-content">
+            <p class="mt-3"><?php echo $mb['mb_signature'] ?></p>
+        </div>
+    </div>
+    <div class="border-top" id="sign-recent-list-container">
+    <div id="sign-recent-list">
             <ul class="list-group list-group-flush border-bottom" style="padding-left:0px;overflow-y:auto;max-height:205px">
             <?php
             // 리스트
@@ -115,12 +121,11 @@ $sign_list_cnt = count($sign_list);
                     </div>
                     <div class="f-sm fw-normal ms-md-2">
                         <span class="sr-only">등록일</span>
-                        <?php echo na_date($sign_list[$i]['wr_datetime'], 'orangered', 'H:i', 'm.d', 'Y.m.d') ?>
+                        <?php echo na_date($sign_list[$i]['wr_datetime'], 'orangered') ?>
                     </div>
                 </li>
             <?php } ?>
             </ul>
-            <p class="mt-3"><?php echo $mb['mb_signature'] ?></p>
         </div>
     </div>
 </div>
@@ -132,3 +137,15 @@ $sign_list_cnt = count($sign_list);
 		</a>
 	</div>
 <?php } ?>
+<script>
+var signature = `<?=$mb['mb_signature']?>`;
+
+if (signature === "" || signature === null || signature === undefined) {
+    $("#sign-recent-list").hide();
+    var recentList = $("#sign-recent-list").html();
+    $("#sign-content").html(recentList);
+    $("#sign-recent-list").remove();
+    $("#sign-recent-list-container").removeClass("border-top");
+}
+
+</script>
