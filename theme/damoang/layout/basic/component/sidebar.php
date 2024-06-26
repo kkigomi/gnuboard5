@@ -165,7 +165,18 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
                 <div class="d-none d-lg-block justify-content-center my-4">
                     <?php echo na_widget('damoang-image-banner', 'side-banner'); ?>
                 </div>
-
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6922133409882969"
+                        crossorigin="anonymous"></script>
+                <!-- right -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-6922133409882969"
+                     data-ad-slot="5261209468"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>                <!-- 배너
 
             </div>
         </div>
