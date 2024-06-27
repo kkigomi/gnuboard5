@@ -8,27 +8,26 @@ function attachOpenAllLinkOnBtn() {
     }
 }
 
-function openAllLinksInUserContent() {
+async function openAllLinksInUserContent() {
     var userText = document.querySelector('.economy-user-text');
     var links = userText.querySelectorAll('a');
 
-    links.forEach((link, index) => {
-        const url = link.href;
+    for (let i = 0; i < links.length; i++) {
+        const url = links[i].href;
         if (url) {
-            setTimeout(() => {
-                let a = document.createElement('a');
-                a.href = url;
-                a.target = '_blank';
-                a.rel = 'noopener noreferrer';
-
-                document.body.appendChild(a);
-                a.click();
-
-                // a 태그를 document에서 제거
-                document.body.removeChild(a);
-            }, index * 50); // 각 링크를 50ms 간격으로 열기
+            await new Promise(resolve => {
+                setTimeout(() => {
+                    // 백그라운드에서 새 탭 열기
+                    let newTab = window.open(url, '_blank', 'noopener,noreferrer');
+                    if (newTab) {
+                        newTab.blur(); // 새 탭 포커스 해제
+                        window.focus(); // 현재 탭에 포커스 유지
+                    }
+                    resolve();
+                }, i * 100); // 각 링크를 ?ms 간격으로 열기
+            });
         }
-    });
+    }
 }
 
 document.addEventListener('DOMContentLoaded', attachOpenAllLinkOnBtn);
