@@ -164,8 +164,9 @@ $mb_sign_banner_type = 'SHORT';
                     <?php echo na_widget('damoang-image-banner', 'sign-banner'); ?>
                 </div>
                 <div class="col-md-8 col-sm-7" id="sign-ad-content">
-                    신규 광고 slot 발견 ❤️❤️ 일단은 저만 쓸게요. <br>
-                    비싼(프리미엄) 자리에 광고를 넣어보세요. <br>
+                    <div class="col-md-4 col-sm-5 border-end" id="sign-ad-banner">
+                        <?php echo na_widget('damoang-image-banner', 'sign-banner'); ?>
+                    </div>
                 </div>
             </div>
     <?php } else {?>
