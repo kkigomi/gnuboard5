@@ -41,16 +41,18 @@ $ratio = na_img_ratio($thumb_w, $thumb_h, 75);
             *****************/
         for ($i=0; $i < $list_cnt; $i++) {
             $isNotice = $list[$i]['is_notice'];
-            $isPromotion = $list[$i]['is_advertiser_post']; //직홍게글
+            $isPromotion = $list[$i]['is_promotion_post']; //직홍게글
 
             // 공지글도 직홍게 홍보글도 아니라면 패스.
             if (!$isNotice && !$isPromotion )
                 continue;
 
+            /* 글유형(공지,잠금) 및 나의글 강조 css 클래스 및 $row값 세팅 */  
             $row = $list[$i];
+            $li_css = get_wr_class_and_set_row_f20240617($row, $wr_id);
         ?>
             <?php /******** 공지 글항목 아이템 <li> 시작: *******/ ?>
-            <li class="list-group-item <?php echo get_wr_class_and_set_row_f20240617($row, $wr_id); ?>">
+            <li class="list-group-item <?php echo $li_css ?>">
                 <div class="d-flex align-items-center gap-1">
 
                     <?php /******** '공지','홍보' 표식 *******/ 
@@ -172,7 +174,7 @@ $ratio = na_img_ratio($thumb_w, $thumb_h, 75);
             *******************/
             for ($i=0; $i < $list_cnt; $i++) {
                 // 공지, 홍보글은 제외
-                if ($list[$i]['is_notice'] || $list[$i]['is_advertiser_post'] )
+                if ($list[$i]['is_notice'] || $list[$i]['is_promotion_post'] )
                     continue;
 
                 $row = $list[$i];

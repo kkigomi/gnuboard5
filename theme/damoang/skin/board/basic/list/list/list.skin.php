@@ -65,9 +65,9 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
 
                     <?php 
                     /******** 추천 칼럼: 공지, 홍보, 추천수 표식 ********
-                     * '홍보' 글이라면 별도의 컬러 사용( is_advertiser_post는 plugin/nariya/bbs/list.php 직홍게 위젯 PAI 코드에서 세팅됨 ) 
+                     * '홍보' 글이라면 별도의 컬러 사용( is_promotion_post는 plugin/nariya/bbs/list.php 직홍게 위젯 PAI 코드에서 세팅됨 ) 
                      ****************************************************/
-                     if (isset($row['is_advertiser_post']) && $row['is_advertiser_post']) { 
+                     if (isset($row['is_promotion_post']) && $row['is_promotion_post']) { 
                         echo <<<EOT
                             <div class="wr-num text-nowrap rcmd-pc">
                                 <div class="rcmd-box step-pai">
@@ -112,7 +112,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
                             <div class="d-inline-flex flex-fill overflow-hidden align-items-center">
                                 <?php
                                 /*  제목앞 추가 '홍보' 표식 ( 모바일용. pc에서는 .pai-mb 숨겨짐) */
-                                if (isset($row['is_advertiser_post']) && $row['is_advertiser_post']) { 
+                                if (isset($row['is_promotion_post']) && $row['is_promotion_post']) { 
                                     echo <<<EOT
                                         <div class="wr-num text-nowrap pai-mb">
                                             <div class="rcmd-box step-pai">
