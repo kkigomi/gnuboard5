@@ -31,7 +31,7 @@ $ratio = na_img_ratio($thumb_w, $thumb_h, 75);
     /***********************************************
     * 공지 (목록형으로 표시)
     ************************************************/
-    if($notice_count) { // 공지 
+    if($notice_count > 0 || count($promotion_posts ) > 0) {  
     ?>
         <ul class="list-group list-group-flush border-bottom">
       
@@ -55,22 +55,21 @@ $ratio = na_img_ratio($thumb_w, $thumb_h, 75);
             <li class="list-group-item <?php echo $li_css ?>">
                 <div class="d-flex align-items-center gap-1">
 
-                    <?php /******** '공지' 표식  *******/ ?>
-                    <?php //TODO: 홍보표식 추가 ?>
-                    <div class="wr-num text-nowrap pe-2">
-                        <?php echo $row['num'] ?>
-                    </div>
+                    <?php /******** '공지','홍보' 표식 *******/ 
+                    echo '<div class="wr-num text-nowrap text-center rcmd-pc">';
+                    if ($isNotice) { 
+                        echo $row['num']; 
+                    }
+                    else if ($isPromotion) { 
+                        echo <<<EOT
+                                <div class="rcmd-box step-pai">
+                                    <span>홍보</span>
+                                </div>
+                        EOT;
+                    } 
+                    echo '</div>';
+                    ?>
                     
-
-
-
-
-
-
-
-
-
-
                     <?php /******** (관리자) 체크박스 *******/
                     if ($is_checkbox) { ?>
                         <div>
@@ -84,41 +83,42 @@ $ratio = na_img_ratio($thumb_w, $thumb_h, 75);
                     <?php /******** 제목 칼럼 (회원만보기 + 답변글 표식 + 제목 + 첨부아이콘 + 메모)   *******/ ?>
                     <div class="flex-grow-1">
 
-                        <?php /* TODO: 모바일 전용 : 제목앞에 '공지','홍보' 글자추가 (pc에서는 .pai-mb 숨겨짐) */ ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                        <?php /* 모바일 전용 : 제목앞에 '공지','홍보' 글자추가 (pc에서는 .pai-mb 숨겨짐) */ ?>
+                        <div class="pai-mb d-inline-block" >
+                            <?php if($isNotice){
+                                        echo <<<EOT
+                                            <div class="rcmd-box">
+                                                {$row['num']}
+                                            </div>
+                                        EOT;
+                                    }
+                                    else if ($isPromotion) { 
+                                        echo <<<EOT
+                                                <div class="rcmd-box step-pai">
+                                                    <span>홍보</span>
+                                                </div>
+                                        EOT;
+                                    }
+                            ?>
+                        </div>
 
 
                         <?php
-                        // 회원만 보기
-                        echo $row['da_member_only'] ?? '';
-                        ?>
-                        <!-- 답변글 표식 + 제목 링크-->
+                        // 회원만 보기 표식
+                        echo $row['da_member_only'] ?? '';  ?>
+
+                        <!-- // 답변글 표식 + 제목 링크 -->
                         <a href="<?php echo $row['href'] ?>">
-                            <?php if($row['icon_reply']) { ?>
-                                <i class="bi bi-arrow-return-right"></i>
-                                <span class="visually-hidden">답변</span>
+
+                            <?php //답변글인지 표식
+                            if($row['icon_reply']) { ?>
+                                    <i class="bi bi-arrow-return-right"></i>
+                                    <span class="visually-hidden">답변</span>
                             <?php } ?>
-                            <?php echo $row['subject']; // 제목 ?>
+
+                            <?php // 제목 
+                                    echo $row['subject']; ?>
                         </a>
-
-
-
 
                         <?php //게시판 분류 카테고리 표식
                         if (!$sca && $is_category && $row['ca_name']) { ?>
@@ -127,7 +127,6 @@ $ratio = na_img_ratio($thumb_w, $thumb_h, 75);
                                 <span class="visually-hidden">분류</span>
                             </a>
                         <?php } ?>
-
                         
                         <?php // 제목 뒤 첨부유형 표식 아이콘 (N,사진,영상,파일,링크) 
                         echo get_attachment_icon_f20240628($row, na_check_youtube($row['wr_9']), na_check_img($row['wr_10'])); //구: $wr_icon ?>
@@ -250,12 +249,10 @@ $ratio = na_img_ratio($thumb_w, $thumb_h, 75);
                             <?php } ?>
                             </div>
 
-
                             <?php /* 본문 Excerpt */ ?>
                             <div class="card-text small text-body-secondary ellipsis-2 mb-2">
                                 <?php echo na_get_text($row['wr_content']) ?>
                             </div>
-
 
                             <?php  /* 글 메타정보 그룹 */  ?>
                             <div class="mt-auto w-100">
@@ -287,14 +284,12 @@ $ratio = na_img_ratio($thumb_w, $thumb_h, 75);
                                         <?php echo na_date($row['wr_datetime'], 'orangered') ?>
                                         <span class="visually-hidden">등록</span>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         <?php } ?>
 
         <?php if ($list_cnt - $notice_count === 0) { ?>
@@ -303,7 +298,6 @@ $ratio = na_img_ratio($thumb_w, $thumb_h, 75);
             </div>
         <?php } ?>
     </div>
-
 </section>
 
 <?php
