@@ -417,7 +417,7 @@ run_event('view_skin_before');
         <?php echo na_widget('damoang-image-banner', 'board-head'); ?>
 
         <?php if ($is_signature && $view['mb_id']) { // 서명 ?>
-            <?php echo na_widget('mb-sign', "member-{$view['mb_id']}", 'cache=1'); ?>
+            <?php echo na_widget('mb-sign', "member-{$view['mb_id']}", 'cache=10'); ?>
         <?php } else { ?>
             <div class="row row-cols-1 row-cols-md-2 align-items-center">
                 <div class="text-center mb-2 mb-sm-0">
