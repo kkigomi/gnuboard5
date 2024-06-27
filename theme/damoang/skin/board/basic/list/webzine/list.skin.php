@@ -40,11 +40,11 @@ $ratio = na_img_ratio($thumb_w, $thumb_h, 75);
         * 공지 나열 시작
         *****************/
         for ($i=0; $i < $list_cnt; $i++) {
+            $isNotice = $list[$i]['is_notice'];
+            $isPromotion = $list[$i]['is_advertiser_post']; //직홍게글
 
-
-
-            // 공지글이 아니라면 중지
-            if (!$list[$i]['is_notice'])
+            // 공지글도 직홍게 홍보글도 아니라면 패스.
+            if (!$isNotice && !$isPromotion )
                 continue;
 
             /* 글유형(공지,잠금) 및 나의글 강조 css 클래스 및 $row값 세팅 */  
@@ -173,8 +173,8 @@ $ratio = na_img_ratio($thumb_w, $thumb_h, 75);
         * 웹진형식 글 나열 시작 
         *******************/
         for ($i=0; $i < $list_cnt; $i++) {
-            // 공지 통과 //TODO: 공지/홍보글도 루프통과 
-            if ($list[$i]['is_notice'])
+            // 공지, 홍보글은 제외
+            if ($list[$i]['is_notice'] || $list[$i]['is_advertiser_post'] )
                 continue;
     
             $row = $list[$i];
