@@ -391,6 +391,10 @@ a:hover {
   transform: rotate(-180deg);
 }
 
+#sidebar-site-menu{
+  width: 100%;
+}
+
 .na-menu .nav-link .small {
   margin-left: 0.25rem;
 }
