@@ -440,21 +440,6 @@ run_event('view_skin_before');
             </div>
         <?php } ?>
 
-        <!-- google -->
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6922133409882969"
-                crossorigin="anonymous"></script>
-        <!-- post-in-viewer -->
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6922133409882969"
-             data-ad-slot="2658262709"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-        <!-- // google -->
-
         <?php if ($view['wr_8']) { ?>
             <div class="d-flex mb-2">
                 <div class="me-2">
