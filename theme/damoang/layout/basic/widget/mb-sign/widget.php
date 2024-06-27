@@ -45,7 +45,7 @@ $mb_sign_ui = '1';
     LONG : 긴 배너, 설명 없이 긴 이미지배너로 구성된다.
     SHORT : 짧은 배너(배너와 설명으로 구성되어 진다)
  */
-$mb_sign_banner_type = 'LONG';
+$mb_sign_banner_type = 'SHORT';
 ?>
 <style>
     .float-start .sv_wrap a .profile_img {
