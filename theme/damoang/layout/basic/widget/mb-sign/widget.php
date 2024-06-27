@@ -145,9 +145,10 @@ $mb_sign_banner_type = 'SHORT';
     </div>
     <!-- 왼쪽 컨텐츠 End -->
      <?php
-        if($mb_sign_ui == '1' ){
+        if($mb_sign_ui == '1' && $mb['mb_signature'] && $mb['mb_signature'] != ''){
      ?>
-        <div class="row row-cols-1 align-items-center pt-3 border-top" id="sign-profile-container">
+        <div class="border-top"></div>
+        <div class="row row-cols-1 align-items-center" id="sign-content-type1">
             <div id="sign-content">
                 <p class="mt-3"><?php echo $mb['mb_signature'] ?></p>
             </div>
