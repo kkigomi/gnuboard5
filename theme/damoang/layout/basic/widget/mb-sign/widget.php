@@ -161,11 +161,11 @@ $mb_sign_banner_type = 'SHORT';
             <?php // 짧은 배너를 사용할 경우 아래에 짧은 배너 정보를 넣어주세요.?>
             <div class="row row-cols-1 row-cols-md-2 align-items-center pt-3" id="sign-ad-container">
                 <div class="col-md-4 col-sm-5 border-end" id="sign-ad-banner">
-                    <?php echo na_widget('damoang-image-banner', 'sign-banner'); ?>
+                    <?php  //echo na_widget('damoang-image-banner', 'sign-banner'); ?>
                 </div>
                 <div class="col-md-8 col-sm-7" id="sign-ad-content">
                     <div class="col-md-4 col-sm-5 border-end" id="sign-ad-banner">
-                        <?php echo na_widget('damoang-image-banner', 'sign-banner'); ?>
+                        <?php //echo na_widget('damoang-image-banner', 'sign-banner'); ?>
                     </div>
                 </div>
             </div>
@@ -173,7 +173,7 @@ $mb_sign_banner_type = 'SHORT';
             <?php // 긴 배너를 사용할 경우 아래에 긴 배너 정보를 넣어주세요.?>
             <div class="row row-cols-1 align-items-center pt-3" id="sign-profile-container">
                 <div id="sign-content">
-                    <?php echo na_widget('damoang-image-banner', 'sign-banner'); ?>
+                    <?php //echo na_widget('damoang-image-banner', 'sign-banner'); ?>
                 </div>
             </div>
     <?php } ?>
