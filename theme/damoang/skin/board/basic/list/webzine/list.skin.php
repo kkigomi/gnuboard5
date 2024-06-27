@@ -45,7 +45,7 @@ $ratio = na_img_ratio($thumb_w, $thumb_h, 75);
 
             // 공지글이 아니라면 중지
             if (!$list[$i]['is_notice'])
-                break;
+                continue;
 
             /* 글유형(공지,잠금) 및 나의글 강조 css 클래스 및 $row값 세팅 */  
             $row = $list[$i];             
