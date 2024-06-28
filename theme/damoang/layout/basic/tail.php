@@ -58,8 +58,7 @@ if (!IS_INDEX) {
         </div>
         <div>contact : contact@damoang.net</div>
         <div class="small">
-            Copyright &copy; <b><?php $host = @parse_url(G5_URL);
-            echo $host['host'] ?></b>. All rights reserved.
+            © SDK Corp. All rights reserved.
         </div>
     </div>
 </footer>
