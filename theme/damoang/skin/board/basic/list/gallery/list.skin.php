@@ -1,8 +1,8 @@
 <?php
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 /*****************************************
- * 갤러리 타입 게시판 대문의 글목록을 출력하는 파일(PC)
- * 게시판 목록 스킨 설정: [게시판 글목록헤더의 gear아이콘->스킨설정->목록스킨:gallery]으로 설
+ * 갤러리 타입 게시판 대문의 글목록을 출력하는 파일
+ * 게시판 목록 스킨 설정: [게시판 글목록헤더의 gear아이콘->스킨설정->목록스킨:gallery]으로 설정하면 적용됨
  * plugin/nariya/bbs/list.php 에서 받은 글목록($list) item을 순환하여 출력한다.
  *****************************************/
 
@@ -239,7 +239,7 @@ $ratio = na_img_ratio($thumb_w, $thumb_h, 75);
                                 <?php } ?>
 
                                 <?php //제목 뒤 첨부파일 유형 아이콘
-                                echo get_attachment_icon_f20240617($row, na_check_youtube($row['wr_9']), $img); //구: $wr_icon; ?>
+                                echo get_attachment_icon_f20240617($row, na_check_youtube($row['wr_9']), na_check_img($row['wr_10'])); //구: $wr_icon; ?>
 
                                 <?php //댓글 카운트
                                 if($row['wr_comment']) { ?>
