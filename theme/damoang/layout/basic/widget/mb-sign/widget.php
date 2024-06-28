@@ -47,7 +47,7 @@ $mb_sign_ui = '1';
     TWIN : 짧은 배너 광고 2개가 5:5 배율로 구성된다.
     NONE : 배너 광고 사용하지 않음(화면에서 감춘다)
  */
-$mb_sign_banner_type = 'TWIN';
+$mb_sign_banner_type = 'NONE';
 ?>
 
 <!-- ================= 서명 New Start=================  -->
