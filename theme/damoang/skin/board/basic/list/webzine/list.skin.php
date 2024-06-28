@@ -238,7 +238,7 @@ $ratio = na_img_ratio($thumb_w, $thumb_h, 75);
                             <?php } ?>
 
                             <?php //제목 뒤 첨부파일 유형 아이콘
-                            echo get_attachment_icon_f20240628($row, na_check_youtube($row['wr_9']), $img); //구: $wr_icon; ?>
+                            echo get_attachment_icon_f20240628($row, na_check_youtube($row['wr_9']), na_check_img($row['wr_10'])); //구: $wr_icon; ?>
 
                             <?php //댓글 카운트
                             if($row['wr_comment']) { ?>
