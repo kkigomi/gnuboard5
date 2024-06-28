@@ -19,7 +19,7 @@ if (!(isset($mbs['mb_id']) && $mbs['mb_id']) || (isset($mbs['mb_intercept_date']
 
 // add_stylesheet('css 구문', 출력순서); 숫자가 작을 수록 먼저 출력됨
 // add_stylesheet('<link rel="stylesheet" href="'.$widget_url.'/widget.css" type="text/css">', 0);
-//add_stylesheet('<link rel="stylesheet" href="'.$widget_url.'/widget.css?CACHEBUST" type="text/css">', 0);
+add_stylesheet('<link rel="stylesheet" href="'.$widget_url.'/widget.css?CACHEBUST" type="text/css">', 0);
 $mbs['as_max'] = (isset($mbs['as_max']) && $mbs['as_max'] > 0) ? $mbs['as_max'] : 1;
 $per = (int) (($mbs['as_exp'] / $mbs['as_max']) * 100);
 
@@ -41,21 +41,14 @@ $sign_list_cnt = count($sign_list);
 $mb_sign_ui = '1';
 
 /*
- 배너 옵션(LONG, SHORT)
+ 배너 옵션(LONG, SHORT, NONE)
     LONG : 긴 배너, 설명 없이 긴 이미지배너로 구성된다.
     SHORT : 짧은 배너(배너와 설명으로 구성되어 진다)
+    TWIN : 짧은 배너 광고 2개가 5:5 배율로 구성된다.
+    NONE : 배너 광고 사용하지 않음(화면에서 감춘다)
  */
-$mb_sign_banner_type = 'SHORT';
+$mb_sign_banner_type = 'NONE';
 ?>
-<style>
-    .float-start .sv_wrap a .profile_img {
-        display: none !important;
-    }
-
-    .float-start .xp-icon {
-        margin-right: 2px;
-    }
-</style>
 
 <!-- ================= 서명 New Start=================  -->
 <div class="border mx-3 mx-sm-0 mb-3 p-3 rounded-3">
@@ -154,26 +147,55 @@ $mb_sign_banner_type = 'SHORT';
             </div>
         </div>
     <?php } ?>
-    <div class="border-top"></div>
     <?php
         if($mb_sign_banner_type == "SHORT") {
     ?>
             <?php // 짧은 배너를 사용할 경우 아래에 짧은 배너 정보를 넣어주세요.?>
+            <div class="border-top"></div>
             <div class="row row-cols-1 row-cols-md-2 align-items-center pt-3" id="sign-ad-container">
-                <div class="col-md-4 col-sm-5 border-end" id="sign-ad-banner">
-                    <?php  //echo na_widget('damoang-image-banner', 'sign-banner'); ?>
-                </div>
-                <div class="col-md-8 col-sm-7" id="sign-ad-content">
-                    <div class="col-md-4 col-sm-5 border-end" id="sign-ad-banner">
-                        <?php //echo na_widget('damoang-image-banner', 'sign-banner'); ?>
+                <div class="col-md-4 col-sm-5 border-end text-center" id="sign-ad-banner-s1">
+                    <?php echo na_widget('damoang-image-banner', 'sign-banner'); ?>
+                    <div class="mb-4">
+                    <a href="https://damoang.net/notice/13580" rel="nofollow noopenner" target="_blank">
+                        <img src="https://damoang.net/data/nariya/image/banner_image-40bd001563085fc35165329ea1ff5c5ecbdbbeef.webp" style="max-width: 100%;" alt="" title="">
+                    </a>
                     </div>
                 </div>
+                <div class="col-md-8 col-sm-7" id="sign-ad-content">
+                    신규 광고 slot 발견 ❤️❤️ 일단은 저만 쓸게요. <br>
+                    비싼(프리미엄) 자리에 광고를 넣어보세요. <br>
+                </div>
             </div>
-    <?php } else {?>
+    <?php } else if($mb_sign_banner_type == "TWIN") {?>
+            <?php // 짧은 배너 2개를 사용할 경우 아래에 짧은 배너 2개를 넣어주세요.?>
+            <div class="border-top"></div>
+            <div class="row row-cols-1 row-cols-md-2 align-items-center pt-3" id="sign-ad-container">
+                <div class="col-md-6 col-sm-6 border-end text-center" id="sign-ad-banner-t1">
+                    <?php echo na_widget('damoang-image-banner', 'sign-banner'); ?>
+                    <div class="mb-4">
+                    <a href="https://damoang.net/notice/13580" rel="nofollow noopenner" target="_blank">
+                        <img src="https://damoang.net/data/nariya/image/banner_image-40bd001563085fc35165329ea1ff5c5ecbdbbeef.webp" style="max-width: 100%;" alt="" title="">
+                    </a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 text-center" id="sign-ad-banner-t2">
+                    <?php echo na_widget('damoang-image-banner', 'sign-banner'); ?>
+                    <a href="https://damoang.net/notice/13580" rel="nofollow noopenner" target="_blank">
+            <img src="https://damoang.net/data/nariya/image/banner_image-40bd001563085fc35165329ea1ff5c5ecbdbbeef.webp" style="max-width: 100%;" alt="" title="">
+        </a>
+                </div>
+            </div>
+    <?php } else if($mb_sign_banner_type == "LONG") {?>
             <?php // 긴 배너를 사용할 경우 아래에 긴 배너 정보를 넣어주세요.?>
-            <div class="row row-cols-1 align-items-center pt-3" id="sign-profile-container">
-                <div id="sign-content">
+            <div class="border-top"></div>
+            <div class="row row-cols-1 align-items-center pt-3" id="sign-ad-container">
+                <div id="sign-ad-banner-l1" class="text-center">
                     <?php //echo na_widget('damoang-image-banner', 'sign-banner'); ?>
+                    <div class="mb-4">
+                    <a href="https://damoang.net/notice/13580" rel="nofollow noopenner" target="_blank">
+                        <img src="https://damoang.net/data/nariya/image/banner_image-40bd001563085fc35165329ea1ff5c5ecbdbbeef.webp" style="max-width: 100%;" alt="" title="">
+                    </a>
+                    </div>
                 </div>
             </div>
     <?php } ?>
@@ -192,6 +214,7 @@ $mb_sign_banner_type = 'SHORT';
     var signContent = $("#sign-content");
     var signRecentListContainer = $("#sign-recent-list-container");
     var signProfile = $("#sign-profile");
+    var mgSignBannerType = `<?=$mb_sign_banner_type?>`;
 
     function moveRecentListToContent() {
         signRecentList.hide();

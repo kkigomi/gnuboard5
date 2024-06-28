@@ -1,0 +1,40 @@
+.float-start .sv_wrap a .profile_img {
+    display: none !important;
+}
+
+.float-start .xp-icon {
+    margin-right: 2px;
+}
+
+#sign-ad-banner-s1 .mb-4,
+#sign-ad-banner-l1 .mb-4,
+#sign-ad-banner-t1 .mb-4,
+#sign-ad-banner-t2 .mb-4 {
+    margin-bottom: 0px !important;
+}
+
+@media (max-width: 575px) {
+    #sign-content {
+        border-left: none !important;
+    }
+
+    #sign-ad-content {
+        margin-top: 16px;
+        text-align: center;
+    }
+
+    #sign-ad-banner-s1,
+    #sign-ad-banner-l1,
+    #sign-ad-banner-t1,
+    #sign-ad-banner-t2 {
+        border-right: none !important;
+    }
+
+    #sign-ad-banner-t2 {
+        margin-top: 16px !important;
+    }
+
+    #twin-border-top {
+        display: block;
+    }
+}
