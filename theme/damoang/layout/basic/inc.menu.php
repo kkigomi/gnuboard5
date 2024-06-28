@@ -8,7 +8,11 @@ return [
         'title' => '커뮤니티 & 포털',
         'items' => [
 
-
+           '웰컴 싸커 ⚽⚽⚽' => [
+                'url' => '/soccer',
+                'icon' => 'bi-chat',
+                'shortcut' => '-',
+            ],
             '자유게시판' => [
                 'url' => '/free',
                 'icon' => 'bi-chat',
@@ -24,7 +28,7 @@ return [
                 'icon' => 'bi-question-circle',
                 'shortcut' => 'Ｑ',
             ],
-            '다모앙 평점🍿' => [
+            '다모앙 평점 🍿' => [
                 'url' => '/angtt',
                 'icon' => 'bi-question-circle',
                 'shortcut' => 'Ｏ',
