@@ -11,7 +11,7 @@ return [
            '웰컴 싸커 ⚽⚽⚽' => [
                 'url' => '/soccer',
                 'icon' => 'bi-chat',
-                'shortcut' => '-',
+                'shortcut' => '⚽',
             ],
            '앙탄신도시 🏙️' => [
                 'url' => '/soccerline',
