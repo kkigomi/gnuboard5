@@ -13,6 +13,11 @@ return [
                 'icon' => 'bi-chat',
                 'shortcut' => '-',
             ],
+           '앙탄신도시 🏙️' => [
+                'url' => '/soccerline',
+                'icon' => 'bi-chat',
+                'shortcut' => '🏙️',
+            ],
             '자유게시판' => [
                 'url' => '/free',
                 'icon' => 'bi-chat',
