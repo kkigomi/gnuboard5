@@ -1,9 +1,19 @@
 <?php
+/*****************************************
+ * 게시글 출력하는 파일
+ * 자유게시판/진실의방은 /theme/damoang/skin/board/basic/view 하위 /free, /true
+ *****************************************/
 
 if (!defined("_GNUBOARD_")) exit; // 개별 페이지 접근 불가
 
 // add_stylesheet('css 구문', 출력순서); 숫자가 작을 수록 먼저 출력됨
 add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?CACHEBUST">', 0);
+
+// 게시판 테이블이 'economy'인지 확인해서 '모든 링크열기' 버튼의 동 작이벤트 스크립트 추가
+if ($bo_table == 'economy') {
+    add_javascript('<script src="' . LAYOUT_URL . '/js/open_all_link_on_economy.js?CACHEBUST"></script>');
+}
+
 
 run_event('view_skin_before');
 ?>
@@ -244,6 +254,15 @@ run_event('view_skin_before');
     </section>
 
     <section id="bo_v_atc" class="border-bottom p-3">
+
+    <?php /* 알뜰구매 게시판의 겨우 본문 섹션에 '모든링크 열기' 버튼. .economy-user-text 내의 모든 링크를 연다. 버튼동작: open_all_link_on_economy.js */
+    if ($bo_table == 'economy'): ?>
+        <button id="economy-open-all-links" class="btn btn-primary mb-0" style="padding: 0.375rem 0.75rem;">
+            모든 링크열기<br><span style="font-size: 75%; line-height: 1.2;">(팝업차단시 동작안함. M.Safari 안됨)</span>
+        </button>
+    <?php endif; ?>
+
+
         <h3 class="visually-hidden">본문</h3>
         <?php if (isset($boset['check_star_rating']) && $boset['check_star_rating']) { ?>
             <!-- 별점 표시 { -->
@@ -323,7 +342,7 @@ run_event('view_skin_before');
                 echo '</div>' . PHP_EOL;
             }
             ?>
-            <div id="bo_v_con" class="<?php echo $is_convert ?>">
+            <div id="bo_v_con" class="economy-user-text <?php echo $is_convert ?>">
                 <?php
                 /**
                  * 이미지에 링크 삽입 시 이미지 크게보기 팝업 링크와 중복 삽입되므로
