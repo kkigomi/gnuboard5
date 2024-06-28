@@ -13,11 +13,6 @@ return [
                 'icon' => 'bi-chat',
                 'shortcut' => '⚽',
             ],
-           '앙탄신도시 🏙️' => [
-                'url' => '/soccerline',
-                'icon' => 'bi-chat',
-                'shortcut' => '🏙️',
-            ],
             'PC•주변기기(하드웨어&다모앙존)' => [
                 'url' => '/hardware',
                 'icon' => 'bi-chat',
@@ -126,7 +121,6 @@ return [
                     '소셜게임한당' => '/socialgame',
                     '시계당' => '/watches',
                     '스쿠버당' => '/scuba',
-                    '싸줄한당' => '/soccerline',
                     '안드로메당' => '/android',
                     '애플모앙' => '/applemoang',
                     '야구당' => '/baseball',
