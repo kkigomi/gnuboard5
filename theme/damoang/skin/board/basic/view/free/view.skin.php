@@ -257,7 +257,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?C
                 <?php if ($board['bo_use_good']) { ?>
                     <button type="button"
                             onclick="na_good('<?php echo $bo_table ?>', '<?php echo $wr_id ?>', 'good', 'wr_good');"
-                            class="btn <?php echo ($bg_status == 'good') ? 'btn-primary' : 'btn-basic' ?>" title="추천">
+                            class="btn good-border <?php echo ($bg_status == 'good') ? 'btn-primary' : 'btn-basic' ?>" title="추천">
                         <i class="bi bi-hand-thumbs-up"></i>
                         <b id="wr_good"><?php echo number_format($view['wr_good']) ?></b>
                         <span class="visually-hidden">추천</span>
@@ -266,7 +266,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?C
                 <?php if ($board['bo_use_nogood']) { ?>
                     <button type="button"
                             onclick="na_good('<?php echo $bo_table ?>', '<?php echo $wr_id ?>', 'nogood', 'wr_nogood');"
-                            class="btn <?php echo ($bg_status == 'nogood') ? 'btn-primary' : 'btn-basic' ?>"
+                            class="btn good-border <?php echo ($bg_status == 'nogood') ? 'btn-primary' : 'btn-basic' ?>"
                             title="비추천">
                         <i class="bi bi-hand-thumbs-down"></i>
                         <b id="wr_nogood"><?php echo number_format($view['wr_nogood']) ?></b>
