@@ -1778,7 +1778,7 @@
           shortcut_link.innerHTML = '<span class="d-flex align-items-center gap-2 nav-link-title"><span class="badge p-1 text-bg-secondary">·</span>' + temp_text[i] + "</span>";//<i class="' + temp_icon[i] + ' nav-icon"></i>
           shortcut_div.appendChild(shortcut_link);
           sidebar_site_menu.insertBefore(shortcut_div, sidebar_site_menu_first);
-          offcanvas_menu.insertBefore(shortcut_div.cloneNode(true), offcanvas_menu_first);
+          //offcanvas_menu.insertBefore(shortcut_div.cloneNode(true), offcanvas_menu_first);
         }
       }
 
@@ -1795,7 +1795,7 @@
           shortcut_link.innerHTML = '<span class="d-flex align-items-center gap-2 nav-link-title"></i> <span class="badge p-1 text-bg-secondary">' + shortcut_i + '</span>' + link_map[shortcut].name + "</span>";//<i class="bi-list-stars nav-icon">
           shortcut_div.appendChild(shortcut_link);
           sidebar_site_menu.insertBefore(shortcut_div, sidebar_site_menu_first);
-          offcanvas_menu.insertBefore(shortcut_div.cloneNode(true), offcanvas_menu_first);
+          //offcanvas_menu.insertBefore(shortcut_div.cloneNode(true), offcanvas_menu_first);
           shortcut_map[shortcut_i + ""] = { href: shortcut_link.href, name: link_map[shortcut].name, code: link_map[shortcut].link };
         }
       }
