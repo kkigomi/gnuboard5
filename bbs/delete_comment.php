@@ -53,7 +53,7 @@ $latestHistory = ContentTracker::getLatestContentHistory($board['bo_table'], $wr
 if ($latestHistory && isset($latestHistory['operation']) && isset($latestHistory['mb_id']) && isset($write['mb_id'])) {
     $deleted_by = ($write['mb_id'] == $latestHistory['mb_id']) ? 'member' : 'admin';
     if ($latestHistory['operation'] === ContentTracker::OPERATION_DELETE) {
-        alert('이미 삭제된 게시물입니다.');
+        alert('이미 삭제된 댓글입니다.');
     }
 }
 
