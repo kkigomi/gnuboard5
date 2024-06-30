@@ -248,6 +248,6 @@ a.btn_admin:focus, a.btn_admin:hover {}
   height: auto !important;
 }
 
-#bo_v_con, .comment-content, .na-mb-sign {
+#sign-content {
   word-wrap: break-word;
 }

@@ -280,6 +280,6 @@ box-shadow:0 1px 10px rgba(0,0,0,.1)}
     height: auto !important;
 }
 
-#bo_v_con, .comment-content, .na-mb-sign {
+#sign-content {
     word-wrap: break-word;
 }
