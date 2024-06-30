@@ -49,7 +49,7 @@ $mb_sign_banner_type = 'NONE';
 ?>
 
 <!-- ================= 서명 New Start=================  -->
-<div class="border mx-3 mx-sm-0 mb-3 p-3 rounded-3">
+<div class="border mx-0 mb-3 p-3 rounded-3">
     <div class="row row-cols-1 row-cols-md-2 align-items-center" id="sign-profile-container">
         <div class="col-md-4 col-sm-5 pb-3" id="sign-profile">
             <div class="text-center mb-2 mb-sm-0">
