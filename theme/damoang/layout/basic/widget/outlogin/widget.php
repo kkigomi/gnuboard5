@@ -46,7 +46,19 @@ global $is_member, $member, $is_admin;
             $per = (int)(($member['as_exp'] / $member['as_max']) * 100);
         ?>
         <div class="d-flex justify-content-between mb-1 small">
-            <div>Lv.<?php echo $member['as_level'] ?></div>
+            <div>Lv.
+            <?php
+                $currentDate = date('Y-m-d');
+                $targetDate = '2024-07-07';
+
+                // 날짜 비교 if문
+                if ($currentDate <= $targetDate) {
+                    echo "100";
+                } else {
+                   echo $member['as_level'];
+                }
+            ?>
+            <?//php echo $member['as_level'] ?></div>
             <div>
                 <a href="<?php echo G5_BBS_URL ?>/exp.php" target="_blank" class="win_point">
                     Exp <?php echo number_format($member['as_exp']) ?>
