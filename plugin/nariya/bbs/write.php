@@ -1,4 +1,7 @@
 <?php
+
+use Damoang\Plugin\ContentManagement\ContentTracker;
+
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 include_once(NA_PATH.'/_bbs.php');
 
@@ -80,6 +83,15 @@ if ($w == '') {
             alert('글을 수정할 권한이 없습니다.');
         } else {
             alert('글을 수정할 권한이 없습니다.\\n\\n회원이시라면 로그인 후 이용해 보십시오.', G5_BBS_URL.'/login.php?'.$qstr.'&amp;url='.urlencode($_SERVER['SCRIPT_NAME'].'?bo_table='.$bo_table));
+        }
+    }
+    
+    $latestHistory = ContentTracker::getLatestContentHistory($board['bo_table'], $wr_id);
+
+    if ($latestHistory && isset($latestHistory['operation']) && isset($latestHistory['mb_id']) && isset($write['mb_id'])) {
+        $deleted_by = ($write['mb_id'] == $latestHistory['mb_id']) ? 'member' : 'admin';
+        if ($latestHistory['operation'] === ContentTracker::OPERATION_DELETE && !($is_admin == 'super')) {
+            alert('삭제된 게시물은 수정할 수 없습니다.');
         }
     }
 
