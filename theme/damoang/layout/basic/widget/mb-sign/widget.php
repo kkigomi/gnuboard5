@@ -23,16 +23,14 @@ add_stylesheet('<link rel="stylesheet" href="'.$widget_url.'/widget.css?CACHEBUS
 $mbs['as_max'] = (isset($mbs['as_max']) && $mbs['as_max'] > 0) ? $mbs['as_max'] : 1;
 $per = (int) (($mbs['as_exp'] / $mbs['as_max']) * 100);
 
-// 글 추출
-$wset['bo_list'] = $bo_table;
+// 글 추출(아래 2가지 값만 필수 값이며 다른 옵션은 지원하지 않음)
 $wset['mb_list'] = $view['mb_id'];
 $wset['rows'] = 10;
-$wset['sort'] = 'wr_num';
 
 $sign_list = array();
-$sign_list = na_board_rows($wset);
+//$sign_list = na_board_rows($wset);
+$sign_list = recent_board_rows($wset);
 $sign_list_cnt = count($sign_list);
-
 /*
 서명 디자인 옵션
     1 : 서명이 프로필 오른쪽 영역에 표시
@@ -97,9 +95,9 @@ $mb_sign_banner_type = 'NONE';
                     // 파일 아이콘
                     $icon_file = '';
                     if ($thumb || (isset($sign_list[$i]['as_thumb']) && $sign_list[$i]['as_thumb'])) {
-                        $icon_file = '<span class="na-ticon na-image"></span>';
+                        $icon_file = '<span class="na-icon na-image"></span>';
                     } else if (isset($sign_list[$i]['icon_file']) && $sign_list[$i]['icon_file']) {
-                        $icon_file = '<span class="na-ticon na-file"></span>';
+                        $icon_file = '<span class="na-icon na-file"></span>';
                     }
                     ?>
                     <li class="list-group-item d-flex">
@@ -108,15 +106,13 @@ $mb_sign_banner_type = 'NONE';
                             /* '회원만' 보기 표식 */
                             echo $sign_list[$i]['da_member_only'] ?? '';
 
-                            /* 글제목: '답변'글 표식  + 글제목 */
+                            /* 글제목: 새글표식+글제목+첨부표식+댓글표식 */
                             ?>
                             <a href="<?php echo $sign_list[$i]['href'] ?>" class="da-link-block subject-ellipsis" title="<?php echo $sign_list[$i]['wr_subject']; ?>">
-                                <?php if ($sign_list[$i]['icon_reply']) { ?>
-                                    <i class="bi bi-arrow-return-right"></i>
-                                    <span class="visually-hidden">답변</span>
-                                <?php } ?>
+                                <?php echo "<span class='subject-mobile d-none'>".$sign_list[$i]['subject']."</span>"; // 제목?>
+                                <?php echo "<span class='subject-pc'>"."[".$sign_list[$i]['bo_subject']."] ".$sign_list[$i]['subject']."</span>"; // 제목?>
                                 <?php echo $wr_icon ?>
-                                <?php echo $sign_list[$i]['subject']; // 제목 ?>
+                                <?php echo $icon_file ?>
                             </a>
 
                             <?php /* 댓글표식 */ if ($sign_list[$i]['wr_comment']) { ?>
@@ -231,3 +227,65 @@ $mb_sign_banner_type = 'NONE';
         signContent.removeClass("border-start");
     }
 </script>
+
+<?php
+// 게시판 통합 최신글 가져오는 함수
+function recent_board_rows($wset) {
+    $wset['bo_new'] = isset($wset['bo_new']) ? (int)$wset['bo_new'] : 24;
+    $rows = isset($wset['rows']) ? (int)$wset['rows'] : 5;
+    $rows = ($rows > 0) ? $rows : 5;
+
+    $list = array();
+
+    // 전체 게시판 기준 최신 00개 게시글 가져오는 개별 쿼리 생성
+    $generated_post_query = sql_query("SELECT
+            CONCAT(
+            'SELECT ''', bo_table, ''' as bo_table, wr_id, (SELECT bo_subject FROM g5_board WHERE bo_table = ''', bo_table, ''') as bo_subject, wr_subject, wr_datetime, mb_id, wr_file, wr_option, wr_1, wr_7, wr_comment FROM g5_write_', bo_table,
+            ' WHERE wr_id=', wr_id
+            ) as post_query
+        FROM
+            g5_board_new
+        WHERE
+            mb_id = '".$wset['mb_list']."'
+            and wr_is_comment = 0
+        ORDER BY
+            bn_datetime DESC
+        LIMIT ".$rows);
+
+    if (!$generated_post_query) {
+        return $list;
+    }
+
+    while ($row = sql_fetch_array($generated_post_query)) {
+        $post_query = $row['post_query'];
+
+        // 개별 쿼리 실행
+        $post_result = sql_query($post_query);
+        if (!$post_result) {
+            // 개별 쿼리 실행 실패
+            continue;
+        }
+
+        while ($post_row = sql_fetch_array($post_result)) {
+            $list[] = array(
+                'bo_table' => $post_row['bo_table'],
+                'bo_subject' => $post_row['bo_subject'],
+                'subject' => $post_row['wr_subject'],
+                'wr_subject' => $post_row['wr_subject'],
+                'wr_datetime' => $post_row['wr_datetime'],
+                'mb_id' => $post_row['mb_id'],
+                'wr_comment' => $post_row['wr_comment'],
+                'icon_new' => ($post_row['wr_datetime'] >= date("Y-m-d H:i:s", G5_SERVER_TIME - ($wset['bo_new'] * 3600))) ? true : false,
+                'icon_secret' => (strstr($post_row['wr_option'], 'secret') || $post_row['wr_7'] == 'lock') ? true : false,
+                'da_member_only' => ($post_row['wr_1'] == '1') ? '<em class="border rounded p-1 me-1" style="font-size: 0.75em; font-style: normal; min-width:44px">회원만</em>' : false,
+                'icon_file' => !empty($post_row['wr_file']) ? true : false,
+                'href' => "/".$post_row['bo_table']."/".$post_row['wr_id'],
+            );
+        }
+    }
+
+    return $list;
+}
+
+
+?>
