@@ -1007,7 +1007,7 @@ footer .container a {
   100% { transform: rotate(0); }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 330px) {
   #bo_v_atc button {
     display: grid;
   }
