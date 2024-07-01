@@ -1,0 +1,57 @@
+@charset "utf-8";
+
+#bo_vc_send_sns {display:inline-block;float:left}
+#bo_vc_sns {display:inline-block;margin:0;padding:0;list-style:none;zoom:1}
+#bo_vc_sns:after {display:block;visibility:hidden;clear:both;content:""}
+#bo_vc_sns li {float:left;margin:0 5px 0 0}
+#bo_vc_sns .sns_li_f {border-radius:3px;background:#3a589b;height:30px;line-height:30px;padding:0 0 0 10px}
+#bo_vc_sns .sns_li_t {border-radius:3px;background:#00aced;height:30px;line-height:30px;padding:0 0 0 10px}
+#bo_vc_sns .sns_li_off {background:#bbb}
+#bo_vc_sns a {display:inline-block;padding:0 15px 0 5px}
+#bo_vc_sns input {margin:0 5px 0 0}
+#bo_vc_sns img {margin-top:-5px !important;}
+#bo_vc_opt, #bo_vc_sns {height:30px; line-height:30px;}
+
+[data-bs-theme=light] {
+  .bg-comment-writer {
+    background-color: rgba(239, 191, 150, 0.3) !important;
+  }
+}
+
+[data-bs-theme=dark] {
+  .bg-comment-writer {
+    background-color: rgba(1, 5, 86, 0.25) !important;
+  }
+}
+
+.fa-star, .fa-star-o, .fa-star-half-o {
+  color: #FFD700; /* Gold color for the stars */
+}
+
+.star-rating {
+  direction: rtl;
+  font-size: 24px;
+  unicode-bidi: bidi-override;
+}
+.star-rating span {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+}
+.star-rating span:before {
+  content: "\f005";
+  font-family: FontAwesome;
+  position: absolute;
+}
+.star-rating span:hover:before,
+.star-rating span:hover ~ span:before,
+.star-rating .selected:before,
+.star-rating .selected ~ span:before {
+  content: "\f005";
+  color: #FFD700; /* Gold color */
+}
+.star-rating span.half:before {
+  content: "\f089";
+  position: absolute;
+  color: #FFD700; /* Gold color */
+}

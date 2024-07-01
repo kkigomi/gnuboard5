@@ -9,6 +9,9 @@ require_once $widget_path . '/widget.lib.php';
 
 // 게시물 추출
 $wset['rows_notice'] = true; // 추출수에 공지글 포함
+if (intval($wset['cache'] ?? 5) < 5) {
+    $wset['cache'] = 5;
+}
 $list = na_board_rows_custom($wset);
 $list_cnt = count($list);
 

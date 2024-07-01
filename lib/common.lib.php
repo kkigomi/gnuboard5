@@ -3,6 +3,8 @@ if (!defined('_GNUBOARD_')) exit;
 
 include_once(dirname(__FILE__) .'/pbkdf2.compat.php');
 
+use Damoang\Plugin\ContentManagement\ContentTracker;
+
 /*************************************************************************
 **
 **  일반 함수 모음
@@ -410,20 +412,8 @@ function get_dirsize($dir)
 function get_list($write_row, $board, $skin_url, $subject_len=40)
 {
     global $g5, $config, $g5_object;
-    global $qstr;
-    
-    $decode_qstr = htmlspecialchars_decode($qstr);
-    $parsed_url = parse_url($decode_qstr);
-    if (strpos($decode_qstr, '?page') !== false) {
-        parse_str($parsed_url['query'], $query_params);
-        unset($query_params['page']);
-        $qstr = htmlspecialchars(http_build_query($query_params));
-    } else if (strpos($decode_qstr, '&page') !== false) {
-        parse_str($parsed_url['path'], $query_params);
-        unset($query_params['page']);
-        $qstr = htmlspecialchars(http_build_query($query_params));
-    }
-    
+    global $qstr, $page;
+
     //$t = get_microtime();
 
     $g5_object->set('bbs', $write_row['wr_id'], $write_row, $board['bo_table']);
@@ -498,7 +488,7 @@ function get_list($write_row, $board, $skin_url, $subject_len=40)
 
     // 분류명 링크
     $list['ca_name_href'] = get_pretty_url($board['bo_table'], '', 'sca='.urlencode($list['ca_name']));
-    
+
     $list['href'] = get_pretty_url($board['bo_table'], $list['wr_id'], $qstr);
     $list['comment_href'] = $list['href'];
 
@@ -815,6 +805,11 @@ function get_write($write_table, $wr_id, $is_cache=false)
     if( !$write || $is_cache == false ){
         $sql = " select * from {$write_table} where wr_id = '{$wr_id}' ";
         $write = sql_fetch($sql);
+
+        if (!empty($wr_bo_table) && !empty($wr_id)) {
+            $latestHistory = ContentTracker::getLatestContentHistory($wr_bo_table, $wr_id);
+            $write = processDeletedContent($write, $latestHistory);
+        }
 
         $g5_object->set('bbs', $wr_id, $write, $wr_bo_table);
     }
@@ -1470,7 +1465,7 @@ function get_sideview($mb_id, $name='', $email='', $homepage='')
             return $name;
         }
 
-        $name_tag_open = '<a href="' . get_pretty_url($bo_table, '', 'sca=' . $sca . '&amp;sfl=wr_name,1&amp;stx=' . $name) . '" title="' . $name . ' 이름으로 검색" class="sv_guest gap-1 d-flex sideview sideview--guest" rel="nofollow" onclick="return false;">';
+        $name_tag_open = '<a href="' . get_pretty_url($bo_table, '', 'sca=' . $sca . '&amp;sfl=wr_name,1&amp;stx=' . $name) . '" title="' . $name . ' 이름으로 검색" class="sv_guest gap-1 d-flex align-items-center sideview sideview--guest" rel="nofollow" onclick="return false;">';
         $name_tag['name'] = '<span class="sv_name text-truncate">' . $name . '</span>';
     }
 
@@ -4296,4 +4291,22 @@ function option_array_checked($option, $arr=array()){
     }
 
     return $checked;
+}
+
+function processDeletedContent($write, $latestHistory) {
+    if (!$latestHistory || !isset($latestHistory['operation'], $latestHistory['mb_id'], $write['mb_id'])) {
+        return $write;
+    }
+
+    if ($latestHistory['operation'] !== ContentTracker::OPERATION_DELETE) {
+        return $write;
+    }
+
+    $deleted_by = ($write['mb_id'] == $latestHistory['mb_id']) ? 'member' : 'admin';
+    $write['wr_subject'] = '[삭제된 게시물입니다]';
+    $write['wr_content'] = ($deleted_by == 'admin')
+        ? '[이 게시물은 관리자에 의해 삭제되었습니다.]'
+        : '[이 게시물은 작성자가 삭제했습니다.]';
+
+    return $write;
 }

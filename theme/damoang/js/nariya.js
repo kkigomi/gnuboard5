@@ -292,6 +292,9 @@ function na_page(id, url, opt) {
     if(typeof is_SyntaxHighlighter != 'undefined'){
       Prism.highlightAll();
     }
+    // 별점 등록 후 별점 선택요소 초기화
+    $("#wr_star option[value='0']").prop("selected", true);
+    $("#star-rating .da-star").removeClass("star-fill");
 
     $(".na-convert").naGnuView();
   });
@@ -633,4 +636,56 @@ $(function(){
   document.getElementById('naClip').addEventListener('hide.bs.offcanvas', event => {
     $("#naclipView").html('');
   });
+
+  /* Star rating for New Nariya */
+  var stars = document.querySelectorAll('.star-rating .da-star');
+  var wrStar = document.getElementById('wr_star');
+  if (stars && wrStar) {
+    wrStar.addEventListener('change', () => {
+      starRating.initStars();
+      starRating.filledRate(wrStar.value - 1);
+    });
+    stars.forEach((el, i) => {
+      el.addEventListener('mouseenter', () => {
+        starRating.initStars();
+        starRating.filledRate(i);
+      });
+
+      el.addEventListener('click', () => {
+        starRating.setRate(i + 1);
+      });
+
+      el.addEventListener('mouseleave', () => {
+        starRating.initStars();
+        starRating.filledRate(wrStar.value - 1);
+      });
+    });
+
+    if (wrStar.value && wrStar.value > 0) {
+      starRating.initStars();
+      starRating.filledRate(wrStar.value - 1);
+      starRating.setRate(wrStar.value);
+    }
+  }
 });
+
+var starRating = {
+  filledRate: (idx) => {
+    var stars = document.querySelectorAll('.star-rating .da-star');
+    if (idx <= stars.length) {
+      for (let i = 0; i <= idx; i++) {
+        stars[i].classList.add('star-fill');
+      }
+    }
+  },
+  initStars: () => {
+    var stars = document.querySelectorAll('.star-rating .da-star');
+    for (let i = 0; i < stars.length; i++) {
+      stars[i].classList.remove('star-fill');
+    }
+  },
+  setRate: (num) => {
+    var wrStar = document.getElementById('wr_star');
+    wrStar.value = num;
+  }
+};

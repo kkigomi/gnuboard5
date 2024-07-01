@@ -121,13 +121,14 @@ if($config['cf_cert_use']) {
         if ($cert_type == 'ipin' && get_session('ss_cert_hash') == sha1($cert_type.get_session('ss_cert_birth').get_session('ss_cert_dupinfo').$md5_cert_no)) { // 아이핀일때 hash 값 체크 hp미포함
             $sql_certify .= " , mb_certify  = '{$cert_type}' ";
             $sql_certify .= " , mb_dupinfo = '".get_session('ss_cert_dupinfo')."' ";
-            if($w == 'u')
-                $sql_certify .= " , mb_name = '{$mb_name}' ";
+            // if($w == 'u')
+            //     $sql_certify .= " , mb_name = '{$mb_name}' ";
         } else if($cert_type != 'ipin' && get_session('ss_cert_hash') == sha1($cert_type.get_session('ss_cert_birth').get_session('ss_cert_dupinfo').$md5_cert_no)) { // 간편인증, 휴대폰일때 hash 값 체크 hp포함
             $sql_certify .= " , mb_certify  = '{$cert_type}' ";
             $sql_certify .= " , mb_dupinfo = '".get_session('ss_cert_dupinfo')."' ";
-            if($w == 'u')
-                $sql_certify .= " , mb_name = '{$mb_name}' ";
+            $sql_certify .= " , mb_adult = '".get_session('ss_cert_adult')."' ";
+            // if($w == 'u')
+            //     $sql_certify .= " , mb_name = '{$mb_name}' ";
         }else {
             alert('본인인증된 정보와 개인정보가 일치하지않습니다. 다시시도 해주세요');
         }

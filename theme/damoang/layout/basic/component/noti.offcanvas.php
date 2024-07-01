@@ -77,14 +77,6 @@ if (!defined('_GNUBOARD_')) {
 </div>
 
 <script>
-function noti_count() {
-    $.get('<?php echo LAYOUT_URL ?>/component/noti.offcanvas.php?cnt=1', function(data) {
-        if (data.count > 0) {
-            $('.da-noti-indicator').removeClass('d-none').siblings('i').toggleClass('bi-bell bi-bell-fill bell-animation');
-        }
-    }, "json");
-    return false;
-}
 
 $(function () {
     const myNotiOffcanvas = document.getElementById('notiOffcanvas');
@@ -92,13 +84,5 @@ $(function () {
         $('#noti-list').load('<?php echo LAYOUT_URL ?>/component/noti.offcanvas.php');
         $('.noti-toast').removeClass('show').addClass('hide');
     });
-
-    noti_count();
-
-    <?php if(isset($nariya['noti_check']) && (int)$nariya['noti_check'] > 0) { // 알림 자동 체크?>
-    setInterval(function() {
-        noti_count();
-    }, <?php echo (int)$nariya['noti_check'] ?> * 1000);
-    <?php } ?>
 });
 </script>

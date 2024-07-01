@@ -101,6 +101,7 @@ if (!defined('_GNUBOARD_')) {
 
 	// 신고/차단 댓글 체크
 	$singo_write = na_singo_array('write', $bo_table);
+	$singo_count = count($singo_write);
 
 	$view = get_view($write, $board, $board_skin_path);
 
@@ -129,7 +130,7 @@ $is_comment_write = false;
 if ($member['mb_level'] >= $board['bo_comment_level'])
     $is_comment_write = true;
 
-if (count($singo_write) > 0)
+if (isset($singo_count) && $singo_count)
 	$na_comment_where .= na_sql_find('wr_id', implode(',', $singo_write), 1);
 
 // 차단회원글 제외
@@ -137,7 +138,7 @@ if ($is_member && isset($member['as_chadan']) && trim($member['as_chadan']))
 	$na_comment_where .= na_sql_find('mb_id', trim($member['as_chadan']), 1);
 
 // 코멘트 출력
-$sql_common = "from {$write_table} where wr_parent = '{$wr_id}' and wr_is_comment = '1' $na_comment_where ";
+$sql_common = "from {$write_table} USE INDEX(idx_comment_paging) where wr_parent = '{$wr_id}' and wr_is_comment = '1' $na_comment_where ";
 
 if ($na_comment_where) {
 	$row = sql_fetch(" select count(*) as cnt " . $sql_common);

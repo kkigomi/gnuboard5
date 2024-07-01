@@ -7,10 +7,10 @@ if (!$member['mb_id'])
 if ($is_admin == 'super')
     alert('최고 관리자는 탈퇴할 수 없습니다');
 
-$post_mb_password = isset($_POST['mb_password']) ? trim($_POST['mb_password']) : '';
-
-if (!($post_mb_password && check_password($post_mb_password, $member['mb_password'])))
-    alert('비밀번호가 틀립니다.');
+$post_confirm_mb_id = isset($_POST['confirm_mb_id']) ? trim($_POST['confirm_mb_id']) : '';
+if (!(isset($_POST['_token']) && $_POST['_token'] === get_session('ss_leave_token'))) alert('토큰 값이 올바르지 않습니다.');
+if (!$post_confirm_mb_id) alert('탈퇴 확인을 하지 않았습니다.');
+if ($post_confirm_mb_id !== $member['mb_id']) alert('아이디를 올바르게 입력해 주세요.');
 
 // 회원탈퇴일을 저장
 $date = date("Ymd");

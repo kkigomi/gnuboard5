@@ -84,7 +84,7 @@ function na_grade_options($value) {
 
 	$options = '';
 	for($i=10; $i > 0; $i--) {
-		$options .= '<option value="'.$i.'"'.get_selected($i, $value).'>'.$i.'</option>'.PHP_EOL;
+		$options .= '<option value="'.$i.'"'.get_selected($i, (int)$value).'>'.$i.'</option>'.PHP_EOL;
 	}
 
 	return $options;

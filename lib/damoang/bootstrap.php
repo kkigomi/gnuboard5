@@ -1,49 +1,25 @@
 <?php
-
 declare(strict_types=1);
 
-// $_ENV['CACHE_REDIS_USE'] = filter_var($_ENV['CACHE_REDIS_USE'] ?? 'false', FILTER_VALIDATE_BOOLEAN);
-$_ENV['CACHE_REDIS_USE'] = trim($_ENV['CACHE_REDIS_USE'] ?? 'false');
+if (!defined('_GNUBOARD_')) {
+    exit;
+}
 
-// Redis Cache
-add_replace('get_cachemanage_instance', function () {
-    static $instance = null;
+// 댓글 페이징 인덱스 추가
+add_replace('admin_dbupgrade', function ($is_check = false) {
+    global $g5;
 
-    if ($instance !== null) {
-        return $instance;
-    }
+    $result = sql_query("SELECT bo_table FROM `{$g5['board_table']}`");
 
-    // 관리자 전용으로 동작
-    if (
-        $_ENV['CACHE_REDIS_USE'] === 'admin'
-        && $GLOBALS['is_admin'] !== 'super'
-    ) {
-        return null;
-    }
+    while ($table = sql_fetch_array($result)) {
+        $tableName = get_write_table_name($table['bo_table']);
 
-    if (in_array($_ENV['CACHE_REDIS_USE'], ['true', 'admin'])) {
-        $config = [
-            'host' => $_ENV['CACHE_REDIS_HOST'] ?? '127.0.0.1',
-            'port' => intval($_ENV['CACHE_REDIS_PORT'] ?? 6379),
-            'timeout' => intval($_ENV['CACHE_REDIS_TIMEOUT'] ?? 0)
-        ];
+        $resultIndex = sql_fetch("SHOW INDEX FROM `{$tableName}` where `Key_name` = 'idx_comment_paging'");
 
-        try {
-            if (!class_exists('\Redis', false)) {
-                throw new \Exception('Class Redis not found');
-            }
-
-            $instance = new Damoang\Lib\Cache\RedisCache($config);
-        } catch (\Exception $e) {
-            $instance = null;
-            if ($GLOBALS['is_admin'] === 'super') {
-                var_dump(
-                    '관리자용 오류 메시지 : Redis 오류',
-                    $e->getMessage()
-                );
-            }
+        if (!$resultIndex) {
+            sql_query("ALTER TABLE `{$tableName}` ADD INDEX `idx_comment_paging` (`wr_parent`,`wr_comment`,`wr_comment_reply`);", true);
+            $is_check = true;
         }
     }
-
-    return $instance;
+    return $is_check;
 });

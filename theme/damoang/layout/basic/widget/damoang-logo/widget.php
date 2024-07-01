@@ -11,7 +11,7 @@ if (isset($wset['d']['img']) && is_array($wset['d']['img'])) {
     for ($i = 0; $i < $data_cnt; $i++) {
         if (isset($wset['d']['img'][$i]) && $wset['d']['img'][$i]) {
             $list[$n]['img'] = na_url($wset['d']['img'][$i]);
-            $list[$n]['alt'] = isset($wset['d']['alt'][$i]) ? get_text($wset['d']['alt'][$i]) : '';
+            $list[$n]['alt'] = !empty($wset['d']['alt'][$i]) ? get_text($wset['d']['alt'][$i]) : '다모앙';
             $list[$n]['height'] = isset($wset['d']['height'][$i]) ? get_text($wset['d']['height'][$i]) : '';
             $n++;
         }
@@ -19,16 +19,12 @@ if (isset($wset['d']['img']) && is_array($wset['d']['img'])) {
 }
 
 $list_cnt = $n;
-
-// 랜덤
-shuffle($list);
-$id = 'carousel_' . na_rid();
 ?>
 
 <?php if ($list_cnt) { ?>
     <a href="/" class="fs-2 fw-bold" title="다모앙">
-        <img src="<?php echo $list[0]['img'] ?>" alt="다모앙" height="<?php echo ($list[0]['height'])?$list[0]['height']:48 ?>" />
-    </a> <?php echo $list[0]['alt'] ?>
+        <img src="<?php echo $list[0]['img'] ?>" alt="<?php echo $list[0]['alt'] ?>" height="<?php echo ($list[0]['height']) ? $list[0]['height'] : 48 ?>" />
+    </a>
 <?php } ?>
 
 <?php if ($setup_href) { ?>

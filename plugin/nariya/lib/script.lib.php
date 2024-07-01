@@ -10,7 +10,7 @@ function na_script($id, $opt=''){
 			define('NA_KAKAO', true);
 			if($config['cf_kakao_js_apikey']) {
 				echo '<script src="https://developers.kakao.com/sdk/js/kakao.min.js" async></script>'.PHP_EOL;
-				echo 'var kakao_javascript_apikey = "'.$config['cf_kakao_js_apikey'].'";'.PHP_EOL;
+				echo '<script>var kakao_javascript_apikey = "'.$config['cf_kakao_js_apikey'].'";</script>'.PHP_EOL;
 				echo '<script src="'.G5_JS_URL.'/kakaolink.js?ver='.G5_JS_VER.'"></script>'.PHP_EOL;
 			}
 		}

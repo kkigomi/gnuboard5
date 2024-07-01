@@ -149,6 +149,9 @@ $_REQUEST = array_map_deep(G5_ESCAPE_FUNCTION,  $_REQUEST);
 // $member 에 값을 직접 넘길 수 있음
 $config = array();
 $member = array('mb_id'=>'', 'mb_level'=> 1, 'mb_name'=> '', 'mb_point'=> 0, 'mb_certify'=>'', 'mb_email'=>'', 'mb_open'=>'', 'mb_homepage'=>'', 'mb_tel'=>'', 'mb_hp'=>'', 'mb_zip1'=>'', 'mb_zip2'=>'', 'mb_addr1'=>'', 'mb_addr2'=>'', 'mb_addr3'=>'', 'mb_addr_jibeon'=>'', 'mb_signature'=>'', 'mb_profile'=>'');
+if (!(($_ENV['DISABLE_MEMBER_OBJECT'] ?? 'false') === 'true')) {
+    $member = new Damoang\Lib\G5\Member\Member($member);
+}
 $board  = array('bo_table'=>'', 'bo_skin'=>'', 'bo_mobile_skin'=>'', 'bo_upload_count' => 0, 'bo_use_dhtml_editor'=>'', 'bo_subject'=>'', 'bo_image_width'=>0);
 $group  = array('gr_device'=>'', 'gr_subject'=>'');
 $g5     = array('title' => '');
@@ -179,9 +182,10 @@ if (file_exists($dbconfig_file)) {
     sql_set_charset(G5_DB_CHARSET, $connect_db);
     if(defined('G5_MYSQL_SET_MODE') && G5_MYSQL_SET_MODE) sql_query("SET SESSION sql_mode = ''");
     if (defined('G5_TIMEZONE')) sql_query(" set time_zone = '".G5_TIMEZONE."'");
+
+    include_once G5_LIB_PATH . '/damoang/bootstrap-installed.php';
 } else {
 ?>
-
 <!doctype html>
 <html lang="ko">
 <head>
@@ -832,11 +836,11 @@ if(!empty($extend_file) && is_array($extend_file)) {
 }
 unset($extend_file);
 
-if($is_member && !$is_admin && (!defined("G5_CERT_IN_PROG") || !G5_CERT_IN_PROG) && $config['cf_cert_use'] <> 0 && $config['cf_cert_req']) { // 본인인증이 필수일때
-    if (empty($member['mb_certify'])) { // 본인인증이 안된 계정일때
-        goto_url(G5_BBS_URL."/member_cert_refresh.php");
-    }
-}
+// if($is_member && !$is_admin && (!defined("G5_CERT_IN_PROG") || !G5_CERT_IN_PROG) && $config['cf_cert_use'] <> 0 && $config['cf_cert_req']) { // 본인인증이 필수일때
+//     if (empty($member['mb_certify'])) { // 본인인증이 안된 계정일때
+//         goto_url(G5_BBS_URL."/member_cert_refresh.php");
+//     }
+// }
 
 ob_start();
 

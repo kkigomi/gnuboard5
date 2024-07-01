@@ -71,9 +71,9 @@ if ($txId && isset($_POST["resultCode"]) && $_POST["resultCode"] === "0000") {
         $phone_no = hyphen_hp_number($phone_no);
 
         // 명의 변경 체크
-        if (!empty($member['mb_certify']) && !empty($member['mb_dupinfo']) && strlen($member['mb_dupinfo']) != 64) { // 이미 인증된 계정중에 dupinfo가 di(64 length)가 아닐때
-            if($member['mb_dupinfo'] != $mb_dupinfo) alert_close("해당 계정은 이미 다른명의로 본인인증 되어있는 계정입니다.");
-        }
+        // if (!empty($member['mb_certify']) && !empty($member['mb_dupinfo']) && strlen($member['mb_dupinfo']) != 64) { // 이미 인증된 계정중에 dupinfo가 di(64 length)가 아닐때
+        //     if($member['mb_dupinfo'] != $mb_dupinfo) alert_close("해당 계정은 이미 다른명의로 본인인증 되어있는 계정입니다.");
+        // }
 
         $sql = " select mb_id from {$g5['member_table']} where mb_id <> '{$member['mb_id']}' and mb_dupinfo = '{$mb_dupinfo}' ";
         $row = sql_fetch($sql);
@@ -106,6 +106,19 @@ if ($txId && isset($_POST["resultCode"]) && $_POST["resultCode"] === "0000") {
         //set_session("ss_cert_sex",     ($sex_code=="01"?"M":"F")); // 이니시스 간편인증은 성별정보 리턴 없음
         set_session('ss_cert_dupinfo', $mb_dupinfo);       
 
+        // 회원정보 업데이트, 기록 저장
+        if ($member['mb_id']) {
+            sql_query("UPDATE `{$g5['member_table']}`
+                SET
+                    mb_certify = '{$cert_type}',
+                    mb_dupinfo = '{$mb_dupinfo}',
+                    mb_adult = '{$adult}'
+                WHERE
+                    mb_id = '{$member['mb_id']}'
+            ");
+            insert_member_cert_history($member['mb_id'], '', '', '', $cert_type, $mb_dupinfo);
+        }
+
     } else {
         // 인증실패 curl의 인증실패 체크
         alert_close('코드 : '.$res_data['resultCode'].'  '.urldecode($res_data['resultMsg']));
@@ -127,7 +140,8 @@ include_once(G5_PATH.'/head.sub.php');
         // 인증정보
         $opener.$("input[name=cert_type]").val("<?php echo $cert_type; ?>");
         $opener.$("input[name=cert_no]").val("<?php echo $md5_cert_no; ?>");
-        
+        $opener.$("#win_sa_kakao_cert").after('<div id="msg_certify" class="form-text"><strong>본인확인</strong> 완료</div>');
+
         alert("본인인증이 완료되었습니다.");
 
         if($opener.$("form[name=fcertrefreshform]") != undefined){

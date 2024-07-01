@@ -1,4 +1,7 @@
 <?php
+
+use Damoang\Plugin\ContentManagement\ContentTracker;
+
 define('G5_CAPTCHA', true);
 include_once('./_common.php');
 include_once(G5_CAPTCHA_PATH.'/captcha.lib.php');
@@ -39,7 +42,7 @@ if (!empty($_POST['wr_email']))
     $wr_email = get_email_address(trim($_POST['wr_email']));
 
 @include_once($board_skin_path.'/write_comment_update.head.skin.php');
-
+run_event('comment_update_before', $board, $wr_id, $w, $qstr);
 // 비회원의 경우 이름이 누락되는 경우가 있음
 if ($is_guest) {
     if ($wr_name == '')
@@ -66,7 +69,7 @@ $wr = get_write($write_table, $wr_id);
 if (empty($wr['wr_id']))
     alert("글이 존재하지 않습니다.\\n글이 삭제되었거나 이동하였을 수 있습니다.");
 
-
+$wr_comment = get_write($write_table, $comment_id);
 // "인터넷옵션 > 보안 > 사용자정의수준 > 스크립팅 > Action 스크립팅 > 사용 안 함" 일 경우의 오류 처리
 // 이 옵션을 사용 안 함으로 설정할 경우 어떤 스크립트도 실행 되지 않습니다.
 //if (!trim($_POST["wr_content"])) die ("내용을 입력하여 주십시오.");
@@ -326,24 +329,38 @@ else if ($w == 'cu') // 댓글 수정
 
     $sql_secret = " , wr_option = '$wr_secret' ";
 
-    $sql = " update $write_table
-                set wr_subject = '$wr_subject',
-                     wr_content = '$wr_content',
-                     wr_1 = '$wr_1',
-                     wr_2 = '$wr_2',
-                     wr_3 = '$wr_3',
-                     wr_4 = '$wr_4',
-                     wr_5 = '$wr_5',
-                     wr_6 = '$wr_6',
-                     wr_7 = '$wr_7',
-                     wr_8 = '$wr_8',
-                     wr_9 = '$wr_9',
-                     wr_10 = '$wr_10'
-                     $sql_ip
-                     $sql_secret
-              where wr_id = '$comment_id' ";
-
-    sql_query($sql);
+    try {
+        sql_query("START TRANSACTION");
+    
+        // 백업 기능 추가
+        $original_content = get_write($write_table, $comment_id);
+        if (!ContentTracker::backupContent($bo_table, $comment_id, $original_content, '수정')) {
+            throw new Exception('댓글 수정에 실패했습니다.');
+        }
+        $sql = " update $write_table
+                    set wr_subject = '$wr_subject',
+                         wr_content = '$wr_content',
+                         wr_1 = '$wr_1',
+                         wr_2 = '$wr_2',
+                         wr_3 = '$wr_3',
+                         wr_4 = '$wr_4',
+                         wr_5 = '$wr_5',
+                         wr_6 = '$wr_6',
+                         wr_7 = '$wr_7',
+                         wr_8 = '$wr_8',
+                         wr_9 = '$wr_9',
+                         wr_10 = '$wr_10'
+                         $sql_ip
+                         $sql_secret
+                  where wr_id = '$comment_id' ";
+    
+        sql_query($sql);
+        
+        sql_query("COMMIT");
+    } catch (Exception $e) {
+        sql_query("ROLLBACK");
+        alert($e->getMessage());
+    }
 }
 
 // 사용자 코드 실행

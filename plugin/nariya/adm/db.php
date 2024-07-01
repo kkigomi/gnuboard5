@@ -36,7 +36,8 @@ if(!sql_query(" DESC {$g5['na_noti']} ", false)) {
 	$is_check = true;
 }
 
-if (!sql_fetch("SHOW INDEX FROM g5_na_noti where `Key_name` = 'idx_update_readed';")) {
+// 알림 테이블
+if (!sql_fetch("SHOW INDEX FROM {$g5['na_noti']} where `Key_name` = 'idx_update_readed';")) {
 	sql_query(" ALTER TABLE `{$g5['na_noti']}` ADD INDEX `idx_update_readed` (`bo_table`,`mb_id`,`wr_parent`,`ph_readed`) ", true);
 	$is_check = true;
 }
@@ -97,14 +98,21 @@ if(!sql_query(" DESC {$g5['na_singo']} ", false)) {
 	$is_check = true;
 }
 
+// 내용관리 - 쇼핑몰 레이아웃
+if (!sql_fetch(" SHOW COLUMNS FROM {$g5['content_table']} LIKE 'co_shop' ")) {
+	sql_query(" ALTER TABLE `{$g5['content_table']}` ADD `co_shop` tinyint(4) NOT NULL DEFAULT '0' AFTER `co_html` ", true);
+
+	$is_check = true;
+}
+
+// 내용관리 - 접근레벨
+if (!sql_fetch(" SHOW COLUMNS FROM {$g5['content_table']} LIKE 'co_level' ")) {
+	sql_query(" ALTER TABLE `{$g5['content_table']}` ADD `co_level` tinyint(4) NOT NULL DEFAULT '0' AFTER `co_shop` ", true);
+
+	$is_check = true;
+}
+
 if(IS_YC) {
-
-	// 내용관리에 쇼핑몰 레이아웃 사용 추가
-	if (!sql_fetch(" SHOW COLUMNS FROM {$g5['content_table']} LIKE 'co_shop' ")) {
-		sql_query(" ALTER TABLE `{$g5['content_table']}` ADD `co_shop` tinyint(4) NOT NULL DEFAULT '0' AFTER `co_html` ", true);
-
-		$is_check = true;
-	}
 
 	if(IS_EXTEND || (isset($is_extend) && $is_extend)) {
 
@@ -173,6 +181,17 @@ if(!sql_fetch(" SHOW COLUMNS FROM `{$g5['board_new_table']}` LIKE 'wr_hit' ")) {
 					ADD `wr_image` varchar(255) NOT NULL DEFAULT '' AFTER `wr_singo`,
 					ADD `wr_video` varchar(255) NOT NULL DEFAULT '' AFTER `wr_image`
 			", true);
+
+	$is_check = true;
+}
+
+// 새글 테이블의 IP 컬럼 추가
+if(!sql_fetch(" SHOW COLUMNS FROM `{$g5['board_new_table']}` LIKE 'wr_ip' ")) {
+	sql_query(" ALTER TABLE `{$g5['board_new_table']}` 
+		ADD `wr_ip` varchar(100) NOT NULL DEFAULT '',
+		ADD INDEX `idx_ip` (`wr_ip`),
+		ADD INDEX `idx_date` (`bn_datetime`),
+	", true);
 
 	$is_check = true;
 }

@@ -1,29 +1,36 @@
 <?php
-if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
+if (!defined('_GNUBOARD_')) {
+    exit;
+}
 
 // 사이트 메뉴
 $siteMenus = include 'inc.menu.php';
+
+// 롤링 알림
 $rollingNotiData = include 'inc.rolling.noti.php';
 
 // 메뉴 및 페이지 위치 생성
 list($menu, $nav) = na_menu();
 
 // 팝업레이어 : index에서만 실행
-if(IS_INDEX)
-    include G5_BBS_PATH.'/newwin.inc.php';
+if (IS_INDEX) {
+    include G5_BBS_PATH . '/newwin.inc.php';
+}
+
+add_javascript('<script src="' . LAYOUT_URL . '/js/customui.js?CACHEBUST"></script>');
+add_javascript('<script src="' . LAYOUT_URL . '/js/custom_features.js?CACHEBUST"></script>');
+add_javascript('<script src="' . LAYOUT_URL . '/js/layout.js?CACHEBUST"></script>');
 ?>
 <div class="site-wrap w-100 h-100">
-    <div id="header-copy" class="header-copy">&nbsp;<?php //위치 확보를 위한 헤더 영역 복제 ?></div>
+    <div id="header-copy" class="header-copy">&nbsp;<?php // FIXME 위치 확보를 위한 헤더 영역 복제 ?></div>
     <header id="header-navbar" class="site-navbar">
         <div class="container px-3">
             <div class="d-flex gap-3 align-items-center">
-                <div>
-                    <?php echo na_widget('damoang-logo', 'default'); ?>
-                </div>
+                <div><?php echo na_widget('damoang-logo', 'default'); ?></div>
                 <div class="ms-auto">
                     <?php
                     // 메뉴 및 메뉴위치 : 좌측 .me-auto, 중앙 .mx-auto, 우측 .ms-auto
-                    include_once LAYOUT_PATH.'/component/menu.php';
+                    include_once LAYOUT_PATH . '/component/menu.php';
                     ?>
                 </div>
                 <div>
@@ -35,14 +42,14 @@ if(IS_INDEX)
                     </a>
                 </div>
                 <?php if ($member['mb_level'] >= 2) { ?>
-                <div>
-                    <a href="#search" data-bs-toggle="offcanvas" data-bs-target="#searchOffcanvas" aria-controls="searchOffcanvas" class="site-icon">
-                        <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="검색">
-                            <i class="bi bi-search"></i>
-                            <span class="visually-hidden">검색</span>
-                        </span>
-                    </a>
-                </div>
+                    <div>
+                        <a href="#search" data-bs-toggle="offcanvas" data-bs-target="#searchOffcanvas" aria-controls="searchOffcanvas" class="site-icon">
+                            <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="검색">
+                                <i class="bi bi-search"></i>
+                                <span class="visually-hidden">검색</span>
+                            </span>
+                        </a>
+                    </div>
                 <?php } ?>
                 <div>
                     <a href="#memberOffcanvas" data-bs-toggle="offcanvas" data-bs-target="#memberOffcanvas" aria-controls="memberOffcanvas" class="site-icon">
@@ -53,11 +60,15 @@ if(IS_INDEX)
                     </a>
                 </div>
                 <?php if ($is_member) { ?>
+                    <?php
+                    $noti_cnt = intval($member['as_noti'] + $member['mb_memo_cnt']);
+                    $notiIconClass = $noti_cnt ? 'bi-bell-fill bell-animation' : 'bi-bell';
+                    ?>
                     <div>
                         <a href="#notiOffcanvas" data-bs-toggle="offcanvas" data-bs-target="#notiOffcanvas" aria-controls="notiOffcanvas" class="site-icon">
                             <span class="position-relative" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="알림">
-                                <i class="bi bi-bell"></i>
-                                <span class="position-absolute top-0 start-100 translate-middle spinner-grow spinner-grow bg-primary d-none da-noti-indicator">
+                                <i class="bi <?= $notiIconClass ?>"></i>
+                                <span class="position-absolute top-0 start-100 translate-middle spinner-grow spinner-grow bg-primary <?= $noti_cnt ? '' : 'd-none' ?> da-noti-indicator">
                                     <span class="visually-hidden">새 알림이 있습니다</span>
                                 </span>
                                 <span class="visually-hidden">알림 보기</span>
@@ -77,25 +88,24 @@ if(IS_INDEX)
         </div><!-- .container -->
     </header>
 
-<?php
-// 메인이 아닐 경우
-if(!IS_INDEX) {
-?>
-    <div id="main-wrap" class="bg-body">
-        <div class="container px-0 px-sm-3<?php echo (IS_ONECOL) ? ' py-3' : ''; ?>">
-        <?php if(IS_ONECOL) { // 1단 일 때
-            // 페이지 타이틀
-            include_once LAYOUT_PATH.'/component/title.php';
-        } else { // 2단 일 때
-        ?>
-            <div class="row row-cols-1 row-cols-md-2 g-3">
-                <div class="order-1 col-md-8 col-lg-9">
-                    <div class="py-3">
-                        <?php
-                            // 페이지 타이틀
-                            include_once LAYOUT_PATH.'/component/title.php';
-                        ?>
-        <?php } ?>
-
-
-<?php } // 메인이 아닐 경우 ?>
+    <?php
+    // 메인이 아닐 경우
+    if (!IS_INDEX) {
+    ?>
+        <div id="main-wrap" class="bg-body">
+            <div class="container px-0 px-sm-3 <?php echo ($is_onecolumn) ? 'py-3' : ''; ?>">
+                <?php
+                if ($is_onecolumn) { // 1단 일 때
+                    // 페이지 타이틀
+                    include_once LAYOUT_PATH . '/component/title.php';
+                } else { // 2단 일 때
+                ?>
+                    <div class="row row-cols-1 row-cols-md-2 g-3">
+                        <div class="order-1 col-md-8 col-lg-9">
+                            <div class="py-3">
+                                <?php
+                                // 페이지 타이틀
+                                include_once LAYOUT_PATH . '/component/title.php';
+                                ?>
+                <?php } ?>
+    <?php } // 메인이 아닐 경우 ?>

@@ -46,10 +46,10 @@ if(defined('_INDEX_')) {
 	$image = $instead_img;
 	if(defined('_SHOP_')) {
 		$desc = $nariya['seo_shop_desc'];
-		$keywords = $nariya['seo_shop_keys'];
+		$keys = $nariya['seo_shop_keys'];
 	} else {
 		$desc = $nariya['seo_desc'];
-		$keywords = $nariya['seo_keys'];
+		$keys = $nariya['seo_keys'];
 	}
 
 } else if(isset($view['wr_id']) && $view['wr_id']) {
@@ -58,7 +58,7 @@ if(defined('_INDEX_')) {
 	$author = na_get_text($view['wr_name']);
 	$desc = na_cut_text($view['wr_content'], 150);
 	$image = $view['seo_img'];
-	$keywords = isset($view['as_tag']) ? na_get_text($view['as_tag']) : ''; //태그 적용
+	$keys = isset($view['as_tag']) ? na_get_text($view['as_tag']) : ''; //태그 적용
 
 } else if(isset($co['co_id']) && $co['co_id']) {
 
@@ -118,9 +118,7 @@ $author = na_htmlspecialchars($author);
 $desc = na_htmlspecialchars($desc);
 $keys = na_htmlspecialchars($keys);
 ?>
-<meta http-equiv="content-language" content="kr">
 <link rel="canonical" href="<?= $canonical ?>">
-<meta name="robots" content="index,follow">
 <meta name="title" content="<?php echo $title ?>">
 <meta name="author" content="<?php echo $author ?>">
 <meta name="description" content="<?php echo $desc ?>">

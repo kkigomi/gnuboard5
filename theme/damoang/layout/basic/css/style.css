@@ -712,6 +712,12 @@ div a mark:hover {
   margin: auto;
 }
 
+/* 추천수 박스로 직홍게 게시글 '홍보' 컬러 설정*/
+.rcmd-box.step-pai {
+  background-color: rgb(255, 179, 39);
+  color: rgb(78, 78, 78);
+}
+
 /* 추천수 스텝별 옵션 */
 /** 기본 **/
 .rcmd-box.step1 {
@@ -840,6 +846,10 @@ div a mark:hover {
   padding-left: .3rem !important;
   padding-right: .3rem !important;
 }
+/*직홍게글 '홍보'표시 두개 중 하나 */
+.pai-mb {
+  display: none !important;
+}
 @media (max-width: 767px) {
   .rcmd-pc {
     display: none !important;
@@ -851,7 +861,16 @@ div a mark:hover {
   .da-list-date {
     color: inherit !important;
   }
+
+  .pai-mb {
+    display: inline-block !important;
+    margin: inherit;
+    min-width: 45px;
+  }
 }
+
+
+
 
 footer .bar-sm,footer i.bar{
   margin: 0px 2px !important;
@@ -933,8 +952,8 @@ footer .container a {
     height: 50px !important;
   }
 
-  .sideview .profile_img,
-  .sideview .mb-photo {
+  #bo_list .sideview .profile_img,
+  #bo_list .sideview .mb-photo {
     order: 6 !important;
   }
 }

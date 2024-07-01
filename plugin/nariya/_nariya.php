@@ -4,7 +4,7 @@ if (!defined('_GNUBOARD_'))
 	exit;
 
 // 버전
-define('NA_VER', 'Nariya 0.1');
+define('NA_VER', 'Nariya 0.2');
 
 // 변수 초기화
 $phref = ''; // 페이지 아이디 체크 차단용
@@ -154,26 +154,18 @@ $replace_bbs_file = array(
 	G5_BBS_DIR.'-content', // 내용관리
 	G5_BBS_DIR.'-board', // 게시판, 글쓰기
 	G5_BBS_DIR.'-page-faq', // FAQ
+	G5_BBS_DIR.'-page-scrap_popin_update', // FAQ
 );
 
 // 영카트 원본 대체 파일
 $replace_shop_file = array();
 
 // 관리자 원본 대체 파일
-if(IS_EXTEND) {
-	$replace_adm_file = array(
-		G5_ADMIN_DIR.'-page-menu_list', // 메뉴관리
-		G5_ADMIN_DIR.'-page-menu_form', // 메뉴등록
-		G5_ADMIN_DIR.'-page-menu_form_search', // 메뉴검색
-		G5_ADMIN_DIR.'-page-contentlist', // 내용관리
-		G5_ADMIN_DIR.'-shop_admin-page-itemlist', // 상품관리목록
-		G5_ADMIN_DIR.'-shop_admin-page-orderformcartupdate', // 주문상태 업데이트
-	);
-} else {
-	$replace_adm_file = array(
-		G5_ADMIN_DIR.'-page-menu_list', // 메뉴관리
-		G5_ADMIN_DIR.'-page-menu_form', // 메뉴등록
-		G5_ADMIN_DIR.'-page-menu_form_search', // 메뉴검색
-		G5_ADMIN_DIR.'-page-contentlist', // 내용관리
-	);
-}
+$replace_adm_file = array(
+	G5_ADMIN_DIR.'-page-menu_list', // 메뉴관리
+	G5_ADMIN_DIR.'-page-menu_form', // 메뉴등록
+	G5_ADMIN_DIR.'-page-menu_form_search', // 메뉴검색
+	G5_ADMIN_DIR.'-page-contentlist', // 내용관리
+	G5_ADMIN_DIR.'-page-member_list', // 회원목록
+	G5_ADMIN_DIR.'-page-member_form', // 회원 수정 폼
+);

@@ -90,8 +90,7 @@ $pagination = $pg->getPagination();
                 <col style="width:6%">
                 <col style="width:10%">
                 <col style="width:6%">
-                <col style="width:6%">
-                <col style="width:10%"> <!-- Add width for the new date column -->
+                <col style="width:6%"> <!-- Add width for the new date column -->
             </colgroup>
             <thead>
                 <tr>

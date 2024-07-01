@@ -240,7 +240,7 @@ if (!defined('_GNUBOARD_')) {
                             <div class="col-sm-7">
                                 <div class="input-group">
                                     <input type="number" id="reg_font_size" name="font_size" class="form-control form-control-sm ui_custom_items" step="0.1" data-gtm-form-interact-field-id="0" placeholder="1" min="0.3">
-                                    <span class="input-group-text"">em</span>
+                                    <span class="input-group-text">em</span>
                                 </div>
                             </div>
                         </div>
@@ -550,8 +550,8 @@ if (!defined('_GNUBOARD_')) {
                     </li>
                     <li class="list-group-item ui-custom-item ui-custom-expand-item ui-custom-expand-shortcut">
                         <div class="row align-items-center">
-                            <label for="reg_expand_shortcut_1" class="col-sm-5 col-form-label" title="단축 버튼 1을 추가합니다."">단축키 1</label>
                             <div class="col-sm-7">
+                            <label for="reg_expand_shortcut_1" class="col-sm-5 col-form-label" title="단축 버튼 1을 추가합니다.">단축키 1</label>
                                 <div class="form-check form-switch">
                                     <input class="form-check-input ui_custom_items float-end mt-2" type="checkbox" name="expand_shortcut_1" value="1" role="switch" id="reg_expand_shortcut_1">
                                 </div>
@@ -675,8 +675,8 @@ if (!defined('_GNUBOARD_')) {
                             <label for="reg_expand_gesture_start_term" class="col-sm-5 col-form-label" title="양옆으로 제스처시 인식 시간을 설정합니다. 길수록 길게움직여도 됩니다.">최대 인식 시간</label>
                             <div class="col-sm-7">
                                 <div class="input-group">
-                                    <input type="number" id="reg_expand_gesture_start_term" name="expand_gesture_start_term" class="form-control form-control-sm ui_custom_items" step="10" placeholder="400" min="250" min="600"">
                                     <span class="input-group-text">ms</span>
+                                    <input type="number" id="reg_expand_gesture_start_term" name="expand_gesture_start_term" class="form-control form-control-sm ui_custom_items" step="10" placeholder="400" min="250" min="600">
                                 </div>
                             </div>
                         </div>
@@ -980,9 +980,9 @@ if (!defined('_GNUBOARD_')) {
                         <label for="reg_rcmd_color_step4_value" class="col-sm-5 col-form-label" title="목록의 추천 4단계의 시작 값을 설정합니다.">추천4</label>
                         <div class="col-sm-7">
                             <div class="input-group col-sm-7">
-                            <input type="number" id="reg_rcmd_color_step4_value" name="rcmd_color_step4_value" value="" placeholder="51" class="form-control form-control-sm ui_custom_items rcmd_color_step_values ui-custom-detail" step="1 max="100"">
                             <input type="color" id="reg_rcmd_color_step4" name="rcmd_color_step4" value="#a6a6a6" defaultValue="#a6a6a6" placeholder="4단계 : #a6a6a6" class="form-control form-control-sm ui_custom_items rcmd_color_steps">
                             <input type="color" id="reg_rcmd_font_color_4" name="rcmd_font_color_4" value="#ffffff" placeholder="" class="form-control form-control-sm ui_custom_items rcmd_font_steps">
+                                <input type="number" id="reg_rcmd_color_step4_value" name="rcmd_color_step4_value" value="" placeholder="51" class="form-control form-control-sm ui_custom_items rcmd_color_step_values ui-custom-detail" step="1" max="100">
                             </div>
                         </div>
                     </div>

@@ -279,6 +279,52 @@ if (!$row = sql_fetch($sql)) {
     $is_check = true;
 }
 
+// 별점 게시판의 별점 평균 테이블
+if(!sql_query(" DESC {$g5['board_rate_average_table']} ", false)) {
+    sql_query(" CREATE TABLE IF NOT EXISTS `{$g5['board_rate_average_table']}` (
+                `id` BIGINT NOT NULL AUTO_INCREMENT ,
+                `bo_table` VARCHAR(20) NOT NULL ,
+                `wr_id` BIGINT NOT NULL ,
+                `rate_sum` DECIMAL(20) NOT NULL ,
+                `rate_average` DOUBLE NOT NULL ,
+                `rate_count` BIGINT NOT NULL ,
+                `rate_count_1` BIGINT NOT NULL ,
+                `rate_count_2` BIGINT NOT NULL ,
+                `rate_count_3` BIGINT NOT NULL ,
+                `rate_count_4` BIGINT NOT NULL ,
+                `rate_count_5` BIGINT NOT NULL ,
+                `rate_count_6` BIGINT NOT NULL ,
+                `rate_count_7` BIGINT NOT NULL ,
+                `rate_count_8` BIGINT NOT NULL ,
+                `rate_count_9` BIGINT NOT NULL ,
+                `rate_count_10` BIGINT NOT NULL ,
+                PRIMARY KEY (`id`),
+                UNIQUE `unique` (`wr_id`),
+                INDEX `idx_bo_table` (`bo_table`),
+                INDEX `idx_wr_id` (`wr_id`),
+                INDEX `idx_rate_count` (`rate_count`),
+                INDEX `idx_rate_sum` (`rate_sum`),
+                INDEX `idx_rate_average` (`rate_average`)
+            ) ", true);
+
+    $is_check = true;
+}
+
+// 별점 평균 테이블의 UNIQUE KEY 재생성
+$result = sql_query("SHOW INDEX FROM `{$g5['board_rate_average_table']}` ");
+while ($row = sql_fetch_array($result)){
+    if (isset($row['Key_name']) && $row['Key_name'] == 'unique' && isset($row['Column_name']) && $row['Column_name'] == 'bo_table') {
+        $is_key_updated = true;
+        break;
+    }
+}
+if (!isset($is_key_updated)) {
+    sql_query(" ALTER TABLE `{$g5['board_rate_average_table']}`
+                DROP INDEX `unique`,
+                ADD UNIQUE `unique` (`bo_table`,`wr_id`) ", true);
+    $is_check = true;
+}
+
 $is_check = run_replace('admin_dbupgrade', $is_check);
 
 $db_upgrade_msg = $is_check ? 'DB 업그레이드가 완료되었습니다.' : '더 이상 업그레이드 할 내용이 없습니다.<br>현재 DB 업그레이드가 완료된 상태입니다.';

@@ -5,6 +5,7 @@ if (!defined("_GNUBOARD_")) exit; // 개별 페이지 접근 불가
 // add_stylesheet('css 구문', 출력순서); 숫자가 작을 수록 먼저 출력됨
 add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?CACHEBUST">', 0);
 
+run_event('view_skin_before');
 ?>
 
 <!--script src="<?php echo G5_JS_URL ?>/viewimageresize.js"></script-->
@@ -209,7 +210,10 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?C
                         }
                     });
                 </script>
-
+                <a href="<?php echo $write_href ?>" class="btn btn-basic btn-sm ms-2" style="white-space: nowrap;">
+                    <i class="bi bi-pencil-square"></i>
+                    글쓰기
+                </a>
                 <?php if ($update_href) { ?>
                     <a href="<?php echo $update_href ?>" class="btn btn-basic btn-sm ms-2" style="white-space: nowrap;">
                         <i class="bi bi-pencil-square"></i>
@@ -241,6 +245,63 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?C
 
     <section id="bo_v_atc" class="border-bottom p-3">
         <h3 class="visually-hidden">본문</h3>
+        <?php if (isset($boset['check_star_rating']) && $boset['check_star_rating']) { ?>
+            <!-- 별점 표시 { -->
+            <?php
+                $star_rate = $view['wr_6'];
+
+                switch ($star_rate) {
+                    case '1':
+                        $star_rated_text = '0.5';
+                        break;
+                    case '2':
+                        $star_rated_text = '1';
+                        break;
+                    case '3':
+                        $star_rated_text = '1.5';
+                        break;
+                    case '4':
+                        $star_rated_text = '2';
+                        break;
+                    case '5':
+                        $star_rated_text = '2.5';
+                        break;
+                    case '6':
+                        $star_rated_text = '3';
+                        break;
+                    case '7':
+                        $star_rated_text = '3.5';
+                        break;
+                    case '8':
+                        $star_rated_text = '4';
+                        break;
+                    case '9':
+                        $star_rated_text = '4.5';
+                        break;
+                    case '10':
+                        $star_rated_text = '5';
+                        break;
+                    default:
+                        $star_rated_text = '평가 없음';
+                        break;
+                }
+            ?>
+            <div class="star-rated d-flex pb-2 px-0 mb-2 border-bottom align-items-center">
+                <span class="me-2 small">별점:</span>
+                <div class="da-star star-l<?php if ((int)$star_rate >= 1) echo ' star-fill'; ?>"></div>
+                <div class="da-star star-r<?php if ((int)$star_rate >= 2) echo ' star-fill'; ?>"></div>
+                <div class="da-star star-l<?php if ((int)$star_rate >= 3) echo ' star-fill'; ?>"></div>
+                <div class="da-star star-r<?php if ((int)$star_rate >= 4) echo ' star-fill'; ?>"></div>
+                <div class="da-star star-l<?php if ((int)$star_rate >= 5) echo ' star-fill'; ?>"></div>
+                <div class="da-star star-r<?php if ((int)$star_rate >= 6) echo ' star-fill'; ?>"></div>
+                <div class="da-star star-l<?php if ((int)$star_rate >= 7) echo ' star-fill'; ?>"></div>
+                <div class="da-star star-r<?php if ((int)$star_rate >= 8) echo ' star-fill'; ?>"></div>
+                <div class="da-star star-l<?php if ((int)$star_rate >= 9) echo ' star-fill'; ?>"></div>
+                <div class="da-star star-r<?php if ((int)$star_rate >= 10) echo ' star-fill'; ?>"></div>
+                <span class="ms-1 small"><?=$star_rated_text?></span>
+            </div>
+            <!-- } 별점 표시 -->
+        <?php } ?>
         <div id="bo_v_con">
             <?php
             // 첨부 동영상 출력 - 이미지출력보다 위에 있어야 함
@@ -276,11 +337,6 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?C
                 echo $view_replaced; // 글내용 출력
                 ?>
             </div>
-            <?php // if ($is_signature) { // 서명 ?>
-
-            <?php echo na_widget('mb-sign') ?>
-            <p><?php // echo $signature ?></p>
-            <?php // } ?>
         </div>
         <?php
         // 추천/비추천 여부 확인
@@ -347,7 +403,6 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?C
             </div>
         </div>
 
-
         <style>
             .sg-name .sv_wrap .profile_img {
                 display: none
@@ -358,85 +413,47 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?C
                 max-height: 100%
             }
         </style>
-        <div class="border mx-3 mx-sm-0 mb-3 p-3">
+
+        <?php echo na_widget('damoang-image-banner', 'board-head'); ?>
+
+        <?php if ($is_signature && $view['mb_id']) { // 서명 ?>
+            <?php echo na_widget('mb-sign', "member-{$view['mb_id']}", 'cache=1'); ?>
+        <?php } else { ?>
             <div class="row row-cols-1 row-cols-md-2 align-items-center">
-                <div class="col-sm-5 col-md-4 text-center">
-                    <div class="row row-cols-1 row-cols-md-2 align-items-center">
-                        <div class="col-sm-auto col-md-auto">
-                            <img src="<?php echo na_member_photo($view['mb_id']) ?>" class="rounded-circle">
-                        </div>
-                        <div class="col-sm-auto col-md-auto sg-name">
-                            <?php echo $view['name'] ?>
-                        </div>
-                    </div>
-                    <!-- <div class="clearfix f-sm text-center">
-                        <span class="float-left">
-                        <?php echo na_xp_icon($view['mb_id'], '', $view) ?>
-                        <?php echo $view['wr_name'] ?>
-                        </span>
-                        <span class="float-right">
-                        레벨 <?php echo $mbs['as_level'] ?>
-                        </span>
-                    </div> -->
-                    <!-- <div class="progress" title="레벨업까지 <?php echo number_format($mbs['as_max'] - $mbs['as_exp']); ?> 경험치 필요">
-                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<?php echo $per ?>"
-                        aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $per ?>%">
-                        <span class="sr-only"><?php echo $per ?>%</span>
-                        </div>
-                    </div> -->
+                <div class="text-center mb-2 mb-sm-0">
+                    <img src="<?php echo na_member_photo($mbs['mb_id']) ?>" class="rounded-circle">
                 </div>
-                <div class="col-sm-7 col-md-8">
-                    <ul class="na-list">
-                        <p class="na-mb-sign"><?php echo $signature ?></p>
-                        <?php
-                        // 리스트
-                        for ($i = 0; $i < $list_cnt; $i++) {
-
-                            // 아이콘 체크
-                            if (isset($list[$i]['icon_secret']) && $list[$i]['icon_secret']) {
-                                $is_lock = true;
-                                $wr_icon = '<span class="na-icon na-secret"></span> ';
-                            } else if (isset($list[$i]['icon_new']) && $list[$i]['icon_new']) {
-                                $wr_icon = '<span class="na-icon na-new"></span> ';
-                            } else {
-                                $wr_icon = '';
-                            }
-
-                            // 파일 아이콘
-                            $icon_file = '';
-                            if ($thumb || (isset($list[$i]['as_thumb']) && $list[$i]['as_thumb'])) {
-                                $icon_file = '<span class="na-ticon na-image"></span>';
-                            } else if (isset($list[$i]['icon_file']) && $list[$i]['icon_file']) {
-                                $icon_file = '<span class="na-ticon na-file"></span>';
-                            }
-                            ?>
-                            <li>
-                                <div class="na-title">
-                                    <div class="float-right text-muted f-sm font-weight-normal ml-2">
-                                        <span class="sr-only">등록일</span>
-                                        <?php echo na_date($list[$i]['wr_datetime'], 'orangered', 'long') ?>
-                                    </div>
-                                    <div class="na-item">
-                                        <a href="<?php echo $list[$i]['href'] ?>" class="na-subject">
-                                            <?php echo $wr_icon ?><?php echo $list[$i]['subject'] ?>
-                                        </a>
-                                        <?php echo $icon_file ?>
-                                        <?php if (isset($list[$i]['wr_comment']) && $list[$i]['wr_comment']) { ?>
-                                            <div class="na-info">
-                                                <span class="count-plus orangered">
-                                                <span class="sr-only">댓글</span>
-                                                <?php echo $list[$i]['wr_comment']; ?>
-                                                </span>
-                                            </div>
-                                        <?php } ?>
-                                    </div>
-                                </div>
-                            </li>
-                        <?php } ?>
-                    </ul>
+                <div class="clearfix f-sm">
+                    <span class="float-start d-flex">
+                        <?php echo na_xp_icon($mbs['mb_id'], '', $mbs) ?>
+                        <?php echo $view['name'] ?>
+                    </span>
+                    <span class="float-end">
+                        Exp <?php echo number_format($mb['as_exp']) ?>
+                    </span>
+                </div>
+                <div class="progress" title="레벨업까지 <?php echo number_format($mbs['as_max'] - $mbs['as_exp']);?> 경험치 필요">
+                    <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<?php echo $per ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $per ?>%">
+                        <span class="sr-only"><?php echo $per ?>%</span>
+                    </div>
                 </div>
             </div>
-        </div>
+        <?php } ?>
+
+        <!-- google -->
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6922133409882969"
+                crossorigin="anonymous"></script>
+        <!-- post-in-viewer -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6922133409882969"
+             data-ad-slot="2658262709"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+        <!-- // google -->
 
         <?php if ($view['wr_8']) { ?>
             <div class="d-flex mb-2">
@@ -576,31 +593,35 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?C
 
 <div class="mb-3">
     <?php if (is_mobile()) { ?>
-        <script async
-                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6922133409882969"
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6922133409882969"
                 crossorigin="anonymous"></script>
-        <!-- 수평형 -->
+        <!-- mobile -->
         <ins class="adsbygoogle"
-             style="display:block"
+             style="display:inline-block;width:350px;height:350px"
              data-ad-client="ca-pub-6922133409882969"
-             data-ad-slot="5448923097"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
+             data-ad-slot="1919347366"></ins>
         <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
         </script>
+
+        <!--        TODO : 애드센스 위젯 만들어야 함 <br>-->
+<!--        애드센스 제거 후 파랑색 검색 바가 제거 되는 지 TEST <br/>-->
+<!--        삐앙삐앙 머그컵 없어져랏앙앙앙!!-->
     <?php } else { ?>
-        <script async
-                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6922133409882969"
+
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6922133409882969"
                 crossorigin="anonymous"></script>
-        <!-- 게시풀 하단 -->
+        <!-- fix-down -->
         <ins class="adsbygoogle"
-             style="display:inline-block;width:860px;height:100px"
+             style="display:inline-block;width:728px;height:90px"
              data-ad-client="ca-pub-6922133409882969"
-             data-ad-slot="3013497299"></ins>
+             data-ad-slot="2430483259"></ins>
         <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
         </script>
+        <!--        TODO : 애드센스 위젯 만들어야 함 <br>-->
+<!--        애드센스 제거 후 파랑색 검색 바가 제거 되는 지 TEST <br/>-->
+<!--        삐앙삐앙 머그컵 없어져랏앙앙앙!!-->
     <?php } ?>
 </div>
 

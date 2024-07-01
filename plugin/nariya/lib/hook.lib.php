@@ -659,11 +659,18 @@ class NARIYA_STANDARD {
 
 			$wr_is_secret = (strstr($wr['wr_option'], 'secret')) ? 1 : 0;
 
+			// 새 글 작성 시 IP 업데이트
+			$sql_ip = '';
+			if ($w === '') {
+				$sql_ip = " , wr_ip = '{$_SERVER['REMOTE_ADDR']}' ";
+			}
+
 			$sql = " update {$g5['board_new_table']}
 							set wr_is_secret = '{$wr_is_secret}',
 								wr_singo = '{$wr['wr_7']}',
 								wr_image = '{$wr_10}',
-								wr_video = '{$wr_9}',
+								wr_video = '{$wr_9}'
+								{$sql_ip}
 							where bo_table = '{$bo_table}' and wr_id = '{$wr_id}' ";
 			sql_query($sql, false);
 		}
@@ -786,8 +793,8 @@ class NARIYA_STANDARD {
 		$is_lucky = 0;
 		if($is_member  && $comment_id && $w === 'c') {
 
-			$lucky_point = isset($boset['na_lucky_point']) ? (int)$boset['na_lucky_point'] : 0;
-			$lucky_dice = isset($boset['na_lucky_dice']) ? (int)$boset['na_lucky_dice'] : 0;
+			$lucky_point = isset($boset['lucky_point']) ? (int)$boset['lucky_point'] : 0;
+			$lucky_dice = isset($boset['lucky_dice']) ? (int)$boset['lucky_dice'] : 0;
 
 			if($lucky_point > 0 && $lucky_dice > 0) {
 				// 주사위 굴림
@@ -831,10 +838,17 @@ class NARIYA_STANDARD {
 
 			$wr_is_secret = (strstr($wr['wr_option'], 'secret')) ? 1 : 0;
 
+			// 새 댓글 작성 시 IP 업데이트
+			$sql_ip = '';
+			if ($w === 'c') {
+				$sql_ip = " , wr_ip = '{$_SERVER['REMOTE_ADDR']}' ";
+			}
+
 			$sql = " update {$g5['board_new_table']}
 							set wr_is_comment = '1',
 								wr_is_secret = '{$wr_is_secret}',
 								wr_singo = '{$wr['wr_7']}'
+								{$sql_ip}
 							where bo_table = '{$bo_table}' and wr_id = '{$comment_id}' ";
 			sql_query($sql);
 		} 
