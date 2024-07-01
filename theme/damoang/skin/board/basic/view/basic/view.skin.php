@@ -68,33 +68,33 @@ run_event('view_skin_before');
 
         <div class="d-flex gap-1 align-items-start pt-2 px-3 small">
             <?php if ($category_name) { ?>
-                <div class="pe-2">
+                <div class="pe-2 text-center">
                     <i class="bi bi-book"></i>
                     <span class="visually-hidden">분류</span>
                     <?php echo $view['ca_name'] ?>
                 </div>
             <?php } ?>
-            <div class="pe-2">
+            <div class="pe-2 text-center">
                 <i class="bi bi-eye"></i>
                 <?php echo number_format($view['wr_hit']) ?>
                 <span class="visually-hidden">조회</span>
             </div>
             <?php if ($view['wr_comment']) { ?>
-                <div class="pe-2">
+                <div class="pe-2 text-center">
                     <i class="bi bi-chat-dots"></i>
                     <?php echo number_format($view['wr_comment']) ?>
                     <span class="visually-hidden">댓글</span>
                 </div>
             <?php } ?>
             <?php if ($board['bo_use_good']) { // 추천 ?>
-                <div class="pe-2">
+                <div class="pe-2 text-center">
                     <i class="bi bi-hand-thumbs-up"></i>
                     <?php echo number_format($view['wr_good']) ?>
                     <span class="visually-hidden">추천</span>
                 </div>
             <?php } ?>
             <?php if ($board['bo_use_nogood']) { // 비추천 ?>
-                <div class="pe-2">
+                <div class="pe-2 text-center">
                     <i class="bi bi-hand-thumbs-down"></i>
                     <?php echo number_format($view['wr_nogood']) ?>
                     <span class="visually-hidden">비추천</span>
