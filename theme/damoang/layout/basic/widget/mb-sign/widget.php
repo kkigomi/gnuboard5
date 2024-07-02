@@ -49,89 +49,90 @@ $mb_sign_banner_type = 'NONE';
 ?>
 
 <!-- ================= 서명 New Start=================  -->
-<div class="border mx-0 mb-3 p-3 rounded-3">
-    <div class="row row-cols-1 row-cols-md-2 align-items-center" id="sign-profile-container">
-        <div class="col-md-4 col-sm-5 pb-3" id="sign-profile">
-            <div class="text-center mb-2 mb-sm-0">
-                <img src="<?php echo na_member_photo($mbs['mb_id']) ?>" class="rounded-circle">
-            </div>
-            <div class="clearfix f-sm">
-                <span class="float-start d-flex pt-1">
-                    <?php echo na_xp_icon($mbs['mb_id'], '', $mbs) ?>
-                    <?php echo $view['name'] ?>
-                </span>
-                <span class="float-end">
-                    Exp <?php echo number_format($mb['as_exp']) ?>
-                </span>
-            </div>
-            <div class="progress" title="레벨업까지 <?php echo number_format($mbs['as_max'] - $mbs['as_exp']); ?> 경험치 필요">
-                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<?php echo $per ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $per ?>%">
-                    <span class="sr-only"><?php echo $per ?>%</span>
+<aside id="bo_v_sign">
+    <div class="border mx-0 mb-3 p-3 rounded-3">
+        <div class="row row-cols-1 row-cols-md-2 align-items-center" id="sign-profile-container">
+            <div class="col-md-4 col-sm-5 pb-3" id="sign-profile">
+                <div class="text-center mb-2 mb-sm-0">
+                    <img src="<?php echo na_member_photo($mbs['mb_id']) ?>" class="rounded-circle">
+                </div>
+                <div class="clearfix f-sm">
+                    <span class="float-start d-flex pt-1">
+                        <?php echo na_xp_icon($mbs['mb_id'], '', $mbs) ?>
+                        <?php echo $view['name'] ?>
+                    </span>
+                    <span class="float-end">
+                        Exp <?php echo number_format($mb['as_exp']) ?>
+                    </span>
+                </div>
+                <div class="progress" title="레벨업까지 <?php echo number_format($mbs['as_max'] - $mbs['as_exp']); ?> 경험치 필요">
+                    <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<?php echo $per ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $per ?>%">
+                        <span class="sr-only"><?php echo $per ?>%</span>
+                    </div>
                 </div>
             </div>
+            <div class="col-md-8 col-sm-7 border-start" id="sign-content">
+                <p class="mt-3"><?php echo $mb['mb_signature'] ?></p>
+            </div>
         </div>
-        <div class="col-md-8 col-sm-7 border-start" id="sign-content">
-            <p class="mt-3"><?php echo $mb['mb_signature'] ?></p>
+
+
+        <div class="border-top mt-3" id="sign-recent-list-container">
+            <div id="sign-recent-list">
+                <ul class="list-group list-group-flush border-bottom" style="padding-left:0px;overflow-y:auto;max-height:205px">
+                    <?php
+                    // 리스트
+                    for ($i = 0; $i < $sign_list_cnt; $i++) {
+                        // 아이콘 체크
+                        if (isset($sign_list[$i]['icon_secret']) && $sign_list[$i]['icon_secret']) {
+                            $is_lock = true;
+                            $wr_icon = '<span class="na-icon na-secret"></span> ';
+                        } else if (isset($sign_list[$i]['icon_new']) && $sign_list[$i]['icon_new']) {
+                            $wr_icon = '<span class="na-icon na-new"></span> ';
+                        } else {
+                            $wr_icon = '';
+                        }
+
+                        // 파일 아이콘
+                        $icon_file = '';
+                        if ($thumb || (isset($sign_list[$i]['as_thumb']) && $sign_list[$i]['as_thumb'])) {
+                            $icon_file = '<span class="na-icon na-image"></span>';
+                        } else if (isset($sign_list[$i]['icon_file']) && $sign_list[$i]['icon_file']) {
+                            $icon_file = '<span class="na-icon na-file"></span>';
+                        }
+                        ?>
+                        <li class="list-group-item d-flex">
+                            <div class="d-flex flex-fill overflow-hidden align-items-center">
+                                <?php
+                                /* '회원만' 보기 표식 */
+                                echo $sign_list[$i]['da_member_only'] ?? '';
+
+                                /* 글제목: 새글표식+글제목+첨부표식+댓글표식 */
+                                ?>
+                                <a href="<?php echo $sign_list[$i]['href'] ?>" class="da-link-block subject-ellipsis" title="<?php echo $sign_list[$i]['wr_subject']; ?>">
+                                    <?php echo "<span class='subject-mobile d-none'>".$sign_list[$i]['subject']."</span>"; // 제목?>
+                                    <?php echo "<span class='subject-pc'>"."[".$sign_list[$i]['bo_subject']."] ".$sign_list[$i]['subject']."</span>"; // 제목?>
+                                    <?php echo $wr_icon ?>
+                                    <?php echo $icon_file ?>
+                                </a>
+
+                                <?php /* 댓글표식 */ if ($sign_list[$i]['wr_comment']) { ?>
+                                    <span class="visually-hidden">댓글</span>
+                                    <span class="count-plus orangered mx-1">
+                                        <?php echo $sign_list[$i]['wr_comment'] ?>
+                                    </span>
+                                <?php } ?>
+                            </div>
+
+                            <div class="f-sm fw-normal ms-md-2" style="white-space:nowrap">
+                                <span class="sr-only">등록일</span>
+                                <?php echo na_date($sign_list[$i]['wr_datetime'], 'orangered') ?>
+                            </div>
+                        </li>
+                    <?php } ?>
+                </ul>
+            </div>
         </div>
-    </div>
-
-
-    <div class="border-top mt-3" id="sign-recent-list-container">
-        <div id="sign-recent-list">
-            <ul class="list-group list-group-flush border-bottom" style="padding-left:0px;overflow-y:auto;max-height:205px">
-                <?php
-                // 리스트
-                for ($i = 0; $i < $sign_list_cnt; $i++) {
-                    // 아이콘 체크
-                    if (isset($sign_list[$i]['icon_secret']) && $sign_list[$i]['icon_secret']) {
-                        $is_lock = true;
-                        $wr_icon = '<span class="na-icon na-secret"></span> ';
-                    } else if (isset($sign_list[$i]['icon_new']) && $sign_list[$i]['icon_new']) {
-                        $wr_icon = '<span class="na-icon na-new"></span> ';
-                    } else {
-                        $wr_icon = '';
-                    }
-
-                    // 파일 아이콘
-                    $icon_file = '';
-                    if ($thumb || (isset($sign_list[$i]['as_thumb']) && $sign_list[$i]['as_thumb'])) {
-                        $icon_file = '<span class="na-icon na-image"></span>';
-                    } else if (isset($sign_list[$i]['icon_file']) && $sign_list[$i]['icon_file']) {
-                        $icon_file = '<span class="na-icon na-file"></span>';
-                    }
-                    ?>
-                    <li class="list-group-item d-flex">
-                        <div class="d-flex flex-fill overflow-hidden align-items-center">
-                            <?php
-                            /* '회원만' 보기 표식 */
-                            echo $sign_list[$i]['da_member_only'] ?? '';
-
-                            /* 글제목: 새글표식+글제목+첨부표식+댓글표식 */
-                            ?>
-                            <a href="<?php echo $sign_list[$i]['href'] ?>" class="da-link-block subject-ellipsis" title="<?php echo $sign_list[$i]['wr_subject']; ?>">
-                                <?php echo "<span class='subject-mobile d-none'>".$sign_list[$i]['subject']."</span>"; // 제목?>
-                                <?php echo "<span class='subject-pc'>"."[".$sign_list[$i]['bo_subject']."] ".$sign_list[$i]['subject']."</span>"; // 제목?>
-                                <?php echo $wr_icon ?>
-                                <?php echo $icon_file ?>
-                            </a>
-
-                            <?php /* 댓글표식 */ if ($sign_list[$i]['wr_comment']) { ?>
-                                <span class="visually-hidden">댓글</span>
-                                <span class="count-plus orangered mx-1">
-                                    <?php echo $sign_list[$i]['wr_comment'] ?>
-                                </span>
-                            <?php } ?>
-                        </div>
-
-                        <div class="f-sm fw-normal ms-md-2" style="white-space:nowrap">
-                            <span class="sr-only">등록일</span>
-                            <?php echo na_date($sign_list[$i]['wr_datetime'], 'orangered') ?>
-                        </div>
-                    </li>
-                <?php } ?>
-            </ul>
-        </div>
-    </div>
     <!-- 왼쪽 컨텐츠 End -->
      <?php
         if($mb_sign_ui == '1' && $mb['mb_signature'] && $mb['mb_signature'] != ''){
@@ -195,7 +196,8 @@ $mb_sign_banner_type = 'NONE';
                 </div>
             </div>
     <?php } ?>
-</div>
+    </div>
+</aside>
 
 <?php if ($setup_href) { ?>
     <div class="btn-wset">
