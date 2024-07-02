@@ -233,7 +233,7 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                     <?php if((int)$list[$i]['wr_10'] > 0) { // 럭키포인트 ?>
                         <div class="small mt-3">
                             <i class="bi bi-gift"></i>
-                            <b><?php echo number_format((int)$list[$i]['wr_10']) ?></b> 럭키포인트 당첨을 축하드립니다.
+                            <b><?php echo number_format((int)$list[$i]['wr_10']) ?></b> 랜덤 럭키포인트 당첨을 축하드립니다.
                         </div>
                     <?php } ?>
 

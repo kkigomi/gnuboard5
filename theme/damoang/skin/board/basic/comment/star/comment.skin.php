@@ -226,7 +226,7 @@ if (!is_array($star)) {
                     <?php if(!$is_lock && (int)$list[$i]['wr_10']) { // 럭키포인트 ?>
                         <div class="f-sm text-muted px-3 my-2">
                             <i class="fa fa-gift" aria-hidden="true"></i>
-                            <b class="orangered"><?php echo number_format($list[$i]['wr_10']) ?></b> 럭키포인트 당첨!
+                            <b class="orangered"><?php echo number_format($list[$i]['wr_10']) ?></b> 랜덤 럭키포인트 당첨을 축하드립니다!
                         </div>
                     <?php } ?>
                     <?php if($is_comment_reply_edit || $cmt_shingo || $is_cgood || $is_cnogood) {
