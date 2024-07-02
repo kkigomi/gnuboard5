@@ -1,0 +1,17 @@
+includes:
+  - ./phpstan-baseline.neon
+
+parameters:
+  level: 9
+  treatPhpDocTypesAsCertain: false
+
+  excludePaths:
+    - ./tests/locate-phpunit-autoloader.php
+
+  paths:
+    - src/
+    - tests/
+
+  bootstrapFiles:
+    - ./tests/locate-phpunit-autoloader.php
+    - ./tests/bootstrap.php
