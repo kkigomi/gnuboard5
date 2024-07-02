@@ -604,3 +604,7 @@ textarea.required {
 [data-bs-theme='dark'] .star-rated .da-star.star-r {
   background-position-y: 16px;
 }
+
+#sign-content img {
+  max-width: 100%;
+}
