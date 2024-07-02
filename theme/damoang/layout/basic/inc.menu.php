@@ -2,11 +2,19 @@
 
 // 전각 문자표
 // ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ
+// 현재 날짜와 시간을 'Y-m-d H:i:s' 형식으로 지정
+$dt = new DateTime();
+$formatted_dt = $dt->format('Y-m-d');
 
 return [
     [
         'title' => '다모앙',
         'items' => [
+            '추천글' => [
+                'url' => '/free?bo_table=free&sop=and&sod=desc&sfl=wr_datetime&stx=' . urlencode($formatted_dt) . '&sca=&page=1&sst=wr_good',
+                'icon' => 'bi-chat',
+                'shortcut' => '',
+            ],
             '자유게시판' => [
                 'url' => '/free',
                 'icon' => 'bi-chat',
