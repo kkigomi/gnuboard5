@@ -1,4 +1,7 @@
 <?php
+
+use Damoang\Plugin\ContentManagement\ContentTracker;
+
 include_once('./_common.php');
 include_once(G5_CAPTCHA_PATH.'/captcha.lib.php');
 
@@ -91,7 +94,7 @@ if ($w == 'u' || $w == 'r') {
 
 // 외부에서 글을 등록할 수 있는 버그가 존재하므로 비밀글은 사용일 경우에만 가능해야 함
 if (!$is_admin && !$board['bo_use_secret'] && (stripos($_POST['html'], 'secret') !== false || stripos($_POST['secret'], 'secret') !== false || stripos($_POST['mail'], 'secret') !== false)) {
-	alert('비밀글 미사용 게시판 이므로 비밀글로 등록할 수 없습니다.');
+    alert('비밀글 미사용 게시판 이므로 비밀글로 등록할 수 없습니다.');
 }
 
 $secret = '';
@@ -141,7 +144,7 @@ if ($w == '' || $w == 'u') {
         alert('관리자만 공지할 수 있습니다.');
     }
 
-    //회원 자신이 쓴글을 수정할 경우 공지가 풀리는 경우가 있음 
+    //회원 자신이 쓴글을 수정할 경우 공지가 풀리는 경우가 있음
     if($w =='u' && !$is_admin && $board['bo_notice'] && in_array($wr['wr_id'], $notice_array)){
         $notice = 1;
     }
@@ -259,7 +262,7 @@ if ($w == '' || $w == 'r') {
         $wr_num = 0;
         $wr_reply = '';
     }
-    
+
     $sql = " insert into $write_table
                 set wr_num = " . ($w == 'r' ? "'$wr_num'" : "(SELECT IFNULL(MIN(wr_num) - 1, -1) FROM $write_table as sq) ") . ",
                      wr_reply = '$wr_reply',
@@ -388,7 +391,15 @@ if ($w == '' || $w == 'r') {
     if (!$is_admin)
         $sql_ip = " , wr_ip = '{$_SERVER['REMOTE_ADDR']}' ";
 
-    $sql = " update {$write_table}
+    try {
+        sql_query("START TRANSACTION");
+    
+        // 백업 기능 추가
+        $original_content = get_write($write_table, $wr_id);
+        if (!ContentTracker::backupContent($bo_table, $wr_id, $original_content, '수정')) {
+            throw new Exception('게시물 수정에 실패했습니다.');
+        }
+        $sql = " update {$write_table}
                 set ca_name = '{$ca_name}',
                      wr_option = '{$wr_option}',
                      wr_subject = '{$wr_subject}',
@@ -413,12 +424,18 @@ if ($w == '' || $w == 'r') {
                      {$sql_ip}
                      {$sql_password}
               where wr_id = '{$wr['wr_id']}' ";
-    sql_query($sql);
+        sql_query($sql);
 
-    // 분류가 수정되는 경우 해당되는 코멘트의 분류명도 모두 수정함
-    // 코멘트의 분류를 수정하지 않으면 검색이 제대로 되지 않음
-    $sql = " update {$write_table} set ca_name = '{$ca_name}' where wr_parent = '{$wr['wr_id']}' ";
-    sql_query($sql);
+        // 분류가 수정되는 경우 해당되는 코멘트의 분류명도 모두 수정함
+        // 코멘트의 분류를 수정하지 않으면 검색이 제대로 되지 않음
+        $sql = " update {$write_table} set ca_name = '{$ca_name}' where wr_parent = '{$wr['wr_id']}' ";
+        sql_query($sql);
+
+        sql_query("COMMIT");
+    } catch (Exception $e) {
+        sql_query("ROLLBACK");
+        alert($e->getMessage());
+    }
 
     /*
     if ($notice) {
@@ -541,7 +558,7 @@ if(isset($_FILES['bf_file']['name']) && is_array($_FILES['bf_file']['name'])) {
             $timg = @getimagesize($tmp_file);
             // image type
             if ( preg_match("/\.({$config['cf_image_extension']})$/i", $filename) ||
-                 preg_match("/\.({$config['cf_flash_extension']})$/i", $filename) ) {
+                preg_match("/\.({$config['cf_flash_extension']})$/i", $filename) ) {
                 if ($timg['2'] < 1 || $timg['2'] > 18)
                     continue;
             }
@@ -553,7 +570,7 @@ if(isset($_FILES['bf_file']['name']) && is_array($_FILES['bf_file']['name'])) {
             if ($w == 'u') {
                 // 존재하는 파일이 있다면 삭제합니다.
                 $row = sql_fetch(" select * from {$g5['board_file_table']} where bo_table = '$bo_table' and wr_id = '$wr_id' and bf_no = '$i' ");
-                
+
                 if(isset($row['bf_file']) && $row['bf_file']){
                     $delete_file = run_replace('delete_file_path', G5_DATA_PATH.'/file/'.$bo_table.'/'.str_replace('../', '', $row['bf_file']), $row);
                     if( file_exists($delete_file) ){

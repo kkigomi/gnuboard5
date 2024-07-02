@@ -1,4 +1,7 @@
 <?php
+
+use Damoang\Plugin\ContentManagement\ContentTracker;
+
 define('G5_CAPTCHA', true);
 include_once('./_common.php');
 include_once(G5_CAPTCHA_PATH.'/captcha.lib.php');
@@ -326,24 +329,38 @@ else if ($w == 'cu') // 댓글 수정
 
     $sql_secret = " , wr_option = '$wr_secret' ";
 
-    $sql = " update $write_table
-                set wr_subject = '$wr_subject',
-                     wr_content = '$wr_content',
-                     wr_1 = '$wr_1',
-                     wr_2 = '$wr_2',
-                     wr_3 = '$wr_3',
-                     wr_4 = '$wr_4',
-                     wr_5 = '$wr_5',
-                     wr_6 = '$wr_6',
-                     wr_7 = '$wr_7',
-                     wr_8 = '$wr_8',
-                     wr_9 = '$wr_9',
-                     wr_10 = '$wr_10'
-                     $sql_ip
-                     $sql_secret
-              where wr_id = '$comment_id' ";
-
-    sql_query($sql);
+    try {
+        sql_query("START TRANSACTION");
+    
+        // 백업 기능 추가
+        $original_content = get_write($write_table, $comment_id);
+        if (!ContentTracker::backupContent($bo_table, $comment_id, $original_content, '수정')) {
+            throw new Exception('댓글 수정에 실패했습니다.');
+        }
+        $sql = " update $write_table
+                    set wr_subject = '$wr_subject',
+                         wr_content = '$wr_content',
+                         wr_1 = '$wr_1',
+                         wr_2 = '$wr_2',
+                         wr_3 = '$wr_3',
+                         wr_4 = '$wr_4',
+                         wr_5 = '$wr_5',
+                         wr_6 = '$wr_6',
+                         wr_7 = '$wr_7',
+                         wr_8 = '$wr_8',
+                         wr_9 = '$wr_9',
+                         wr_10 = '$wr_10'
+                         $sql_ip
+                         $sql_secret
+                  where wr_id = '$comment_id' ";
+    
+        sql_query($sql);
+        
+        sql_query("COMMIT");
+    } catch (Exception $e) {
+        sql_query("ROLLBACK");
+        alert($e->getMessage());
+    }
 }
 
 // 사용자 코드 실행

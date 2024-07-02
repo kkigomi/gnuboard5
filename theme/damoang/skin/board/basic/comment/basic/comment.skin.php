@@ -154,6 +154,8 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
 
             $comment_name = get_text($list[$i]['wr_name']);
 
+            $list[$i]['is_del'] = ($is_admin == 'super') || ($list[$i]['mb_id'] == $member['mb_id']) ? true : false;
+
             // 글 작성자가 쓴 댓글, 로그인 한 사용자가 쓴 댓글, 일반 댓글 색상으로 구분하기
             if (!empty($view['mb_id']) && $view['mb_id'] == $list[$i]['mb_id']) {
                 $by_writer = 'bg-secondary-subtle'; // 글 작성자가 쓴 댓글
@@ -226,7 +228,7 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                             <span class="na-icon na-secret"></span>
                         <?php } ?>
 
-                        <?php echo $comment ?>
+                        <?php if(empty($comment)) echo "[삭제된 댓글입니다]"; else echo $comment ?>
                     </div>
                     <?php if((int)$list[$i]['wr_10'] > 0) { // 럭키포인트 ?>
                         <div class="small mt-3">
@@ -258,7 +260,9 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                                     <span class="d-none d-sm-inline-block">수정</span>
                                 </button>
                             <?php } ?>
-                            <?php if ($list[$i]['is_del']) { ?>
+                            <?php
+                            if ($list[$i]['is_del']) {
+                            ?>
                                 <a href="<?php echo $list[$i]['del_link']; ?>" rel="nofollow" onclick="<?php echo (isset($list[$i]['del_back']) && $list[$i]['del_back']) ? "na_delete('viewcomment', '".$list[$i]['del_href']."','".$list[$i]['del_back']."'); return false;" : "return comment_delete(this.href);";?>" class="btn btn-basic" title="삭제">
                                     <i class="bi bi-trash"></i>
                                     <span class="d-none d-sm-inline-block">삭제</span>

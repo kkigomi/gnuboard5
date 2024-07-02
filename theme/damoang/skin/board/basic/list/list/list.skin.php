@@ -13,10 +13,10 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
 <section id="bo_list" class="line-top mb-3">
     <ul class="list-group list-group-flush border-bottom">
 
-        <?php 
+        <?php
         /*****************************************
-         * 글목록 칼럼 제목줄 출력  
-         *****************************************/ 
+         * 글목록 칼럼 제목줄 출력
+         *****************************************/
         ?>
         <li class="list-group-item d-none d-md-block hd-wrap">
             <div class="d-flex flex-md-row align-items-md-center gap-1 fw-bold">
@@ -39,7 +39,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
 
     <?php
         /*****************************************
-         * 글 항목( li 아이템) iteration  
+         * 글 항목( li 아이템) iteration
          * $list 변수는 plugin/nariya/bbs/list.php (각 게시판 글목록을 만드는 플러그인 파일)에 있음.
          *****************************************/
         $list_cnt = count($list);
@@ -64,7 +64,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
             <li class="list-group-item da-link-block <?php echo $li_css; ?> <?php echo $writter_bg; ?>">
                 <div class="d-flex align-items-center gap-1">
 
-                    <?php 
+                    <?php
                     /******** 추천 칼럼: 공지, 홍보, 추천수 표식 ********
                      * '홍보' 글이라면 별도의 컬러 사용( is_promotion_post는 plugin/nariya/bbs/list.php 직홍게 위젯 PAI 코드에서 세팅됨 ) 
                      ****************************************************/
@@ -76,7 +76,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
                                 </div>
                             </div>
                         EOT;
-                    } else if ($is_good) { 
+                    } else if ($is_good) {
                         /* '추천'칼럼 사용시 : 공지/일반글(추천수에따라 다른 컬러스텝)*/
                         $rcmd_step = get_color_step_f20240616($row['wr_good']);
                         echo <<<EOT
@@ -88,7 +88,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
                                 <span class="visually-hidden">추천</span>
                             </div>
                         EOT;
-                    } 
+                    }
                     ?>
 
                     <!-- <div class="col-1 wr-no d-none d-md-block">
@@ -108,7 +108,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
                     <?php /******** 제목칼럼 + 메타그룹 시작 : ********/ ?>
                     <div class="flex-grow-1 overflow-hidden">
                         <div class="d-flex flex-column flex-md-row align-items-md-center gap-2">
-                            
+
                         <?php /******** 제목 칼럼 시작 : ********/ ?>
                             <div class="d-inline-flex flex-fill overflow-hidden align-items-center">
                                 <?php
@@ -125,7 +125,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
 
                                 /* '회원만' 보기 표식 */
                                 echo $row['da_member_only'] ?? '';
-                                
+
                                 /* 글제목: '답변'글 표식  + 글제목 */
                                 ?>
                                 <a href="<?php echo $row['href'] ?>" class="da-link-block subject-ellipsis" title="<?php echo $row['wr_subject']; ?>">
@@ -133,7 +133,9 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
                                         <i class="bi bi-arrow-return-right"></i>
                                         <span class="visually-hidden">답변</span>
                                     <?php } ?>
-                                    <?php echo $row['subject']; // 제목 ?>
+                                    <?php
+                                    echo !empty($row['subject']) ? $row['subject'] : '[삭제된 게시물 입니다]';
+                                    ?>
                                 </a>
 
                                 <?php /* 글 카테고리 분류명 표식 */
@@ -144,10 +146,10 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
                                     </a>
                                 <?php } ?>
 
-                                <?php  
+                                <?php
                                 /* 제목 뒤 첨부파일 유형 표식 (사진,링크,영상,N,HOT 등 ) */
                                 $attachmentIcon = get_attachment_icon_f20240616($row, na_check_youtube($row['wr_9']), na_check_img($row['wr_10']));
-                                echo $attachmentIcon; 
+                                echo $attachmentIcon;
                                 ?>
 
                                 <?php /* 댓글표식 */
@@ -164,7 +166,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
                                     <span class="ms-auto"><?= $row['da_member_memo'] ?></span>
                                 <?php } ?>
                             </div>
-                            <?php 
+                            <?php
                             /******** : 제목 칼럼 끝 ********/
 
 
@@ -191,7 +193,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
                                         <?php echo na_date($row['wr_datetime'], 'orangered da-list-date') ?>
                                         <span class="visually-hidden">등록</span>
                                     </div>
-                                    
+
                                     <?php /******** 추천수 (모바일) ********/
                                     if($is_good && $row['wr_good'] > 0) { ?>
                                         <!-- 추천 수 (모바일) -->
@@ -204,8 +206,8 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
                                             </div>
                                             <span class="visually-hidden">추천</span>
                                         </div>
-                                    <?php } 
-                                    
+                                    <?php }
+
 
                                     /******** 조회수 & 댓글 ********/
                                     ?>
@@ -227,11 +229,11 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
                     <?php /******** : 제목칼럼 + 메타그룹 끝 ********/ ?>
                 </div>
             </li>
-    <?php } 
+    <?php }
         /*****************************************
-         * 끝: 글 항목( li 아이템) iteration  
+         * 끝: 글 항목( li 아이템) iteration
          *****************************************/  ?>
-    
+
     <?php if ($list_cnt - $notice_count === 0) { ?>
         <li class="list-group-item text-center py-5">
             게시물이 없습니다.
@@ -242,7 +244,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
 
 <?php
 /********
- * 함수 
+ * 함수
  *******/
 function get_wr_class_and_set_row_f20240616(&$row, $wr_id)
 {
