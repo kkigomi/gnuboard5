@@ -5,6 +5,10 @@ if( function_exists('social_check_login_before') ){
     $social_login_html = social_check_login_before();
 }
 
+if (($_GET['id-login'] ?? 'false') === 'true') {
+    $_ENV['DA_ID_LOGIN'] = 'true';
+}
+
 $g5['title'] = '로그인';
 include_once('./_head.sub.php');
 
