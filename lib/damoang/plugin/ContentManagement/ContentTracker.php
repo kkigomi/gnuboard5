@@ -109,9 +109,18 @@ class ContentTracker
         return $mappedResult;
     }
 
-    private static function log(string $message, string $level = 'error'): void
+    public static function log(\Exception $e, string $level = 'error'): void
     {
-        error_log("[ContentTracker][$level] $message");
+        $message = sprintf(
+            "[ContentTracker][%s] %s in %s on line %d\nStack Trace:\n%s",
+            $level,
+            $e->getMessage(),
+            $e->getFile(),
+            $e->getLine(),
+            $e->getTraceAsString()
+        );
+
+        error_log($message);
     }
 
     private static function getBackupInsertSQL(string $bo_table, int $wr_id, array $backupData, string $operation): string
