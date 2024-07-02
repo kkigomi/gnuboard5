@@ -8,7 +8,16 @@ return [
         'title' => '커뮤니티 & 포털',
         'items' => [
 
-
+           '웰컴 싸커 ⚽⚽⚽' => [
+                'url' => '/soccer',
+                'icon' => 'bi-chat',
+                'shortcut' => '⚽',
+            ],
+            'PC•주변기기(하드웨어&다모앙존)' => [
+                'url' => '/hardware',
+                'icon' => 'bi-chat',
+                'shortcut' => 'Z',
+            ],
             '자유게시판' => [
                 'url' => '/free',
                 'icon' => 'bi-chat',
@@ -24,7 +33,7 @@ return [
                 'icon' => 'bi-question-circle',
                 'shortcut' => 'Ｑ',
             ],
-            '다모앙 평점🍿' => [
+            '다모앙 평점 🍿' => [
                 'url' => '/angtt',
                 'icon' => 'bi-question-circle',
                 'shortcut' => 'Ｏ',
@@ -39,11 +48,6 @@ return [
                 'url' => '/music',
                 'icon' => 'bi-cash-coin',
                 'shortcut' => 'Ｄ',
-            ],
-            'PC•주변기기(하드웨어&다모앙존)' => [
-                'url' => '/hardware',
-                'icon' => 'bi-chat',
-                'shortcut' => 'Z',
             ],
             '사용기' => [
                 'url' => '/tutorial',
@@ -117,7 +121,6 @@ return [
                     '소셜게임한당' => '/socialgame',
                     '시계당' => '/watches',
                     '스쿠버당' => '/scuba',
-                    '싸줄한당' => '/soccerline',
                     '안드로메당' => '/android',
                     '애플모앙' => '/applemoang',
                     '야구당' => '/baseball',

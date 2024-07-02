@@ -352,8 +352,8 @@ if (!in_array($bo_table, $board_exception)) {
         // 글 목록에 직홍게글 추가 (설정에 따라 1개 이상일 수 있음)
         foreach ($promotion_posts as $post) {
             $post_list = get_list($post, $board, $board_skin_url, G5_IS_MOBILE ? $board['bo_mobile_subject_len'] : $board['bo_subject_len']);
-            $post_list['is_notice'] = false; // 공지글은 아닌걸로 마크
-            $post_list['is_advertiser_post'] = true; // 광고주 글임을 마크
+            $post_list['is_notice'] = false; // 홍보글이 공지글은 아닌걸로 마크
+            $post_list['is_promotion_post'] = true; // 직홍게 홍보 글임을 마크
             $post_list['num'] = $positionIndex; // 지정된 위치에 삽입
             $post_list['href'] = '/promotion/'.$post['wr_id']; // 링크
             // 지정된 위치에 게시물을 삽입

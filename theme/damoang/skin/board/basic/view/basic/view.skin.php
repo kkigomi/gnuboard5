@@ -1,9 +1,19 @@
 <?php
+/*****************************************
+ * 게시글 출력하는 파일
+ * 자유게시판/진실의방은 /theme/damoang/skin/board/basic/view 하위 /free, /true
+ *****************************************/
 
 if (!defined("_GNUBOARD_")) exit; // 개별 페이지 접근 불가
 
 // add_stylesheet('css 구문', 출력순서); 숫자가 작을 수록 먼저 출력됨
 add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?CACHEBUST">', 0);
+
+// 게시판 테이블이 'economy'인지 확인해서 '모든 링크열기' 버튼의 동 작이벤트 스크립트 추가
+if ($bo_table == 'economy') {
+    add_javascript('<script src="' . LAYOUT_URL . '/js/open_all_link_on_economy.js?CACHEBUST"></script>');
+}
+
 
 run_event('view_skin_before');
 ?>
@@ -58,33 +68,33 @@ run_event('view_skin_before');
 
         <div class="d-flex gap-1 align-items-start pt-2 px-3 small">
             <?php if ($category_name) { ?>
-                <div class="pe-2">
+                <div class="pe-2 text-center">
                     <i class="bi bi-book"></i>
                     <span class="visually-hidden">분류</span>
                     <?php echo $view['ca_name'] ?>
                 </div>
             <?php } ?>
-            <div class="pe-2">
+            <div class="pe-2 text-center">
                 <i class="bi bi-eye"></i>
                 <?php echo number_format($view['wr_hit']) ?>
                 <span class="visually-hidden">조회</span>
             </div>
             <?php if ($view['wr_comment']) { ?>
-                <div class="pe-2">
+                <div class="pe-2 text-center">
                     <i class="bi bi-chat-dots"></i>
                     <?php echo number_format($view['wr_comment']) ?>
                     <span class="visually-hidden">댓글</span>
                 </div>
             <?php } ?>
             <?php if ($board['bo_use_good']) { // 추천 ?>
-                <div class="pe-2">
+                <div class="pe-2 text-center">
                     <i class="bi bi-hand-thumbs-up"></i>
                     <?php echo number_format($view['wr_good']) ?>
                     <span class="visually-hidden">추천</span>
                 </div>
             <?php } ?>
             <?php if ($board['bo_use_nogood']) { // 비추천 ?>
-                <div class="pe-2">
+                <div class="pe-2 text-center">
                     <i class="bi bi-hand-thumbs-down"></i>
                     <?php echo number_format($view['wr_nogood']) ?>
                     <span class="visually-hidden">비추천</span>
@@ -244,6 +254,15 @@ run_event('view_skin_before');
     </section>
 
     <section id="bo_v_atc" class="border-bottom p-3">
+
+    <?php /* 알뜰구매 게시판의 겨우 본문 섹션에 '모든링크 열기' 버튼. .economy-user-text 내의 모든 링크를 연다. 버튼동작: open_all_link_on_economy.js */
+    if ($bo_table == 'economy'): ?>
+        <button id="economy-open-all-links" class="btn btn-primary mb-0" style="padding: 0.375rem 0.75rem;">
+            모든 링크열기<br><span style="font-size: 75%; line-height: 1.2;">(팝업차단시 동작안함. M.Safari 안됨)</span>
+        </button>
+    <?php endif; ?>
+
+
         <h3 class="visually-hidden">본문</h3>
         <?php if (isset($boset['check_star_rating']) && $boset['check_star_rating']) { ?>
             <!-- 별점 표시 { -->
@@ -323,7 +342,7 @@ run_event('view_skin_before');
                 echo '</div>' . PHP_EOL;
             }
             ?>
-            <div id="bo_v_con" class="<?php echo $is_convert ?>">
+            <div id="bo_v_con" class="economy-user-text <?php echo $is_convert ?>">
                 <?php
                 /**
                  * 이미지에 링크 삽입 시 이미지 크게보기 팝업 링크와 중복 삽입되므로
@@ -359,7 +378,7 @@ run_event('view_skin_before');
                 <?php if ($board['bo_use_good']) { ?>
                     <button type="button"
                             onclick="na_good('<?php echo $bo_table ?>', '<?php echo $wr_id ?>', 'good', 'wr_good');"
-                            class="btn <?php echo ($bg_status == 'good') ? 'btn-primary' : 'btn-basic' ?>" title="추천">
+                            class="btn good-border <?php echo ($bg_status == 'good') ? 'btn-primary' : 'btn-basic' ?>" title="추천">
                         <i class="bi bi-hand-thumbs-up"></i>
                         <b id="wr_good"><?php echo number_format($view['wr_good']) ?></b>
                         <span class="visually-hidden">추천</span>
@@ -368,7 +387,7 @@ run_event('view_skin_before');
                 <?php if ($board['bo_use_nogood']) { ?>
                     <button type="button"
                             onclick="na_good('<?php echo $bo_table ?>', '<?php echo $wr_id ?>', 'nogood', 'wr_nogood');"
-                            class="btn <?php echo ($bg_status == 'nogood') ? 'btn-primary' : 'btn-basic' ?>"
+                            class="btn good-border <?php echo ($bg_status == 'nogood') ? 'btn-primary' : 'btn-basic' ?>"
                             title="비추천">
                         <i class="bi bi-hand-thumbs-down"></i>
                         <b id="wr_nogood"><?php echo number_format($view['wr_nogood']) ?></b>
@@ -414,10 +433,13 @@ run_event('view_skin_before');
             }
         </style>
 
-        <?php echo na_widget('damoang-image-banner', 'board-head'); ?>
+        <?php //echo na_widget('damoang-image-banner', 'board-head'); ?>
 
         <?php if ($is_signature && $view['mb_id']) { // 서명 ?>
-            <?php echo na_widget('mb-sign', "member-{$view['mb_id']}", 'cache=1'); ?>
+            <?php// 캐시에 문제가 있어서 일단 주석 구원자님 오시면 해결 후 다시 적용해야 함
+             //echo na_widget('mb-sign', "member-{$view['mb_id']}."-".$bo_table", 'cache=10');
+             ?>
+            <?php echo na_widget('mb-sign'); ?>
         <?php } else { ?>
             <div class="row row-cols-1 row-cols-md-2 align-items-center">
                 <div class="text-center mb-2 mb-sm-0">
@@ -439,21 +461,6 @@ run_event('view_skin_before');
                 </div>
             </div>
         <?php } ?>
-
-        <!-- google -->
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6922133409882969"
-                crossorigin="anonymous"></script>
-        <!-- post-in-viewer -->
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6922133409882969"
-             data-ad-slot="2658262709"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-        <!-- // google -->
 
         <?php if ($view['wr_8']) { ?>
             <div class="d-flex mb-2">

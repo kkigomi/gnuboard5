@@ -289,14 +289,14 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                         <?php if($is_comment_good || $is_comment_nogood) { ?>
                             <div class="btn-group btn-group-sm" role="group">
                                 <?php if($is_comment_good) { ?>
-                                    <button type="button" onclick="na_good('<?php echo $bo_table ?>', '<?php echo $comment_id ?>', 'good', 'c_g<?php echo $comment_id ?>', 1);" class="btn <?php echo (isset($good_list[$list[$i]['wr_id']]) && $good_list[$list[$i]['wr_id']] == 'good') ? 'btn-primary' : 'btn-basic' ?>" title="추천">
+                                    <button type="button" onclick="na_good('<?php echo $bo_table ?>', '<?php echo $comment_id ?>', 'good', 'c_g<?php echo $comment_id ?>', 1);" class="btn good-border <?php echo (isset($good_list[$list[$i]['wr_id']]) && $good_list[$list[$i]['wr_id']] == 'good') ? 'btn-primary' : 'btn-basic' ?>" title="추천">
                                         <span class="visually-hidden">추천</span>
                                         <i class="bi bi-hand-thumbs-up"></i>
                                         <span id="c_g<?php echo $comment_id ?>"><?php echo $list[$i]['wr_good'] ?></span>
                                     </button>
                                 <?php } ?>
                                 <?php if($is_comment_nogood) { ?>
-                                    <button type="button" class="btn <?php echo (isset($good_list[$list[$i]['wr_id']]) && $good_list[$list[$i]['wr_id']] == 'nogood') ? 'btn-primary' : 'btn-basic' ?>" onclick="na_good('<?php echo $bo_table ?>', '<?php echo $comment_id ?>', 'nogood', 'c_ng<?php echo $comment_id ?>', 1);" title="비추천">
+                                    <button type="button" class="btn good-border <?php echo (isset($good_list[$list[$i]['wr_id']]) && $good_list[$list[$i]['wr_id']] == 'nogood') ? 'btn-primary' : 'btn-basic' ?>" onclick="na_good('<?php echo $bo_table ?>', '<?php echo $comment_id ?>', 'nogood', 'c_ng<?php echo $comment_id ?>', 1);" title="비추천">
                                         <span class="visually-hidden">비추천</span>
                                         <i class="bi bi-hand-thumbs-down"></i>
                                         <span id="c_ng<?php echo $comment_id;?>"><?php echo $list[$i]['wr_nogood']; ?></span>

@@ -689,3 +689,15 @@ var starRating = {
     wrStar.value = num;
   }
 };
+
+// 추천버튼(.good-border) 모바일 장치에서 hover 상태를 무시하고 클릭 이벤트를 직접 처리
+document.querySelectorAll('.good-border').forEach(function (button) {
+  button.addEventListener('touchstart', function (e) {
+    e.preventDefault(); 
+    this.click(); 
+  });
+
+  button.addEventListener('touchend', function (e) {
+    e.preventDefault(); 
+  });
+});

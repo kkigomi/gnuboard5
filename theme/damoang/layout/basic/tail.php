@@ -56,21 +56,9 @@ if (!IS_INDEX) {
                 <?php echo (G5_IS_MOBILE) ? 'PC' : '모바일'; ?> 버전
             </a>
         </div>
-
-        <div class="lh-lg mb-1">
-            회사명 : <?php echo $default['de_admin_company_name'] ?>
-            <span class="bar-sm">&nbsp;</span>
-            대표 : <?php echo $default['de_admin_company_owner'] ?>
-            <span class="bar-sm">&nbsp;</span>
-            사업자 등록번호 : <?php echo $default['de_admin_company_saupja_no'] ?>
-        </div>
-        <div class="mb-2">
-            주소 : <?php echo $default['de_admin_company_addr'] ?>
-        </div>
         <div>contact : contact@damoang.net</div>
         <div class="small">
-            Copyright &copy; <b><?php $host = @parse_url(G5_URL);
-            echo $host['host'] ?></b>. All rights reserved.
+            © SDK Corp. All rights reserved.
         </div>
     </div>
 </footer>
