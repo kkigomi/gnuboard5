@@ -434,6 +434,7 @@ if ($w == '' || $w == 'r') {
         sql_query("COMMIT");
     } catch (Exception $e) {
         sql_query("ROLLBACK");
+        ContentTracker::log($e);
         alert($e->getMessage());
     }
 
