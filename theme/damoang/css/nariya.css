@@ -607,4 +607,5 @@ textarea.required {
 
 #sign-content img {
   max-width: 100%;
+  height: auto;
 }
