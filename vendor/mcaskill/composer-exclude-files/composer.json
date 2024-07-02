@@ -1,0 +1,57 @@
+{
+    "type": "composer-plugin",
+    "name": "mcaskill/composer-exclude-files",
+    "description": "Exclude files from autoload_files.php",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Chauncey McAskill",
+            "email": "chauncey@mcaskill.ca"
+        }
+    ],
+    "require": {
+        "php": "^7.2.5 || ^8.0",
+        "composer-plugin-api": "^2.3"
+    },
+    "require-dev": {
+        "composer/composer": "^2.3",
+        "phpstan/phpstan": "^1.7",
+        "symfony/phpunit-bridge": "^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "McAskill\\Composer\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\McAskill\\Composer\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "4.x-dev"
+        },
+        "class": "McAskill\\Composer\\ExcludeFilePlugin"
+    },
+    "config": {
+        "platform": {
+            "php": "7.2.5"
+        },
+        "platform-check": false
+    },
+    "scripts": {
+        "lint": [
+            "@lint:phpstan"
+        ],
+        "test": [
+            "@test:phpunit"
+        ],
+        "lint:phpstan": "@php vendor/bin/phpstan analyse",
+        "test:phpunit": "@php simple-phpunit"
+    },
+    "scripts-descriptions": {
+        "lint:phpstan": "Run static code analysis with PHPStan",
+        "test:phpunit": "Run all tests with PHPUnit"
+    }
+}

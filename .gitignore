@@ -19,7 +19,7 @@ initests01/
 SIRsoft000/
 config.php
 pma/
-/vendor
+!/vendor
 .env
 .env.*
 !.env.sample
@@ -40,3 +40,4 @@ adm/memo_list.php
 backup/
 
 
+vendor/**/.github

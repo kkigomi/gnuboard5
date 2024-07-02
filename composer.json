@@ -29,13 +29,13 @@
         "symfony/dotenv": "^5.4",
         "symfony/polyfill-php80": "^1.29",
         "symfony/console": "^5.4",
-        "symfony/var-dumper": "^5.4"
+        "symfony/var-dumper": "^5.4",
+        "mcaskill/composer-exclude-files": "^4.0"
     },
     "require-dev": {
         "codeception/codeception": "^4.2",
         "codeception/module-phpbrowser": "^1.0.0",
-        "codeception/module-asserts": "^1.0.0",
-        "mcaskill/composer-exclude-files": "^4.0"
+        "codeception/module-asserts": "^1.0.0"
     },
     "extra": {
         "exclude-from-files": [
