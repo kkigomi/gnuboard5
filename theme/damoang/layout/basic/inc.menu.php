@@ -14,7 +14,7 @@ return [
                 'url' => '/free?bo_table=free&sop=and&sod=desc&sfl=wr_datetime&stx=' . urlencode($formatted_dt) . '&sca=&page=1&sst=wr_good',
                 'icon' => 'bi-chat',
                 'shortcut' => '',
-
+        ],
            '웰컴 싸커 ⚽⚽⚽' => [
                 'url' => '/soccer',
                 'icon' => 'bi-chat',
