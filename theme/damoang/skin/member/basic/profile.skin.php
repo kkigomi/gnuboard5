@@ -30,7 +30,19 @@ add_stylesheet('<link rel="stylesheet" href="' . $member_skin_url . '/style.css?
             $per = (int)(($mb['as_exp'] / $mb['as_max']) * 100);
         ?>
         <div class="d-flex justify-content-between mb-1 small">
-            <div>Lv.<?php echo $mb['as_level'] ?></div>
+            <div>Lv.
+            <?php
+                $currentDate = date('Y-m-d');
+                $targetDate = '2024-07-07';
+
+                // 날짜 비교 if문
+                if ($currentDate <= $targetDate) {
+                    echo "100";
+                } else {
+                   echo $mb['as_level'];
+                }
+            ?>
+            <?//php echo $mb['as_level'] ?></div>
             <div>
                 Exp <?php echo number_format($mb['as_exp']) ?>
             </div>

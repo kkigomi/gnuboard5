@@ -292,6 +292,9 @@ function na_page(id, url, opt) {
     if(typeof is_SyntaxHighlighter != 'undefined'){
       Prism.highlightAll();
     }
+    // 별점 등록 후 별점 선택요소 초기화
+    $("#wr_star option[value='0']").prop("selected", true);
+    $("#star-rating .da-star").removeClass("star-fill");
 
     $(".na-convert").naGnuView();
   });
@@ -637,40 +640,64 @@ $(function(){
   /* Star rating for New Nariya */
   var stars = document.querySelectorAll('.star-rating .da-star');
   var wrStar = document.getElementById('wr_star');
-  var starsLength = stars.length;
-  var filledRate = (idx) => {
-    if (idx <= starsLength) {
+  if (stars && wrStar) {
+    wrStar.addEventListener('change', () => {
+      starRating.initStars();
+      starRating.filledRate(wrStar.value - 1);
+    });
+    stars.forEach((el, i) => {
+      el.addEventListener('mouseenter', () => {
+        starRating.initStars();
+        starRating.filledRate(i);
+      });
+
+      el.addEventListener('click', () => {
+        starRating.setRate(i + 1);
+      });
+
+      el.addEventListener('mouseleave', () => {
+        starRating.initStars();
+        starRating.filledRate(wrStar.value - 1);
+      });
+    });
+
+    if (wrStar.value && wrStar.value > 0) {
+      starRating.initStars();
+      starRating.filledRate(wrStar.value - 1);
+      starRating.setRate(wrStar.value);
+    }
+  }
+});
+
+var starRating = {
+  filledRate: (idx) => {
+    var stars = document.querySelectorAll('.star-rating .da-star');
+    if (idx <= stars.length) {
       for (let i = 0; i <= idx; i++) {
         stars[i].classList.add('star-fill');
       }
     }
-  };
-  var initStars = () => {
+  },
+  initStars: () => {
+    var stars = document.querySelectorAll('.star-rating .da-star');
     for (let i = 0; i < stars.length; i++) {
       stars[i].classList.remove('star-fill');
     }
-  };
-  var setRate = (num) => {
+  },
+  setRate: (num) => {
+    var wrStar = document.getElementById('wr_star');
     wrStar.value = num;
   }
+};
 
-  wrStar.addEventListener('change', () => {
-    initStars();
-    filledRate(wrStar.value - 1);
+// 추천버튼(.good-border) 모바일 장치에서 hover 상태를 무시하고 클릭 이벤트를 직접 처리
+document.querySelectorAll('.good-border').forEach(function (button) {
+  button.addEventListener('touchstart', function (e) {
+    e.preventDefault(); 
+    this.click(); 
   });
-  stars.forEach((el, i) => {
-    el.addEventListener('mouseenter', () => {
-      initStars();
-      filledRate(i);
-    });
 
-    el.addEventListener('click', () => {
-      setRate(i + 1);
-    });
-
-    el.addEventListener('mouseleave', () => {
-      initStars();
-      filledRate(wrStar.value - 1);
-    });
+  button.addEventListener('touchend', function (e) {
+    e.preventDefault(); 
   });
 });

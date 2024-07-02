@@ -1,6 +1,8 @@
 <?php
 include_once('./_common.php');
 
+use Damoang\Plugin\ContentManagement\ContentTracker;
+
 $delete_token = get_session('ss_delete_token');
 set_session('ss_delete_token', '');
 
@@ -37,6 +39,15 @@ else if ($is_admin == 'group') { // 그룹관리자
         alert('비밀번호가 틀리므로 삭제할 수 없습니다.');
 }
 
+$latestHistory = ContentTracker::getLatestContentHistory($board['bo_table'], $wr_id);
+
+if ($latestHistory && isset($latestHistory['operation']) && isset($latestHistory['mb_id']) && isset($write['mb_id'])) {
+    $deleted_by = ($write['mb_id'] == $latestHistory['mb_id']) ? 'member' : 'admin';
+    if ($latestHistory['operation'] === ContentTracker::OPERATION_DELETE) {
+        alert('이미 삭제된 게시물입니다.');
+    }
+}
+
 $len = strlen($write['wr_reply']);
 if ($len < 0) $len = 0;
 $reply = substr($write['wr_reply'], 0, $len);
@@ -57,8 +68,11 @@ $sql = " select count(*) as cnt from $write_table
             and mb_id <> '{$member['mb_id']}'
             and wr_is_comment = 1 ";
 $row = sql_fetch($sql);
-if ($row['cnt'] >= $board['bo_count_delete'] && !$is_admin)
-    alert('이 글과 관련된 코멘트가 존재하므로 삭제 할 수 없습니다.\\n\\n코멘트가 '.$board['bo_count_delete'].'건 이상 달린 원글은 삭제할 수 없습니다.');
+/**
+ * 추후 안정화되면 ENV 활용
+ */
+//if ($row['cnt'] >= $board['bo_count_delete'] && !$is_admin)
+//    alert('이 글과 관련된 코멘트가 존재하므로 삭제 할 수 없습니다.\\n\\n코멘트가 '.$board['bo_count_delete'].'건 이상 달린 원글은 삭제할 수 없습니다.');
 
 
 // 사용자 코드 실행
@@ -111,14 +125,53 @@ while ($row = sql_fetch_array($result))
     }
 }
 
+/**
+ * 절대 작동하면 안되므로 주석 처리
+ */
 // 게시글과 댓글 삭제
-sql_query(" delete from $write_table where wr_parent = '{$write['wr_id']}' ");
+//sql_query(" delete from $write_table where wr_parent = '{$write['wr_id']}' ");
 
-// 최근게시물 삭제
-sql_query(" delete from {$g5['board_new_table']} where bo_table = '$bo_table' and wr_parent = '{$write['wr_id']}' ");
+try {
+    $DELETE_ERROR_MESSAGE = "게시물 삭제 중 오류가 발생했습니다.";
+    sql_query("START TRANSACTION");
+    
+    // softDelete 예외를 감추기 위한 임시방편
+    try {
+        $softDeleteResult = ContentTracker::softDelete($bo_table, $wr_id, $write);
+        if (!$softDeleteResult) {
+            throw new Exception($DELETE_ERROR_MESSAGE);
+        }
+    } catch (Exception $e) {
+        throw new Exception($DELETE_ERROR_MESSAGE);
+    }
+    
+    if ($write['wr_comment'] == 0) {
+        // 댓글이 없으면 게시물 삭제
+        $result = sql_query(" DELETE FROM $write_table WHERE wr_id = '{$wr_id}' ");
+        if (!$result) {
+            throw new Exception($DELETE_ERROR_MESSAGE);
+        }
+        
+        // 최근게시물 삭제
+        $result = sql_query(" DELETE FROM {$g5['board_new_table']} WHERE bo_table = '$bo_table' AND wr_parent = '{$write['wr_id']}' ");
+        if (!$result) {
+            throw new Exception($DELETE_ERROR_MESSAGE);
+        }
+        
+        // 스크랩 삭제
+        $result = sql_query(" DELETE FROM {$g5['scrap_table']} WHERE bo_table = '$bo_table' AND wr_id = '{$write['wr_id']}' ");
+        if (!$result) {
+            throw new Exception($DELETE_ERROR_MESSAGE);
+        }
+    }
+    
+    sql_query("COMMIT");
+} catch (Exception $e) {
+    alert($e->getMessage());
+    sql_query("ROLLBACK");
+}
 
-// 스크랩 삭제
-sql_query(" delete from {$g5['scrap_table']} where bo_table = '$bo_table' and wr_id = '{$write['wr_id']}' ");
+
 
 /*
 // 공지사항 삭제

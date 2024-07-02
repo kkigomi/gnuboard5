@@ -250,6 +250,10 @@ if (isset($wr_id) && $wr_id) {
 	$board['bo_use_list_view'] = $bo_use_list_view;
 }
 
+if (\Damoang\Lib\Helper\StringHelper::isCrawler()) {
+    $board['bo_use_list_view'] = '';
+}
+
 // 전체목록보이기 사용이 "예" 또는 wr_id 값이 없다면 목록을 보임
 //if ($board['bo_use_list_view'] || empty($wr_id))
 if ($member['mb_level'] >= $board['bo_list_level'] && $board['bo_use_list_view'] || empty($wr_id)) {

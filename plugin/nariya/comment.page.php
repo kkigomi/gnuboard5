@@ -138,7 +138,7 @@ if ($is_member && isset($member['as_chadan']) && trim($member['as_chadan']))
 	$na_comment_where .= na_sql_find('mb_id', trim($member['as_chadan']), 1);
 
 // 코멘트 출력
-$sql_common = "from {$write_table} where wr_parent = '{$wr_id}' and wr_is_comment = '1' $na_comment_where ";
+$sql_common = "from {$write_table} USE INDEX(idx_comment_paging) where wr_parent = '{$wr_id}' and wr_is_comment = '1' $na_comment_where ";
 
 if ($na_comment_where) {
 	$row = sql_fetch(" select count(*) as cnt " . $sql_common);

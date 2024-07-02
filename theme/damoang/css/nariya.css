@@ -238,6 +238,13 @@ textarea.required {
   --bs-btn-disabled-border-color: var(--bs-primary-bg-subtle);
 }
 
+/* good-border(추천/비추천) 버튼이 .btn-basic일때 hover 상태는 테두리만 색변경 */
+.btn-basic.good-border:hover {
+  background-color: var(--bs-btn-bg) !important; /* 기본 배경 색상 유지 */
+  color: var(--bs-btn-color) !important; /* 기본 글자 색상 유지 */
+  border-color: var(--bs-primary) !important; /* 테두리 색상을 파란색으로 변경 */
+}
+
 /* 배경 */
 .ellipsis-1,
 .ellipsis-2,
@@ -524,6 +531,14 @@ textarea.required {
 }
 
 /* star rating */
+.text-ultra-sm {
+  font-size: .6em;
+}
+
+.da-star--rate-progress {
+  height: 4px !important;
+}
+
 .da-star {
   width: 12px;
   height: 24px;
@@ -588,4 +603,8 @@ textarea.required {
 [data-bs-theme='dark'] .star-rated .da-star.star-l,
 [data-bs-theme='dark'] .star-rated .da-star.star-r {
   background-position-y: 16px;
+}
+
+#sign-content img {
+  max-width: 100%;
 }

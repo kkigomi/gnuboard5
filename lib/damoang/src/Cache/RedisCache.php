@@ -36,19 +36,19 @@ class RedisCache
         }
 
         add_replace('g5_get_cache_replace', function ($data = false, $cache, $key, $expired_time) {
-            if ($cache instanceof $this) {
+            if (($key ?? null) && $cache instanceof $this) {
                 return $this->get($key);
             }
         }, \G5_HOOK_DEFAULT_PRIORITY, 4);
 
         add_event('g5_set_cache_event', function ($cache, $key, $save_data, $ttl) {
-            if ($cache instanceof $this) {
+            if (($key ?? null) && $cache instanceof $this) {
                 $this->set($key, $save_data, $ttl);
             }
         }, \G5_HOOK_DEFAULT_PRIORITY, 4);
 
         add_replace('g5_delete_cache_by_prefix', function ($files, $key, $cache) {
-            if ($cache instanceof $this) {
+            if (($key ?? null) && $cache instanceof $this) {
                 $keys = $this->keys($key . '*');
                 if (is_array($keys) && !empty($keys)) {
                     $this->delete(...$keys);

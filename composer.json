@@ -5,7 +5,22 @@
     "config": {
         "optimize-autoloader": true,
         "platform-check": false,
-        "prepend-autoloader": true
+        "prepend-autoloader": true,
+        "allow-plugins": {
+            "mcaskill/composer-exclude-files": true
+        }
+    },
+    "scripts": {
+        "test": "codecept run unit"
+    },
+    "autoload": {
+        "psr-4": {
+            "Damoang\\Lib\\": "lib/damoang/src",
+            "Damoang\\Plugin\\": "lib/damoang/plugin"
+        },
+        "files": [
+            "lib/damoang/src/function.php"
+        ]
     },
     "require": {
         "php": "^7.3 || ^8.0",
@@ -13,12 +28,18 @@
         "ext-curl": "*",
         "symfony/dotenv": "^5.4",
         "symfony/polyfill-php80": "^1.29",
-        "symfony/console": "^5.4"
+        "symfony/console": "^5.4",
+        "symfony/var-dumper": "^5.4"
     },
-    "autoload": {
-        "psr-4": {
-            "Damoang\\Lib\\": "lib/damoang/src",
-            "Damoang\\Plugin\\": "lib/damoang/plugin"
-        }
+    "require-dev": {
+        "codeception/codeception": "^4.2",
+        "codeception/module-phpbrowser": "^1.0.0",
+        "codeception/module-asserts": "^1.0.0",
+        "mcaskill/composer-exclude-files": "^4.0"
+    },
+    "extra": {
+        "exclude-from-files": [
+            "symfony/var-dumper/Resources/functions/dump.php"
+        ]
     }
 }

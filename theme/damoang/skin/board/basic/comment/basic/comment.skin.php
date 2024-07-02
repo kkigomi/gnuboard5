@@ -18,6 +18,53 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
 </script>
 <div id="viewcomment" class="mt-4">
 <?php } ?>
+
+<?php if (isset($boset['check_star_rating']) && $boset['check_star_rating']) { ?>
+    <!-- 별점 평균 { -->
+    <?php
+    $average_row = sql_fetch(
+        " SELECT * FROM {$g5['board_rate_average_table']}
+            WHERE bo_table = '{$bo_table}' AND wr_id = '{$wr_id}' LIMIT 1 ");
+    ?>
+    <div class="card mb-2 border-0 border-bottom rounded-0">
+        <div class="card-body pt-0">
+            <div class="row">
+                <div class="col-5 col-md-3 d-flex justify-content-center align-items-center">
+                    <div class="d-flex flex-column">
+                        <div class="fs-1 text-center"><?php echo $average_row['rate_average'] ? round((float) $average_row['rate_average'] / 2, 2) : 0.0; ?></div>
+                        <div>
+                            <div class="star-rated d-flex p-2 justify-content-center align-items-center">
+                                <?php
+                                    $average = (float) $average_row['rate_average'] * 2;
+                                    echo na_generate_star_rating($average / 2);
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-7 col-md-9">
+                    <div class="flex-column">
+                        <?php for ($i = 10; $i > 0; $i--) { $rated = $i / 2; ?>
+                            <div class="d-flex px-2 gap-2 align-items-center">
+                                <div class="text-ultra-sm text-end" style="width:15px"><?=$rated?></div>
+                                <div class="flex-fill">
+                                    <div class="progress da-star--rate-progress" role="progressbar">
+                                        <?php
+                                        $row_count = isset($average_row['rate_count_'.$i]) ? (int) $average_row['rate_count_'.$i] : 0;
+                                        $rate_count = isset($average_row['rate_count']) ? (int) $average_row['rate_count'] : 0;
+                                        ?>
+                                        <div class="progress-bar" style="width: <?php echo ($row_count > 0) ? $row_count * 100 / $rate_count : 0; ?>%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- } 별점 평균 -->
+<?php } ?>
     <div class="d-flex justify-content-between align-items-end px-3 mb-2">
         <div>
             댓글 <b><?php echo $write['wr_comment'] ?></b>
@@ -107,6 +154,8 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
 
             $comment_name = get_text($list[$i]['wr_name']);
 
+            $list[$i]['is_del'] = ($is_admin == 'super') || ($list[$i]['mb_id'] == $member['mb_id']) ? true : false;
+
             // 글 작성자가 쓴 댓글, 로그인 한 사용자가 쓴 댓글, 일반 댓글 색상으로 구분하기
             if (!empty($view['mb_id']) && $view['mb_id'] == $list[$i]['mb_id']) {
                 $by_writer = 'bg-secondary-subtle'; // 글 작성자가 쓴 댓글
@@ -150,62 +199,18 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                     </div>
                 </header>
                 <div class="comment-content p-3">
-                    <?php if (isset($boset['check_star_rating']) && $boset['check_star_rating']) { ?>
-                        <!-- 별점 표시 { -->
-                        <?php
-                            $star_rate = $list[$i]['wr_6'];
+                    <?php if (isset($boset['check_star_rating']) && $boset['check_star_rating'] && !$comment_depth) {
+                        $star_rate = (int) $list[$i]['wr_6'];
+                        if ($star_rate > 10) $star_rate = 0;
 
-                            switch ($star_rate) {
-                                case '1':
-                                    $star_rated_text = '0.5';
-                                    break;
-                                case '2':
-                                    $star_rated_text = '1';
-                                    break;
-                                case '3':
-                                    $star_rated_text = '1.5';
-                                    break;
-                                case '4':
-                                    $star_rated_text = '2';
-                                    break;
-                                case '5':
-                                    $star_rated_text = '2.5';
-                                    break;
-                                case '6':
-                                    $star_rated_text = '3';
-                                    break;
-                                case '7':
-                                    $star_rated_text = '3.5';
-                                    break;
-                                case '8':
-                                    $star_rated_text = '4';
-                                    break;
-                                case '9':
-                                    $star_rated_text = '4.5';
-                                    break;
-                                case '10':
-                                    $star_rated_text = '5';
-                                    break;
-                                default:
-                                    $star_rated_text = '평가 없음';
-                                    break;
-                            }
+                        $star_rated_text = na_convert_star_rating($star_rate);
+                        $star_html = na_generate_star_rating($star_rate);
                         ?>
-                        <div class="star-rated d-flex bg-secondary-subtle p-2 mb-2 align-items-center">
+                        <div class="star-rated d-flex pb-2 px-0 mb-2 align-items-center">
                             <span class="me-2 small">별점:</span>
-                            <div class="da-star star-l<?php if ((int)$star_rate >= 1) echo ' star-fill'; ?>"></div>
-                            <div class="da-star star-r<?php if ((int)$star_rate >= 2) echo ' star-fill'; ?>"></div>
-                            <div class="da-star star-l<?php if ((int)$star_rate >= 3) echo ' star-fill'; ?>"></div>
-                            <div class="da-star star-r<?php if ((int)$star_rate >= 4) echo ' star-fill'; ?>"></div>
-                            <div class="da-star star-l<?php if ((int)$star_rate >= 5) echo ' star-fill'; ?>"></div>
-                            <div class="da-star star-r<?php if ((int)$star_rate >= 6) echo ' star-fill'; ?>"></div>
-                            <div class="da-star star-l<?php if ((int)$star_rate >= 7) echo ' star-fill'; ?>"></div>
-                            <div class="da-star star-r<?php if ((int)$star_rate >= 8) echo ' star-fill'; ?>"></div>
-                            <div class="da-star star-l<?php if ((int)$star_rate >= 9) echo ' star-fill'; ?>"></div>
-                            <div class="da-star star-r<?php if ((int)$star_rate >= 10) echo ' star-fill'; ?>"></div>
-                            <span class="ms-1 small"><?=$star_rated_text?></span>
+                            <?php echo $star_html; ?>
+                            <span class="ms-1 small"><?php echo $star_rated_text; ?></span>
                         </div>
-                        <!-- } 별점 표시 -->
                     <?php } ?>
                     <div class="<?php echo $is_convert ?>">
                         <?php if ($comment_depth) { ?>
@@ -223,12 +228,12 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                             <span class="na-icon na-secret"></span>
                         <?php } ?>
 
-                        <?php echo $comment ?>
+                        <?php if(empty($comment)) echo "[삭제된 댓글입니다]"; else echo $comment ?>
                     </div>
                     <?php if((int)$list[$i]['wr_10'] > 0) { // 럭키포인트 ?>
                         <div class="small mt-3">
                             <i class="bi bi-gift"></i>
-                            <b><?php echo number_format((int)$list[$i]['wr_10']) ?></b> 럭키포인트 당첨을 축하드립니다.
+                            <b><?php echo number_format((int)$list[$i]['wr_10']) ?></b> 랜덤 럭키포인트 당첨을 축하드립니다.
                         </div>
                     <?php } ?>
 
@@ -255,7 +260,9 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                                     <span class="d-none d-sm-inline-block">수정</span>
                                 </button>
                             <?php } ?>
-                            <?php if ($list[$i]['is_del']) { ?>
+                            <?php
+                            if ($list[$i]['is_del']) {
+                            ?>
                                 <a href="<?php echo $list[$i]['del_link']; ?>" rel="nofollow" onclick="<?php echo (isset($list[$i]['del_back']) && $list[$i]['del_back']) ? "na_delete('viewcomment', '".$list[$i]['del_href']."','".$list[$i]['del_back']."'); return false;" : "return comment_delete(this.href);";?>" class="btn btn-basic" title="삭제">
                                     <i class="bi bi-trash"></i>
                                     <span class="d-none d-sm-inline-block">삭제</span>
@@ -282,14 +289,14 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                         <?php if($is_comment_good || $is_comment_nogood) { ?>
                             <div class="btn-group btn-group-sm" role="group">
                                 <?php if($is_comment_good) { ?>
-                                    <button type="button" onclick="na_good('<?php echo $bo_table ?>', '<?php echo $comment_id ?>', 'good', 'c_g<?php echo $comment_id ?>', 1);" class="btn <?php echo (isset($good_list[$list[$i]['wr_id']]) && $good_list[$list[$i]['wr_id']] == 'good') ? 'btn-primary' : 'btn-basic' ?>" title="추천">
+                                    <button type="button" onclick="na_good('<?php echo $bo_table ?>', '<?php echo $comment_id ?>', 'good', 'c_g<?php echo $comment_id ?>', 1);" class="btn good-border <?php echo (isset($good_list[$list[$i]['wr_id']]) && $good_list[$list[$i]['wr_id']] == 'good') ? 'btn-primary' : 'btn-basic' ?>" title="추천">
                                         <span class="visually-hidden">추천</span>
                                         <i class="bi bi-hand-thumbs-up"></i>
                                         <span id="c_g<?php echo $comment_id ?>"><?php echo $list[$i]['wr_good'] ?></span>
                                     </button>
                                 <?php } ?>
                                 <?php if($is_comment_nogood) { ?>
-                                    <button type="button" class="btn <?php echo (isset($good_list[$list[$i]['wr_id']]) && $good_list[$list[$i]['wr_id']] == 'nogood') ? 'btn-primary' : 'btn-basic' ?>" onclick="na_good('<?php echo $bo_table ?>', '<?php echo $comment_id ?>', 'nogood', 'c_ng<?php echo $comment_id ?>', 1);" title="비추천">
+                                    <button type="button" class="btn good-border <?php echo (isset($good_list[$list[$i]['wr_id']]) && $good_list[$list[$i]['wr_id']] == 'nogood') ? 'btn-primary' : 'btn-basic' ?>" onclick="na_good('<?php echo $bo_table ?>', '<?php echo $comment_id ?>', 'nogood', 'c_ng<?php echo $comment_id ?>', 1);" title="비추천">
                                         <span class="visually-hidden">비추천</span>
                                         <i class="bi bi-hand-thumbs-down"></i>
                                         <span id="c_ng<?php echo $comment_id;?>"><?php echo $list[$i]['wr_nogood']; ?></span>
@@ -300,8 +307,14 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                     </div>
                 </div>
                 <div class="clearfix">
-                    <span id="edit_<?php echo $comment_id ?>" class="bo_vc_w"></span><!-- 수정 -->
-                    <span id="reply_<?php echo $comment_id ?>" class="bo_vc_re"></span><!-- 답변 -->
+                    <?php // 현재 별점
+                        $wr_6 = (int) $list[$i]['wr_6'];
+                        if (!$comment_depth && !empty($list[$i]['wr_6'])) {
+                            $data_wr_6 = " data-star-rated=\"{$wr_6}\"";
+                        }
+                    ?>
+                    <span id="edit_<?php echo $comment_id ?>"<?php echo $data_wr_6 ?? ''; ?> class="bo_vc_w<?php echo $comment_depth ? ' is-deeper' : ''; ?>"></span><!-- 수정 -->
+                    <span id="reply_<?php echo $comment_id ?>" class="bo_vc_re<?php echo $comment_depth ? ' is-deeper' : ''; ?>"></span><!-- 답변 -->
                     <?php if($is_paging) { ?>
                         <input type="hidden" value="<?php echo $comment_url.'&amp;page='.$page; ?>" id="comment_url_<?php echo $comment_id ?>">
                         <input type="hidden" value="<?php echo $page; ?>" id="comment_page_<?php echo $comment_id ?>">
@@ -670,6 +683,26 @@ if($is_ajax)
                 el_id = 'edit_' + comment_id;
         } else
             el_id = 'bo_vc_w';
+
+        var star = document.getElementById('bo_vc_star');
+        if (comment_id && star) {
+            // 대댓글일때 별점 사용 안함
+            var target_el = document.getElementById(el_id);
+            if (target_el.classList.contains('is-deeper') || work == 'c') {
+                star.parentElement.style.display = 'none';
+            } else {
+                star.parentElement.style.display = 'block';
+            }
+
+            var starRate = target_el.dataset.starRated;
+            if (target_el.dataset.starRated) {
+                starRating.initStars();
+                starRating.setRate(starRate);
+                starRating.filledRate(starRate - 1);
+            } else {
+                starRating.initStars();
+            }
+        }
 
         if (save_before != el_id) {
             if (save_before) {

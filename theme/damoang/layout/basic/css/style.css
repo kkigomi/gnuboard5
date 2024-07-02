@@ -391,6 +391,10 @@ a:hover {
   transform: rotate(-180deg);
 }
 
+#sidebar-site-menu{
+  width: 100%;
+}
+
 .na-menu .nav-link .small {
   margin-left: 0.25rem;
 }
@@ -1001,4 +1005,10 @@ footer .container a {
   41% { transform: rotate(1deg); }
   43% { transform: rotate(0); }
   100% { transform: rotate(0); }
+}
+
+@media (max-width: 330px) {
+  #bo_v_atc button {
+    display: grid;
+  }
 }

@@ -9,28 +9,18 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
     <ul class="list-group list-group-flush border-bottom">
         <li class="list-group-item d-none d-md-block hd-wrap">
             <div class="d-flex flex-md-row align-items-md-center gap-1 fw-bold">
-                <div class="col-1 text-center">
-                    번호
-                </div>
-                <div class="text-center flex-grow-1">
-                    제목
-                </div>
+                <div class="col-1 text-center">번호</div>
+                <div class="text-center flex-grow-1">제목</div>
                 <div class="ms-md-auto">
                     <div class="d-flex gap-2">
-                        <div class="hd-name text-center">
-                            이름
-                        </div>
-                        <div class="hd-date text-center">
-                            <?php echo subject_sort_link('wr_datetime', $qstr2, 1) ?>날짜</a>
-                        </div>
-                        <?php if($is_good) { ?>
-                            <div class="hd-num text-center">
-                                <?php echo subject_sort_link('wr_good', $qstr2, 1) ?>추천</a>
-                            </div>
+                        <?php if (!isset($boset['check_list_hide_profile']) || (isset($boset['check_list_hide_profile']) && !$boset['check_list_hide_profile'])) { ?>
+                            <div class="hd-name text-center">이름</div>
                         <?php } ?>
-                        <div class="hd-num text-center">
-                            <?php echo subject_sort_link('wr_hit', $qstr2, 1) ?>조회</a>
-                        </div>
+                        <div class="hd-date text-center">날짜</div>
+                        <?php if ($is_good) { ?>
+                            <div class="hd-num text-center">추천</div>
+                        <?php } ?>
+                        <div class="hd-num text-center">조회</div>
                     </div>
                 </div>
             </div>
@@ -141,12 +131,14 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
                             </div>
                             <div class="">
                                 <div class="d-flex gap-2">
-                                    <div class="order-1 wr-name">
-                                        <?php
-                                            $wr_name = ($row['mb_id']) ? str_replace('sv_member', 'sv_member text-truncate d-block', $row['name']) : str_replace('sv_guest', 'sv_guest text-truncate d-block', $row['name']);
-                                            echo na_name_photo($row['mb_id'], $wr_name);
-                                        ?>
-                                    </div>
+                                    <?php if (!isset($boset['check_list_hide_profile']) || (isset($boset['check_list_hide_profile']) && !$boset['check_list_hide_profile'])) { ?>
+                                        <div class="order-1 wr-name">
+                                            <?php
+                                                $wr_name = ($row['mb_id']) ? str_replace('sv_member', 'sv_member text-truncate d-block', $row['name']) : str_replace('sv_guest', 'sv_guest text-truncate d-block', $row['name']);
+                                                echo na_name_photo($row['mb_id'], $wr_name);
+                                            ?>
+                                        </div>
+                                    <?php } ?>
                                     <div class="wr-date ms-auto text-nowrap order-last order-md-2 text-truncate">
                                         <?php echo na_date($row['wr_datetime'], 'orangered') ?>
                                         <span class="visually-hidden">등록</span>

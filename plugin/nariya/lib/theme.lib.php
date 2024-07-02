@@ -177,6 +177,31 @@ function na_menu() {
 	return array($me, $nav);
 }
 
+function na_convert_star_rating($rate, $maxStars = 5, $maxScore = 10) {
+    if (!is_numeric($rate) || $rate < 1 || $rate > $maxScore) {
+        return '평가 없음';
+    }
+    return number_format($rate * $maxStars / $maxScore, 1);
+}
+
+function na_generate_star_rating($rate) {
+    $fullStars = floor($rate / 2);
+    $halfStar = $rate % 2;
+    $emptyStars = 5 - $fullStars - $halfStar;
+
+    $stars = '';
+    for ($i = 0; $i < $fullStars; $i++) {
+        $stars .= '<div class="da-star star-l star-fill"></div><div class="da-star star-r star-fill"></div>';
+    }
+    if ($halfStar) {
+        $stars .= '<div class="da-star star-l star-fill"></div><div class="da-star star-r"></div>';
+    }
+    for ($i = 0; $i < $emptyStars; $i++) {
+        $stars .= '<div class="da-star star-l"></div><div class="da-star star-r"></div>';
+    }
+    return $stars;
+}
+
 //=====================================================================
 // 영카트 쇼핑몰
 //=====================================================================

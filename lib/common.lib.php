@@ -3,6 +3,8 @@ if (!defined('_GNUBOARD_')) exit;
 
 include_once(dirname(__FILE__) .'/pbkdf2.compat.php');
 
+use Damoang\Plugin\ContentManagement\ContentTracker;
+
 /*************************************************************************
 **
 **  일반 함수 모음
@@ -803,6 +805,11 @@ function get_write($write_table, $wr_id, $is_cache=false)
     if( !$write || $is_cache == false ){
         $sql = " select * from {$write_table} where wr_id = '{$wr_id}' ";
         $write = sql_fetch($sql);
+
+        if (!empty($wr_bo_table) && !empty($wr_id)) {
+            $latestHistory = ContentTracker::getLatestContentHistory($wr_bo_table, $wr_id);
+            $write = processDeletedContent($write, $latestHistory);
+        }
 
         $g5_object->set('bbs', $wr_id, $write, $wr_bo_table);
     }
@@ -4284,4 +4291,22 @@ function option_array_checked($option, $arr=array()){
     }
 
     return $checked;
+}
+
+function processDeletedContent($write, $latestHistory) {
+    if (!$latestHistory || !isset($latestHistory['operation'], $latestHistory['mb_id'], $write['mb_id'])) {
+        return $write;
+    }
+
+    if ($latestHistory['operation'] !== ContentTracker::OPERATION_DELETE) {
+        return $write;
+    }
+
+    $deleted_by = ($write['mb_id'] == $latestHistory['mb_id']) ? 'member' : 'admin';
+    $write['wr_subject'] = '[삭제된 게시물입니다]';
+    $write['wr_content'] = ($deleted_by == 'admin')
+        ? '[이 게시물은 관리자에 의해 삭제되었습니다.]'
+        : '[이 게시물은 작성자가 삭제했습니다.]';
+
+    return $write;
 }

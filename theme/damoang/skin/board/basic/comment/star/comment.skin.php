@@ -168,10 +168,11 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
 
                         <?php echo $comment ?>
                     </div>
-                    <?php if((int)$list[$i]['wr_10'] > 0) { // 럭키포인트 ?>
-                        <div class="small mt-3">
-                            <i class="bi bi-gift"></i>
-                            <b><?php echo number_format((int)$list[$i]['wr_10']) ?></b> 럭키포인트 당첨을 축하드립니다.
+
+                    <?php if(!$is_lock && (int)$list[$i]['wr_10']) { // 럭키포인트 ?>
+                        <div class="f-sm text-muted px-3 my-2">
+                            <i class="fa fa-gift" aria-hidden="true"></i>
+                            <b class="orangered"><?php echo number_format($list[$i]['wr_10']) ?></b> 랜덤 럭키포인트 당첨을 축하드립니다!
                         </div>
                     <?php } ?>
 

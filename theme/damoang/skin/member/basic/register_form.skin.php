@@ -143,6 +143,32 @@ if ($config['cf_cert_use'] && ($config['cf_cert_simple'] || $config['cf_cert_ipi
                         </div>
                     </div>
                 </li>
+            <?php } else { ?>
+                <li class="list-group-item">
+                    <div class="row">
+                        <label for="reg_mb_nick" class="col-sm-3 col-form-label">닉네임<strong class="visually-hidden"> 필수</strong></label>
+                        <div class="col-sm-9">
+                            <input type="hidden" name="mb_nick_default" value="<?php echo isset($member['mb_nick']) ? get_text($member['mb_nick']) : ''; ?>">
+                            <input type="text" name="mb_nick" value="<?php echo isset($member['mb_nick']) ? get_text($member['mb_nick']) : ''; ?>" id="reg_mb_nick" required class="form-control nospace required" maxlength="20" disabled>
+                            <div class="form-text">
+                                <?php if($config['cf_nick_modify']) {
+                                    $nickname_modify_days = (int)$config['cf_nick_modify'];
+                                    $current_date = date("Y-m-d");
+                                    $nickname_change_date = date("Y-m-d", strtotime($member['mb_nick_date'] . " + $nickname_modify_days days"));
+                                    $days_remaining = (strtotime($nickname_change_date) - strtotime($current_date)) / 86400;
+                                ?>
+                                    <div id="msg_mb_nick"></div>
+                                    닉네임 변경일 : <?php echo $member['mb_nick_date'] ?><br />
+                                    닉네임 변경 후 <b><?php echo $nickname_modify_days ?></b>일간은 재변경을 할 수 없습니다.<br />
+                                    <?php if ($days_remaining <= $nickname_modify_days) { ?>
+                                        닉네임을 변경하려면 <b><?php echo $days_remaining ?></b>일 후에 가능합니다.
+                                    <?php } ?>
+                                <?php } ?>
+
+                            </div>
+                        </div>
+                    </div>
+                </li>
             <?php } ?>
 
             <li class="list-group-item">

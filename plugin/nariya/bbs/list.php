@@ -3,6 +3,17 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
 include_once(G5_PLUGIN_PATH.'/sphinxsearch/SphinxSearch.php');
 
+
+$current_page_count = null;
+if(isset($wr_id) && !empty($wr_id)) {
+    $wr_id = (int)$wr_id;
+    $count_query = 'SELECT count(*) as cnt FROM '. $g5['write_prefix'].$bo_table . " WHERE wr_id > $wr_id AND wr_is_comment = 0";
+    $result = sql_fetch($count_query);
+    if($result) {
+        $current_page_count = $result['cnt'];
+    }
+}
+
 // 분류 사용 여부
 $is_category = false;
 $category_option = '';
@@ -168,6 +179,10 @@ if (!$is_search_bbs) {
     }
 }
 
+if (isset($wr_id) && !empty($wr_id) && $current_page_count !== null) {
+    $page = ceil(($current_page_count + 1) / $page_rows);
+}
+
 $total_page  = ceil($total_count / $page_rows);  // 전체 페이지 계산
 $from_record = ($page - 1) * $page_rows; // 시작 열을 구함
 
@@ -219,6 +234,11 @@ if (!$sst) {
     }
 }
 
+if($sod != 'desc') {
+    if ($sst != 'wr_num asc, wr_reply asc')
+        $sod = 'desc';
+}
+
 if(!$sst)
     $sst  = "wr_num asc, wr_reply asc";
 
@@ -234,10 +254,14 @@ if ($is_search_bbs) {
     }
 
 } else {
-    $sql = " select * from {$write_table} where wr_is_comment = 0 {$na_sql_where} ";
+    $sql = " select wr_id from {$write_table} where wr_is_comment = 0 {$na_sql_where} ";
     if(!empty($notice_array))
         $sql .= " and wr_id not in (".implode(', ', $notice_array).") ";
     $sql .= " {$sql_order} limit {$from_record}, $page_rows ";
+
+    // 모든 컬럼 가져오기
+    $sql = " select * from {$write_table} as a
+                join ($sql) as b on b.wr_id = a.wr_id ";
 }
 
 // 페이지의 공지개수가 목록수 보다 작을 때만 실행
@@ -257,7 +281,11 @@ if($page_rows > 0) {
     }
 
     $k = 0;
-
+    $new_qstr_result = remove_query_string_by_key($qstr, 'page');
+    if ($new_qstr_result !== false) {
+        $qstr = $new_qstr_result;
+    }
+    
     foreach($wr_list as $row )
     {
         // 검색일 경우 wr_id만 얻었으므로 다시 한행을 얻는다
@@ -301,6 +329,10 @@ $board_exception = isset($wset_pai['d']['board_exception']) ? explode(',', $wset
 /** 랜덤 광고주의 홍보글 목록 */
 $promotion_posts = array();  // 주의: 초기화를 배열로 설정하지 않으면 gellery/list.skin.php에서 에러남
 if (!in_array($bo_table, $board_exception)) {
+    $new_qstr_result = remove_query_string_by_key($qstr, 'page');
+    if ($new_qstr_result !== false) {
+        $qstr = $new_qstr_result;
+    }
     $advertisers = isset($wset_pai['d']['advertisers']) ? $wset_pai['d']['advertisers'] : [];
     $how_many_to_display = isset($wset_pai['d']['how_many_to_display']) ? $wset_pai['d']['how_many_to_display'] : 1;
     $insert_index = isset($wset_pai['d']['insert_index']) ? (int)$wset_pai['d']['insert_index'] : 0;
@@ -320,8 +352,8 @@ if (!in_array($bo_table, $board_exception)) {
         // 글 목록에 직홍게글 추가 (설정에 따라 1개 이상일 수 있음)
         foreach ($promotion_posts as $post) {
             $post_list = get_list($post, $board, $board_skin_url, G5_IS_MOBILE ? $board['bo_mobile_subject_len'] : $board['bo_subject_len']);
-            $post_list['is_notice'] = false; // 공지글은 아닌걸로 마크
-            $post_list['is_advertiser_post'] = true; // 광고주 글임을 마크
+            $post_list['is_notice'] = false; // 홍보글이 공지글은 아닌걸로 마크
+            $post_list['is_promotion_post'] = true; // 직홍게 홍보 글임을 마크
             $post_list['num'] = $positionIndex; // 지정된 위치에 삽입
             $post_list['href'] = '/promotion/'.$post['wr_id']; // 링크
             // 지정된 위치에 게시물을 삽입
@@ -340,7 +372,8 @@ $write_pages = get_paging(G5_IS_MOBILE ? $config['cf_mobile_pages'] : $config['c
 $list_href = '';
 $prev_part_href = '';
 $next_part_href = '';
-if ($is_search_bbs) {
+
+if ($is_search_bbs && $spt) {
     $list_href = get_pretty_url($bo_table);
 
     $patterns = array('#&amp;page=[0-9]*#', '#&amp;spt=[0-9\-]*#');
@@ -424,3 +457,36 @@ function get_promotion_posts_pai($advertisers) {
     return $latest_posts;
 }
 /****** : PAI 위젯 직홍게 끝   ******/
+
+/**
+ * 쿼리스트링에서 특정 키 삭제 (주로 그누보드 $qstr을 받아서 처리할 경우 사용함)
+ * @param string $query_string 쿼리스트링  
+ * @param string $remove_key 삭제할 쿼리스트링 키
+ * @return false|string
+ */
+function remove_query_string_by_key($query_string, $remove_key) {
+    if(empty($query_string) || empty($remove_key)) {
+        return false;
+    }
+
+    $decode_qstr = htmlspecialchars_decode($query_string);
+    $parsed_url = parse_url($decode_qstr);
+    
+    if (strpos($decode_qstr, "?{$remove_key}") !== false) {
+        parse_str($parsed_url['query'], $query_params);
+        if(isset($query_params[$remove_key])) {
+            unset($query_params[$remove_key]);
+        }
+        return htmlspecialchars(http_build_query($query_params));
+    } 
+    
+    if (strpos($decode_qstr, "&{$remove_key}") !== false) {
+        parse_str($parsed_url['path'], $query_params);
+        if(isset($query_params[$remove_key])) {
+            unset($query_params[$remove_key]);
+        }
+        return htmlspecialchars(http_build_query($query_params));
+    }
+    
+    return false;
+}
