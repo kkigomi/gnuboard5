@@ -207,7 +207,7 @@ $mb_sign_banner_type = 'NONE';
     </div>
 <?php } ?>
 <script>
-    var signature = `<?=$mb['mb_signature']?>`;
+    var signature = `<?=str_replace('`', '\u0060', $mb['mb_signature']) ?>`;
     var signRecentList = $("#sign-recent-list");
     var signContent = $("#sign-content");
     var signRecentListContainer = $("#sign-recent-list-container");

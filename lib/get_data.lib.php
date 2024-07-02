@@ -451,8 +451,9 @@ function get_board_sfl_select_options($sfl){
 
     $str = '';
     $str .= '<option value="wr_subject" '.get_selected($sfl, 'wr_subject', true).'>제목</option>';
-    $str .= '<option value="wr_content" '.get_selected($sfl, 'wr_content').'>내용</option>';
-    $str .= '<option value="wr_subject||wr_content" '.get_selected($sfl, 'wr_subject||wr_content').'>제목+내용</option>';
+    $str .= '<option value="wr_content,1" '.get_selected($sfl, 'wr_content,1').'>내용</option>';
+    $str .= '<option value="wr_subject||wr_content,1" '.get_selected($sfl, 'wr_subject||wr_content,1').'>제목+내용</option>';
+    $str .= '<option value="wr_content,0" '.get_selected($sfl, 'wr_content,0').'>댓글</option>';
     if ( $is_admin ){
         $str .= '<option value="mb_id,1" '.get_selected($sfl, 'mb_id,1').'>회원아이디</option>';
         $str .= '<option value="mb_id,0" '.get_selected($sfl, 'mb_id,0').'>회원아이디(코)</option>';
@@ -469,7 +470,8 @@ function get_qa_sfl_select_options($sfl) {
 
     $str = '';
     $str .= '<option value="qa_subject" '.get_selected($sfl, 'qa_subject', true).'>제목</option>';
-    $str .= '<option value="qa_content" '.get_selected($sfl, 'qa_content').'>내용</option>';
+    $str .= '<option value="qa_content,1" '.get_selected($sfl, 'qa_content,1').'>내용</option>';
+    $str .= '<option value="qa_content,0" '.get_selected($sfl, 'qa_content,0').'>댓글</option>';
     $str .= '<option value="qa_name" '.get_selected($sfl, 'qa_name').'>글쓴이</option>';
     if ($is_admin)
         $str .= '<option value="mb_id" '.get_selected($sfl, 'mb_id').'>회원아이디</option>';
