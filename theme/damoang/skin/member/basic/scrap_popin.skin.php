@@ -21,8 +21,8 @@ add_stylesheet('<link rel="stylesheet" href="' . $member_skin_url . '/style.css?
             </div>
         </li>
         <li class="list-group-item text-center pt-3">
-            <button type="button" class="btn btn-basic me-2" onclick="window.close();">창닫기</button>
-            <button type="submit" class="btn btn-primary">스크랩 확인</button>
+            <button type="button" class="btn btn-basic me-2" onclick="window.close();">취소</button>
+            <button type="submit" class="btn btn-primary">스크랩 하기</button>
         </li>
     </ul>
 </form>

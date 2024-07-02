@@ -251,3 +251,7 @@ a.btn_admin:focus, a.btn_admin:hover {}
 #bo_v_con, .comment-content, #sign-content {
   word-wrap: break-word;
 }
+
+#sign-content img {
+  max-width: 100%;
+}
