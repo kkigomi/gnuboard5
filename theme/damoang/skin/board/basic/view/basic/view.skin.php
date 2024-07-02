@@ -436,7 +436,8 @@ run_event('view_skin_before');
         <?php //echo na_widget('damoang-image-banner', 'board-head'); ?>
 
         <?php if ($is_signature && $view['mb_id']) { // 서명 ?>
-            <?php// 캐시에 문제가 있어서 일단 주석 구원자님 오시면 해결 후 다시 적용해야 함
+            <?php
+              // 캐시에 문제가 있어서 일단 주석 구원자님 오시면 해결 후 다시 적용해야 함
              //echo na_widget('mb-sign', "member-{$view['mb_id']}."-".$bo_table", 'cache=10');
              ?>
             <?php echo na_widget('mb-sign'); ?>
