@@ -129,6 +129,7 @@ class ContentTracker
         $mb_id = $backupData['mb_id'];
         $wr_name = $backupData['wr_name'];
         $backupData = json_encode($backupData, JSON_UNESCAPED_UNICODE);
+        $backupData = addslashes($backupData);
 
         return " INSERT INTO " . self::tableName() . "
                 SET bo_table = '$bo_table',
