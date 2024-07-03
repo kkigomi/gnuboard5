@@ -357,6 +357,100 @@ run_event('view_skin_before');
                 ?>
             </div>
         </div>
+
+
+        <?php
+        /***************
+         * 링크/첨부파일 표시 
+         **************/
+        // 링크
+        $is_link = 0;
+        for ($i = 1; $i <= count($view['link']); $i++) {
+            if ($view['link'][$i])
+                $is_link++;
+        }
+
+        // 첨부
+        $is_attach = 0;
+        for ($i = 0; $i < count($view['file']); $i++) {
+            if (isset($view['file'][$i]['source']) && $view['file'][$i]['source'] && !$view['file'][$i]['view'])
+                $is_attach++;
+        }  ?>
+
+        <?php if ($is_link || $is_attach) { ?>
+            <section id="bo_v_data" class="border-bottom">
+                <ul class="list-group list-group-flush">
+                    <?php if ($is_link) { ?>
+                        <li class="list-group-item pb-1">
+                            <?php
+                            for ($i = 1; $i <= count($view['link']); $i++) {
+                                if ($view['link'][$i]) {
+                                    ?>
+                                    <div class="d-flex align-items-center mb-1">
+                                        <div class="me-2">
+                                            <i class="bi bi-link-45deg"></i>
+                                            <span class="visually-hidden">링크</span>
+                                        </div>
+                                        <div class="text-truncate">
+                                            <a href="<?php echo $view['link_href'][$i] ?>" target="_blank">
+                                                <?php echo get_text($view['link'][$i]) ?>
+                                            </a>
+                                        </div>
+                                        <div class="ps-1 text-nowrap">
+                                            <span class="count-plus"> <?php echo $view['link_hit'][$i] ?></span>
+                                            <span class="visually-hidden">회 연결</span>
+                                        </div>
+                                    </div>
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </li>
+                    <?php } ?>
+                    <?php if ($is_attach) { ?>
+                        <li class="list-group-item pb-1">
+                            <?php
+                            //가변 파일
+                            for ($i = 0; $i < count($view['file']); $i++) {
+                                if (isset($view['file'][$i]['source']) && $view['file'][$i]['source'] && !$view['file'][$i]['view']) {
+                                    ?>
+                                    <div class="d-flex align-items-center mb-1">
+                                        <div class="me-2">
+                                            <i class="bi bi-download"></i>
+                                            <span class="visually-hidden">첨부</span>
+                                        </div>
+                                        <div class="text-truncate">
+                                            <a href="<?php echo $view['file'][$i]['href'] ?>" class="view_file_download"
+                                            title="<?php echo $view['file'][$i]['content'] ?>">
+                                                <?php echo $view['file'][$i]['source'] ?>
+                                                <span class="visually-hidden">파일크기</span>
+                                                <span class="small">(<?php echo $view['file'][$i]['size'] ?>)</span>
+                                            </a>
+                                        </div>
+                                        <div class="ps-1 pe-2 text-nowrap">
+                                            <span class="count-plus"> <?php echo $view['file'][$i]['download'] ?></span>
+                                            <span class="visually-hidden">회 다운로드</span>
+                                        </div>
+                                        <div class="ms-auto text-nowrap small">
+                                            <span class="visually-hidden">등록일</span>
+                                            <?php echo date("Y.m.d H:i", strtotime($view['file'][$i]['datetime'])) ?>
+                                        </div>
+                                    </div>
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </li>
+                    <?php } ?>
+                </ul>
+            </section>
+        <?php } 
+        /***************
+         * 링크/첨부파일 표시 끝
+         **************/
+        ?>
+
+
         <?php
         // 추천/비추천 여부 확인
         $bg_status = '';
@@ -475,91 +569,6 @@ run_event('view_skin_before');
             </div>
         <?php } ?>
     </section>
-
-    <?php
-    // 링크
-    $is_link = 0;
-    for ($i = 1; $i <= count($view['link']); $i++) {
-        if ($view['link'][$i])
-            $is_link++;
-    }
-
-    // 첨부
-    $is_attach = 0;
-    for ($i = 0; $i < count($view['file']); $i++) {
-        if (isset($view['file'][$i]['source']) && $view['file'][$i]['source'] && !$view['file'][$i]['view'])
-            $is_attach++;
-    }
-    ?>
-
-    <?php if ($is_link || $is_attach) { ?>
-        <section id="bo_v_data" class="border-bottom">
-            <ul class="list-group list-group-flush">
-                <?php if ($is_link) { ?>
-                    <li class="list-group-item pb-1">
-                        <?php
-                        for ($i = 1; $i <= count($view['link']); $i++) {
-                            if ($view['link'][$i]) {
-                                ?>
-                                <div class="d-flex align-items-center mb-1">
-                                    <div class="me-2">
-                                        <i class="bi bi-link-45deg"></i>
-                                        <span class="visually-hidden">링크</span>
-                                    </div>
-                                    <div class="text-truncate">
-                                        <a href="<?php echo $view['link_href'][$i] ?>" target="_blank">
-                                            <?php echo get_text($view['link'][$i]) ?>
-                                        </a>
-                                    </div>
-                                    <div class="ps-1 text-nowrap">
-                                        <span class="count-plus"> <?php echo $view['link_hit'][$i] ?></span>
-                                        <span class="visually-hidden">회 연결</span>
-                                    </div>
-                                </div>
-                                <?php
-                            }
-                        }
-                        ?>
-                    </li>
-                <?php } ?>
-                <?php if ($is_attach) { ?>
-                    <li class="list-group-item pb-1">
-                        <?php
-                        //가변 파일
-                        for ($i = 0; $i < count($view['file']); $i++) {
-                            if (isset($view['file'][$i]['source']) && $view['file'][$i]['source'] && !$view['file'][$i]['view']) {
-                                ?>
-                                <div class="d-flex align-items-center mb-1">
-                                    <div class="me-2">
-                                        <i class="bi bi-download"></i>
-                                        <span class="visually-hidden">첨부</span>
-                                    </div>
-                                    <div class="text-truncate">
-                                        <a href="<?php echo $view['file'][$i]['href'] ?>" class="view_file_download"
-                                           title="<?php echo $view['file'][$i]['content'] ?>">
-                                            <?php echo $view['file'][$i]['source'] ?>
-                                            <span class="visually-hidden">파일크기</span>
-                                            <span class="small">(<?php echo $view['file'][$i]['size'] ?>)</span>
-                                        </a>
-                                    </div>
-                                    <div class="ps-1 pe-2 text-nowrap">
-                                        <span class="count-plus"> <?php echo $view['file'][$i]['download'] ?></span>
-                                        <span class="visually-hidden">회 다운로드</span>
-                                    </div>
-                                    <div class="ms-auto text-nowrap small">
-                                        <span class="visually-hidden">등록일</span>
-                                        <?php echo date("Y.m.d H:i", strtotime($view['file'][$i]['datetime'])) ?>
-                                    </div>
-                                </div>
-                                <?php
-                            }
-                        }
-                        ?>
-                    </li>
-                <?php } ?>
-            </ul>
-        </section>
-    <?php } ?>
 
 
 
