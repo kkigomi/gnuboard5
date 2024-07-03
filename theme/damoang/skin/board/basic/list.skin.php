@@ -106,15 +106,64 @@ if ($bo_table == 'promotion')
             <?php if($next_part_href) { ?>
                 <li class="page-item"><a  class="page-link" href="<?php echo $next_part_href;?>">Next</a></li>
             <?php } ?>
+
+            <?php /* 페이지네이션 옆에 검색과 글쓰기 버튼 추가 */?>
             <li>
-                 <a href="<?php echo $write_href ?>" class="btn btn-basic  ms-4" style="white-space: nowrap;">
+                <a href="#boardSearc_b" data-bs-toggle="collapse" data-bs-target="#boardSearch_b" aria-expanded="false" aria-controls="boardSearch_b" class="btn btn-basic ms-2">
+                    <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="검색">
+                        <i class="bi bi-search"></i>
+                        <span class="visually-hidden">검색</span>
+                    </span>
+                </a>
+            </li>
+            <li>
+                 <a href="<?php echo $write_href ?>" class="btn btn-basic  ms-1" style="white-space: nowrap;">
                     <i class="bi bi-pencil-square"></i>
-                    글쓰기
+                    쓰기
                 </a>
             </li>
         </ul>
 
     </form>
+
+    <?php /*** 페이지네이션 옆 검색버튼 form ***/ ?>
+    <div class="collapse<?php echo ($stx) ? ' show' : '';?>" id="boardSearch_b">
+        <div class="px-3 py-2 border-top">
+            <form id="fsearch" name="fsearch" method="get" action="<?php echo get_pretty_url($bo_table); ?>">
+                <input type="hidden" name="bo_table" value="<?php echo $bo_table ?>">
+                <input type="hidden" name="sca" value="<?php echo $sca ?>">
+                <div class="row g-2">
+                    <div class="col-6 col-md-3 col-lg-2">
+                        <label for="bo_sfl" class="visually-hidden">검색대상</label>
+                        <select id="bo_sfl" name="sfl" class="form-select form-select-sm">
+                            <?php echo get_board_sfl_select_options($sfl); ?>
+                        </select>
+                    </div>
+                    <div class="col-6 col-md-3 col-lg-2">
+                        <label for="bo_sop" class="visually-hidden">검색조건</label>
+                        <select id="bo_sop" name="sop" class="form-select form-select-sm">
+                            <option value="and"<?php echo get_selected($sop, "and") ?>>그리고</option>
+                            <option value="or"<?php echo get_selected($sop, "or") ?>>또는</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-8">
+                        <label for="bo_stx" class="visually-hidden">검색어 필수</label>
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control" name="stx" id="bo_stx" value="<?php echo stripslashes($stx) ?>" required placeholder="검색어 입력">
+                            <a href="<?php echo get_pretty_url($bo_table); ?>" rel="nofollow" class="btn btn-basic" title="초기화">
+                                <i class="bi bi-arrow-clockwise"></i>
+                                <span class="visually-hidden">초기화</span>
+                            </a>
+                            <button class="btn btn-primary" type="submit" id="fsearch_submit" title="검색">
+                                <i class="bi bi-search"></i>
+                                <span class="d-none d-sm-inline-block">검색</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 <?php
 // 게시판 스킨 설정
