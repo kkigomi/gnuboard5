@@ -3,7 +3,7 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 ?>
 
 <!-- .offcanvas, .offcanvas-lg, .offcanvas-md, .offcanvas-sm, .offcanvas-xl, .offcanvas-xxl -->
-<div class="offcanvas offcanvas-bottom" tabindex="-1" id="commentOffcanvas" data-bs-scroll="true" aria-labelledby="commentOffcanvasLabel">
+<div class="offcanvas offcanvas-bottom" tabindex="-1" id="commentOffcanvas" data-bs-scroll="true" aria-labelledby="commentOffcanvasLabel" style="height: 220px !important">
     <div class="offcanvas-header pb-0">
         <h5 class="offcanvas-title" id="commentOffcanvasLabel">
             <span class="visually-hidden">전체 검색</span>
@@ -11,8 +11,8 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
         <button type="button" class="btn-close nofocus" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <div class="container h-75 w-100">
-            <div class="row justify-content-center align-items-center h-75 p-sm-0">
+        <div class="container h-100 w-100">
+            <div class="row justify-content-center align-items-center h-100 p-sm-0">
                 <div class="col-md-12 col-xl-8 col-xxl-8" style="padding: 0">
                     <aside id="bo_vc_w">
                         <h3 class="visually-hidden">댓글쓰기</h3>

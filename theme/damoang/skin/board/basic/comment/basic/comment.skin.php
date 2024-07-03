@@ -359,11 +359,13 @@ if($is_ajax)
         }
     }
 ?>
+<!-- onclick="comment_box('','w','<?php echo $comment_name;?>');" -->
 <?php if ($is_comment_write && !isset($is_no_certified)) { $w = ($w == '') ? 'c' : $w; ?>
-    <div id="float-comment" class="flex-sm-row p-3 gap-2">
-        <button class="btn btn-primary btn-sm" style="width:95px" data-bs-toggle="offcanvas" data-bs-target="#commentOffcanvas" aria-controls="commentOffcanvas">
-            <i class="bi bi-arrow-clockwise"></i>
-            댓글 쓰기
+    <div id="float-comment" class="p-3 gap-2 mt-3 pe-4">
+        <button id="comment-write-button" data-bs-toggle="offcanvas" data-bs-target="#commentOffcanvas" aria-controls="commentOffcanvas" class="d-none"></button>
+        <button class="btn btn-primary btn-sm" style="width:95px" data-bs-toggle="offcanvas" data-bs-target="#commentOffcanvas" aria-controls="commentOffcanvas" onclick="comment_box('','w','<?php echo $comment_name;?>');">
+            <i class="bi bi-pencil-square"></i>
+            댓글 등록
         </button>
     </div>
 
@@ -382,11 +384,21 @@ if($is_ajax)
         <?php } ?>
     </div>
 <?php } ?>
+<script>
+    //commentOpencanvas 활성 버튼 요소
+    const commentButton = document.querySelector('#comment-write-button');
 
+    // commentOpencanvas 활성 버튼
+    const openCommentOffCanvas = () => {
+        commentButton.click();
+    };
+</script>
 <?php if ($is_comment_write) { ?>
     <script>
     var save_before = '';
     var save_html = document.getElementById('bo_vc_w').innerHTML;
+
+    // 버튼 요소를 가져옵니다.
 
     function good_and_write() {
         var f = document.fviewcomment;
@@ -477,9 +489,7 @@ if($is_ajax)
     }
 
     function comment_box(comment_id, work, name) {
-        var el_id,
-            form_el = 'fviewcomment',
-            respond = document.getElementById(form_el);
+        var el_id
 
         // 댓글 아이디가 넘어오면 답변, 수정
         if (comment_id) {
@@ -496,8 +506,10 @@ if($is_ajax)
             var target_el = document.getElementById(el_id);
             if (target_el.classList.contains('is-deeper') || work == 'c') {
                 star.parentElement.style.display = 'none';
+                document.querySelector("#commentOffcanvas").style.height = "220px";
             } else {
                 star.parentElement.style.display = 'block';
+                document.querySelector("#commentOffcanvas").style.height = "300px";
             }
 
             var starRate = target_el.dataset.starRated;
@@ -508,16 +520,21 @@ if($is_ajax)
             } else {
                 starRating.initStars();
             }
+        } else {
+            // 댓글 쓰기의 경우 별점 선택을 오픈해준다.
+            if(el_id == "bo_vc_w" && star){
+                star.parentElement.style.display = 'block';
+                document.querySelector("#commentOffcanvas").style.height = "300px";
+            } else {
+                document.querySelector("#commentOffcanvas").style.height = "220px";
+            }
         }
 
         if (save_before != el_id) {
-            if (save_before) {
-                document.getElementById(save_before).style.display = 'none';
-            }
+            //document.getElementById(el_id).style.display = '';
 
-            document.getElementById(el_id).style.display = '';
-            document.getElementById(el_id).appendChild(respond);
             //입력값 초기화
+            //if(save_before !== "") openCommentOffCanvas();
             document.getElementById('wr_content').value = '';
 
             // 댓글 수정
@@ -533,7 +550,6 @@ if($is_ajax)
 
             document.getElementById('comment_id').value = comment_id;
             document.getElementById('w').value = work;
-
             if (comment_id && work == 'c') {
                 document.getElementById('wr_msg').innerHTML = '<i class="bi bi-person-circle"></i> ' + name + '님에게 대댓글 쓰기';
             } else if(comment_id && work == 'cu') {
@@ -556,8 +572,20 @@ if($is_ajax)
                 $("#captcha_reload").trigger("click");
 
             save_before = el_id;
+
+            if(el_id != "bo_vc_w") {
+                // 답글, 수정인 경우 commentOffcanvas를 띄워준다.
+                openCommentOffCanvas();
+            } else {
+                // 댓글 쓰기인 경우 별점 선택창 요소를 초기화 해준다.
+                $("#wr_star option[value='0']").prop("selected", true);
+                $("#star-rating .da-star").removeClass("star-fill");
+                document.querySelector("#wr_content").value = "";
+            }
+        } else {
+            if (el_id != "bo_vc_w") openCommentOffCanvas();
         }
-        $('.comment-textarea').find('textarea').keyup(); //댓글 수정 후, textarea height 자동조절
+        //$('.comment-textarea').find('textarea').keyup(); //댓글 수정 후, textarea height 자동조절
     }
 
     function comment_delete(url){
@@ -626,6 +654,7 @@ if($is_ajax)
 
         $('.comment-textarea').find('textarea').keyup();
     });
+
     </script>
 <?php } ?>
 
@@ -641,13 +670,9 @@ if($is_ajax)
 
     #float-comment {
         position: fixed;
-        bottom: 0;
-        right: 0;
+        visibility: hidden;
         /* bottom: 0;
-        width: 100%;
-        z-index: 1000;
-        padding: 10px;
-        box-shadow: 0 -2px 1px rgba(0, 0, 0, 0.1); */
+        right: 0; */
     }
 </style>
 <script>
@@ -673,6 +698,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             floatComment.style.top = 'auto';
             floatComment.style.right = 'auto';
         }
+        floatComment.style.visibility = 'visible';
     }
 
     // 초기 위치 설정
@@ -684,7 +710,4 @@ window.addEventListener('DOMContentLoaded', (event) => {
     // 스크롤 시 위치 업데이트
     window.addEventListener('scroll', updatePosition);
 });
-
-
-
 </script>
