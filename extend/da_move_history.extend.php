@@ -32,7 +32,7 @@ function bbs_redirect_moved() {
     if (!$bo_table) return;
     if (!isset($_GET['wr_id'])) return;
 
-    $wr_id = $_GET['wr_id'];
+    $wr_id = (int) $_GET['wr_id'];
 
     $history_table = $g5['da_move_history_table'];
     $sql = " SELECT * FROM {$history_table} WHERE org_bo_table = '{$bo_table}' AND org_wr_id = '{$wr_id}' ";
