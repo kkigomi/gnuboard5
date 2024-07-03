@@ -361,7 +361,7 @@ if($is_ajax)
 ?>
 <!-- onclick="comment_box('','w','<?php echo $comment_name;?>');" -->
 <?php if ($is_comment_write && !isset($is_no_certified)) { $w = ($w == '') ? 'c' : $w; ?>
-    <div id="float-comment" class="p-3 gap-2 mt-3 pe-4">
+    <div id="float-comment" class="p-3 gap-2 mt-3">
         <button id="comment-write-button" data-bs-toggle="offcanvas" data-bs-target="#commentOffcanvas" aria-controls="commentOffcanvas" class="d-none"></button>
         <button class="btn btn-primary btn-sm" style="width:95px" data-bs-toggle="offcanvas" data-bs-target="#commentOffcanvas" aria-controls="commentOffcanvas" onclick="comment_box('','w','<?php echo $comment_name;?>');">
             <i class="bi bi-pencil-square"></i>
@@ -671,8 +671,6 @@ if($is_ajax)
     #float-comment {
         position: fixed;
         visibility: hidden;
-        /* bottom: 0;
-        right: 0; */
     }
 </style>
 <script>
@@ -691,12 +689,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
             floatComment.style.left = (rect.right - floatComment.offsetWidth) + 'px';
             floatComment.style.bottom = 'auto';
             floatComment.style.right = 'auto';
+            floatComment.style.setProperty('padding-right', '1.5rem', 'important');
         } else {
             // order1의 영역이 뷰포트보다 클 때는 화면의 아래에 고정
             floatComment.style.bottom = '0';
             floatComment.style.left = (rect.right - floatComment.offsetWidth) + 'px';
             floatComment.style.top = 'auto';
             floatComment.style.right = 'auto';
+            floatComment.style.setProperty('padding-right', '2.5rem', 'important');
+            floatComment.style.setProperty('bottom', '5px', 'important');
         }
         floatComment.style.visibility = 'visible';
     }
