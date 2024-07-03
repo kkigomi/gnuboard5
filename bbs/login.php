@@ -12,7 +12,6 @@ if (($_GET['id-login'] ?? 'false') === 'true') {
 $g5['title'] = '로그인';
 include_once('./_head.sub.php');
 
-$url = isset($_GET['url']) ? strip_tags($_GET['url']) : '';
 $od_id = isset($_POST['od_id']) ? safe_replace_regex($_POST['od_id'], 'od_id') : '';
 
 // url 체크
