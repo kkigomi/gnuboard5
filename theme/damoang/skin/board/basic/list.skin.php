@@ -97,6 +97,7 @@ if ($bo_table == 'promotion')
         }
         ?>
 
+        <?php /***** 목록 하단 페이지네이션 ****/  ?>
         <ul class="pagination pagination-sm justify-content-center">
             <?php if($prev_part_href) { ?>
                 <li class="page-item"><a class="page-link" href="<?php echo $prev_part_href;?>">Prev</a></li>
@@ -105,6 +106,12 @@ if ($bo_table == 'promotion')
             <?php if($next_part_href) { ?>
                 <li class="page-item"><a  class="page-link" href="<?php echo $next_part_href;?>">Next</a></li>
             <?php } ?>
+            <li>
+                 <a href="<?php echo $write_href ?>" class="btn btn-basic  ms-4" style="white-space: nowrap;">
+                    <i class="bi bi-pencil-square"></i>
+                    글쓰기
+                </a>
+            </li>
         </ul>
 
     </form>
