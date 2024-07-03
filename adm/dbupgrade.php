@@ -325,6 +325,24 @@ if (!isset($is_key_updated)) {
     $is_check = true;
 }
 
+// 게시물 이동 매핑 테이블
+if(!sql_query(" DESC {$g5['da_move_history_table']} ", false)) {
+    sql_query(" CREATE TABLE IF NOT EXISTS `{$g5['da_move_history_table']}` (
+                `id` BIGINT NOT NULL AUTO_INCREMENT ,
+                `org_bo_table` VARCHAR(20) NOT NULL ,
+                `org_wr_id` BIGINT NOT NULL ,
+                `new_bo_table` VARCHAR(20) NOT NULL ,
+                `new_wr_id` BIGINT NOT NULL ,
+                `move_datetime` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ,
+                PRIMARY KEY (`id`) ,
+                UNIQUE `idx_org_write` (`org_bo_table`,`org_wr_id`) ,
+                INDEX `idx_new_write` (`new_bo_table`,`new_wr_id`) ,
+                INDEX `idx_move_datetime` (`move_datetime`)
+            ) ", true);
+
+    $is_check = true;
+}
+
 $is_check = run_replace('admin_dbupgrade', $is_check);
 
 $db_upgrade_msg = $is_check ? 'DB 업그레이드가 완료되었습니다.' : '더 이상 업그레이드 할 내용이 없습니다.<br>현재 DB 업그레이드가 완료된 상태입니다.';

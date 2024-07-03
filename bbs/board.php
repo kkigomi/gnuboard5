@@ -15,7 +15,7 @@ if (!$bo_table) {
     $msg = "bo_table 값이 넘어오지 않았습니다.\\n\\nboard.php?bo_table=code 와 같은 방식으로 넘겨 주세요.";
     alert($msg);
 }
-
+run_event('bbs_redirect_moved');
 $g5['board_title'] = ((G5_IS_MOBILE && $board['bo_mobile_subject']) ? $board['bo_mobile_subject'] : $board['bo_subject']);
 
 // wr_id 값이 있으면 글읽기
