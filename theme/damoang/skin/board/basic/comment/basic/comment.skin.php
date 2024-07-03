@@ -675,7 +675,7 @@ if($is_ajax)
 </style>
 <script>
 window.addEventListener('DOMContentLoaded', (event) => {
-    const order1Element = document.querySelector('.order-1');
+    const order1Element = document.querySelector('.order-1 > .py-3');
     const floatComment = document.getElementById('float-comment');
 
     function updatePosition() {
@@ -689,14 +689,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
             floatComment.style.left = (rect.right - floatComment.offsetWidth) + 'px';
             floatComment.style.bottom = 'auto';
             floatComment.style.right = 'auto';
-            floatComment.style.setProperty('padding-right', '1.5rem', 'important');
+            floatComment.style.setProperty('padding-right', '1.3rem', 'important');
         } else {
             // order1의 영역이 뷰포트보다 클 때는 화면의 아래에 고정
             floatComment.style.bottom = '0';
             floatComment.style.left = (rect.right - floatComment.offsetWidth) + 'px';
             floatComment.style.top = 'auto';
             floatComment.style.right = 'auto';
-            floatComment.style.setProperty('padding-right', '2.5rem', 'important');
+            floatComment.style.setProperty('padding-right', '2.2rem', 'important');
             floatComment.style.setProperty('bottom', '5px', 'important');
         }
         floatComment.style.visibility = 'visible';
