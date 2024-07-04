@@ -168,7 +168,7 @@ $pagination = $pg->getPagination();
                         <label for="chk_<?php echo $row['id']; ?>" class="sound_only"><?php echo $row['id']; ?>번 항목 체크</label>
                         <input type="checkbox" name="chk[]" value="<?php echo $row['id']; ?>" id="chk_<?php echo $row['id']; ?>">
                     </td>
-                    <td class="td_left"><?php echo date("y-m-d H:i", strtotime($row['sg_datetime'])); ?></td> <!-- New date column data -->
+                    <td class="td_left"><?php echo date("y-m-d H:i", strtotime($row['sg_time'])); ?></td> <!-- New date column data -->
                     <td class="td_left"><?=$row_board['bo_subject']?></td>             <!-- 게시판 -->
                     <td class="td_left"><?=$post_type?></td>                           <!-- 게시물 타입 -->
                     <td class="td_left"><?php echo strip_tags($content); ?></td>        <!-- 제목 또는 댓글 내용 -->
