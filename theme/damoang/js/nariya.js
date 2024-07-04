@@ -295,7 +295,7 @@ function na_page(id, url, opt) {
     // 별점 등록 후 별점 선택요소 초기화
     $("#wr_star option[value='0']").prop("selected", true);
     $("#star-rating .da-star").removeClass("star-fill");
-
+    $("#commentOffcanvas").find("button[aria-label='Close']").click();
     $(".na-convert").naGnuView();
   });
 
@@ -693,11 +693,11 @@ var starRating = {
 // 추천버튼(.good-border) 모바일 장치에서 hover 상태를 무시하고 클릭 이벤트를 직접 처리
 document.querySelectorAll('.good-border').forEach(function (button) {
   button.addEventListener('touchstart', function (e) {
-    e.preventDefault(); 
-    this.click(); 
+    e.preventDefault();
+    this.click();
   });
 
   button.addEventListener('touchend', function (e) {
-    e.preventDefault(); 
+    e.preventDefault();
   });
 });

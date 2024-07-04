@@ -779,8 +779,16 @@
       var list_title = document.querySelector("#bo_list_wrap > div > div");
       var write_title = document.getElementById("bo_v_title");
 
-      list_title.addEventListener("click", list_toggle_event);
-      list_title.style.cursor = "pointer";
+      /*
+      댓글 창 등록 방식 변경을 한 후 아래 소스에서 에러가 발생함
+      댓글 창 아래 영역 소스가 변경되면서 영향을 받은 것으로 보임
+
+      이걸 주석처리 해도 목록 감추는 기능은 잘 동작하고 있어서 일단 주석처리 함
+      이 소스가 무슨 역할을 하는지 몰라서 삭제하지 못함
+      나중에 Arch님이 보시고 판단하셔서 처리해야 할 듯 함
+      */
+      // list_title.addEventListener("click", list_toggle_event);
+      // list_title.style.cursor = "pointer";
 
       write_title.addEventListener("click", list_toggle_event);
       write_title.style.cursor = "pointer";
