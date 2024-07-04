@@ -13,9 +13,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
                 <div class="text-center flex-grow-1">제목</div>
                 <div class="ms-md-auto">
                     <div class="d-flex gap-2">
-                        <?php if (!isset($boset['check_list_hide_profile']) || (isset($boset['check_list_hide_profile']) && !$boset['check_list_hide_profile'])) { ?>
-                            <div class="hd-name text-center">이름</div>
-                        <?php } ?>
+                        <div class="hd-name text-center">이름</div>
                         <div class="hd-date text-center">날짜</div>
                         <?php if ($is_good) { ?>
                             <div class="hd-num text-center">추천</div>
@@ -124,14 +122,16 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
                                         <?php echo $row['wr_comment'] ?>
                                     </span>
                                 <?php } ?>
-                                <?php if ($row['da_member_memo'] ?? '') { ?>
-                                    <!-- 다모앙 회원 메모 -->
-                                    <span class="ms-auto"><?= $row['da_member_memo'] ?></span>
+                                <?php if (($boset['check_list_hide_profile'] ?? null) !== '1' || ($is_admin === 'super' || $row['mb_id'] === ($member['mb_id'] ?? ''))) { ?>
+                                    <?php if ($row['da_member_memo'] ?? '') { ?>
+                                        <!-- 다모앙 회원 메모 -->
+                                        <span class="ms-auto"><?= $row['da_member_memo'] ?></span>
+                                    <?php } ?>
                                 <?php } ?>
                             </div>
                             <div class="">
                                 <div class="d-flex gap-2">
-                                    <?php if (!isset($boset['check_list_hide_profile']) || (isset($boset['check_list_hide_profile']) && !$boset['check_list_hide_profile'])) { ?>
+                                    <?php if (($boset['check_list_hide_profile'] ?? null) !== '1' || ($is_admin === 'super' || $row['mb_id'] === ($member['mb_id'] ?? ''))) { ?>
                                         <div class="order-1 wr-name">
                                             <?php
                                                 $wr_name = ($row['mb_id']) ? str_replace('sv_member', 'sv_member text-truncate d-block', $row['name']) : str_replace('sv_guest', 'sv_guest text-truncate d-block', $row['name']);
