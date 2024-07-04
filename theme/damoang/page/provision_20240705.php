@@ -1,16 +1,16 @@
 <?php
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
-$name_company = '주식회사 에스티케이'; // 회사명 입력
-$name_site = 'https://damoang.net'; // 사이트 또는 쇼핑몰명 입력
+$name_company = '다모앙'; // 회사명 입력
+$name_site = '웹사이트'; // 사이트 또는 쇼핑몰명 입력
 $enforcement_date = '2024 O4월 1O일'; // 시행일
 
 ?>
 
 <div class="px-3">
-    <h2 class="visually-hidden">서비스 이용약관</h2>
-    2024. 7. 3. 개정
-    <h5 class="text-primary pb-2"제1장 총칙</h5>
+    <h2 class="visually-hidden">회원가입약관</h2>
+
+    <h5 class="text-primary pb-2">제1조(목적)</h5>
 
     <p class="pb-2">이 약관은 다모앙 웹사이트(서비스 URL www.damoang.net, 이하 “웹사이트”라 한다)에서 제공하는 인터넷 관련 서비스(이하 “서비스”라 한다)를 이용함에 있어 운영자와
         이용자의 권리·의무 및 책임사항을 규정함을 목적으로 합니다.</p>
