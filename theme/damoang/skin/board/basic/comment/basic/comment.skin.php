@@ -359,18 +359,210 @@ if($is_ajax)
         }
     }
 ?>
-<!-- onclick="comment_box('','w','<?php echo $comment_name;?>');" -->
 <?php if ($is_comment_write && !isset($is_no_certified)) { $w = ($w == '') ? 'c' : $w; ?>
-    <div id="float-comment" class="p-3 gap-2 mt-3">
-        <button id="comment-write-button" data-bs-toggle="offcanvas" data-bs-target="#commentOffcanvas" aria-controls="commentOffcanvas" class="d-none"></button>
-        <button class="btn btn-primary btn-sm" style="width:95px" data-bs-toggle="offcanvas" data-bs-target="#commentOffcanvas" aria-controls="commentOffcanvas" onclick="comment_box('','w','<?php echo $comment_name;?>');">
-            <i class="bi bi-pencil-square"></i>
-            댓글 등록
-        </button>
-    </div>
 
-    <?php include_once LAYOUT_PATH . '/component/comment.offcanvas.php' // 전체검색 오프캔버스;?>
+    <aside id="bo_vc_w">
+        <h3 class="visually-hidden">댓글쓰기</h3>
+        <form id="fviewcomment" name="fviewcomment" action="<?php echo $comment_action_url; ?>" onsubmit="return fviewcomment_submit(this);" method="post" autocomplete="off" class="px-3 mb-3">
+        <input type="hidden" name="w" value="<?php echo $w ?>" id="w">
+        <input type="hidden" name="bo_table" value="<?php echo $bo_table ?>">
+        <input type="hidden" name="wr_id" value="<?php echo $wr_id ?>">
+        <input type="hidden" name="comment_id" value="<?php echo $c_id ?>" id="comment_id">
+        <?php if($is_paging) { //페이징 ?>
+            <input type="hidden" name="comment_url" value="" id="comment_url">
+            <input type="hidden" name="cob" value="<?php echo $cob ?>">
+        <?php } ?>
+        <input type="hidden" name="sca" value="<?php echo $sca ?>">
+        <input type="hidden" name="sfl" value="<?php echo $sfl ?>">
+        <input type="hidden" name="stx" value="<?php echo $stx ?>">
+        <input type="hidden" name="spt" value="<?php echo $spt ?>">
+        <input type="hidden" name="page" value="<?php echo $page ?>" id="comment_page">
+        <input type="hidden" name="is_good" value="">
 
+        <div class="p-2 bg-body-tertiary border rounded">
+            <?php if ($is_guest) { ?>
+                <div class="row g-2 mb-2">
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-text" id="comment_name">
+                                <i class="bi bi-person"></i>
+                                <span class="visually-hidden">이름<strong> 필수</strong></span>
+                            </span>
+                            <input type="text" name="wr_name" value="<?php echo get_cookie("ck_sns_name"); ?>" id="wr_name" class="form-control" placeholder="이름" aria-label="이름" aria-describedby="comment_name" maxLength="20">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-text" id="comment_password">
+                                <i class="bi bi-shield-lock"></i>
+                                <span class="visually-hidden">비밀번호<strong> 필수</strong></span>
+                            </span>
+                            <input type="password" name="wr_password" value="<?php echo get_cookie("ck_sns_name"); ?>" id="wr_password" class="form-control" placeholder="비밀번호" aria-label="비밀번호" aria-describedby="comment_password" maxLength="20">
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
+
+            <?php if ($comment_min || $comment_max) { ?>
+                <div class="small mb-2" id="char_cnt">
+                    현재 <b id="char_count">0</b>글자
+                    /
+                    <?php if($comment_min) { ?>
+                        <?php echo number_format((int)$comment_min);?>글자 이상
+                    <?php } ?>
+                    <?php if($comment_max) { ?>
+                        <?php echo number_format((int)$comment_max);?>글자 이하
+                    <?php } ?>
+                    등록 가능
+                </div>
+            <?php } ?>
+
+            <?php if (isset($boset['check_star_rating']) && $boset['check_star_rating']) { ?>
+                <!-- 별점 기능 { -->
+                <div class="mb-2">
+                    <div id="bo_vc_star" class="col-sm-3">
+                        <select name="wr_6" id="wr_star" style="width:120px" class="form-select form-select-sm mb-2">
+                            <option value="0">평가</option>
+                            <option value="1">0.5점</option>
+                            <option value="2">1점</option>
+                            <option value="3">1.5점</option>
+                            <option value="4">2점</option>
+                            <option value="5">2.5점</option>
+                            <option value="6">3점</option>
+                            <option value="7">3.5점</option>
+                            <option value="8">4점</option>
+                            <option value="9">4.5점</option>
+                            <option value="10">5점</option>
+                        </select>
+                        <!-- Add this inside the form where the comment is being posted -->
+                        <div id="star-rating" class="star-rating d-flex">
+                            <div class="da-star star-l"></div>
+                            <div class="da-star star-r"></div>
+                            <div class="da-star star-l"></div>
+                            <div class="da-star star-r"></div>
+                            <div class="da-star star-l"></div>
+                            <div class="da-star star-r"></div>
+                            <div class="da-star star-l"></div>
+                            <div class="da-star star-r"></div>
+                            <div class="da-star star-l"></div>
+                            <div class="da-star star-r"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- } 별점 기능 -->
+            <?php } ?>
+
+            <style>
+            #wr_content {
+                height:92px; resize: none; overflow-y: hidden; }
+            </style>
+            <div class="mb-2">
+                <script>
+                    $(function () {
+                        $("#fviewcomment textarea, .upload-file-area")
+                        .on("dragenter", function (e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                        }).on("dragover", function (e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            $('.upload-file-area').css("display", "flex");
+                        }).on("dragleave", function (e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            if ($(this).hasClass('upload-file-area'))
+                                $('.upload-file-area').css("display", "none");
+                        }).on("drop", function (e) {
+                            e.preventDefault();
+                            var data = new FormData();
+                            var files = e.originalEvent.dataTransfer.files;
+                            data.append('bo_table', '<?php echo $bo_table ?>');
+                            data.append('na_file', files[0]);
+
+                            $.ajax({
+                                type: 'POST',
+                                url: '<?php echo NA_URL ?>/upload.image.php',
+                                enctype : 'multipart/form-data',
+                                dataType: 'json',
+                                contentType: false,
+                                processData: false,
+                                data: data,
+                                success: function (result) {
+                                    $('.upload-file-area').css("display", "none");
+                                    if(result.success) {
+                                        parent.document.getElementById("wr_content").value += '[' + result.success + ']\n';
+                                    } else {
+                                        var chkErr = result.error.replace(/<[^>]*>?/g, '');
+                                        if(!chkErr) {
+                                            chkErr = '[E1]오류가 발생하였습니다.';
+                                        }
+                                        na_alert(chkErr);
+                                        return false;
+                                    }
+                                },
+                                error: function (request,status,error) {
+                                    let msg = "code:"+request.status+"<br>"+"message:"+request.responseText+"<br>"+"error:"+error;
+                                    na_alert(msg);
+                                    return false;
+                                }
+                            });
+                        });
+                    });
+                </script>
+                <div class="form-floating comment-textarea">
+                    <div class="upload-file-area">
+                        <div class="upload-file-over"></div>
+                        <div class="icon-upload">
+                            <i class="bi bi-upload"></i>
+                        </div>
+                        <div>여기에 파일을 놓아 업로드</div>
+                    </div>
+                    <textarea tabindex="1" placeholder="Leave a comment here" id="wr_content" name="wr_content" maxlength="10000" class="form-control lh-base"
+                    <?php if ($comment_min || $comment_max) { ?>onkeyup="check_byte('wr_content', 'char_count');"<?php } ?>><?php echo $c_wr_content;  ?></textarea>
+                    <label id="wr_msg" for="wr_content">댓글을 입력해 주세요.</label>
+                </div>
+                <?php if ($comment_min || $comment_max) { ?><script> check_byte('wr_content', 'char_count'); </script><?php } ?>
+            </div>
+
+            <div class="d-flex align-items-center">
+                <div>
+                    <?php include_once(G5_THEME_PATH.'/app/clip.comment.php'); //댓글 버튼 모음 ?>
+                </div>
+                <div class="px-2">
+                    <input type="checkbox" class="btn-check" name="wr_secret" value="secret" id="wr_secret" autocomplete="off">
+                </div>
+                <div class="ms-auto">
+                    <button <?php echo ($is_paging) ? 'type="button" onclick="na_comment(\'viewcomment\');"' : 'type="submit"';?> class="btn btn-primary btn-sm" onKeyDown="na_comment_onKeyDown(<?php echo $is_paging?>);" id="btn_submit" title="댓글등록" tabindex="2">
+                        <span class="d-none d-sm-inline-block">댓글</span>
+                        등록
+                    </button>
+                </div>
+            </div>
+            <?php if($board['bo_use_sns'] && ($config['cf_facebook_appid'] || $config['cf_twitter_key'])) {	?>
+                <div  class="clearfix pt-2">
+                    <div id="bo_vc_opt">
+                        <ol id="bo_vc_sns">
+                            <li id="bo_vc_send_sns"></li>
+                        </ol>
+                    </div>
+                    <script>
+                    // sns 등록
+                    $(function() {
+                        $("#bo_vc_send_sns").load("<?php echo G5_SNS_URL; ?>/view_comment_write.sns.skin.php?bo_table=<?php echo $bo_table; ?>", function() {
+                            save_html = document.getElementById('bo_vc_w').innerHTML;
+                        });
+                    });
+                    </script>
+                </div>
+            <?php } ?>
+            <?php if ($is_guest) { ?>
+                <div class="pt-2 text-center small border-top mt-2">
+                    <?php echo $captcha_html; ?>
+                </div>
+            <?php } ?>
+        </div>
+        </form>
+    </aside>
 <?php } else if (isset($is_no_certified)) { ?>
     <div id="bo_vc_login" class="alert alert-light mb-3 py-4 text-center mx-3" role="alert">
         <a href="<?php echo G5_BBS_URL ?>/member_cert_refresh.php">본인인증을 완료한 회원만 댓글 등록이 가능합니다.</a>
@@ -384,21 +576,11 @@ if($is_ajax)
         <?php } ?>
     </div>
 <?php } ?>
-<script>
-    //commentOpencanvas 활성 버튼 요소
-    const commentButton = document.querySelector('#comment-write-button');
 
-    // commentOpencanvas 활성 버튼
-    const openCommentOffCanvas = () => {
-        commentButton.click();
-    };
-</script>
 <?php if ($is_comment_write) { ?>
     <script>
     var save_before = '';
     var save_html = document.getElementById('bo_vc_w').innerHTML;
-
-    // 버튼 요소를 가져옵니다.
 
     function good_and_write() {
         var f = document.fviewcomment;
@@ -489,7 +671,9 @@ if($is_ajax)
     }
 
     function comment_box(comment_id, work, name) {
-        var el_id
+        var el_id,
+            form_el = 'fviewcomment',
+            respond = document.getElementById(form_el);
 
         // 댓글 아이디가 넘어오면 답변, 수정
         if (comment_id) {
@@ -506,10 +690,8 @@ if($is_ajax)
             var target_el = document.getElementById(el_id);
             if (target_el.classList.contains('is-deeper') || work == 'c') {
                 star.parentElement.style.display = 'none';
-                document.querySelector("#commentOffcanvas").style.height = "220px";
             } else {
                 star.parentElement.style.display = 'block';
-                document.querySelector("#commentOffcanvas").style.height = "300px";
             }
 
             var starRate = target_el.dataset.starRated;
@@ -520,21 +702,16 @@ if($is_ajax)
             } else {
                 starRating.initStars();
             }
-        } else {
-            // 댓글 쓰기의 경우 별점 선택을 오픈해준다.
-            if(el_id == "bo_vc_w" && star){
-                star.parentElement.style.display = 'block';
-                document.querySelector("#commentOffcanvas").style.height = "300px";
-            } else {
-                document.querySelector("#commentOffcanvas").style.height = "220px";
-            }
         }
 
         if (save_before != el_id) {
-            //document.getElementById(el_id).style.display = '';
+            if (save_before) {
+                document.getElementById(save_before).style.display = 'none';
+            }
 
+            document.getElementById(el_id).style.display = '';
+            document.getElementById(el_id).appendChild(respond);
             //입력값 초기화
-            //if(save_before !== "") openCommentOffCanvas();
             document.getElementById('wr_content').value = '';
 
             // 댓글 수정
@@ -550,6 +727,7 @@ if($is_ajax)
 
             document.getElementById('comment_id').value = comment_id;
             document.getElementById('w').value = work;
+
             if (comment_id && work == 'c') {
                 document.getElementById('wr_msg').innerHTML = '<i class="bi bi-person-circle"></i> ' + name + '님에게 대댓글 쓰기';
             } else if(comment_id && work == 'cu') {
@@ -572,20 +750,8 @@ if($is_ajax)
                 $("#captcha_reload").trigger("click");
 
             save_before = el_id;
-
-            if(el_id != "bo_vc_w") {
-                // 답글, 수정인 경우 commentOffcanvas를 띄워준다.
-                openCommentOffCanvas();
-            } else {
-                // 댓글 쓰기인 경우 별점 선택창 요소를 초기화 해준다.
-                $("#wr_star option[value='0']").prop("selected", true);
-                $("#star-rating .da-star").removeClass("star-fill");
-                document.querySelector("#wr_content").value = "";
-            }
-        } else {
-            if (el_id != "bo_vc_w") openCommentOffCanvas();
         }
-        //$('.comment-textarea').find('textarea').keyup(); //댓글 수정 후, textarea height 자동조절
+        $('.comment-textarea').find('textarea').keyup(); //댓글 수정 후, textarea height 자동조절
     }
 
     function comment_delete(url){
@@ -654,7 +820,6 @@ if($is_ajax)
 
         $('.comment-textarea').find('textarea').keyup();
     });
-
     </script>
 <?php } ?>
 
@@ -667,48 +832,4 @@ if($is_ajax)
         font-size: 0.875em;
         font-style: normal;
     }
-
-    #float-comment {
-        position: fixed;
-        visibility: hidden;
-    }
 </style>
-<script>
-window.addEventListener('DOMContentLoaded', (event) => {
-    const order1Element = document.querySelector('.order-1 > .py-3');
-    const floatComment = document.getElementById('float-comment');
-
-    function updatePosition() {
-        const rect = order1Element.getBoundingClientRect();
-        const floatCommentHeight = floatComment.offsetHeight;
-        const viewportHeight = window.innerHeight;
-
-        if (rect.bottom < viewportHeight) {
-            // order1의 영역이 뷰포트보다 작을 때는 order1의 아래에 고정
-            floatComment.style.top = (rect.bottom - floatCommentHeight) + 'px';
-            floatComment.style.left = (rect.right - floatComment.offsetWidth) + 'px';
-            floatComment.style.bottom = 'auto';
-            floatComment.style.right = 'auto';
-            floatComment.style.setProperty('padding-right', '1.3rem', 'important');
-        } else {
-            // order1의 영역이 뷰포트보다 클 때는 화면의 아래에 고정
-            floatComment.style.bottom = '0';
-            floatComment.style.left = (rect.right - floatComment.offsetWidth) + 'px';
-            floatComment.style.top = 'auto';
-            floatComment.style.right = 'auto';
-            floatComment.style.setProperty('padding-right', '2.2rem', 'important');
-            floatComment.style.setProperty('bottom', '5px', 'important');
-        }
-        floatComment.style.visibility = 'visible';
-    }
-
-    // 초기 위치 설정
-    updatePosition();
-
-    // 창 크기 조정 시 위치 업데이트
-    window.addEventListener('resize', updatePosition);
-
-    // 스크롤 시 위치 업데이트
-    window.addEventListener('scroll', updatePosition);
-});
-</script>
