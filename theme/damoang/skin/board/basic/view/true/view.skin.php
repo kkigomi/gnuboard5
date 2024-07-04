@@ -233,7 +233,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $board_skin_url . '/style.css?C
         } ?>
 
         <?php if($is_link || $is_attach) { ?>
-            <section id="bo_v_data" class="border-bottom">
+            <section id="bo_v_data" class="border-bottom border-top mt-5">
                 <ul class="list-group list-group-flush">
                 <?php if($is_link) { ?>
                     <li class="list-group-item pb-1">
