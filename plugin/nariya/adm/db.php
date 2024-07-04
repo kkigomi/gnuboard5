@@ -26,10 +26,10 @@ if(!sql_query(" DESC {$g5['na_noti']} ", false)) {
 		`rel_msg` varchar(255) NOT NULL DEFAULT '',
 		`rel_url` varchar(200) NOT NULL DEFAULT '',
 		`ph_readed` char(1) NOT NULL DEFAULT 'N',
-		`ph_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+		`ph_datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		`parent_subject` varchar(255) NOT NULL,
 		`wr_parent` int(11) DEFAULT 0,
-		PRIMARY KEY (`ph_id`)
+		PRIMARY KEY (`ph_id`),
 		KEY `idx_update_readed` (`bo_table`,`mb_id`,`wr_parent`,`ph_readed`) USING BTREE
 	) ".$na_db_set."; ", true);
 
@@ -52,8 +52,8 @@ if(!sql_query(" DESC {$g5['na_tag']} ", false)) {
 				`idx` varchar(10) NOT NULL DEFAULT '',
 				`tag` varchar(255) NOT NULL DEFAULT '',
 				`cnt` int(11) NOT NULL DEFAULT '0',
-				`regdate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-				`lastdate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+				`regdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				`lastdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				PRIMARY KEY  (`id`),
 				KEY tag (`tag`, `lastdate`)
 			) ".$na_db_set."; ", true);
@@ -70,7 +70,7 @@ if(!sql_query(" DESC {$g5['na_tag_log']} ", false)) {
 				`tag_id` int(11) NOT NULL DEFAULT '0',
 				`tag` varchar(255) NOT NULL DEFAULT '',
 				`mb_id` varchar(255) NOT NULL DEFAULT '',
-				`regdate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+				`regdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				PRIMARY KEY  (`id`),
 				KEY tag (`tag`)
 			) ".$na_db_set."; ", true);
@@ -89,8 +89,8 @@ if(!sql_query(" DESC {$g5['na_singo']} ", false)) {
 				`sg_parent` int(11) NOT NULL default '0',
 				`sg_type` tinyint(4) NOT NULL default '0',
 				`sg_desc` text NOT NULL,
-				`wr_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-				`sg_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+				`wr_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				`sg_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				PRIMARY KEY  (`id`),
 				KEY `index1` (`sg_flag`,`mb_id`,`sg_table`,`sg_id`)
 			) ".$na_db_set."; ", true);
@@ -128,7 +128,7 @@ if(IS_YC) {
 						`sf_content` text NOT NULL,
 						`sf_filesize` int(11) NOT NULL DEFAULT 0,
 						`sf_free` tinyint(4) NOT NULL DEFAULT 0,
-						`sf_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+						`sf_datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 						PRIMARY KEY (`it_id`, `sf_no`)
 					) ".$na_db_set."; ", true);
 
@@ -148,7 +148,7 @@ if(IS_YC) {
 						`uh_text` varchar(255) NOT NULL DEFAULT '',
 						`uh_ip` varchar(255) NOT NULL,
 						`uh_memo` text NOT NULL,
-						`uh_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+						`uh_datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 						 PRIMARY KEY (`bo_table`, `wr_id`, `it_id`, `mb_id`)
 					) ".$na_db_set."; ", true);
 
@@ -190,7 +190,7 @@ if(!sql_fetch(" SHOW COLUMNS FROM `{$g5['board_new_table']}` LIKE 'wr_ip' ")) {
 	sql_query(" ALTER TABLE `{$g5['board_new_table']}` 
 		ADD `wr_ip` varchar(100) NOT NULL DEFAULT '',
 		ADD INDEX `idx_ip` (`wr_ip`),
-		ADD INDEX `idx_date` (`bn_datetime`),
+		ADD INDEX `idx_date` (`bn_datetime`)
 	", true);
 
 	$is_check = true;
@@ -203,7 +203,7 @@ if(!sql_query(" DESC {$g5['na_xp']} ", false)) {
 	sql_query(" CREATE TABLE IF NOT EXISTS `{$g5['na_xp']}` (
 				`xp_id` int(11) NOT NULL AUTO_INCREMENT,
 				`mb_id` varchar(20) NOT NULL DEFAULT '',
-				`xp_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+				`xp_datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 				`xp_content` varchar(255) NOT NULL DEFAULT '',
 				`xp_point` int(11) NOT NULL DEFAULT '0',
 				`xp_rel_table` varchar(20) NOT NULL DEFAULT '',
