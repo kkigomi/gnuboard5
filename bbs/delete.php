@@ -61,7 +61,10 @@ $sql = " select count(*) as cnt from $write_table
 $row = sql_fetch($sql);
 if ($row['cnt'] && !$is_admin)
     alert('이 글과 관련된 답변글이 존재하므로 삭제 할 수 없습니다.\\n\\n우선 답변글부터 삭제하여 주십시오.');
-
+    
+if (!($is_admin == 'super') && $bo_table == 'truthroom')
+    alert('삭제할 수 없습니다.');
+    
 // 코멘트 달린 원글의 삭제 여부
 $sql = " select count(*) as cnt from $write_table
             where wr_parent = '$wr_id'
