@@ -605,6 +605,22 @@ textarea.required {
   background-position-y: 16px;
 }
 
+/* 본문 안에 인용문 */
+article blockquote {
+  display: block;
+  font-family: inherit;
+  font-size: inherit;
+  color: #999;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+  padding: 0 5px 0 20px;
+  border: solid #b1b1b1;
+  border-width:0 0 0 5px
+}
+
+/* 서명안쪽 이미지 면적 제한*/
 #sign-content img {
   max-width: 100%;
   height: auto;
