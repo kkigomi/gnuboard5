@@ -181,6 +181,16 @@ return [
     [
         'title' => '삐앙삐앙🚨',
         'items' => [
+                '소명게시판 🍎🍎🍎' => [
+                'url' => '/claim',
+                'shortcut' => 'J',
+                'icon' => 'bi-balloon-heart',
+            ],
+                '삐앙삐앙 (바이럴 * 다중이 신고)🚨' => [
+                'url' => '/angreport',
+                'shortcut' => 'J',
+                'icon' => 'bi-balloon-heart',
+            ],
             '진실의 방' => [
                 'url' => '/truthroom',
                 'shortcut' => 'J',
