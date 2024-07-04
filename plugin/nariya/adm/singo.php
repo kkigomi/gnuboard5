@@ -118,14 +118,26 @@ $pagination = $pg->getPagination();
                     $row2 = sql_fetch(" SELECT * from {$tmp_write_table} where wr_id = '{$row['sg_id']}' ");
 
                     if (!$row2) {
+                        // 게시물 이동 기록 조회
+                        $history_table = $g5['da_move_history_table'];
+                        $sql = " SELECT * FROM {$history_table} WHERE org_bo_table = '{$row['sg_table']}' AND org_wr_id = '{$row['sg_id']}' ";
+                        $row3 = sql_fetch($sql);
+                    }
+
+                    if (isset($row3) && $row3) {
+                        $tmp_write_table = $g5['write_prefix'].$row3['new_bo_table'];
+                        $row2 = sql_fetch(" SELECT * from {$tmp_write_table} where wr_id = '{$row3['new_wr_id']}' ");
+                    }
+
+                    if (!$row2) {
                 ?>
-                <tr>
-                    <td class="td_chk">
-                        <label for="chk_<?php echo $row['id']; ?>" class="sound_only"><?php echo $row['id']; ?>번 항목 체크</label>
-                        <input type="checkbox" name="chk[]" value="<?php echo $row['id']; ?>" id="chk_<?php echo $row['id']; ?>">
-                    </td>
-                    <td colspan="10" class="td_left">삭제 또는 이동된 게시물입니다.</td>
-                </tr>
+                        <tr>
+                            <td class="td_chk">
+                                <label for="chk_<?php echo $row['id']; ?>" class="sound_only"><?php echo $row['id']; ?>번 항목 체크</label>
+                                <input type="checkbox" name="chk[]" value="<?php echo $row['id']; ?>" id="chk_<?php echo $row['id']; ?>">
+                            </td>
+                            <td colspan="10" class="td_left">삭제 또는 이동된 게시물입니다.</td>
+                        </tr>
                 <?php continue; }
 
                     $name = get_sideview($row2['mb_id'], get_text(
