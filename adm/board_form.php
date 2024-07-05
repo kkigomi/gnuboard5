@@ -138,7 +138,7 @@ for ($i = 0; $i <= 10; $i++) {
     $board_default['bo_'.$i] = '';
 }
 
-$board = array_merge($board_default, $board);
+$board = array_merge($board_default, $board->getData());
 
 run_event('adm_board_form_before', $board, $w);
 

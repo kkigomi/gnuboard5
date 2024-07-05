@@ -42,6 +42,11 @@ class G5CommonObject implements \ArrayAccess
         $this->setAttrs(array_merge($this->defaults, $data));
     }
 
+    public function getData(): array
+    {
+        return $this->data;
+    }
+
     /**
      * @param array<mixed> $attrs
      */
