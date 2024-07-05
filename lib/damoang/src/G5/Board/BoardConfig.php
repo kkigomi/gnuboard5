@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Damoang\Lib\G5\Board;
 
 use Damoang\Lib\G5\G5CommonObject;
-use Damoang\Lib\G5\Member\Member;
 
 class BoardConfig extends G5CommonObject
 {
@@ -98,7 +97,7 @@ class BoardConfig extends G5CommonObject
 
         include_once \G5_PLUGIN_PATH . '/nariya/lib/core.lib.php';
 
-        $themeName = ucfirst($config['cf_theme']);
+        $themeName = ucfirst($config['cf_theme'] ?? '');
 
         if (!$themeName) {
             return new SkinConfig();
@@ -112,7 +111,7 @@ class BoardConfig extends G5CommonObject
 
         $className = "Damoang\\Theme\\{$themeName}\\Skin\\Board\\{$skinName}\\SkinConfig";
 
-        if (!class_exists($className, false)) {
+        if (!class_exists($className)) {
             return new SkinConfig();
         }
 

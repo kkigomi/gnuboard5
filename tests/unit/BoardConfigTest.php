@@ -80,4 +80,17 @@ class BoardConfigTest extends \Codeception\Test\Unit
         $skinConfig = $board->getSkinConfig();
         $this->assertInstanceOf(Damoang\Theme\Damoang\Skin\Board\Basic\SkinConfig::class, $skinConfig);
     }
+
+    public function testNotExistsSkinConfig()
+    {
+        include_once \G5_PLUGIN_PATH . '/nariya/lib/core.lib.php';
+
+        $GLOBALS['config']['cf_theme'] = '';
+        $bo_skin = 'basic';
+        $board = new BoardConfig(compact('bo_skin'));
+
+        $skinConfig = $board->getSkinConfig();
+        $this->assertInstanceOf(Damoang\Lib\G5\Board\SkinConfig::class, $skinConfig);
+        $this->assertNotInstanceOf(Damoang\Theme\Damoang\Skin\Board\Basic\SkinConfig::class, $skinConfig);
+    }
 }
