@@ -95,7 +95,6 @@ if(preg_match("/msie/i", $_SERVER['HTTP_USER_AGENT']) && preg_match("/5\.5/", $_
     header("content-disposition: attachment; filename=\"$original\"");
     header("content-description: php generated data");
 }
-header("pragma: no-cache");
 header("expires: 0");
 flush();
 
