@@ -97,31 +97,35 @@ if ($bo_table == 'promotion')
         }
         ?>
 
-        <?php /***** 목록 하단 페이지네이션 ****/  ?>
+        <?php /***** 목록 하단 페이지네이션 페이지 버튼 ****/  ?>
         <ul class="pagination pagination-sm justify-content-center">
-            <?php if($prev_part_href) { ?>
-                <li class="page-item"><a class="page-link" href="<?php echo $prev_part_href;?>">Prev</a></li>
-            <?php } ?>
-            <?php echo na_paging(G5_IS_MOBILE ? $config['cf_mobile_pages'] : $config['cf_write_pages'], $page, $total_page, get_pretty_url($bo_table, '', $qstr.'&amp;page=')) ?>
-            <?php if($next_part_href) { ?>
-                <li class="page-item"><a  class="page-link" href="<?php echo $next_part_href;?>">Next</a></li>
-            <?php } ?>
-
-            <?php /* 페이지네이션 옆에 검색과 글쓰기 버튼 추가 */?>
-            <li>
-                <a href="#boardSearc_b" data-bs-toggle="collapse" data-bs-target="#boardSearch_b" aria-expanded="false" aria-controls="boardSearch_b" class="btn btn-basic ms-2">
-                    <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="검색">
-                        <i class="bi bi-search"></i>
-                        <span class="visually-hidden">검색</span>
-                    </span>
-                </a>
-            </li>
-            <li>
-                 <a href="<?php echo $write_href ?>" class="btn btn-basic  ms-1" style="white-space: nowrap;">
-                    <i class="bi bi-pencil-square"></i>
-                    쓰기
-                </a>
-            </li>
+            <div class="pagination-group">
+                <?php if($prev_part_href) { ?>
+                    <li class="page-item"><a class="page-link" href="<?php echo $prev_part_href;?>">Prev</a></li>
+                <?php } ?>
+                <?php echo na_paging(G5_IS_MOBILE ? $config['cf_mobile_pages'] : $config['cf_write_pages'], $page, $total_page, get_pretty_url($bo_table, '', $qstr.'&amp;page=')) ?>
+                <?php if($next_part_href) { ?>
+                    <li class="page-item"><a  class="page-link" href="<?php echo $next_part_href;?>">Next</a></li>
+                <?php } ?>
+            </div>
+            <?php /* 페이지네이션 페이지 버튼 옆에 검색/쓰기 버튼 추가 */?>
+            <div class="pagination-extra-separater"></div>
+            <div class="pagination-group">
+                <li>
+                    <a href="#boardSearch_b" data-bs-toggle="collapse" data-bs-target="#boardSearch_b" aria-expanded="false" aria-controls="boardSearch_b" class="btn btn-basic ms-2">
+                        <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="검색">
+                            <i class="bi bi-search"></i>
+                            <span class="visually-hidden">검색</span>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?php echo $write_href ?>" class="btn btn-basic  ms-1" style="white-space: nowrap;">
+                        <i class="bi bi-pencil-square"></i>
+                        쓰기
+                    </a>
+                </li>
+            </div>
         </ul>
 
     </form>
