@@ -15,18 +15,12 @@ add_replace('admin_dbupgrade', function ($is_check = false) {
             continue;
         }
 
-<<<<<<< HEAD
         $resultIndex = sql_fetch("SHOW INDEX FROM `{$tableName}` WHERE `Key_name` = 'idx_comment_paging'");
         if (empty($resultIndex)) {
-            sql_query("ALTER TABLE `{$tableName}` ADD INDEX `idx_comment_paging` (`wr_parent`,`wr_comment`,`wr_comment_reply`);", true);
-            $is_check = true;
-=======
-        if (!$resultIndex) {
-            if(sql_query(" DESC {$tableName} ", false)) {
+            if(sql_query("DESC {$tableName}", false)) {
                 sql_query("ALTER TABLE `{$tableName}` ADD INDEX `idx_comment_paging` (`wr_parent`,`wr_comment`,`wr_comment_reply`);", true);
                 $is_check = true;
             }
->>>>>>> 011a8c004... Merge pull request #237 from rzglitch/fix/admin-dbupgrade
         }
     }
     return $is_check;
