@@ -158,7 +158,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
                                     </span>
                                 <?php } ?>
 
-                                <?php if (($boset['check_list_hide_profile'] ?? null) !== '1' || ($is_admin === 'super' || $row['mb_id'] === ($member['mb_id'] ?? ''))) { ?>
+                                <?php if ($boset->isProfileRenderable() || $row['mb_id'] === ($member['mb_id'] ?? null)) { ?>
                                     <?php  /* 회원메모 출력 */
                                     if ($row['da_member_memo'] ?? '') { ?>
                                         <!-- 다모앙 회원 메모 -->
@@ -176,7 +176,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
                             <div class="da-list-meta">
                                 <div class="d-flex gap-2">
                                     <?php /******** 글쓴이 프사+이름 ********/ ?>
-                                    <?php if (($boset['check_list_hide_profile'] ?? null) !== '1' || ($is_admin === 'super' || $row['mb_id'] === ($member['mb_id'] ?? ''))) { ?>
+                                    <?php if ($boset->isProfileRenderable() || $member->isAuthor($row['mb_id'])) { ?>
                                         <div class="wr-name ms-auto order-last order-md-1 text-truncate">
                                             <?php
                                                 $wr_name = ($row['mb_id']) ? str_replace('sv_member', 'sv_member text-truncate d-block', $row['name']) : str_replace('sv_guest', 'sv_guest text-truncate d-block', $row['name']);
