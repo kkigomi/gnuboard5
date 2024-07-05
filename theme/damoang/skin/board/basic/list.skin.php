@@ -108,7 +108,10 @@ if ($bo_table == 'promotion')
                     <li class="page-item"><a  class="page-link" href="<?php echo $next_part_href;?>">Next</a></li>
                 <?php } ?>
             </div>
-            <?php /* 페이지네이션 페이지 버튼 옆에 검색/쓰기 버튼 추가 */?>
+            
+            <?php /* 페이지네이션 페이지 버튼 옆에 검색/쓰기 버튼 추가 */
+            if ($member['mb_level'] >= 2 ) {
+            ?>
             <div class="pagination-extra-separater"></div>
             <div class="pagination-group">
                 <li>
@@ -126,6 +129,7 @@ if ($bo_table == 'promotion')
                     </a>
                 </li>
             </div>
+            <?php } ?>
         </ul>
 
     </form>
