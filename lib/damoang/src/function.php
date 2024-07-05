@@ -18,8 +18,8 @@ if (!function_exists('dump')) {
         if (
             ($_ENV['APP_ENV'] ?? 'prod') !== 'prod'
             && (
-                $member->isSuperAdmin()
-                || ($_ENV['CAUTION_VARDUMPER_FORCE_ENABLE'] ?? 'false') === 'true'
+                ($_ENV['CAUTION_VARDUMPER_FORCE_ENABLE'] ?? 'false') === 'true'
+                || $member->isSuperAdmin()
             )
         ) {
             VarDumper::dump($var);
@@ -50,8 +50,8 @@ if (!function_exists('dd')) {
         if (
             ($_ENV['APP_ENV'] ?? 'prod') === 'prod'
             || (
-                !$member->isSuperAdmin()
-                && ($_ENV['CAUTION_VARDUMPER_FORCE_ENABLE'] ?? 'false') !== 'true'
+                ($_ENV['CAUTION_VARDUMPER_FORCE_ENABLE'] ?? 'false') !== 'true'
+                && !$member->isSuperAdmin()
             )
         ) {
             return;

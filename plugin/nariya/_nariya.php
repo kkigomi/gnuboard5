@@ -125,7 +125,8 @@ if (isset($nariya['xp_login']) && $nariya['xp_login']) {
 $boset = array();
 if (isset($board['bo_table']) && $board['bo_table']) {
 
-	$boset = na_skin_config('board', $board['bo_table']);
+	// $boset = na_skin_config('board', $board['bo_table']);
+	$boset = $board->getSkinConfig();
 
 	if ($is_member && !$is_admin && isset($boset['bo_admin']) && $boset['bo_admin'])
 		na_admin($boset['bo_admin'], 1);

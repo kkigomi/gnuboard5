@@ -43,6 +43,7 @@ class ComposerStaticInit06f35cada0380840b77d1e872449b677
         ),
         'D' => 
         array (
+            'Damoang\\Theme\\' => 14,
             'Damoang\\Plugin\\' => 15,
             'Damoang\\Lib\\' => 12,
         ),
@@ -101,6 +102,10 @@ class ComposerStaticInit06f35cada0380840b77d1e872449b677
         array (
             0 => __DIR__ . '/..' . '/mcaskill/composer-exclude-files/src',
         ),
+        'Damoang\\Theme\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/theme',
+        ),
         'Damoang\\Plugin\\' => 
         array (
             0 => __DIR__ . '/../..' . '/lib/damoang/plugin',
@@ -115,6 +120,9 @@ class ComposerStaticInit06f35cada0380840b77d1e872449b677
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Damoang\\Lib\\Cache\\RedisCache' => __DIR__ . '/../..' . '/lib/damoang/src/Cache/RedisCache.php',
+        'Damoang\\Lib\\G5\\Board\\BoardConfig' => __DIR__ . '/../..' . '/lib/damoang/src/G5/Board/BoardConfig.php',
+        'Damoang\\Lib\\G5\\Board\\SkinConfig' => __DIR__ . '/../..' . '/lib/damoang/src/G5/Board/SkinConfig.php',
+        'Damoang\\Lib\\G5\\G5CommonObject' => __DIR__ . '/../..' . '/lib/damoang/src/G5/G5CommonObject.php',
         'Damoang\\Lib\\G5\\Member\\Member' => __DIR__ . '/../..' . '/lib/damoang/src/G5/Member/Member.php',
         'Damoang\\Lib\\Helper\\DateHelper' => __DIR__ . '/../..' . '/lib/damoang/src/Helper/DateHelper.php',
         'Damoang\\Lib\\Helper\\MemberHelper' => __DIR__ . '/../..' . '/lib/damoang/src/Helper/MemberHelper.php',
