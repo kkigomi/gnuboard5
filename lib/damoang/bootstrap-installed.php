@@ -46,15 +46,13 @@ add_replace('get_cachemanage_instance', function () {
 });
 
 // 회원 객체 반환
-if (!(($_ENV['DISABLE_MEMBER_OBJECT'] ?? 'false') === 'true')) {
-    add_replace('get_member', function ($data = null, $mb_id, $fields, $is_cache) {
-        if (!is_array($data) || $data instanceof Damoang\Lib\G5\Member\Member) {
-            return $data;
-        }
+add_replace('get_member', function ($data = null, $mb_id, $fields, $is_cache) {
+    if ($data instanceof Damoang\Lib\G5\Member\Member) {
+        return $data;
+    }
 
-        return new Damoang\Lib\G5\Member\Member($data);
-    }, \G5_HOOK_DEFAULT_PRIORITY, 4);
-}
+    return new Damoang\Lib\G5\Member\Member($data);
+}, 1, 4);
 
 // 게시판 설정
 add_replace('get_board_db', function ($data = [], $bo_table) {
