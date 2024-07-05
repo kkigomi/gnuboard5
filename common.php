@@ -153,6 +153,7 @@ if (!(($_ENV['DISABLE_MEMBER_OBJECT'] ?? 'false') === 'true')) {
     $member = new Damoang\Lib\G5\Member\Member($member);
 }
 $board  = array('bo_table'=>'', 'bo_skin'=>'', 'bo_mobile_skin'=>'', 'bo_upload_count' => 0, 'bo_use_dhtml_editor'=>'', 'bo_subject'=>'', 'bo_image_width'=>0);
+$board = new Damoang\Lib\G5\Board\BoardConfig($board);
 $group  = array('gr_device'=>'', 'gr_subject'=>'');
 $g5     = array('title' => '');
 $qaconfig = array();

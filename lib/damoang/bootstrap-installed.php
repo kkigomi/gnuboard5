@@ -56,6 +56,21 @@ if (!(($_ENV['DISABLE_MEMBER_OBJECT'] ?? 'false') === 'true')) {
     }, \G5_HOOK_DEFAULT_PRIORITY, 4);
 }
 
+// 게시판 설정
+add_replace('get_board_db', function ($data = [], $bo_table) {
+    global $g5;
+
+    if ($data instanceof Damoang\Lib\G5\Board\BoardConfig) {
+        return $data;
+    }
+
+    $data = sql_fetch(" SELECT * FROM `{$g5['board_table']}`
+        WHERE `bo_table` = '{$bo_table}'
+    ");
+
+    return new Damoang\Lib\G5\Board\BoardConfig($data);
+}, 1, 2);
+
 // 다중이
 add_event('console:register', function ($application) {
     // ... register commands
