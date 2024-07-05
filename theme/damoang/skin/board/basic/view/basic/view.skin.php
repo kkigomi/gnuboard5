@@ -51,13 +51,15 @@ run_event('view_skin_before');
         <div
             class="d-flex justify-content-end align-items-center line-top border-bottom bg-body-tertiary py-2 px-3 small">
             <div class="me-auto">
-                <span class="visually-hidden">작성자</span>
-                <span class="d-inline-block"><?= na_name_photo($view['mb_id'], $view['name']); ?></span>
-                <?php
-                // 회원 메모
-                echo $view['da_member_memo'] ?? '';
-                ?>
-                <span class="d-block"><?php echo $ip; ?></span>
+                <?php if ($boset->isProfileRenderable() || $member->isAuthor($view['mb_id'])) { ?>
+                    <span class="visually-hidden">작성자</span>
+                    <span class="d-inline-block"><?= na_name_photo($view['mb_id'], $view['name']); ?></span>
+                    <?php
+                    // 회원 메모
+                    echo $view['da_member_memo'] ?? '';
+                    ?>
+                    <span class="d-block"><?php echo $ip; ?></span>
+                <?php } ?>
             </div>
             <div>
                 <span class="visually-hidden">작성일</span>
@@ -529,32 +531,30 @@ run_event('view_skin_before');
 
         <?php //echo na_widget('damoang-image-banner', 'board-head'); ?>
 
-        <?php if ($is_signature && $view['mb_id']) { // 서명 ?>
-            <?php
-              // 캐시에 문제가 있어서 일단 주석 구원자님 오시면 해결 후 다시 적용해야 함
-             //echo na_widget('mb-sign', "member-{$view['mb_id']}."-".$bo_table", 'cache=10');
-             ?>
-            <?php echo na_widget('mb-sign'); ?>
-        <?php } else { ?>
-            <div class="row row-cols-1 row-cols-md-2 align-items-center">
-                <div class="text-center mb-2 mb-sm-0">
-                    <img src="<?php echo na_member_photo($mbs['mb_id']) ?>" class="rounded-circle">
-                </div>
-                <div class="clearfix f-sm">
-                    <span class="float-start d-flex">
-                        <?php echo na_xp_icon($mbs['mb_id'], '', $mbs) ?>
-                        <?php echo $view['name'] ?>
-                    </span>
-                    <span class="float-end">
-                        Exp <?php echo number_format($mb['as_exp']) ?>
-                    </span>
-                </div>
-                <div class="progress" title="레벨업까지 <?php echo number_format($mbs['as_max'] - $mbs['as_exp']);?> 경험치 필요">
-                    <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<?php echo $per ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $per ?>%">
-                        <span class="sr-only"><?php echo $per ?>%</span>
+        <?php if ($boset->isProfileRenderable() || $member->isAuthor($view['mb_id'])) { ?>
+            <?php if ($is_signature && $view['mb_id']) { // 서명 ?>
+                <?php echo na_widget('mb-sign'); ?>
+            <?php } else { ?>
+                <div class="row row-cols-1 row-cols-md-2 align-items-center">
+                    <div class="text-center mb-2 mb-sm-0">
+                        <img src="<?php echo na_member_photo($mbs['mb_id']) ?>" class="rounded-circle">
+                    </div>
+                    <div class="clearfix f-sm">
+                        <span class="float-start d-flex">
+                            <?php echo na_xp_icon($mbs['mb_id'], '', $mbs) ?>
+                            <?php echo $view['name'] ?>
+                        </span>
+                        <span class="float-end">
+                            Exp <?php echo number_format($mb['as_exp']) ?>
+                        </span>
+                    </div>
+                    <div class="progress" title="레벨업까지 <?php echo number_format($mbs['as_max'] - $mbs['as_exp']); ?> 경험치 필요">
+                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<?php echo $per ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $per ?>%">
+                            <span class="sr-only"><?php echo $per ?>%</span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            <?php } ?>
         <?php } ?>
 
         <?php if ($view['wr_8']) { ?>
