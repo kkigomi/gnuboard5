@@ -96,10 +96,26 @@ class BoardConfig extends G5CommonObject
     {
         global $config;
 
+        include_once \G5_PLUGIN_PATH . '/nariya/lib/core.lib.php';
+
         $themeName = ucfirst($config['cf_theme']);
-        $skinName = ucfirst(ltrim(strstr($this->data['bo_skin'], '/'), '/'));
+
+        if (!$themeName) {
+            return new SkinConfig();
+        }
+
+        $skin = $this->data['bo_skin'];
+        if (strpos($skin, '/') !== false) {
+            $skin = ltrim(strstr($this->data['bo_skin'], '/'), '/');
+        }
+        $skinName = ucfirst($skin);
 
         $className = "Damoang\\Theme\\{$themeName}\\Skin\\Board\\{$skinName}\\SkinConfig";
+
+        if (!class_exists($className, false)) {
+            return new SkinConfig();
+        }
+
         $skinConfig = \na_skin_config('board', $this->id());
 
         return new $className($skinConfig ?? []);
