@@ -517,7 +517,7 @@ if($is_ajax)
                         </div>
                         <div>여기에 파일을 놓아 업로드</div>
                     </div>
-                    <textarea tabindex="1" placeholder="Leave a comment here" id="wr_content" name="wr_content" maxlength="10000" class="form-control lh-base"
+                    <textarea tabindex="1" placeholder="Leave a comment here" id="wr_content" name="wr_content" maxlength="<?php echo ($comment_max > 0) ? $comment_max : ''; ?>" class="form-control lh-base"
                     <?php if ($comment_min || $comment_max) { ?>onkeyup="check_byte('wr_content', 'char_count');"<?php } ?>><?php echo $c_wr_content;  ?></textarea>
                     <label id="wr_msg" for="wr_content">댓글을 입력해 주세요.</label>
                 </div>
@@ -631,7 +631,7 @@ if($is_ajax)
                 na_alert("댓글은 최소 "+char_min+"글자 이상 쓰셔야 합니다.");
                 return false;
             } else if (char_max > 0 && char_max < cnt) {
-                na_alert("댓글은 쵀대 "+char_max+"글자 이하로 쓰셔야 합니다.");
+                na_alert("댓글은 최대 "+char_max+"글자 이하로 쓰셔야 합니다.");
                 return false;
             }
         } else if (!document.getElementById('wr_content').value) {
