@@ -37,7 +37,6 @@ if (!$row['bo_use_rss_view']) {
 
 header('Content-type: text/xml');
 header('Cache-Control: no-cache, must-revalidate');
-header('Pragma: no-cache');
 
 $sql = " select gr_subject from {$g5['group_table']} where gr_id = '{$row['gr_id']}' ";
 $row = sql_fetch($sql);
