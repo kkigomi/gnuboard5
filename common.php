@@ -149,9 +149,7 @@ $_REQUEST = array_map_deep(G5_ESCAPE_FUNCTION,  $_REQUEST);
 // $member 에 값을 직접 넘길 수 있음
 $config = array();
 $member = array('mb_id'=>'', 'mb_level'=> 1, 'mb_name'=> '', 'mb_point'=> 0, 'mb_certify'=>'', 'mb_email'=>'', 'mb_open'=>'', 'mb_homepage'=>'', 'mb_tel'=>'', 'mb_hp'=>'', 'mb_zip1'=>'', 'mb_zip2'=>'', 'mb_addr1'=>'', 'mb_addr2'=>'', 'mb_addr3'=>'', 'mb_addr_jibeon'=>'', 'mb_signature'=>'', 'mb_profile'=>'');
-if (!(($_ENV['DISABLE_MEMBER_OBJECT'] ?? 'false') === 'true')) {
-    $member = new Damoang\Lib\G5\Member\Member($member);
-}
+$member = new Damoang\Lib\G5\Member\Member($member);
 $board  = array('bo_table'=>'', 'bo_skin'=>'', 'bo_mobile_skin'=>'', 'bo_upload_count' => 0, 'bo_use_dhtml_editor'=>'', 'bo_subject'=>'', 'bo_image_width'=>0);
 $board = new Damoang\Lib\G5\Board\BoardConfig($board);
 $group  = array('gr_device'=>'', 'gr_subject'=>'');
