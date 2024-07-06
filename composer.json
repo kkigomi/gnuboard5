@@ -18,6 +18,9 @@
             "Damoang\\Lib\\": "lib/damoang/src",
             "Damoang\\Plugin\\": "lib/damoang/plugin"
         },
+        "classmap": [
+            "./theme/damoang/skin/board/*"
+        ],
         "files": [
             "lib/damoang/src/function.php"
         ]

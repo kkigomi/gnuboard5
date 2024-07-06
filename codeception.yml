@@ -5,6 +5,15 @@ paths:
     support: tests/_support
     envs: tests/_envs
 actor_suffix: Tester
+coverage:
+    enabled: true
+    include:
+        - lib/damoang/*
+    exclude:
+        - lib/damoang/bootstrap.php
+        - lib/damoang/bootstrap-installed.php
+        - lib/damoang/phpstan-bootstrap.php
+        - lib/damoang/src/function.php
 extensions:
     enabled:
         - Codeception\Extension\RunFailed

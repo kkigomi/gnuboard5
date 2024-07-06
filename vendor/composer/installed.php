@@ -3,7 +3,7 @@
         'name' => 'sdk/damoang',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'c3d8e6d9d7430e2c77184225389bda3793b52ed4',
+        'reference' => 'adac1669e828ab948aba53e7b9980ee86ff8bbcb',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -37,7 +37,7 @@
         'sdk/damoang' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'c3d8e6d9d7430e2c77184225389bda3793b52ed4',
+            'reference' => 'adac1669e828ab948aba53e7b9980ee86ff8bbcb',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

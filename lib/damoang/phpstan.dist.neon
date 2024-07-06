@@ -3,5 +3,7 @@ parameters:
 	phpVersion: 70333
 	paths:
 		- .
+	scanDirectories:
+		- ../../plugin/nariya/lib
 	bootstrapFiles:
 		- phpstan-bootstrap.php

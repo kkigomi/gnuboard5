@@ -181,6 +181,9 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                                 <i class="bi bi-arrow-return-right"></i>
                                 <span class="visually-hidden">대댓글</span>
                             <?php } ?>
+
+                                <!-- 댓글 작성자 -->
+                                <?php if ($boset->isProfileRenderable() || $member->isAuthor($list[$i]['mb_id'])) { ?>
                             <span class="visually-hidden">작성자</span>
                             <span class="d-inline-block"><?php echo na_name_photo($list[$i]['mb_id'], $list[$i]['name']); ?></span>
                             <?php
@@ -188,6 +191,7 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                             echo $list[$i]['da_member_memo'] ?? '';
                             ?>
                             (<?php echo $list[$i]['ip'] ?>)
+                                <?php } ?>
                         </div>
                         <div>
                             <?php include(G5_SNS_PATH.'/view_comment_list.sns.skin.php'); // SNS ?>
@@ -213,6 +217,7 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                         </div>
                     <?php } ?>
                     <div class="<?php echo $is_convert ?>">
+                            <?php if ($boset->isProfileRenderable()) { ?>
                         <?php if ($comment_depth) { ?>
                             <?php if ($parent_wr_name) { ?>
                                 <em class="da-commented-to"><strong>@<?= $parent_wr_name ?></strong>님에게 답글</em>
@@ -220,6 +225,7 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                                 <em class="da-commented-to">다른 누군가에게 답글</em>
                             <?php } ?>
                         <?php } ?>
+                            <?php } ?>
                         <?php
                         $is_lock = false;
                         if (strstr($list[$i]['wr_option'], "secret")) {
@@ -249,7 +255,7 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                             }
                         ?>
                             <?php if ($list[$i]['is_reply']) { ?>
-                                <button type="button" class="btn btn-basic" onclick="comment_box('<?php echo $comment_id ?>','c','<?php echo $comment_name;?>');" class="btn btn-basic btn-sm" title="답글">
+                                <button type="button" class="btn btn-basic" onclick="comment_box('<?php echo $comment_id ?>','c','<?php echo ($boset->isProfileRenderable()) ? $comment_name : '*'; ?>');" class="btn btn-basic btn-sm" title="답글">
                                     <i class="bi bi-chat-dots"></i>
                                     답글
                                 </button>
@@ -517,7 +523,7 @@ if($is_ajax)
                         </div>
                         <div>여기에 파일을 놓아 업로드</div>
                     </div>
-                    <textarea tabindex="1" placeholder="Leave a comment here" id="wr_content" name="wr_content" maxlength="10000" class="form-control lh-base"
+                    <textarea tabindex="1" placeholder="Leave a comment here" id="wr_content" name="wr_content" maxlength="<?php echo ($comment_max > 0) ? $comment_max : ''; ?>" class="form-control lh-base"
                     <?php if ($comment_min || $comment_max) { ?>onkeyup="check_byte('wr_content', 'char_count');"<?php } ?>><?php echo $c_wr_content;  ?></textarea>
                     <label id="wr_msg" for="wr_content">댓글을 입력해 주세요.</label>
                 </div>
@@ -631,7 +637,7 @@ if($is_ajax)
                 na_alert("댓글은 최소 "+char_min+"글자 이상 쓰셔야 합니다.");
                 return false;
             } else if (char_max > 0 && char_max < cnt) {
-                na_alert("댓글은 쵀대 "+char_max+"글자 이하로 쓰셔야 합니다.");
+                na_alert("댓글은 최대 "+char_max+"글자 이하로 쓰셔야 합니다.");
                 return false;
             }
         } else if (!document.getElementById('wr_content').value) {

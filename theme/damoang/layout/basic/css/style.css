@@ -1012,3 +1012,44 @@ footer .container a {
     display: grid;
   }
 }
+
+/*** 모바일에서 pagination 페이지버튼과 검색/쓰기 버튼 분리 줄내림 ***/
+/* 기본 설정: PC에서는 한 줄로 표시 */
+.pagination-extra-separater {
+  display: none;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+.pagination-group {
+  display: flex;
+}
+
+/* 모바일에서 줄바꿈 설정 */
+@media (max-width: 575.98px) {
+  .pagination {
+      flex-wrap: wrap;
+  }
+
+  .pagination-extra-separater {
+      display: block;
+      width: 100%;
+      height: 1rem;
+      margin: 0;
+      padding: 0;
+  }
+
+  .pagination-group {
+      flex: 1 1 100%;
+      justify-content: center;
+  }
+
+  .pagination-group li {
+      margin-bottom: 0.5rem;
+  }
+}
+/*** 끝: 모바일에서 pagination 페이지버튼과 검색/쓰기 버튼 분리 줄내림 ***/
