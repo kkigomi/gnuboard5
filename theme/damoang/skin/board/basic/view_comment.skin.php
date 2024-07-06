@@ -16,6 +16,22 @@ $is_comment_nogood = (isset($boset['comment_nogood']) && $boset['comment_nogood'
 
 $list = run_replace('da_comment_list', $list);
 
+for ($i = 0; $i < count($list); $i++) {
+    $is_deleted = empty($list[$i]['wr_content']);
+    if ($is_deleted) {
+        $list[$i] = array_merge($list[$i], [
+            'mb_id' => '',
+            'name' => '',
+            'da_member_memo' => '',
+            'wr_name' => '',
+            'wr_email' => '',
+            'wr_content' => '',
+            'wr_datetime' => '',
+            'ip' => ''
+        ]);
+    }
+}
+
 // 댓글 스킨
 $comment_skin = isset($boset['comment_skin']) && $boset['comment_skin'] ? $boset['comment_skin'] : 'basic';
 $comment_skin_url = $board_skin_url.'/comment/'.$comment_skin;

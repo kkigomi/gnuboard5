@@ -167,23 +167,7 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
 
             $parent_wr_name = $wr_names[$list[$i]['wr_comment'] . ':' . substr($list[$i]['wr_comment_reply'], 0, -1)] ?? '';
 
-            if (empty($comment)) {
-                $list[$i]['wr_datetime'] = '';
-            }
-
-            $is_deleted = empty($comment);
-            if ($is_deleted) {
-                $list[$i] = array_merge($list[$i], [
-                    'mb_id' => '',
-                    'name' => '',
-                    'da_member_memo' => '',
-                    'wr_name' => '',
-                    'wr_email' => '',
-                    'wr_content' => '',
-                    'wr_datetime' => '',
-                    'ip' => ''
-                ]);
-            }
+            $is_deleted = empty($list[$i]['wr_content']);
         ?>
         <article id="c_<?php echo $comment_id ?>" <?php if ($comment_depth) { ?>style="margin-left:<?php echo $comment_depth ?>rem;"<?php } ?>>
             <div class="comment-list-wrap position-relative">
