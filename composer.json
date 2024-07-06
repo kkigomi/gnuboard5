@@ -16,9 +16,11 @@
     "autoload": {
         "psr-4": {
             "Damoang\\Lib\\": "lib/damoang/src",
-            "Damoang\\Plugin\\": "lib/damoang/plugin",
-            "Damoang\\Theme\\": "./theme"
+            "Damoang\\Plugin\\": "lib/damoang/plugin"
         },
+        "classmap": [
+            "./theme/damoang/skin/board/*"
+        ],
         "files": [
             "lib/damoang/src/function.php"
         ]

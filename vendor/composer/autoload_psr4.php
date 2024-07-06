@@ -19,7 +19,6 @@ return array(
     'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'McAskill\\Composer\\' => array($vendorDir . '/mcaskill/composer-exclude-files/src'),
-    'Damoang\\Theme\\' => array($baseDir . '/theme'),
     'Damoang\\Plugin\\' => array($baseDir . '/lib/damoang/plugin'),
     'Damoang\\Lib\\' => array($baseDir . '/lib/damoang/src'),
 );

@@ -19,6 +19,7 @@ return array(
     'Damoang\\Plugin\\ContentManagement\\ContentTracker' => $baseDir . '/lib/damoang/plugin/ContentManagement/ContentTracker.php',
     'Damoang\\Plugin\\Dajoongi\\Dajoongi' => $baseDir . '/lib/damoang/plugin/Dajoongi/Dajoongi.php',
     'Damoang\\Plugin\\Dajoongi\\Http' => $baseDir . '/lib/damoang/plugin/Dajoongi/Http.php',
+    'Damoang\\Theme\\Damoang\\Skin\\Board\\Basic\\SkinConfig' => $baseDir . '/theme/damoang/skin/board/basic/SkinConfig.php',
     'JsonException' => $vendorDir . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
     'McAskill\\Composer\\ExcludeFilePlugin' => $vendorDir . '/mcaskill/composer-exclude-files/src/ExcludeFilePlugin.php',
     'McAskill\\Composer\\Path' => $vendorDir . '/mcaskill/composer-exclude-files/src/Path.php',

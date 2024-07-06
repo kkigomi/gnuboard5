@@ -43,7 +43,6 @@ class ComposerStaticInit06f35cada0380840b77d1e872449b677
         ),
         'D' => 
         array (
-            'Damoang\\Theme\\' => 14,
             'Damoang\\Plugin\\' => 15,
             'Damoang\\Lib\\' => 12,
         ),
@@ -102,10 +101,6 @@ class ComposerStaticInit06f35cada0380840b77d1e872449b677
         array (
             0 => __DIR__ . '/..' . '/mcaskill/composer-exclude-files/src',
         ),
-        'Damoang\\Theme\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/theme',
-        ),
         'Damoang\\Plugin\\' => 
         array (
             0 => __DIR__ . '/../..' . '/lib/damoang/plugin',
@@ -130,6 +125,7 @@ class ComposerStaticInit06f35cada0380840b77d1e872449b677
         'Damoang\\Plugin\\ContentManagement\\ContentTracker' => __DIR__ . '/../..' . '/lib/damoang/plugin/ContentManagement/ContentTracker.php',
         'Damoang\\Plugin\\Dajoongi\\Dajoongi' => __DIR__ . '/../..' . '/lib/damoang/plugin/Dajoongi/Dajoongi.php',
         'Damoang\\Plugin\\Dajoongi\\Http' => __DIR__ . '/../..' . '/lib/damoang/plugin/Dajoongi/Http.php',
+        'Damoang\\Theme\\Damoang\\Skin\\Board\\Basic\\SkinConfig' => __DIR__ . '/../..' . '/theme/damoang/skin/board/basic/SkinConfig.php',
         'JsonException' => __DIR__ . '/..' . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
         'McAskill\\Composer\\ExcludeFilePlugin' => __DIR__ . '/..' . '/mcaskill/composer-exclude-files/src/ExcludeFilePlugin.php',
         'McAskill\\Composer\\Path' => __DIR__ . '/..' . '/mcaskill/composer-exclude-files/src/Path.php',
