@@ -868,27 +868,53 @@ function get_group($gr_id, $is_cache=false)
 function get_member($mb_id, $fields = '*', $is_cache = false)
 {
     global $g5;
+    static $cache = array();
+    static $is_initialized = false;
+
+    // $GLOBALS['list'] 배열이 존재하고 초기화되지 않았을 때만 전체 캐싱 수행
+    if (!$is_initialized && isset($GLOBALS['list']) && is_array($GLOBALS['list']) && !empty($GLOBALS['list'])) {
+        $mb_ids = array();
+        foreach ($GLOBALS['list'] as $item) {
+            if (is_array($item) && isset($item['mb_id']) && !empty($item['mb_id'])) {
+                $mb_ids[] = $item['mb_id'];
+            }
+        }
+        $mb_ids = array_unique($mb_ids);
+
+        if (!empty($mb_ids)) {
+            $ids_string = "'" . implode("','", $mb_ids) . "'";
+            $sql = " SELECT {$fields} FROM {$g5['member_table']} WHERE mb_id IN ({$ids_string}) ";
+            $result = sql_query($sql);
+
+            while ($row = sql_fetch_array($result)) {
+                $cache[$row['mb_id']] = run_replace('get_member', $row, $row['mb_id'], $fields, $is_cache);
+            }
+        }
+
+        $is_initialized = true;
+    }
 
     $mb_id = trim($mb_id);
     if (preg_match("/[^0-9a-z_]+/i", $mb_id)) {
         return array();
     }
 
-    static $cache = array();
-
-    $key = md5($fields);
-
-    if ($is_cache && isset($cache[$mb_id]) && isset($cache[$mb_id][$key])) {
-        return $cache[$mb_id][$key];
+    // 캐시에 있으면 캐시된 데이터 반환
+    if (isset($cache[$mb_id])) {
+        return $cache[$mb_id];
     }
 
-    $sql = " SELECT {$fields} from {$g5['member_table']} where mb_id = '{$mb_id}' ";
+    // 캐시에 없으면 개별 쿼리 실행
+    $sql = " SELECT {$fields} FROM {$g5['member_table']} WHERE mb_id = '{$mb_id}' ";
+    $result = sql_fetch($sql);
+    
+    if ($result) {
+        $cache[$mb_id] = run_replace('get_member', $result, $mb_id, $fields, $is_cache);
+        return $cache[$mb_id];
+    }
 
-    $cache[$mb_id][$key] = run_replace('get_member', sql_fetch($sql), $mb_id, $fields, $is_cache);
-
-    return $cache[$mb_id][$key];
+    return array();
 }
-
 
 // 날짜, 조회수의 경우 높은 순서대로 보여져야 하므로 $flag 를 추가
 // $flag : asc 낮은 순서 , desc 높은 순서
