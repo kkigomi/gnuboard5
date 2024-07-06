@@ -48,7 +48,10 @@ if (!IS_INDEX) {
                 운영정책
                 <i class="bar">&nbsp;</i>
             </a>
-            <a href="/claim">
+            <a href="<?php echo get_pretty_url('content', 'operation_policy_add'); ?>">
+                운영정책 별지
+                <i class="bar">&nbsp;</i>
+            </a>            <a href="/claim">
                 소명 게시판
                 <i class="bar">&nbsp;</i>
             </a>
