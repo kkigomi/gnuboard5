@@ -16,7 +16,9 @@ class StringHelper
             return $cache[sha1($user_agent)];
         }
 
-        if (preg_match('/bot|crawler|crawl|okhttp|headlesschrome|python|curl|googleother|google-extended|facebook/i', $user_agent)) {
+        if (preg_match('/APIs-Google|AdsBot-Google|Mediapartners-Google|Google-Safety/', $user_agent)) {
+            $isCrawler = false;
+        } else if (preg_match('/bot|crawl|wget|slurp|okhttp|headlesschrome|python|curl|googleother|feedfetcher|facebook|MicrosoftPreview|Yeti/i', $user_agent)) {
             $isCrawler = true;
         }
 
