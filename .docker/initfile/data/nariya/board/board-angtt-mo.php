@@ -1,0 +1,25 @@
+<?php
+if (!defined('_GNUBOARD_')) exit;
+$data=array (
+  'cate_skin' => 'basic',
+  'list_skin' => 'webzine',
+  'view_skin' => 'basic',
+  'comment_skin' => 'basic',
+  'bo_admin' => '',
+  'noti_mb' => '',
+  'editor_mo' => '',
+  'tag' => '10',
+  'xp_write' => '',
+  'xp_comment' => '',
+  'check_star_rating' => '1',
+  'bo_write_allow_one' => '',
+  'bo_write_allow_three' => '',
+  'member_only_permit' => 'admin_only',
+  'category_move_permit' => 'admin_only',
+  'category_move_message' => '{{auth_member}}가 {{src_cat}}에서 {{dest_cat}}으로 이동시켰습니다.',
+  'comment_image_size' => '',
+  'comment_sort' => 'old',
+  'comment_rows' => '',
+  'lucky_point' => '',
+  'lucky_dice' => '',
+);

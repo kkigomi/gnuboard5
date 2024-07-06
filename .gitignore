@@ -41,3 +41,4 @@ backup/
 
 
 vendor/**/.github
+.docker/mysql_data
