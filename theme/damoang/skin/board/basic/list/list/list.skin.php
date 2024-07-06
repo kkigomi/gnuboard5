@@ -57,16 +57,31 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
             if(trim($list[$i]['mb_id']) == trim($member['mb_id'])){
                 $writter_bg = "writter-bg";
             }
+
+            $is_deleted = empty($row['subject']);
+            if ($is_deleted) {
+                $row = array_merge($row, [
+                    'subject' => '[삭제된 게시물 입니다]',
+                    'name' => '',
+                    'wr_datetime' => '',
+                    'wr_hit' => '',
+                    'wr_comment' => '',
+                    'wr_good' => '',
+                    'da_member_memo' => '',
+                    'ca_name' => ''
+                ]);
+            }
+            $row_class = $is_deleted ? 'bg-warning-subtle' : '';
             /***************** <li> 글항목 아이템 시작: *************************/
         ?>
-            <li class="list-group-item da-link-block <?php echo $li_css; ?> <?php echo $writter_bg; ?>">
+            <li class="list-group-item da-link-block <?php echo $li_css; ?> <?php echo $writter_bg; ?> <?php echo $row_class; ?>">
                 <div class="d-flex align-items-center gap-1">
 
                     <?php
                     /******** 추천 칼럼: 공지, 홍보, 추천수 표식 ********
-                     * '홍보' 글이라면 별도의 컬러 사용( is_promotion_post는 plugin/nariya/bbs/list.php 직홍게 위젯 PAI 코드에서 세팅됨 ) 
+                     * '홍보' 글이라면 별도의 컬러 사용( is_promotion_post는 plugin/nariya/bbs/list.php 직홍게 위젯 PAI 코드에서 세팅됨 )
                      ****************************************************/
-                     if (isset($row['is_promotion_post']) && $row['is_promotion_post']) { 
+                     if (isset($row['is_promotion_post']) && $row['is_promotion_post']) {
                         echo <<<EOT
                             <div class="wr-num text-nowrap rcmd-pc">
                                 <div class="rcmd-box step-pai">
@@ -111,7 +126,7 @@ add_stylesheet('<link rel="stylesheet" href="' . $list_skin_url . '/list.css?CAC
                             <div class="d-inline-flex flex-fill overflow-hidden align-items-center">
                                 <?php
                                 /*  제목앞 추가 '홍보' 표식 ( 모바일용. pc에서는 .pai-mb 숨겨짐) */
-                                if (isset($row['is_promotion_post']) && $row['is_promotion_post']) { 
+                                if (isset($row['is_promotion_post']) && $row['is_promotion_post']) {
                                     echo <<<EOT
                                         <div class="wr-num text-nowrap pai-mb">
                                             <div class="rcmd-box step-pai">
