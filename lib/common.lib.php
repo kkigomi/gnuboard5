@@ -4328,7 +4328,7 @@ function processDeletedContent($write, $latestHistory) {
         return $write;
     }
 
-    $deleted_by = ($write['mb_id'] == $latestHistory['mb_id']) ? 'member' : 'admin';
+    $deleted_by = ($write['mb_id'] == $latestHistory['operated_by']) ? 'member' : 'admin';
     $write['wr_subject'] = '[삭제된 게시물입니다]';
     $write['wr_content'] = ($deleted_by == 'admin')
         ? '[이 게시물은 관리자에 의해 삭제되었습니다.]'
