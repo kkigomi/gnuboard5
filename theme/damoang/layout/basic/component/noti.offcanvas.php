@@ -26,6 +26,14 @@ if (!defined('_GNUBOARD_')) {
             <i class="bi bi-bell"></i>
             알림 <span class="orangered"><?php echo number_format($noti_cnt) ?></span> 개
 
+            <?php if (number_format($noti_cnt) > 0) { ?>
+                <?php if (!get_session('ss_noti_readall_token')) set_session('ss_noti_readall_token', md5(uniqid(rand(), true))); ?>
+                <form id="fnoti_readall" class="d-inline" name="fnoti_readall" method="post" action="#" onsubmit="return na_noti_readall(this);">
+                    <input type="hidden" name="_token" value="<?=get_session('ss_noti_readall_token')?>" />
+                    <button type="submit" class="btn btn-basic btn-sm py-1 ms-2">모두 읽음</button>
+                </form>
+            <?php } ?>
+
             <a href="<?php echo G5_BBS_URL ?>/noti.php" class="float-end fw-normal small mt-1">
                 더보기
             </a>
