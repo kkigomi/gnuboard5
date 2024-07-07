@@ -4333,6 +4333,11 @@ function processDeletedContent($write, $latestHistory) {
     $write['wr_content'] = ($deleted_by == 'admin')
         ? '[이 게시물은 관리자에 의해 삭제되었습니다.]'
         : '[이 게시물은 작성자가 삭제했습니다.]';
-
-    return $write;
+    
+    return array_merge($write, [
+        'mb_id' => '',
+        'wr_name' => '',
+        'wr_datetime' => '',
+        'wr_ip' => ''
+    ]);
 }

@@ -128,6 +128,21 @@ for ($i=0; $row=sql_fetch_array($result); $i++) {
             }
         }
     }
+    
+    // 삭제된(내용이 비어있는) 댓글들의 데이터 빈 값으로 설정
+    $is_deleted = empty($list[$i]['wr_content']);
+    if ($is_deleted) {
+        $list[$i] = array_merge($list[$i], [
+            'mb_id' => '',
+            'name' => '',
+            'da_member_memo' => '',
+            'wr_name' => '',
+            'wr_email' => '',
+            'wr_content' => '',
+            'wr_datetime' => '',
+            'ip' => ''
+        ]);
+    }
 }
 
 //  코멘트수 제한 설정값
