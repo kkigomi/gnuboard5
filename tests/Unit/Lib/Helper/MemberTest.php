@@ -1,4 +1,7 @@
 <?php
+
+namespace Damoang\Tests\Unit\Lib\Helper;
+
 use Damoang\Lib\G5\Member\Member;
 
 class MemberTest extends \Codeception\Test\Unit
