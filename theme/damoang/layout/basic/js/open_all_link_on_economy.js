@@ -16,8 +16,9 @@ async function openAllLinksInUserContent() {
     userTexts.forEach(userText => {
         var links = userText.querySelectorAll('a');
         links.forEach(link => {
-            //이미지에 걸린 링크는 제외
-            if (!link.querySelector('img')) {
+            // 1) 이미지에 대한 링크 제외
+            // 2) 보이지않는 링크 열지 않음 - innerText가 없는 <a>태그의 링크는 제외 (글쓰기 에디터문제인지 본문에 가끔 텍스트 없는 <a>태그로 중복되는 링크가 있음)
+            if (!link.querySelector('img') && link.innerText.trim() !== "") {
                 allLinks.push(link.href);
             }
         });
