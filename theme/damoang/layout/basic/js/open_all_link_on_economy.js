@@ -16,7 +16,10 @@ async function openAllLinksInUserContent() {
     userTexts.forEach(userText => {
         var links = userText.querySelectorAll('a');
         links.forEach(link => {
+            //이미지에 걸린 링크는 제외
+            if (!link.querySelector('img')) {
                 allLinks.push(link.href);
+            }
         });
     });
 
