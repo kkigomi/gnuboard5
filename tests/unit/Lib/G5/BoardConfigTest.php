@@ -1,6 +1,6 @@
 <?php
 
-namespace Damoang\Tests\Unit\G5;
+namespace Damoang\Tests\Unit\Lib\G5;
 
 use Damoang\Lib\G5\Board\BoardConfig;
 

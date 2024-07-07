@@ -1,6 +1,6 @@
 <?php
 
-namespace Damoang\Tests\Unit\Helper;
+namespace Damoang\Tests\Unit\Lib\Helper;
 
 use Damoang\Lib\Helper\StringHelper;
 
