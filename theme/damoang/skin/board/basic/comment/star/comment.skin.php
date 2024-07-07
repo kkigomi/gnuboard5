@@ -118,6 +118,7 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
 
             $parent_wr_name = $wr_names[$list[$i]['wr_comment'] . ':' . substr($list[$i]['wr_comment_reply'], 0, -1)] ?? '';
 
+            $is_deleted = empty($list[$i]['wr_content']);
         ?>
         <article id="c_<?php echo $comment_id ?>" <?php if ($comment_depth) { ?>style="margin-left:<?php echo $comment_depth ?>rem;"<?php } ?>>
             <div class="comment-list-wrap position-relative">
@@ -138,7 +139,7 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                             // 회원 메모
                             echo $list[$i]['da_member_memo'] ?? '';
                             ?>
-                            (<?php echo $list[$i]['ip'] ?>)
+                            <?php if (!$is_deleted) echo '(' . $list[$i]['ip'] . ')' ?>
                         </div>
                         <div>
                             <?php include(G5_SNS_PATH.'/view_comment_list.sns.skin.php'); // SNS ?>
@@ -166,7 +167,7 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                             <span class="na-icon na-secret"></span>
                         <?php } ?>
 
-                        <?php echo $comment ?>
+                        <?php if(empty($comment)) echo "[삭제된 댓글입니다]"; else echo $comment ?>
                     </div>
 
                     <?php if(!$is_lock && (int)$list[$i]['wr_10']) { // 럭키포인트 ?>
@@ -178,68 +179,70 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
 
                     <div class="d-flex justify-content-between mt-3">
                         <div class="btn-group btn-group-sm" role="group">
-                        <?php if($is_comment_reply_edit) {
-                            if($w == 'cu') {
-                                $sql = " select wr_id, wr_content, mb_id from $write_table where wr_id = '$c_id' and wr_is_comment = '1' ";
-                                $cmt = sql_fetch($sql);
-                                if (!($is_admin || ($member['mb_id'] == $cmt['mb_id'] && $cmt['mb_id'])))
-                                    $cmt['wr_content'] = '';
-                                $c_wr_content = $cmt['wr_content'];
-                            }
-                        ?>
-                            <?php if ($list[$i]['is_reply']) { ?>
-                                <button type="button" class="btn btn-basic" onclick="comment_box('<?php echo $comment_id ?>','c','<?php echo $comment_name;?>');" class="btn btn-basic btn-sm" title="답글">
-                                    <i class="bi bi-chat-dots"></i>
-                                    답글
-                                </button>
-                            <?php } ?>
-                            <?php if ($list[$i]['is_edit']) { ?>
-                                <button type="button" class="btn btn-basic" onclick="comment_box('<?php echo $comment_id ?>','cu','<?php echo $comment_name;?>');" class="btn btn-basic btn-sm" title="수정">
-                                    <i class="bi bi-pencil"></i>
-                                    <span class="d-none d-sm-inline-block">수정</span>
-                                </button>
-                            <?php } ?>
-                            <?php if ($list[$i]['is_del']) { ?>
-                                <a href="<?php echo $list[$i]['del_link']; ?>" rel="nofollow" onclick="<?php echo (isset($list[$i]['del_back']) && $list[$i]['del_back']) ? "na_delete('viewcomment', '".$list[$i]['del_href']."','".$list[$i]['del_back']."'); return false;" : "return comment_delete(this.href);";?>" class="btn btn-basic" title="삭제">
-                                    <i class="bi bi-trash"></i>
-                                    <span class="d-none d-sm-inline-block">삭제</span>
-                                </a>
-                            <?php } ?>
-                        <?php } ?>
-                            <?php if(!empty($is_member)) { // 로그인한 회원만 복사 가능 ?>
-                            <button type="button" onclick="copy_comment_link('<?php echo $comment_id ?>');" class="btn btn-basic" title="복사">
-                                <i class="bi bi-copy"></i>
-                                <span class="d-none d-sm-inline-block">복사</span>
-                            </button>
-                            <?php } ?>
-                            <button type="button" onclick="na_singo('<?php echo $bo_table ?>', '<?php echo $list[$i]['wr_id'] ?>', '0', 'c_<?php echo $comment_id ?>');" class="btn btn-basic" title="신고">
-                                <i class="bi bi-eye-slash"></i>
-                                <span class="d-none d-sm-inline-block">신고</span>
-                            </button>
-                            <?php if($list[$i]['mb_id']) { // 회원만 가능 ?>
-                                <button type="button" onclick="na_chadan('<?php echo $list[$i]['mb_id'] ?>');" class="btn btn-basic" title="차단">
-                                    <i class="bi bi-person-slash"></i>
-                                    <span class="d-none d-sm-inline-block">차단</span>
-                                </button>
-                            <?php } ?>
-                        </div>
-                        <?php if($is_comment_good || $is_comment_nogood) { ?>
-                            <div class="btn-group btn-group-sm" role="group">
-                                <?php if($is_comment_good) { ?>
-                                    <button type="button" onclick="na_good('<?php echo $bo_table ?>', '<?php echo $comment_id ?>', 'good', 'c_g<?php echo $comment_id ?>', 1);" class="btn <?php echo (isset($good_list[$list[$i]['wr_id']]) && $good_list[$list[$i]['wr_id']] == 'good') ? 'btn-primary' : 'btn-basic' ?>" title="추천">
-                                        <span class="visually-hidden">추천</span>
-                                        <i class="bi bi-hand-thumbs-up"></i>
-                                        <span id="c_g<?php echo $comment_id ?>"><?php echo $list[$i]['wr_good'] ?></span>
+                        <?php if(!$is_deleted) { ?>
+                            <?php if($is_comment_reply_edit) {
+                                if($w == 'cu') {
+                                    $sql = " select wr_id, wr_content, mb_id from $write_table where wr_id = '$c_id' and wr_is_comment = '1' ";
+                                    $cmt = sql_fetch($sql);
+                                    if (!($is_admin || ($member['mb_id'] == $cmt['mb_id'] && $cmt['mb_id'])))
+                                        $cmt['wr_content'] = '';
+                                    $c_wr_content = $cmt['wr_content'];
+                                }
+                            ?>
+                                <?php if ($list[$i]['is_reply']) { ?>
+                                    <button type="button" class="btn btn-basic" onclick="comment_box('<?php echo $comment_id ?>','c','<?php echo $comment_name;?>');" class="btn btn-basic btn-sm" title="답글">
+                                        <i class="bi bi-chat-dots"></i>
+                                        답글
                                     </button>
                                 <?php } ?>
-                                <?php if($is_comment_nogood) { ?>
-                                    <button type="button" class="btn <?php echo (isset($good_list[$list[$i]['wr_id']]) && $good_list[$list[$i]['wr_id']] == 'nogood') ? 'btn-primary' : 'btn-basic' ?>" onclick="na_good('<?php echo $bo_table ?>', '<?php echo $comment_id ?>', 'nogood', 'c_ng<?php echo $comment_id ?>', 1);" title="비추천">
-                                        <span class="visually-hidden">비추천</span>
-                                        <i class="bi bi-hand-thumbs-down"></i>
-                                        <span id="c_ng<?php echo $comment_id;?>"><?php echo $list[$i]['wr_nogood']; ?></span>
+                                <?php if ($list[$i]['is_edit']) { ?>
+                                    <button type="button" class="btn btn-basic" onclick="comment_box('<?php echo $comment_id ?>','cu','<?php echo $comment_name;?>');" class="btn btn-basic btn-sm" title="수정">
+                                        <i class="bi bi-pencil"></i>
+                                        <span class="d-none d-sm-inline-block">수정</span>
+                                    </button>
+                                <?php } ?>
+                                <?php if ($list[$i]['is_del']) { ?>
+                                    <a href="<?php echo $list[$i]['del_link']; ?>" rel="nofollow" onclick="<?php echo (isset($list[$i]['del_back']) && $list[$i]['del_back']) ? "na_delete('viewcomment', '".$list[$i]['del_href']."','".$list[$i]['del_back']."'); return false;" : "return comment_delete(this.href);";?>" class="btn btn-basic" title="삭제">
+                                        <i class="bi bi-trash"></i>
+                                        <span class="d-none d-sm-inline-block">삭제</span>
+                                    </a>
+                                <?php } ?>
+                            <?php } ?>
+                                <?php if(!empty($is_member)) { // 로그인한 회원만 복사 가능 ?>
+                                <button type="button" onclick="copy_comment_link('<?php echo $comment_id ?>');" class="btn btn-basic" title="복사">
+                                    <i class="bi bi-copy"></i>
+                                    <span class="d-none d-sm-inline-block">복사</span>
+                                </button>
+                                <?php } ?>
+                                <button type="button" onclick="na_singo('<?php echo $bo_table ?>', '<?php echo $list[$i]['wr_id'] ?>', '0', 'c_<?php echo $comment_id ?>');" class="btn btn-basic" title="신고">
+                                    <i class="bi bi-eye-slash"></i>
+                                    <span class="d-none d-sm-inline-block">신고</span>
+                                </button>
+                                <?php if($list[$i]['mb_id']) { // 회원만 가능 ?>
+                                    <button type="button" onclick="na_chadan('<?php echo $list[$i]['mb_id'] ?>');" class="btn btn-basic" title="차단">
+                                        <i class="bi bi-person-slash"></i>
+                                        <span class="d-none d-sm-inline-block">차단</span>
                                     </button>
                                 <?php } ?>
                             </div>
+                            <?php if($is_comment_good || $is_comment_nogood) { ?>
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <?php if($is_comment_good) { ?>
+                                        <button type="button" onclick="na_good('<?php echo $bo_table ?>', '<?php echo $comment_id ?>', 'good', 'c_g<?php echo $comment_id ?>', 1);" class="btn <?php echo (isset($good_list[$list[$i]['wr_id']]) && $good_list[$list[$i]['wr_id']] == 'good') ? 'btn-primary' : 'btn-basic' ?>" title="추천">
+                                            <span class="visually-hidden">추천</span>
+                                            <i class="bi bi-hand-thumbs-up"></i>
+                                            <span id="c_g<?php echo $comment_id ?>"><?php echo $list[$i]['wr_good'] ?></span>
+                                        </button>
+                                    <?php } ?>
+                                    <?php if($is_comment_nogood) { ?>
+                                        <button type="button" class="btn <?php echo (isset($good_list[$list[$i]['wr_id']]) && $good_list[$list[$i]['wr_id']] == 'nogood') ? 'btn-primary' : 'btn-basic' ?>" onclick="na_good('<?php echo $bo_table ?>', '<?php echo $comment_id ?>', 'nogood', 'c_ng<?php echo $comment_id ?>', 1);" title="비추천">
+                                            <span class="visually-hidden">비추천</span>
+                                            <i class="bi bi-hand-thumbs-down"></i>
+                                            <span id="c_ng<?php echo $comment_id;?>"><?php echo $list[$i]['wr_nogood']; ?></span>
+                                        </button>
+                                    <?php } ?>
+                                </div>
+                            <?php } ?>
                         <?php } ?>
                     </div>
                 </div>
