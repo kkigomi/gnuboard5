@@ -107,6 +107,8 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
 
             $comment_name = get_text($list[$i]['wr_name']);
 
+            $list[$i]['is_del'] = ($is_admin == 'super') || ($list[$i]['mb_id'] == $member['mb_id']) ? true : false;
+
             // 글 작성자가 쓴 댓글, 로그인 한 사용자가 쓴 댓글, 일반 댓글 색상으로 구분하기
             if (!empty($view['mb_id']) && $view['mb_id'] == $list[$i]['mb_id']) {
                 $by_writer = 'bg-secondary-subtle'; // 글 작성자가 쓴 댓글
