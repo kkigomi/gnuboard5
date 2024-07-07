@@ -1,5 +1,7 @@
 <?php
-use Damoang\Lib\Helper\DateHelper;
+
+namespace Damoang\Tests\Unit\Helper;
+
 use Damoang\Lib\Helper\StringHelper;
 
 class StringHelperTest extends \Codeception\Test\Unit

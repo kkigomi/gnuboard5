@@ -1,4 +1,7 @@
 <?php
+
+namespace Damoang\Tests\Unit\G5;
+
 use Damoang\Lib\G5\Board\BoardConfig;
 
 class BoardConfigTest extends \Codeception\Test\Unit
@@ -78,7 +81,7 @@ class BoardConfigTest extends \Codeception\Test\Unit
         $board = new BoardConfig(compact('bo_skin', 'config1'));
 
         $skinConfig = $board->getSkinConfig();
-        $this->assertInstanceOf(Damoang\Theme\Damoang\Skin\Board\Basic\SkinConfig::class, $skinConfig);
+        $this->assertInstanceOf(\Damoang\Theme\Damoang\Skin\Board\Basic\SkinConfig::class, $skinConfig);
     }
 
     public function testNotExistsSkinConfig()
@@ -90,7 +93,7 @@ class BoardConfigTest extends \Codeception\Test\Unit
         $board = new BoardConfig(compact('bo_skin'));
 
         $skinConfig = $board->getSkinConfig();
-        $this->assertInstanceOf(Damoang\Lib\G5\Board\SkinConfig::class, $skinConfig);
-        $this->assertNotInstanceOf(Damoang\Theme\Damoang\Skin\Board\Basic\SkinConfig::class, $skinConfig);
+        $this->assertInstanceOf(\Damoang\Lib\G5\Board\SkinConfig::class, $skinConfig);
+        $this->assertNotInstanceOf(\Damoang\Theme\Damoang\Skin\Board\Basic\SkinConfig::class, $skinConfig);
     }
 }

@@ -1,4 +1,7 @@
 <?php
+
+namespace Damoang\Tests\Unit\Helper;
+
 use Damoang\Lib\Helper\DateHelper;
 
 class DateHelperTest extends \Codeception\Test\Unit

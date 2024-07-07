@@ -1,4 +1,7 @@
 <?php
+
+namespace Damoang\Tests\Unit\G5;
+
 use Damoang\Lib\G5\G5CommonObject;
 
 class G5CommonObjectTest extends \Codeception\Test\Unit
