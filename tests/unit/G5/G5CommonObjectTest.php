@@ -75,4 +75,10 @@ class G5CommonObjectTest extends \Codeception\Test\Unit
         $this->assertNotTrue($object['boolean_value']);
     }
 
+    public function testGetData()
+    {
+        $data = ['data1' => 'value1'];
+        $object = new G5CommonObject($data);
+        $this->assertSame($data, $object->getData());
+    }
 }
