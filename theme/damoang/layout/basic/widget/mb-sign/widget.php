@@ -65,8 +65,8 @@ $mb_sign_banner_type = 'NONE';
                         Exp <?php echo number_format($mb['as_exp']) ?>
                     </span>
                 </div>
-                <div class="progress" title="레벨업까지 <?php echo number_format($mbs['as_max'] - $mbs['as_exp']); ?> 경험치 필요">
-                    <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<?php echo $per ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $per ?>%">
+                <div class="progress" style="--bs-progress-height: 8px;">
+                    <div class="progress-bar small rounded" role="progressbar" aria-valuenow="<?php echo $per ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $per ?>%; background: linear-gradient(90deg, #9EC5FE 0%, #0D6EFD 100%);">
                         <span class="sr-only"><?php echo $per ?>%</span>
                     </div>
                 </div>
