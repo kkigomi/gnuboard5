@@ -310,7 +310,7 @@ function na_xp_icon($mb_id, $level='', $mb=array()){
 
 	$xp_icon = $xp_icon ? $xp_icon : '1';
 
-	$xp_icon = '<span class="xp-icon"><img src="'.NA_URL.'/skin/level/'.$nariya['lvl_skin'].'/'.$xp_icon.'.'.$nariya['lvl_ext'].'"></span> ';
+	$xp_icon = '<span class="xp-icon"><img src="'.NA_URL.'/skin/level/'.$nariya['lvl_skin'].'/'.$xp_icon.'.'.$nariya['lvl_ext'].'?2"></span> ';
 
 	return $xp_icon;
 }
