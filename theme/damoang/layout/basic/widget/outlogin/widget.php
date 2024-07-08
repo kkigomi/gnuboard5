@@ -17,7 +17,7 @@ global $is_member, $member, $is_admin;
 
         <div class="d-flex flex-column flex-grow-1 overflow-hidden">
             <!-- 닉네임 -->
-            <div class="d-flex align-items-center ps-1">
+            <div class="d-flex align-items-center gap-2 ps-1">
                 <div class="text-truncate">
                     <strong class="fs-5 lh-base mb-0 fw-bold hide-profile-img" style="letter-spacing:-1px;">
                         <?php echo str_replace('sv_member', 'sv_member ellipsis-1', $member['sideview']) ?>
@@ -62,19 +62,7 @@ global $is_member, $member, $is_admin;
         </div>
     </div>
 
-    <div class="d-flex flex-grow-1 justify-content-between mt-2">
-        <div>
-            <button class="btn btn-basic btn-sm w-100" data-bs-toggle="offcanvas" data-bs-target="#memberOffcanvas" aria-controls="memberOffcanvas" role="button">
-                <i class="bi bi-grid"></i>
-                마이메뉴
-            </button>
-        </div>
-        <div>
-            <a href="<?php echo G5_BBS_URL ?>/logout.php" class="btn btn-basic btn-sm w-100" role="button">
-                <i class="bi bi-power"></i>
-                로그아웃
-            </a>
-        </div>
+    <div class="d-flex flex-grow-1 gap-1 justify-content-between mt-2">
         <?php if ($is_admin === 'super') { ?>
             <div>
                 <button type="button" class="widget-setup btn btn-basic btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="위젯설정" role="button">
@@ -82,11 +70,24 @@ global $is_member, $member, $is_admin;
                 </button>
             </div>
             <div>
-                <a href="<?php echo correct_goto_url(G5_ADMIN_URL) ?>" class="btn btn-basic btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="관리자" role="button">
+                <a href="<?php echo correct_goto_url(G5_ADMIN_URL) ?>" class="btn btn-basic btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="관리자" role="button" target="_blank">
                     <i class="bi bi-gear"></i><span class="visually-hidden">관리자</span>
                 </a>
             </div>
         <?php } ?>
+        <div class="flex-fill">
+            <button class="btn btn-basic btn-sm w-100" data-bs-toggle="offcanvas" data-bs-target="#memberOffcanvas" aria-controls="memberOffcanvas" role="button">
+                <i class="bi bi-grid"></i>
+                마이메뉴
+            </button>
+        </div>
+        <div class="flex-fill">
+            <a href="<?php echo G5_BBS_URL ?>/logout.php" class="btn btn-basic btn-sm w-100" role="button">
+                <i class="bi bi-power"></i>
+                로그아웃
+            </a>
+        </div>
+
     </div>
 
     <?php if ($member['mb_level'] >= 2) { ?>
