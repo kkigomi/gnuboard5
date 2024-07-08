@@ -39,4 +39,7 @@ RUN docker-php-ext-install gd
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# php.ini 설정값 변경: custom-php.ini 파일에 적핸 변수값을 Docker 이미지의 php.ini 설정 conf.d에 추가.
+COPY ./custom-php.ini /usr/local/etc/php/conf.d/
+
 EXPOSE 9000
