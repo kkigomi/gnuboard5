@@ -10,4 +10,6 @@ modules:
     enabled:
         # add a framework module here
         - \Helper\Functional
-    step_decorators: ~        
+        - PhpBrowser:
+            url: 'http://localhost/'
+    step_decorators: ~
