@@ -7,19 +7,9 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 // sg_flag = 2 : 상품후기
 
 // 신고 타입
-//$singo_type = array();
-//$singo_type[1] = '스팸홍보/도배글';
-//$singo_type[2] = '영리목적/홍보성';
-//$singo_type[3] = '불법정보/불법촬영물';
-//$singo_type[4] = '음란성/선정성';
-//$singo_type[5] = '욕설/혐오/인신공격';
-//$singo_type[6] = '명예훼손/저작권침해';
-//$singo_type[7] = '개인정보노출';
-//$singo_type[9] = '기타';
-
-// 신고 타입
 $singo_type = array();
-$singo_type[0] = '다중계정';
+// index `0`은 동작하지 않습니다!
+$singo_type[18] = '다중계정';
 $singo_type[1] = '스팸홍보/도배글';
 $singo_type[2] = '영리목적/홍보성';
 $singo_type[3] = '불법정보/불법촬영물';
