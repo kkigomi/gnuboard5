@@ -17,11 +17,9 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
                             <option value="">선택해 주세요.</option>
                             <?php
                                 // 신고 항목
-                                for($i=0; $i<count($singo_type);$i++) {
-                                    if(!isset($singo_type[$i]) || !$singo_type[$i])
-                                        continue;
+                                foreach($singo_type as $singoIdx => $type) {
                             ?>
-                                <option value="<?php echo $i ?>"><?php echo $singo_type[$i] ?></option>
+                                <option value="<?php echo $singoIdx ?>"><?php echo $type ?></option>
                             <?php } ?>
                         </select>
                     </div>
