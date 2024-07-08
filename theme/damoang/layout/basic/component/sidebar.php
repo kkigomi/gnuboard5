@@ -25,15 +25,9 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
                 ?>
                 <div class="nav-item">
                     <a class="nav-link" href="<?php echo $config['cf_9'];?>" data-placement="left" target="_blank">
-<!--                        <i class="bi-youtube nav-icon"></i>-->
+                        <!-- <i class="bi-youtube nav-icon"></i> -->
                         <span class="nav-link-title">▶️ 다모앙 방송국</span>
                     </a>
-                </div>
-            <?php } ?>
-
-            <?php if($member['mb_level'] >= 2) { ?>
-                <div class="nav-item nav-link">
-                    <a href="<?= \G5_URL ?>/bbs/search.php?sfl=mb_id&stx=<?php echo $member['mb_id'] ?>&wr_is_comment=0">내 글</a>&nbsp;|&nbsp;<a href="<?= \G5_URL ?>/bbs/search.php?sfl=mb_id&stx=<?php echo $member['mb_id'] ?>&wr_is_comment=1">내 댓글</a>&nbsp;|&nbsp;<a href="/bbs/noti.php"><i class="bi bi-bell"></i>알림</a>
                 </div>
             <?php } ?>
 
