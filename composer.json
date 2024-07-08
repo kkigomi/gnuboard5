@@ -11,7 +11,9 @@
         }
     },
     "scripts": {
-        "test": "codecept run unit"
+        "test": "codecept run Unit",
+        "test-functional": "codecept run Functional",
+        "test-acceptance": "codecept run Acceptance"
     },
     "autoload": {
         "psr-4": {
