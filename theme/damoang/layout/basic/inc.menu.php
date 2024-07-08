@@ -211,7 +211,7 @@ return [
     [
         'title' => '운영게시판',
         'items' => [
-            '알림사항' => [
+            '공지사항' => [
                 'url' => '/notice',
                 'icon' => 'bi-cash-coin',
                 'shortcut' => 'Ｋ',
