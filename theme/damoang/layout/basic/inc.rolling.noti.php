@@ -5,9 +5,9 @@ return [
         'bo_table' => 'all_board',
         'name' => '전체공지',
         'msg' => [
-            "<a href='/notice/15955'>신규 이용약관 및 운영 정책 안내",
-            "<a href='/notice/14907'>다모앙 폐업 및 새로운 출발",
-            "<a href='/notice/14445'>100일 기념 주간 레벨 100표시 안내",
+            "<a href='/notice/15955'>신규 이용약관 및 운영 정책 안내</a>",
+            "<a href='/notice/16219'>독도는 우리 땅 프로젝트</a>",
+            "<a href='/notice/14907'>다모앙 폐업 및 새로운 출발</a>",
         ],
     ],
     [
