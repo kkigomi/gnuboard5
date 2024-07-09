@@ -370,7 +370,7 @@ if($is_ajax)
 ?>
 <?php if ($is_comment_write && !isset($is_no_certified)) { $w = ($w == '') ? 'c' : $w; ?>
 
-    <aside id="bo_vc_w">
+    <aside id="bo_vc_w" style="position: sticky; bottom: 0;">
         <h3 class="visually-hidden">댓글쓰기</h3>
         <form id="fviewcomment" name="fviewcomment" action="<?php echo $comment_action_url; ?>" onsubmit="return fviewcomment_submit(this);" method="post" autocomplete="off" class="px-3 mb-3">
         <input type="hidden" name="w" value="<?php echo $w ?>" id="w">

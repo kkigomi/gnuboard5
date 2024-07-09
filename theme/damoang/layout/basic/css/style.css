@@ -126,7 +126,7 @@ a:hover {
 /* 모바일 세로 모드에서 가로 스크롤바 숨김 */
 @media (max-width: 575.98px) {
   #main-wrap {
-    overflow-x: hidden !important;
+    overflow-x: clip !important;
   }
 }
 
