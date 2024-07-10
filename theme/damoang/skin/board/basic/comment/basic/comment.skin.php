@@ -1,84 +1,96 @@
 <?php
-if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
+if (!defined('_GNUBOARD_'))
+    exit; // 개별 페이지 접근 불가
 // 댓글 여분필드 사용 내역
 // wr_7 : 신고(lock)
 // wr_9 : 대댓글 대상
 // wr_10 : 럭키 포인트
 
 // add_stylesheet('css 구문', 출력순서); 숫자가 작을 수록 먼저 출력됨
-if(!$is_ajax)
+if (!$is_ajax)
     add_stylesheet('<link rel="stylesheet" href="' . $comment_skin_url . '/comment.css?CACHEBUST">', 0);
 ?>
 
-<?php if(!$is_ajax) { // 1번만 출력 ?>
-<script>
-// 글자수 제한
-var char_min = parseInt(<?php echo $comment_min ?>); // 최소
-var char_max = parseInt(<?php echo $comment_max ?>); // 최대
-</script>
-<div id="viewcomment" class="mt-4">
-<?php } ?>
+<?php if (!$is_ajax) { // 1번만 출력 ?>
+    <script>
+        // 글자수 제한
+        var char_min = parseInt(<?php echo $comment_min ?>); // 최소
+        var char_max = parseInt(<?php echo $comment_max ?>); // 최대
+    </script>
+    <div id="viewcomment" class="mt-4">
+    <?php } ?>
 
-<?php if (isset($boset['check_star_rating']) && $boset['check_star_rating']) { ?>
-    <!-- 별점 평균 { -->
-    <?php
-    $average_row = sql_fetch(
-        " SELECT * FROM {$g5['board_rate_average_table']}
-            WHERE bo_table = '{$bo_table}' AND wr_id = '{$wr_id}' LIMIT 1 ");
-    ?>
-    <div class="card mb-2 border-0 border-bottom rounded-0">
-        <div class="card-body pt-0">
-            <div class="row">
-                <div class="col-5 col-md-3 d-flex justify-content-center align-items-center">
-                    <div class="d-flex flex-column">
-                        <div class="fs-1 text-center"><?php echo $average_row['rate_average'] ? round((float) $average_row['rate_average'] / 2, 2) : 0.0; ?></div>
-                        <div>
-                            <div class="star-rated d-flex p-2 justify-content-center align-items-center">
-                                <?php
+    <?php if (isset($boset['check_star_rating']) && $boset['check_star_rating']) { ?>
+        <!-- 별점 평균 { -->
+        <?php
+        $average_row = sql_fetch(
+            " SELECT * FROM {$g5['board_rate_average_table']}
+            WHERE bo_table = '{$bo_table}' AND wr_id = '{$wr_id}' LIMIT 1 "
+        );
+        ?>
+        <div class="card mb-2 border-0 border-bottom rounded-0">
+            <div class="card-body pt-0">
+                <div class="row">
+                    <div class="col-5 col-md-3 d-flex justify-content-center align-items-center">
+                        <div class="d-flex flex-column">
+                            <div class="fs-1 text-center"><?php echo $average_row['rate_average'] ? round((float) $average_row['rate_average'] / 2, 2) : 0.0; ?></div>
+                            <div>
+                                <div class="star-rated d-flex p-2 justify-content-center align-items-center">
+                                    <?php
                                     $average = (float) $average_row['rate_average'] * 2;
                                     echo na_generate_star_rating($average / 2);
-                                ?>
+                                    ?>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-7 col-md-9">
-                    <div class="flex-column">
-                        <?php for ($i = 10; $i > 0; $i--) { $rated = $i / 2; ?>
-                            <div class="d-flex px-2 gap-2 align-items-center">
-                                <div class="text-ultra-sm text-end" style="width:15px"><?=$rated?></div>
-                                <div class="flex-fill">
-                                    <div class="progress da-star--rate-progress" role="progressbar">
-                                        <?php
-                                        $row_count = isset($average_row['rate_count_'.$i]) ? (int) $average_row['rate_count_'.$i] : 0;
-                                        $rate_count = isset($average_row['rate_count']) ? (int) $average_row['rate_count'] : 0;
-                                        ?>
-                                        <div class="progress-bar" style="width: <?php echo ($row_count > 0) ? $row_count * 100 / $rate_count : 0; ?>%"></div>
+                    <div class="col-7 col-md-9">
+                        <div class="flex-column">
+                            <?php for ($i = 10; $i > 0; $i--) {
+                                $rated = $i / 2; ?>
+                                <div class="d-flex px-2 gap-2 align-items-center">
+                                    <div class="text-ultra-sm text-end" style="width:15px"><?= $rated ?></div>
+                                    <div class="flex-fill">
+                                        <div class="progress da-star--rate-progress" role="progressbar">
+                                            <?php
+                                            $row_count = isset($average_row['rate_count_' . $i]) ? (int) $average_row['rate_count_' . $i] : 0;
+                                            $rate_count = isset($average_row['rate_count']) ? (int) $average_row['rate_count'] : 0;
+                                            ?>
+                                            <div class="progress-bar" style="width: <?php echo ($row_count > 0) ? $row_count * 100 / $rate_count : 0; ?>%"></div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        <?php } ?>
+                            <?php } ?>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- } 별점 평균 -->
-<?php } ?>
+        <!-- } 별점 평균 -->
+    <?php } ?>
     <div class="d-flex justify-content-between align-items-end px-3 mb-2">
         <div>
             댓글 <b><?php echo $write['wr_comment'] ?></b>
-            <?php if($is_paging && $page) echo ' / '.$page.' 페이지'.PHP_EOL; ?>
+            <?php if ($is_paging && $page)
+                echo ' / ' . $page . ' 페이지' . PHP_EOL; ?>
         </div>
-        <?php if($is_paging) { //페이징
-            $comment_sort_href = NA_URL.'/comment.page.php?bo_table='.$bo_table.'&amp;wr_id='.$wr_id;
-            switch($cob) {
-                case 'new'		: $comment_sort_txt = '최신순'; break;
-                case 'good'		: $comment_sort_txt = '추천순'; break;
-                case 'nogood'	: $comment_sort_txt = '비추천순'; break;
-                default			: $comment_sort_txt = '과거순'; break;
-            }
-        ?>
+        <?php if ($is_paging) { //페이징
+                $comment_sort_href = NA_URL . '/comment.page.php?bo_table=' . $bo_table . '&amp;wr_id=' . $wr_id;
+                switch ($cob) {
+                    case 'new':
+                        $comment_sort_txt = '최신순';
+                        break;
+                    case 'good':
+                        $comment_sort_txt = '추천순';
+                        break;
+                    case 'nogood':
+                        $comment_sort_txt = '비추천순';
+                        break;
+                    default:
+                        $comment_sort_txt = '과거순';
+                        break;
+                }
+                ?>
 
             <div>
                 <div class="btn-group">
@@ -92,10 +104,10 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
                         <li>
                             <button class="dropdown-item" type="button" onclick="na_comment_sort('viewcomment', '<?php echo $comment_sort_href ?>', 'new');">최신순</button>
                         </li>
-                        <?php if($is_comment_good) { ?>
+                        <?php if ($is_comment_good) { ?>
                             <button class="dropdown-item" type="button" onclick="na_comment_sort('viewcomment', '<?php echo $comment_sort_href ?>', 'good');">추천순</button>
                         <?php } ?>
-                        <?php if($is_comment_nogood) { ?>
+                        <?php if ($is_comment_nogood) { ?>
                             <button class="dropdown-item" type="button" onclick="na_comment_sort('viewcomment', '<?php echo $comment_sort_href ?>', 'nogood');">비추천순</button>
                         <?php } ?>
                     </ul>
@@ -148,8 +160,8 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
             $comment = na_content($comment);
 
             $comment_sv = $comment_cnt - $i + 1; // 댓글 헤더 z-index 재설정 ie8 이하 사이드뷰 겹침 문제 해결
-            $c_reply_href = $comment_common_url.'&amp;c_id='.$comment_id.'&amp;w=c#bo_vc_w';
-            $c_edit_href = $comment_common_url.'&amp;c_id='.$comment_id.'&amp;w=cu#bo_vc_w';
+            $c_reply_href = $comment_common_url . '&amp;c_id=' . $comment_id . '&amp;w=c#bo_vc_w';
+            $c_edit_href = $comment_common_url . '&amp;c_id=' . $comment_id . '&amp;w=cu#bo_vc_w';
             $is_comment_reply_edit = ($list[$i]['is_reply'] || $list[$i]['is_edit'] || $list[$i]['is_del']) ? 1 : 0;
 
             $comment_name = get_text($list[$i]['wr_name']);
@@ -168,173 +180,178 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
             $parent_wr_name = $wr_names[$list[$i]['wr_comment'] . ':' . substr($list[$i]['wr_comment_reply'], 0, -1)] ?? '';
 
             $is_deleted = empty($list[$i]['wr_content']);
-        ?>
-        <article id="c_<?php echo $comment_id ?>" <?php if ($comment_depth) { ?>style="margin-left:<?php echo $comment_depth ?>rem;"<?php } ?>>
-            <div class="comment-list-wrap position-relative">
-                <header style="z-index:<?php echo $comment_sv ?>">
-                    <h3 class="visually-hidden">
-                        <?php echo $comment_name; ?>님의
-                        <?php if ($comment_depth) { ?><span class="visually-hidden">댓글의</span><?php } ?> 댓글
-                    </h3>
-                    <div class="d-flex align-items-center border-top <?php echo $by_writer ?> py-1 px-3 small">
-                        <div class="me-2">
-                            <?php if ($comment_depth) { ?>
-                                <i class="bi bi-arrow-return-right"></i>
-                                <span class="visually-hidden">대댓글</span>
-                            <?php } ?>
+            ?>
+            <article id="c_<?php echo $comment_id ?>" <?php if ($comment_depth) { ?>style="margin-left:<?php echo $comment_depth ?>rem;" <?php } ?>>
+                <div class="comment-list-wrap position-relative">
+                    <header style="z-index:<?php echo $comment_sv ?>">
+                        <h3 class="visually-hidden">
+                            <?php echo $comment_name; ?>님의
+                            <?php if ($comment_depth) { ?><span class="visually-hidden">댓글의</span><?php } ?> 댓글
+                        </h3>
+                        <div class="d-flex align-items-center border-top <?php echo $by_writer ?> py-1 px-3 small">
+                            <div class="me-2">
+                                <?php if ($comment_depth) { ?>
+                                    <i class="bi bi-arrow-return-right"></i>
+                                    <span class="visually-hidden">대댓글</span>
+                                <?php } ?>
 
                                 <!-- 댓글 작성자 -->
                                 <?php if ($boset->isProfileRenderable() || $member->isAuthor($list[$i]['mb_id'])) { ?>
-                            <span class="visually-hidden">작성자</span>
-                            <span class="d-inline-block"><?php echo na_name_photo($list[$i]['mb_id'], $list[$i]['name']); ?></span>
-                            <?php
-                            // 회원 메모
-                            echo $list[$i]['da_member_memo'] ?? '';
-                            ?>
-                            <?php if (!$is_deleted) echo '(' . $list[$i]['ip'] . ')' ?>
-                                <?php } ?>
-                        </div>
-                        <div>
-                            <?php include(G5_SNS_PATH.'/view_comment_list.sns.skin.php'); // SNS ?>
-                        </div>
-                        <div class="ms-auto" title="<?= get_text($list[$i]['wr_datetime']) ?>">
-                            <span class="visually-hidden">작성일</span>
-                            <?php echo na_date($list[$i]['wr_datetime'], 'orangered'); ?>
-                        </div>
-                    </div>
-                </header>
-                <div class="comment-content p-3">
-                    <?php if (isset($boset['check_star_rating']) && $boset['check_star_rating'] && !$comment_depth) {
-                        $star_rate = (int) $list[$i]['wr_6'];
-                        if ($star_rate > 10) $star_rate = 0;
-
-                        $star_rated_text = na_convert_star_rating($star_rate);
-                        $star_html = na_generate_star_rating($star_rate);
-                        ?>
-                        <div class="star-rated d-flex pb-2 px-0 mb-2 align-items-center">
-                            <span class="me-2 small">별점:</span>
-                            <?php echo $star_html; ?>
-                            <span class="ms-1 small"><?php echo $star_rated_text; ?></span>
-                        </div>
-                    <?php } ?>
-                    <div class="<?php echo $is_convert ?>">
-                            <?php if ($boset->isProfileRenderable()) { ?>
-                        <?php if ($comment_depth) { ?>
-                            <?php if ($parent_wr_name) { ?>
-                                <em class="da-commented-to"><strong>@<?= $parent_wr_name ?></strong>님에게 답글</em>
-                            <?php } else { ?>
-                                <em class="da-commented-to">다른 누군가에게 답글</em>
-                            <?php } ?>
-                        <?php } ?>
-                            <?php } ?>
-                        <?php
-                        $is_lock = false;
-                        if (strstr($list[$i]['wr_option'], "secret")) {
-                            $is_lock = true;
-                        ?>
-                            <span class="na-icon na-secret"></span>
-                        <?php } ?>
-
-                        <?php if(empty($comment)) echo "[삭제된 댓글입니다]"; else echo $comment ?>
-                    </div>
-                    <?php if((int)$list[$i]['wr_10'] > 0) { // 럭키포인트 ?>
-                        <div class="small mt-3">
-                            <i class="bi bi-gift"></i>
-                            <b><?php echo number_format((int)$list[$i]['wr_10']) ?></b> 랜덤 럭키포인트 당첨을 축하드립니다.
-                        </div>
-                    <?php } ?>
-
-                    <div class="d-flex justify-content-between mt-3">
-                        <div class="btn-group btn-group-sm" role="group">
-                        <?php if(!$is_deleted) { ?>
-                            <?php if($is_comment_reply_edit) {
-                                if($w == 'cu') {
-                                    $sql = " select wr_id, wr_content, mb_id from $write_table where wr_id = '$c_id' and wr_is_comment = '1' ";
-                                    $cmt = sql_fetch($sql);
-                                    if (!($is_admin || ($member['mb_id'] == $cmt['mb_id'] && $cmt['mb_id'])))
-                                        $cmt['wr_content'] = '';
-                                    $c_wr_content = $cmt['wr_content'];
-                                }
-                            ?>
-                                <?php if ($list[$i]['is_reply']) { ?>
-                                    <button type="button" class="btn btn-basic" onclick="comment_box('<?php echo $comment_id ?>','c','<?php echo ($boset->isProfileRenderable()) ? $comment_name : '*'; ?>');" class="btn btn-basic btn-sm" title="답글">
-                                        <i class="bi bi-chat-dots"></i>
-                                        답글
-                                    </button>
-                                <?php } ?>
-                                <?php if ($list[$i]['is_edit']) { ?>
-                                    <button type="button" class="btn btn-basic" onclick="comment_box('<?php echo $comment_id ?>','cu','<?php echo $comment_name;?>');" class="btn btn-basic btn-sm" title="수정">
-                                        <i class="bi bi-pencil"></i>
-                                        <span class="d-none d-sm-inline-block">수정</span>
-                                    </button>
-                                <?php } ?>
-                                <?php
-                                if ($list[$i]['is_del']) {
-                                ?>
-                                    <a href="<?php echo $list[$i]['del_link']; ?>" rel="nofollow" onclick="<?php echo (isset($list[$i]['del_back']) && $list[$i]['del_back']) ? "na_delete('viewcomment', '".$list[$i]['del_href']."','".$list[$i]['del_back']."'); return false;" : "return comment_delete(this.href);";?>" class="btn btn-basic" title="삭제">
-                                        <i class="bi bi-trash"></i>
-                                        <span class="d-none d-sm-inline-block">삭제</span>
-                                    </a>
-                                <?php } ?>
-                            <?php } ?>
-                                <?php if(!empty($is_member)) { // 로그인한 회원만 복사 가능 ?>
-                                <button type="button" onclick="copy_comment_link('<?php echo $comment_id ?>');" class="btn btn-basic" title="복사">
-                                    <i class="bi bi-copy"></i>
-                                    <span class="d-none d-sm-inline-block">복사</span>
-                                </button>
-                                <?php } ?>
-                                <button type="button" onclick="na_singo('<?php echo $bo_table ?>', '<?php echo $list[$i]['wr_id'] ?>', '0', 'c_<?php echo $comment_id ?>');" class="btn btn-basic" title="신고">
-                                    <i class="bi bi-eye-slash"></i>
-                                    <span class="d-none d-sm-inline-block">신고</span>
-                                </button>
-                                <?php if($list[$i]['mb_id']) { // 회원만 가능 ?>
-                                    <button type="button" onclick="na_chadan('<?php echo $list[$i]['mb_id'] ?>');" class="btn btn-basic" title="차단">
-                                        <i class="bi bi-person-slash"></i>
-                                        <span class="d-none d-sm-inline-block">차단</span>
-                                    </button>
+                                    <span class="visually-hidden">작성자</span>
+                                    <span class="d-inline-block"><?php echo na_name_photo($list[$i]['mb_id'], $list[$i]['name']); ?></span>
+                                    <?php
+                                    // 회원 메모
+                                    echo $list[$i]['da_member_memo'] ?? '';
+                                    ?>
+                                    <?php if (!$is_deleted)
+                                        echo '(' . $list[$i]['ip'] . ')' ?>
                                 <?php } ?>
                             </div>
-                            <?php if($is_comment_good || $is_comment_nogood) { ?>
-                                <div class="btn-group btn-group-sm" role="group">
-                                    <?php if($is_comment_good) { ?>
-                                        <button type="button" onclick="na_good('<?php echo $bo_table ?>', '<?php echo $comment_id ?>', 'good', 'c_g<?php echo $comment_id ?>', 1);" class="btn good-border <?php echo (isset($good_list[$list[$i]['wr_id']]) && $good_list[$list[$i]['wr_id']] == 'good') ? 'btn-primary' : 'btn-basic' ?>" title="추천">
-                                            <span class="visually-hidden">추천</span>
-                                            <i class="bi bi-hand-thumbs-up"></i>
-                                            <span id="c_g<?php echo $comment_id ?>"><?php echo $list[$i]['wr_good'] ?></span>
+                            <div>
+                                <?php include (G5_SNS_PATH . '/view_comment_list.sns.skin.php'); // SNS ?>
+                            </div>
+                            <div class="ms-auto" title="<?= get_text($list[$i]['wr_datetime']) ?>">
+                                <span class="visually-hidden">작성일</span>
+                                <?php echo na_date($list[$i]['wr_datetime'], 'orangered'); ?>
+                            </div>
+                        </div>
+                    </header>
+                    <div class="comment-content p-3">
+                        <?php if (isset($boset['check_star_rating']) && $boset['check_star_rating'] && !$comment_depth) {
+                            $star_rate = (int) $list[$i]['wr_6'];
+                            if ($star_rate > 10)
+                                $star_rate = 0;
+
+                            $star_rated_text = na_convert_star_rating($star_rate);
+                            $star_html = na_generate_star_rating($star_rate);
+                            ?>
+                            <div class="star-rated d-flex pb-2 px-0 mb-2 align-items-center">
+                                <span class="me-2 small">별점:</span>
+                                <?php echo $star_html; ?>
+                                <span class="ms-1 small"><?php echo $star_rated_text; ?></span>
+                            </div>
+                        <?php } ?>
+                        <div class="<?php echo $is_convert ?>">
+                            <?php if ($boset->isProfileRenderable()) { ?>
+                                <?php if ($comment_depth) { ?>
+                                    <?php if ($parent_wr_name) { ?>
+                                        <em class="da-commented-to"><strong>@<?= $parent_wr_name ?></strong>님에게 답글</em>
+                                    <?php } else { ?>
+                                        <em class="da-commented-to">다른 누군가에게 답글</em>
+                                    <?php } ?>
+                                <?php } ?>
+                            <?php } ?>
+                            <?php
+                            $is_lock = false;
+                            if (strstr($list[$i]['wr_option'], "secret")) {
+                                $is_lock = true;
+                                ?>
+                                <span class="na-icon na-secret"></span>
+                            <?php } ?>
+
+                            <?php if (empty($comment))
+                                echo "[삭제된 댓글입니다]";
+                            else
+                                echo $comment ?>
+                            </div>
+                        <?php if ((int) $list[$i]['wr_10'] > 0) { // 럭키포인트 ?>
+                            <div class="small mt-3">
+                                <i class="bi bi-gift"></i>
+                                <b><?php echo number_format((int) $list[$i]['wr_10']) ?></b> 랜덤 럭키포인트 당첨을 축하드립니다.
+                            </div>
+                        <?php } ?>
+
+                        <div class="d-flex justify-content-between mt-3">
+                            <div class="btn-group btn-group-sm" role="group">
+                                <?php if (!$is_deleted) { ?>
+                                    <?php if ($is_comment_reply_edit) {
+                                        if ($w == 'cu') {
+                                            $sql = " select wr_id, wr_content, mb_id from $write_table where wr_id = '$c_id' and wr_is_comment = '1' ";
+                                            $cmt = sql_fetch($sql);
+                                            if (!($is_admin || ($member['mb_id'] == $cmt['mb_id'] && $cmt['mb_id'])))
+                                                $cmt['wr_content'] = '';
+                                            $c_wr_content = $cmt['wr_content'];
+                                        }
+                                        ?>
+                                        <?php if ($list[$i]['is_reply']) { ?>
+                                            <button type="button" class="btn btn-basic" onclick="comment_box('<?php echo $comment_id ?>','c','<?php echo ($boset->isProfileRenderable()) ? $comment_name : '*'; ?>');" class="btn btn-basic btn-sm" title="답글">
+                                                <i class="bi bi-chat-dots"></i>
+                                                답글
+                                            </button>
+                                        <?php } ?>
+                                        <?php if ($list[$i]['is_edit']) { ?>
+                                            <button type="button" class="btn btn-basic" onclick="comment_box('<?php echo $comment_id ?>','cu','<?php echo $comment_name; ?>');" class="btn btn-basic btn-sm" title="수정">
+                                                <i class="bi bi-pencil"></i>
+                                                <span class="d-none d-sm-inline-block">수정</span>
+                                            </button>
+                                        <?php } ?>
+                                        <?php
+                                        if ($list[$i]['is_del']) {
+                                            ?>
+                                            <a href="<?php echo $list[$i]['del_link']; ?>" rel="nofollow" onclick="<?php echo (isset($list[$i]['del_back']) && $list[$i]['del_back']) ? "na_delete('viewcomment', '" . $list[$i]['del_href'] . "','" . $list[$i]['del_back'] . "'); return false;" : "return comment_delete(this.href);"; ?>" class="btn btn-basic" title="삭제">
+                                                <i class="bi bi-trash"></i>
+                                                <span class="d-none d-sm-inline-block">삭제</span>
+                                            </a>
+                                        <?php } ?>
+                                    <?php } ?>
+                                    <?php if (!empty($is_member)) { // 로그인한 회원만 복사 가능 ?>
+                                        <button type="button" onclick="copy_comment_link('<?php echo $comment_id ?>');" class="btn btn-basic" title="복사">
+                                            <i class="bi bi-copy"></i>
+                                            <span class="d-none d-sm-inline-block">복사</span>
                                         </button>
                                     <?php } ?>
-                                    <?php if($is_comment_nogood) { ?>
-                                        <button type="button" class="btn good-border <?php echo (isset($good_list[$list[$i]['wr_id']]) && $good_list[$list[$i]['wr_id']] == 'nogood') ? 'btn-primary' : 'btn-basic' ?>" onclick="na_good('<?php echo $bo_table ?>', '<?php echo $comment_id ?>', 'nogood', 'c_ng<?php echo $comment_id ?>', 1);" title="비추천">
-                                            <span class="visually-hidden">비추천</span>
-                                            <i class="bi bi-hand-thumbs-down"></i>
-                                            <span id="c_ng<?php echo $comment_id;?>"><?php echo $list[$i]['wr_nogood']; ?></span>
+                                    <button type="button" onclick="na_singo('<?php echo $bo_table ?>', '<?php echo $list[$i]['wr_id'] ?>', '0', 'c_<?php echo $comment_id ?>');" class="btn btn-basic" title="신고">
+                                        <i class="bi bi-eye-slash"></i>
+                                        <span class="d-none d-sm-inline-block">신고</span>
+                                    </button>
+                                    <?php if ($list[$i]['mb_id']) { // 회원만 가능 ?>
+                                        <button type="button" onclick="na_chadan('<?php echo $list[$i]['mb_id'] ?>');" class="btn btn-basic" title="차단">
+                                            <i class="bi bi-person-slash"></i>
+                                            <span class="d-none d-sm-inline-block">차단</span>
                                         </button>
                                     <?php } ?>
                                 </div>
+                                <?php if ($is_comment_good || $is_comment_nogood) { ?>
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <?php if ($is_comment_good) { ?>
+                                            <button type="button" onclick="na_good('<?php echo $bo_table ?>', '<?php echo $comment_id ?>', 'good', 'c_g<?php echo $comment_id ?>', 1);" class="btn good-border <?php echo (isset($good_list[$list[$i]['wr_id']]) && $good_list[$list[$i]['wr_id']] == 'good') ? 'btn-primary' : 'btn-basic' ?>" title="추천">
+                                                <span class="visually-hidden">추천</span>
+                                                <i class="bi bi-hand-thumbs-up"></i>
+                                                <span id="c_g<?php echo $comment_id ?>"><?php echo $list[$i]['wr_good'] ?></span>
+                                            </button>
+                                        <?php } ?>
+                                        <?php if ($is_comment_nogood) { ?>
+                                            <button type="button" class="btn good-border <?php echo (isset($good_list[$list[$i]['wr_id']]) && $good_list[$list[$i]['wr_id']] == 'nogood') ? 'btn-primary' : 'btn-basic' ?>" onclick="na_good('<?php echo $bo_table ?>', '<?php echo $comment_id ?>', 'nogood', 'c_ng<?php echo $comment_id ?>', 1);" title="비추천">
+                                                <span class="visually-hidden">비추천</span>
+                                                <i class="bi bi-hand-thumbs-down"></i>
+                                                <span id="c_ng<?php echo $comment_id; ?>"><?php echo $list[$i]['wr_nogood']; ?></span>
+                                            </button>
+                                        <?php } ?>
+                                    </div>
+                                <?php } ?>
                             <?php } ?>
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                        <?php // 현재 별점
+                            $wr_6 = (int) $list[$i]['wr_6'];
+                            if (!$comment_depth && !empty($list[$i]['wr_6'])) {
+                                $data_wr_6 = " data-star-rated=\"{$wr_6}\"";
+                            }
+                            ?>
+                        <span id="edit_<?php echo $comment_id ?>" <?php echo $data_wr_6 ?? ''; ?> class="bo_vc_w<?php echo $comment_depth ? ' is-deeper' : ''; ?>"></span><!-- 수정 -->
+                        <span id="reply_<?php echo $comment_id ?>" class="bo_vc_re<?php echo $comment_depth ? ' is-deeper' : ''; ?>"></span><!-- 답변 -->
+                        <?php if ($is_paging) { ?>
+                            <input type="hidden" value="<?php echo $comment_url . '&amp;page=' . $page; ?>" id="comment_url_<?php echo $comment_id ?>">
+                            <input type="hidden" value="<?php echo $page; ?>" id="comment_page_<?php echo $comment_id ?>">
                         <?php } ?>
+                        <input type="hidden" value="<?php echo strstr($list[$i]['wr_option'], "secret") ?>" id="secret_comment_<?php echo $comment_id ?>">
+                        <textarea id="save_comment_<?php echo $comment_id ?>" class="d-none"><?php echo get_text($list[$i]['content1'], 0) ?></textarea>
                     </div>
                 </div>
-                <div class="clearfix">
-                    <?php // 현재 별점
-                        $wr_6 = (int) $list[$i]['wr_6'];
-                        if (!$comment_depth && !empty($list[$i]['wr_6'])) {
-                            $data_wr_6 = " data-star-rated=\"{$wr_6}\"";
-                        }
-                    ?>
-                    <span id="edit_<?php echo $comment_id ?>"<?php echo $data_wr_6 ?? ''; ?> class="bo_vc_w<?php echo $comment_depth ? ' is-deeper' : ''; ?>"></span><!-- 수정 -->
-                    <span id="reply_<?php echo $comment_id ?>" class="bo_vc_re<?php echo $comment_depth ? ' is-deeper' : ''; ?>"></span><!-- 답변 -->
-                    <?php if($is_paging) { ?>
-                        <input type="hidden" value="<?php echo $comment_url.'&amp;page='.$page; ?>" id="comment_url_<?php echo $comment_id ?>">
-                        <input type="hidden" value="<?php echo $page; ?>" id="comment_page_<?php echo $comment_id ?>">
-                    <?php } ?>
-                    <input type="hidden" value="<?php echo strstr($list[$i]['wr_option'],"secret") ?>" id="secret_comment_<?php echo $comment_id ?>">
-                    <textarea id="save_comment_<?php echo $comment_id ?>" class="d-none"><?php echo get_text($list[$i]['content1'], 0) ?></textarea>
-                </div>
-            </div>
-        </article>
+            </article>
         <?php } ?>
-        <?php if($is_paging) { //페이징 ?>
+        <?php if ($is_paging) { //페이징 ?>
             <div class="d-flex flex-column flex-sm-row border-top justify-content-between p-3 gap-2">
                 <div>
                     <ul class="pagination pagination-sm justify-content-center m-0">
@@ -350,485 +367,533 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
             </div>
         <?php } ?>
     </section>
-<?php
-// 아래 내용은 1번만 출력
-if($is_ajax)
-    return;
-?>
+    <?php
+    // 아래 내용은 1번만 출력
+    if ($is_ajax)
+        return;
+    ?>
 </div><!-- #viewcomment 닫기 -->
 <?php
-    $certify_required = explode(',', $config['cf_7']);
-    if (!empty($config['cf_7'])) {
-        foreach ($certify_required as $val) {
-            if (trim($val) === $bo_table) { // 실명인증 필수 설정한 게시판일때
-                if ($is_member && $is_admin != 'super' && empty($member['mb_certify'])) { // 본인인증이 안된 계정일때
-                    $is_no_certified = true;
-                }
+$certify_required = explode(',', $config['cf_7']);
+if (!empty($config['cf_7'])) {
+    foreach ($certify_required as $val) {
+        if (trim($val) === $bo_table) { // 실명인증 필수 설정한 게시판일때
+            if ($is_member && $is_admin != 'super' && empty($member['mb_certify'])) { // 본인인증이 안된 계정일때
+                $is_no_certified = true;
             }
         }
     }
+}
 ?>
-<?php if ($is_comment_write && !isset($is_no_certified)) { $w = ($w == '') ? 'c' : $w; ?>
 
-    <aside id="bo_vc_w" style="position: sticky; bottom: 0;">
+<style>
+    #wr_content {
+        height: 4.5em;
+        resize: none;
+    }
+
+    .comment--sticky {
+        position: sticky;
+        bottom: 0;
+        z-index: 3;
+    }
+
+    .comment--sticky-full {}
+
+    .comment--sticky-full form {
+        padding: 0 !important;
+    }
+</style>
+<script>
+    $(function () {
+        $('#wr_content').on('focus blur', function (e) {
+            const $this = $(this);
+            console.debug('e', e, this);
+            if (e.type === 'blur' && !$this.val()) {
+                $('#bo_vc_w').removeClass('comment--sticky');
+            } else {
+                $('#bo_vc_w').addClass('comment--sticky');
+            }
+
+        });
+
+        // header 섹션
+        const header = document.querySelector('.comment__observer');
+        const aside = document.querySelector('#bo_vc_w');
+        // navigation bar 높이
+
+        const stickyNav = function (entries) {
+            const [entry] = entries;
+            console.log(entry);
+
+            if (!entry.isIntersecting) aside.classList.add('comment--sticky-full');
+            else aside.classList.remove('comment--sticky-full');
+        };
+        const headerObserver = new IntersectionObserver(stickyNav, {
+            // entire viewport
+            root: null,
+            // root의 0% 만큼 header가 보이거나(isIntersecting: true) 사라지면(isIntersecting: false) callback function을 실행
+            threshold: 0,
+        });
+        headerObserver.observe(header);
+    });
+</script>
+
+
+<?php if ($is_comment_write && !isset($is_no_certified)) {
+    $w = ($w == '') ? 'c' : $w; ?>
+
+    <aside id="bo_vc_w">
         <h3 class="visually-hidden">댓글쓰기</h3>
         <form id="fviewcomment" name="fviewcomment" action="<?php echo $comment_action_url; ?>" onsubmit="return fviewcomment_submit(this);" method="post" autocomplete="off" class="px-3 mb-3">
-        <input type="hidden" name="w" value="<?php echo $w ?>" id="w">
-        <input type="hidden" name="bo_table" value="<?php echo $bo_table ?>">
-        <input type="hidden" name="wr_id" value="<?php echo $wr_id ?>">
-        <input type="hidden" name="comment_id" value="<?php echo $c_id ?>" id="comment_id">
-        <?php if($is_paging) { //페이징 ?>
-            <input type="hidden" name="comment_url" value="" id="comment_url">
-            <input type="hidden" name="cob" value="<?php echo $cob ?>">
-        <?php } ?>
-        <input type="hidden" name="sca" value="<?php echo $sca ?>">
-        <input type="hidden" name="sfl" value="<?php echo $sfl ?>">
-        <input type="hidden" name="stx" value="<?php echo $stx ?>">
-        <input type="hidden" name="spt" value="<?php echo $spt ?>">
-        <input type="hidden" name="page" value="<?php echo $page ?>" id="comment_page">
-        <input type="hidden" name="is_good" value="">
+            <input type="hidden" name="w" value="<?php echo $w ?>" id="w">
+            <input type="hidden" name="bo_table" value="<?php echo $bo_table ?>">
+            <input type="hidden" name="wr_id" value="<?php echo $wr_id ?>">
+            <input type="hidden" name="comment_id" value="<?php echo $c_id ?>" id="comment_id">
+            <?php if ($is_paging) { //페이징 ?>
+                <input type="hidden" name="comment_url" value="" id="comment_url">
+                <input type="hidden" name="cob" value="<?php echo $cob ?>">
+            <?php } ?>
+            <input type="hidden" name="sca" value="<?php echo $sca ?>">
+            <input type="hidden" name="sfl" value="<?php echo $sfl ?>">
+            <input type="hidden" name="stx" value="<?php echo $stx ?>">
+            <input type="hidden" name="spt" value="<?php echo $spt ?>">
+            <input type="hidden" name="page" value="<?php echo $page ?>" id="comment_page">
+            <input type="hidden" name="is_good" value="">
 
-        <div class="p-2 bg-body-tertiary border rounded">
-            <?php if ($is_guest) { ?>
-                <div class="row g-2 mb-2">
-                    <div class="col-sm-6">
-                        <div class="input-group">
-                            <span class="input-group-text" id="comment_name">
-                                <i class="bi bi-person"></i>
-                                <span class="visually-hidden">이름<strong> 필수</strong></span>
-                            </span>
-                            <input type="text" name="wr_name" value="<?php echo get_cookie("ck_sns_name"); ?>" id="wr_name" class="form-control" placeholder="이름" aria-label="이름" aria-describedby="comment_name" maxLength="20">
+            <div class="p-2 bg-body-tertiary border rounded">
+                <?php if ($is_guest) { ?>
+                    <div class="row g-2 mb-2">
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <span class="input-group-text" id="comment_name">
+                                    <i class="bi bi-person"></i>
+                                    <span class="visually-hidden">이름<strong> 필수</strong></span>
+                                </span>
+                                <input type="text" name="wr_name" value="<?php echo get_cookie("ck_sns_name"); ?>" id="wr_name" class="form-control" placeholder="이름" aria-label="이름" aria-describedby="comment_name" maxLength="20">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <span class="input-group-text" id="comment_password">
+                                    <i class="bi bi-shield-lock"></i>
+                                    <span class="visually-hidden">비밀번호<strong> 필수</strong></span>
+                                </span>
+                                <input type="password" name="wr_password" value="<?php echo get_cookie("ck_sns_name"); ?>" id="wr_password" class="form-control" placeholder="비밀번호" aria-label="비밀번호" aria-describedby="comment_password" maxLength="20">
+                            </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="input-group">
-                            <span class="input-group-text" id="comment_password">
-                                <i class="bi bi-shield-lock"></i>
-                                <span class="visually-hidden">비밀번호<strong> 필수</strong></span>
-                            </span>
-                            <input type="password" name="wr_password" value="<?php echo get_cookie("ck_sns_name"); ?>" id="wr_password" class="form-control" placeholder="비밀번호" aria-label="비밀번호" aria-describedby="comment_password" maxLength="20">
+                <?php } ?>
+
+                <?php if (isset($boset['check_star_rating']) && $boset['check_star_rating']) { ?>
+                    <!-- 별점 기능 { -->
+                    <div class="mb-2">
+                        <div id="bo_vc_star" class="d-flex gap-1">
+                            <select name="wr_6" id="wr_star" class="form-select form-select-sm">
+                                <option value="0">평가</option>
+                                <option value="1">0.5점</option>
+                                <option value="2">1점</option>
+                                <option value="3">1.5점</option>
+                                <option value="4">2점</option>
+                                <option value="5">2.5점</option>
+                                <option value="6">3점</option>
+                                <option value="7">3.5점</option>
+                                <option value="8">4점</option>
+                                <option value="9">4.5점</option>
+                                <option value="10">5점</option>
+                            </select>
+                            <!-- Add this inside the form where the comment is being posted -->
+                            <div id="star-rating" class="star-rating d-flex flex-fill">
+                                <div class="da-star star-l"></div>
+                                <div class="da-star star-r"></div>
+                                <div class="da-star star-l"></div>
+                                <div class="da-star star-r"></div>
+                                <div class="da-star star-l"></div>
+                                <div class="da-star star-r"></div>
+                                <div class="da-star star-l"></div>
+                                <div class="da-star star-r"></div>
+                                <div class="da-star star-l"></div>
+                                <div class="da-star star-r"></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <?php } ?>
+                    <!-- } 별점 기능 -->
+                <?php } ?>
 
-            <?php if ($comment_min || $comment_max) { ?>
-                <div class="small mb-2" id="char_cnt">
-                    현재 <b id="char_count">0</b>글자
-                    /
-                    <?php if($comment_min) { ?>
-                        <?php echo number_format((int)$comment_min);?>글자 이상
-                    <?php } ?>
-                    <?php if($comment_max) { ?>
-                        <?php echo number_format((int)$comment_max);?>글자 이하
-                    <?php } ?>
-                    등록 가능
-                </div>
-            <?php } ?>
 
-            <?php if (isset($boset['check_star_rating']) && $boset['check_star_rating']) { ?>
-                <!-- 별점 기능 { -->
                 <div class="mb-2">
-                    <div id="bo_vc_star" class="col-sm-3">
-                        <select name="wr_6" id="wr_star" style="width:120px" class="form-select form-select-sm mb-2">
-                            <option value="0">평가</option>
-                            <option value="1">0.5점</option>
-                            <option value="2">1점</option>
-                            <option value="3">1.5점</option>
-                            <option value="4">2점</option>
-                            <option value="5">2.5점</option>
-                            <option value="6">3점</option>
-                            <option value="7">3.5점</option>
-                            <option value="8">4점</option>
-                            <option value="9">4.5점</option>
-                            <option value="10">5점</option>
-                        </select>
-                        <!-- Add this inside the form where the comment is being posted -->
-                        <div id="star-rating" class="star-rating d-flex">
-                            <div class="da-star star-l"></div>
-                            <div class="da-star star-r"></div>
-                            <div class="da-star star-l"></div>
-                            <div class="da-star star-r"></div>
-                            <div class="da-star star-l"></div>
-                            <div class="da-star star-r"></div>
-                            <div class="da-star star-l"></div>
-                            <div class="da-star star-r"></div>
-                            <div class="da-star star-l"></div>
-                            <div class="da-star star-r"></div>
-                        </div>
-                    </div>
-                </div>
-                <!-- } 별점 기능 -->
-            <?php } ?>
-
-            <style>
-            #wr_content {
-                height:92px; resize: none; overflow-y: hidden; }
-            </style>
-            <div class="mb-2">
-                <script>
-                    $(function () {
-                        $("#fviewcomment textarea, .upload-file-area")
-                        .on("dragenter", function (e) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                        }).on("dragover", function (e) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            $('.upload-file-area').css("display", "flex");
-                        }).on("dragleave", function (e) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            if ($(this).hasClass('upload-file-area'))
-                                $('.upload-file-area').css("display", "none");
-                        }).on("drop", function (e) {
-                            e.preventDefault();
-                            var data = new FormData();
-                            var files = e.originalEvent.dataTransfer.files;
-                            data.append('bo_table', '<?php echo $bo_table ?>');
-                            data.append('na_file', files[0]);
-
-                            $.ajax({
-                                type: 'POST',
-                                url: '<?php echo NA_URL ?>/upload.image.php',
-                                enctype : 'multipart/form-data',
-                                dataType: 'json',
-                                contentType: false,
-                                processData: false,
-                                data: data,
-                                success: function (result) {
-                                    $('.upload-file-area').css("display", "none");
-                                    if(result.success) {
-                                        parent.document.getElementById("wr_content").value += '[' + result.success + ']\n';
-                                    } else {
-                                        var chkErr = result.error.replace(/<[^>]*>?/g, '');
-                                        if(!chkErr) {
-                                            chkErr = '[E1]오류가 발생하였습니다.';
-                                        }
-                                        na_alert(chkErr);
-                                        return false;
-                                    }
-                                },
-                                error: function (request,status,error) {
-                                    let msg = "code:"+request.status+"<br>"+"message:"+request.responseText+"<br>"+"error:"+error;
-                                    na_alert(msg);
-                                    return false;
-                                }
-                            });
-                        });
-                    });
-                </script>
-                <div class="form-floating comment-textarea">
-                    <div class="upload-file-area">
-                        <div class="upload-file-over"></div>
-                        <div class="icon-upload">
-                            <i class="bi bi-upload"></i>
-                        </div>
-                        <div>여기에 파일을 놓아 업로드</div>
-                    </div>
-                    <textarea tabindex="1" placeholder="Leave a comment here" id="wr_content" name="wr_content" maxlength="<?php echo ($comment_max > 0) ? $comment_max : ''; ?>" class="form-control lh-base"
-                    <?php if ($comment_min || $comment_max) { ?>onkeyup="check_byte('wr_content', 'char_count');"<?php } ?>><?php echo $c_wr_content;  ?></textarea>
-                    <label id="wr_msg" for="wr_content">댓글을 입력해 주세요.</label>
-                </div>
-                <?php if ($comment_min || $comment_max) { ?><script> check_byte('wr_content', 'char_count'); </script><?php } ?>
-            </div>
-
-            <div class="d-flex align-items-center">
-                <div>
-                    <?php include_once(G5_THEME_PATH.'/app/clip.comment.php'); //댓글 버튼 모음 ?>
-                </div>
-                <div class="px-2">
-                    <input type="checkbox" class="btn-check" name="wr_secret" value="secret" id="wr_secret" autocomplete="off">
-                </div>
-                <div class="ms-auto">
-                    <button <?php echo ($is_paging) ? 'type="button" onclick="na_comment(\'viewcomment\');"' : 'type="submit"';?> class="btn btn-primary btn-sm" onKeyDown="na_comment_onKeyDown(<?php echo $is_paging?>);" id="btn_submit" title="댓글등록" tabindex="2">
-                        <span class="d-none d-sm-inline-block">댓글</span>
-                        등록
-                    </button>
-                </div>
-            </div>
-            <?php if($board['bo_use_sns'] && ($config['cf_facebook_appid'] || $config['cf_twitter_key'])) {	?>
-                <div  class="clearfix pt-2">
-                    <div id="bo_vc_opt">
-                        <ol id="bo_vc_sns">
-                            <li id="bo_vc_send_sns"></li>
-                        </ol>
-                    </div>
                     <script>
-                    // sns 등록
-                    $(function() {
-                        $("#bo_vc_send_sns").load("<?php echo G5_SNS_URL; ?>/view_comment_write.sns.skin.php?bo_table=<?php echo $bo_table; ?>", function() {
-                            save_html = document.getElementById('bo_vc_w').innerHTML;
+                        $(function () {
+                            $("#fviewcomment textarea, .upload-file-area")
+                                .on("dragenter", function (e) {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                }).on("dragover", function (e) {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    $('.upload-file-area').css("display", "flex");
+                                }).on("dragleave", function (e) {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    if ($(this).hasClass('upload-file-area'))
+                                        $('.upload-file-area').css("display", "none");
+                                }).on("drop", function (e) {
+                                    e.preventDefault();
+                                    var data = new FormData();
+                                    var files = e.originalEvent.dataTransfer.files;
+                                    data.append('bo_table', '<?php echo $bo_table ?>');
+                                    data.append('na_file', files[0]);
+
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '<?php echo NA_URL ?>/upload.image.php',
+                                        enctype: 'multipart/form-data',
+                                        dataType: 'json',
+                                        contentType: false,
+                                        processData: false,
+                                        data: data,
+                                        success: function (result) {
+                                            $('.upload-file-area').css("display", "none");
+                                            if (result.success) {
+                                                parent.document.getElementById("wr_content").value += '[' + result.success + ']\n';
+                                            } else {
+                                                var chkErr = result.error.replace(/<[^>]*>?/g, '');
+                                                if (!chkErr) {
+                                                    chkErr = '[E1]오류가 발생하였습니다.';
+                                                }
+                                                na_alert(chkErr);
+                                                return false;
+                                            }
+                                        },
+                                        error: function (request, status, error) {
+                                            let msg = "code:" + request.status + "<br>" + "message:" + request.responseText + "<br>" + "error:" + error;
+                                            na_alert(msg);
+                                            return false;
+                                        }
+                                    });
+                                });
                         });
-                    });
                     </script>
+                    <div class="comment-textarea">
+                        <div class="upload-file-area">
+                            <div class="upload-file-over"></div>
+                            <div class="icon-upload">
+                                <i class="bi bi-upload"></i>
+                            </div>
+                            <div>여기에 파일을 놓아 업로드</div>
+                        </div>
+                        <textarea tabindex="1" placeholder="댓글을 입력해 주세요" id="wr_content" name="wr_content" maxlength="<?php echo ($comment_max > 0) ? $comment_max : ''; ?>" class="form-control lh-base" <?php if ($comment_min || $comment_max) { ?>onkeyup="check_byte('wr_content', 'char_count');" <?php } ?>><?php echo $c_wr_content; ?></textarea>
+                    </div>
+                    <?php if ($comment_min || $comment_max) { ?>
+                        <script> check_byte('wr_content', 'char_count'); </script><?php } ?>
                 </div>
-            <?php } ?>
-            <?php if ($is_guest) { ?>
-                <div class="pt-2 text-center small border-top mt-2">
-                    <?php echo $captcha_html; ?>
+
+                <div class="d-flex align-items-center">
+                    <div>
+                        <?php include_once (G5_THEME_PATH . '/app/clip.comment.php'); //댓글 버튼 모음 ?>
+                    </div>
+                    <div class="px-2">
+                        <input type="checkbox" class="btn-check" name="wr_secret" value="secret" id="wr_secret" autocomplete="off">
+                    </div>
+                    <div class="px-2">
+                        <?php if ($comment_min || $comment_max) { ?>
+                            <div class="small mb-2" id="char_cnt">
+                                <b id="char_count">0</b> / <?php if ($comment_min) { ?>
+                                    <?php echo number_format((int) $comment_min); ?>~<?php } ?>         <?php if ($comment_max) { ?>             <?php echo number_format((int) $comment_max); ?><?php } ?>
+                            </div>
+                        <?php } ?>
+                    </div>
+                    <div class="ms-auto">
+                        <button <?php echo ($is_paging) ? 'type="button" onclick="na_comment(\'viewcomment\');"' : 'type="submit"'; ?> class="btn btn-primary btn-sm" onKeyDown="na_comment_onKeyDown(<?php echo $is_paging ?>);" id="btn_submit" title="댓글등록" tabindex="2">
+                            <span class="d-none d-sm-inline-block">댓글</span>
+                            등록
+                        </button>
+                    </div>
                 </div>
-            <?php } ?>
-        </div>
+                <?php if ($board['bo_use_sns'] && ($config['cf_facebook_appid'] || $config['cf_twitter_key'])) { ?>
+                    <div class="clearfix pt-2">
+                        <div id="bo_vc_opt">
+                            <ol id="bo_vc_sns">
+                                <li id="bo_vc_send_sns"></li>
+                            </ol>
+                        </div>
+                        <script>
+                            // sns 등록
+                            $(function () {
+                                $("#bo_vc_send_sns").load("<?php echo G5_SNS_URL; ?>/view_comment_write.sns.skin.php?bo_table=<?php echo $bo_table; ?>", function () {
+                                    save_html = document.getElementById('bo_vc_w').innerHTML;
+                                });
+                            });
+                        </script>
+                    </div>
+                <?php } ?>
+                <?php if ($is_guest) { ?>
+                    <div class="pt-2 text-center small border-top mt-2">
+                        <?php echo $captcha_html; ?>
+                    </div>
+                <?php } ?>
+            </div>
         </form>
     </aside>
+    <div class="comment__observer"></div>
 <?php } else if (isset($is_no_certified)) { ?>
-    <div id="bo_vc_login" class="alert alert-light mb-3 py-4 text-center mx-3" role="alert">
-        <a href="<?php echo G5_BBS_URL ?>/member_cert_refresh.php">본인인증을 완료한 회원만 댓글 등록이 가능합니다.</a>
-    </div>
+        <div id="bo_vc_login" class="alert alert-light mb-3 py-4 text-center mx-3" role="alert">
+            <a href="<?php echo G5_BBS_URL ?>/member_cert_refresh.php">본인인증을 완료한 회원만 댓글 등록이 가능합니다.</a>
+        </div>
 <?php } else { ?>
-    <div id="bo_vc_login" class="alert alert-light mb-3 py-4 text-center mx-3" role="alert">
-        <?php if($is_guest) { ?>
-            <a href="<?php echo G5_BBS_URL ?>/login.php?wr_id=<?php echo $wr_id.$qstr ?>&amp;url=<?php echo urlencode(get_pretty_url($bo_table, $wr_id, $qstr).'#bo_vc_w') ?>" rel="nofollow">로그인한 회원만 댓글 등록이 가능합니다.</a>
+        <div id="bo_vc_login" class="alert alert-light mb-3 py-4 text-center mx-3" role="alert">
+        <?php if ($is_guest) { ?>
+                <a href="<?php echo G5_BBS_URL ?>/login.php?wr_id=<?php echo $wr_id . $qstr ?>&amp;url=<?php echo urlencode(get_pretty_url($bo_table, $wr_id, $qstr) . '#bo_vc_w') ?>" rel="nofollow">로그인한 회원만 댓글 등록이 가능합니다.</a>
         <?php } else { ?>
-            댓글을 등록할 수 있는 권한이 없습니다.
+                댓글을 등록할 수 있는 권한이 없습니다.
         <?php } ?>
-    </div>
+        </div>
 <?php } ?>
 
 <?php if ($is_comment_write) { ?>
     <script>
-    var save_before = '';
-    var save_html = document.getElementById('bo_vc_w').innerHTML;
+        var save_before = '';
+        var save_html = document.getElementById('bo_vc_w').innerHTML;
 
-    function good_and_write() {
-        var f = document.fviewcomment;
-        if (fviewcomment_submit(f)) {
-            f.is_good.value = 1;
-            f.submit();
-        } else {
+        function good_and_write() {
+            var f = document.fviewcomment;
+            if (fviewcomment_submit(f)) {
+                f.is_good.value = 1;
+                f.submit();
+            } else {
+                f.is_good.value = 0;
+            }
+        }
+
+        function fviewcomment_submit(f) {
+
             f.is_good.value = 0;
-        }
-    }
 
-    function fviewcomment_submit(f) {
-
-        f.is_good.value = 0;
-
-        var subject = "";
-        var content = "";
-        $.ajax({
-            url: g5_bbs_url+"/ajax.filter.php",
-            type: "POST",
-            data: {
-                "subject": "",
-                "content": f.wr_content.value
-            },
-            dataType: "json",
-            async: false,
-            cache: false,
-            success: function(data, textStatus) {
-                subject = data.subject;
-                content = data.content;
-            }
-        });
-
-        if (content) {
-            na_alert("내용에 금지단어('"+content+"')가 포함되어있습니다", function() {
-                f.wr_content.focus();
+            var subject = "";
+            var content = "";
+            $.ajax({
+                url: g5_bbs_url + "/ajax.filter.php",
+                type: "POST",
+                data: {
+                    "subject": "",
+                    "content": f.wr_content.value
+                },
+                dataType: "json",
+                async: false,
+                cache: false,
+                success: function (data, textStatus) {
+                    subject = data.subject;
+                    content = data.content;
+                }
             });
-            return false;
-        }
 
-        // 양쪽 공백 없애기
-        var pattern = /(^\s*)|(\s*$)/g; // \s 공백 문자
-        document.getElementById('wr_content').value = document.getElementById('wr_content').value.replace(pattern, "");
-        if (char_min > 0 || char_max > 0) {
-            check_byte('wr_content', 'char_count');
-            var cnt = parseInt(document.getElementById('char_count').innerHTML);
-            if (char_min > 0 && char_min > cnt) {
-                na_alert("댓글은 최소 "+char_min+"글자 이상 쓰셔야 합니다.");
-                return false;
-            } else if (char_max > 0 && char_max < cnt) {
-                na_alert("댓글은 최대 "+char_max+"글자 이하로 쓰셔야 합니다.");
-                return false;
-            }
-        } else if (!document.getElementById('wr_content').value) {
-            na_alert('댓글을 입력하여 주십시오.', function() {
-                f.wr_content.focus();
-            });
-            return false;
-        }
-
-        if (typeof(f.wr_name) != 'undefined') {
-            f.wr_name.value = f.wr_name.value.replace(pattern, "");
-            if (f.wr_name.value == '') {
-                na_alert('이름이 입력되지 않았습니다.', function() {
-                    f.wr_name.focus();
+            if (content) {
+                na_alert("내용에 금지단어('" + content + "')가 포함되어있습니다", function () {
+                    f.wr_content.focus();
                 });
                 return false;
             }
-        }
 
-        if (typeof(f.wr_password) != 'undefined') {
-            f.wr_password.value = f.wr_password.value.replace(pattern, "");
-            if (f.wr_password.value == '') {
-                na_alert('비밀번호가 입력되지 않았습니다.', function() {
-                    f.wr_password.focus();
+            // 양쪽 공백 없애기
+            var pattern = /(^\s*)|(\s*$)/g; // \s 공백 문자
+            document.getElementById('wr_content').value = document.getElementById('wr_content').value.replace(pattern, "");
+            if (char_min > 0 || char_max > 0) {
+                check_byte('wr_content', 'char_count');
+                var cnt = parseInt(document.getElementById('char_count').innerHTML);
+                if (char_min > 0 && char_min > cnt) {
+                    na_alert("댓글은 최소 " + char_min + "글자 이상 쓰셔야 합니다.");
+                    return false;
+                } else if (char_max > 0 && char_max < cnt) {
+                    na_alert("댓글은 최대 " + char_max + "글자 이하로 쓰셔야 합니다.");
+                    return false;
+                }
+            } else if (!document.getElementById('wr_content').value) {
+                na_alert('댓글을 입력하여 주십시오.', function () {
+                    f.wr_content.focus();
                 });
                 return false;
             }
+
+            if (typeof (f.wr_name) != 'undefined') {
+                f.wr_name.value = f.wr_name.value.replace(pattern, "");
+                if (f.wr_name.value == '') {
+                    na_alert('이름이 입력되지 않았습니다.', function () {
+                        f.wr_name.focus();
+                    });
+                    return false;
+                }
+            }
+
+            if (typeof (f.wr_password) != 'undefined') {
+                f.wr_password.value = f.wr_password.value.replace(pattern, "");
+                if (f.wr_password.value == '') {
+                    na_alert('비밀번호가 입력되지 않았습니다.', function () {
+                        f.wr_password.focus();
+                    });
+                    return false;
+                }
+            }
+
+            <?php if ($is_guest)
+                echo chk_captcha_js(); ?>
+
+            set_comment_token(f);
+
+            document.getElementById("btn_submit").disabled = "disabled";
+
+            return true;
         }
 
-        <?php if($is_guest) echo chk_captcha_js();  ?>
+        function comment_box(comment_id, work, name) {
+            var el_id,
+                form_el = 'fviewcomment',
+                respond = document.getElementById(form_el);
 
-        set_comment_token(f);
-
-        document.getElementById("btn_submit").disabled = "disabled";
-
-        return true;
-    }
-
-    function comment_box(comment_id, work, name) {
-        var el_id,
-            form_el = 'fviewcomment',
-            respond = document.getElementById(form_el);
-
-        // 댓글 아이디가 넘어오면 답변, 수정
-        if (comment_id) {
-            if (work == 'c')
-                el_id = 'reply_' + comment_id;
-            else
-                el_id = 'edit_' + comment_id;
-        } else
-            el_id = 'bo_vc_w';
-
-        var star = document.getElementById('bo_vc_star');
-        if (comment_id && star) {
-            // 대댓글일때 별점 사용 안함
-            var target_el = document.getElementById(el_id);
-            if (target_el.classList.contains('is-deeper') || work == 'c') {
-                star.parentElement.style.display = 'none';
-            } else {
-                star.parentElement.style.display = 'block';
-            }
-
-            var starRate = target_el.dataset.starRated;
-            if (target_el.dataset.starRated) {
-                starRating.initStars();
-                starRating.setRate(starRate);
-                starRating.filledRate(starRate - 1);
-            } else {
-                starRating.initStars();
-            }
-        }
-
-        if (save_before != el_id) {
-            if (save_before) {
-                document.getElementById(save_before).style.display = 'none';
-            }
-
-            document.getElementById(el_id).style.display = '';
-            document.getElementById(el_id).appendChild(respond);
-            //입력값 초기화
-            document.getElementById('wr_content').value = '';
-
-            // 댓글 수정
-            if (work == 'cu') {
-                document.getElementById('wr_content').value = document.getElementById('save_comment_' + comment_id).value;
-                if (typeof char_count != 'undefined')
-                    check_byte('wr_content', 'char_count');
-                if (document.getElementById('secret_comment_'+comment_id).value)
-                    document.getElementById('wr_secret').checked = true;
-                else
-                    document.getElementById('wr_secret').checked = false;
-            }
-
-            document.getElementById('comment_id').value = comment_id;
-            document.getElementById('w').value = work;
-
-            if (comment_id && work == 'c') {
-                document.getElementById('wr_msg').innerHTML = '<i class="bi bi-person-circle"></i> ' + name + '님에게 대댓글 쓰기';
-            } else if(comment_id && work == 'cu') {
-                document.getElementById('wr_msg').innerHTML = '<i class="bi bi-pencil-square"></i> ' + name + '님의 댓글 수정';
-            } else {
-                document.getElementById('wr_msg').innerHTML = '<i class="bi bi-chat-dots"></i> 댓글을 입력해 주세요.';
-            }
-
-            <?php if($is_paging) { //페이징 ?>
+            // 댓글 아이디가 넘어오면 답변, 수정
             if (comment_id) {
-                document.getElementById('comment_page').value = document.getElementById('comment_page_'+comment_id).value;
-                document.getElementById('comment_url').value = document.getElementById('comment_url_'+comment_id).value;
-            } else {
-                document.getElementById('comment_page').value = '';
-                document.getElementById('comment_url').value = '<?php echo NA_URL ?>/comment.page.php?bo_table=<?php echo $bo_table;?>&wr_id=<?php echo $wr_id;?>';
+                if (work == 'c')
+                    el_id = 'reply_' + comment_id;
+                else
+                    el_id = 'edit_' + comment_id;
+            } else
+                el_id = 'bo_vc_w';
+
+            var star = document.getElementById('bo_vc_star');
+            if (comment_id && star) {
+                // 대댓글일때 별점 사용 안함
+                var target_el = document.getElementById(el_id);
+                if (target_el.classList.contains('is-deeper') || work == 'c') {
+                    star.parentElement.style.display = 'none';
+                } else {
+                    star.parentElement.style.display = 'block';
+                }
+
+                var starRate = target_el.dataset.starRated;
+                if (target_el.dataset.starRated) {
+                    starRating.initStars();
+                    starRating.setRate(starRate);
+                    starRating.filledRate(starRate - 1);
+                } else {
+                    starRating.initStars();
+                }
             }
-            <?php } ?>
 
-            if(save_before)
-                $("#captcha_reload").trigger("click");
+            if (save_before != el_id) {
+                if (save_before) {
+                    document.getElementById(save_before).style.display = 'none';
+                }
 
-            save_before = el_id;
-        }
-        $('.comment-textarea').find('textarea').keyup(); //댓글 수정 후, textarea height 자동조절
-    }
+                document.getElementById(el_id).style.display = '';
+                document.getElementById(el_id).appendChild(respond);
+                //입력값 초기화
+                document.getElementById('wr_content').value = '';
 
-    function comment_delete(url){
-        na_confirm('이 댓글을 삭제하시겠습니까?', function() {
-            location.href = url;
-        });
-        return false;
-    }
+                // 댓글 수정
+                if (work == 'cu') {
+                    document.getElementById('wr_content').value = document.getElementById('save_comment_' + comment_id).value;
+                    if (typeof char_count != 'undefined')
+                        check_byte('wr_content', 'char_count');
+                    if (document.getElementById('secret_comment_' + comment_id).value)
+                        document.getElementById('wr_secret').checked = true;
+                    else
+                        document.getElementById('wr_secret').checked = false;
+                }
 
-    comment_box('', 'c'); // 댓글 입력폼이 보이도록 처리하기위해서 추가 (root님)
+                document.getElementById('comment_id').value = comment_id;
+                document.getElementById('w').value = work;
 
-    // 댓글 링크 복사
-    function copy_comment_link(commentId) {
-        if (commentId !== "") {
-            var fullCommentLink = window.location.protocol
-                + "//" + window.location.host
-                + "/<?php echo $bo_table;?>/<?php echo $wr_id;?>#c_" + commentId;
+                if (comment_id && work == 'c') {
+                    document.getElementById('wr_msg').innerHTML = '<i class="bi bi-person-circle"></i> ' + name + '님에게 대댓글 쓰기';
+                } else if (comment_id && work == 'cu') {
+                    document.getElementById('wr_msg').innerHTML = '<i class="bi bi-pencil-square"></i> ' + name + '님의 댓글 수정';
+                } else {
+                    document.getElementById('wr_msg').innerHTML = '<i class="bi bi-chat-dots"></i> 댓글을 입력해 주세요.';
+                }
 
-            navigator.clipboard.writeText(fullCommentLink).then(() => {
-                show_message("댓글 주소가 복사되었습니다");
-            }).catch(error => {
-                show_message("댓글 복사에 실패하였습니다. 유지관리 게시판에 에러메시지를 포함하여 신고 바랍니다." + error);
-            });
-        }
-    }
-    // 알림 메시지를 화면 중앙에 출력한다.
-    function show_message(message) {
-        var $message = $('<div class="semi-alert-message">' + message + '</div>');
+                <?php if ($is_paging) { //페이징 ?>
+                    if (comment_id) {
+                        document.getElementById('comment_page').value = document.getElementById('comment_page_' + comment_id).value;
+                        document.getElementById('comment_url').value = document.getElementById('comment_url_' + comment_id).value;
+                    } else {
+                        document.getElementById('comment_page').value = '';
+                        document.getElementById('comment_url').value = '<?php echo NA_URL ?>/comment.page.php?bo_table=<?php echo $bo_table; ?>&wr_id=<?php echo $wr_id; ?>';
+                    }
+                <?php } ?>
 
-        var msgStyle = `
-        <style>
-            .semi-alert-message {
-                display: none;
-                width: 205px;
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background-color: #000;
-                color: #fff;
-                padding: 5px 10px;
-                border-radius: 5px;
-                z-index: 1000;
+                if (save_before)
+                    $("#captcha_reload").trigger("click");
+
+                save_before = el_id;
             }
-        </style>`;
-        $("head").append(msgStyle);
-        $('body').append($message);
+            // $('.comment-textarea').find('textarea').keyup(); //댓글 수정 후, textarea height 자동조절
+        }
 
-        $message.css({
-            display: 'block'
-        });
-
-        setTimeout(() => {
-            $message.fadeOut(500, function() {
-                $(this).remove();
+        function comment_delete(url) {
+            na_confirm('이 댓글을 삭제하시겠습니까?', function () {
+                location.href = url;
             });
-        }, 1000);
-    }
+            return false;
+        }
 
-    $(function() {
-        $('.comment-textarea').on('keyup', 'textarea', function (e){
-            $(this).css('height', 'auto');
+        comment_box('', 'c'); // 댓글 입력폼이 보이도록 처리하기위해서 추가 (root님)
 
-            $(this).height(this.scrollHeight - 22);
-        });
+        // 댓글 링크 복사
+        function copy_comment_link(commentId) {
+            if (commentId !== "") {
+                var fullCommentLink = window.location.protocol
+                    + "//" + window.location.host
+                    + "/<?php echo $bo_table; ?>/<?php echo $wr_id; ?>#c_" + commentId;
 
-        $('.comment-textarea').find('textarea').keyup();
-    });
+                navigator.clipboard.writeText(fullCommentLink).then(() => {
+                    show_message("댓글 주소가 복사되었습니다");
+                }).catch(error => {
+                    show_message("댓글 복사에 실패하였습니다. 유지관리 게시판에 에러메시지를 포함하여 신고 바랍니다." + error);
+                });
+            }
+        }
+        // 알림 메시지를 화면 중앙에 출력한다.
+        function show_message(message) {
+            var $message = $('<div class="semi-alert-message">' + message + '</div>');
+
+            var msgStyle = `
+                                            <style>
+                                                .semi-alert-message {
+                                                    display: none;
+                                                    width: 205px;
+                                                    position: fixed;
+                                                    top: 50%;
+                                                    left: 50%;
+                                                    transform: translate(-50%, -50%);
+                                                    background-color: #000;
+                                                    color: #fff;
+                                                    padding: 5px 10px;
+                                                    border-radius: 5px;
+                                                    z-index: 1000;
+                                                }
+                                            </style>`;
+            $("head").append(msgStyle);
+            $('body').append($message);
+
+            $message.css({
+                display: 'block'
+            });
+
+            setTimeout(() => {
+                $message.fadeOut(500, function () {
+                    $(this).remove();
+                });
+            }, 1000);
+        }
+
+        // $(function() {
+        //     $('.comment-textarea').on('keyup', 'textarea', function (e){
+        //         $(this).css('height', 'auto');
+
+        //         $(this).height(this.scrollHeight - 22);
+        //     });
+
+        //     $('.comment-textarea').find('textarea').keyup();
+        // });
     </script>
 <?php } ?>
 
